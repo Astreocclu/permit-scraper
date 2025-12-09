@@ -1,0 +1,16 @@
+{
+  "name": "permit-scraper",
+  "version": "0.1.0",
+  "description": "DFW permit portal scraper - extracts building permits from Southlake and Fort Worth city portals",
+  "main": "scrapers/pull_50_permits.js",
+  "scripts": {
+    "pull-50": "node scrapers/pull_50_permits.js",
+    "pull-southlake": "node scrapers/pull_southlake_permits.js",
+    "collect-30": "node scrapers/collect_southlake_30.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

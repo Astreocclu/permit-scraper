@@ -1,0 +1,23 @@
+# Environment files
+.env
+.env.local
+
+# Dependencies
+node_modules/
+
+# Data outputs (keep structure, ignore contents)
+data/exports/*.csv
+data/exports/*.json
+data/raw/*.csv
+data/raw/*.json
+
+# Debug files
+debug_html/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
