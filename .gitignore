@@ -5,11 +5,20 @@
 # Dependencies
 node_modules/
 
-# Data outputs (keep structure, ignore contents)
-data/exports/*.csv
-data/exports/*.json
-data/raw/*.csv
-data/raw/*.json
+# Data outputs
+data/permits.db
+data/exports/
+data/raw/
+exports/
+
+# Raw scraped data (JSON)
+*_raw.json
+*_enriched.json
+*_residential.json
+*_filtered.csv
+*_leads.csv
+dfw_big4_contractor_leads.csv
+scrapers/*.csv
 
 # Debug files
 debug_html/
@@ -17,7 +26,22 @@ debug_html/
 # Logs
 *.log
 npm-debug.log*
+enrich_log.txt
+score_log.txt
+score_full_log.txt
+
+# Session notes (personal)
+*.txt
+!requirements.txt
+
+# Archive/legacy
+_archive/
+_legacy-decommissioned/
 
 # OS files
 .DS_Store
 Thumbs.db
+
+# Plan files (session-specific)
+PLAN_IN_PROGRESS.md
+IMPLEMENTATION_PLAN_*.md
