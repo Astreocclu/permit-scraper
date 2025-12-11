@@ -38,7 +38,7 @@
 | 4 | **Plano** | 290K | eTRAKiT | `etrakit.py` | ✅ Working |
 | 5 | **Frisco** | 220K | eTRAKiT | `etrakit_fast.py` | ✅ Working (Fast DOM) |
 | 6 | **Grand Prairie** | 200K | Accela | `accela_fast.py` | ✅ Working (Fast DOM) |
-| 7 | **Irving** | 250K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
+| 7 | **Irving** | 250K | MGO Connect | `mgo_connect.py` | ⚠️ Partial (login works, extraction I/O error) |
 | 8 | **McKinney** | 200K | EnerGov CSS | `citizen_self_service.py` | ❌ Angular timeouts |
 | 9 | **Garland** | 240K | None | — | ❌ No unified portal |
 | 10 | **Denton** | 150K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
@@ -49,19 +49,21 @@
 | 15 | **Flower Mound** | 80K | eTRAKiT | `etrakit_fast.py` | ✅ Working |
 | 16 | **Cedar Hill** | 50K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
 | 17 | **Mesquite** | 150K | EnerGov CSS | `energov.py` | ❌ Angular timeouts (tested 12/09) |
-| 18 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | ❌ Angular timeouts |
-| 19 | **Rowlett** | 68K | MyGov | — | ❌ Requires contractor login |
-| 20 | **Grapevine** | 55K | MyGov (.exe) | — | ❌ Requires desktop client |
-| 21 | **Duncanville** | 40K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
-| 22 | **Keller** | 50K | EnerGov CSS | — | 🔍 Migrated from eTRAKiT |
-| 23 | **DeSoto** | 55K | Unknown | — | 🔍 Not researched |
-| 24 | **Lancaster** | 42K | MyGov | `mygov.py` | 🔍 Not tested |
-| 25 | **Euless** | 58K | Unknown | — | 🔍 Not researched |
-| 26 | **Bedford** | 50K | Unknown | — | 🔍 Not researched |
-| 27 | **Hurst** | 40K | Unknown | — | 🔍 Not researched |
-| 28 | **Coppell** | 45K | Unknown | — | 🔍 Not researched |
-| 29 | **Watauga** | 25K | MyGov | `mygov.py` | 🔍 Not tested |
-| 30 | **The Colony** | 45K | Unknown | — | 🔍 Not researched |
+| 18 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | ✅ Working (140,390 permits available) |
+| 19 | **Colleyville** | 27K | EnerGov CSS | `citizen_self_service.py` | ✅ Working (5,817 permits available) |
+| 20 | **Rowlett** | 68K | MyGov | — | ❌ Requires contractor login |
+| 21 | **Westlake** | 4K | MyGov | `mygov_westlake.py` | 🔍 Address-based (requires address list) |
+| 22 | **Grapevine** | 55K | MyGov (.exe) | — | ❌ Requires desktop client |
+| 23 | **Duncanville** | 40K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
+| 24 | **Keller** | 50K | EnerGov CSS | — | 🔍 Migrated from eTRAKiT |
+| 25 | **DeSoto** | 55K | Unknown | — | 🔍 Not researched |
+| 26 | **Lancaster** | 42K | MyGov | `mygov.py` | 🔍 Not tested |
+| 27 | **Euless** | 58K | Unknown | — | 🔍 Not researched |
+| 28 | **Bedford** | 50K | Unknown | — | 🔍 Not researched |
+| 29 | **Hurst** | 40K | Unknown | — | 🔍 Not researched |
+| 30 | **Coppell** | 45K | Unknown | — | 🔍 Not researched |
+| 31 | **Watauga** | 25K | MyGov | `mygov.py` | 🔍 Not tested |
+| 32 | **The Colony** | 45K | Unknown | — | 🔍 Not researched |
 
 ### Legend
 - ✅ **Working** - Scraper runs, data extracted
@@ -74,19 +76,19 @@
 
 ## Platform Summary
 
-| Platform | Working | Blocked | Not Scrapeable |
-|----------|---------|---------|----------------|
-| Accela | 4 | 0 | 0 |
-| eTRAKiT | 3 | 0 | 0 |
-| CityView | 1 | 0 | 0 |
-| Socrata API | 1 | 0 | 0 |
-| MGO Connect | 0 | 5 | 0 |
-| EnerGov CSS | 0 | 4 | 0 |
-| MyGov | 0 | 0 | 2 |
-| None | 0 | 0 | 1 |
-| Unknown | 0 | 1 | 9 |
+| Platform | Working | Partial | Blocked | Not Scrapeable |
+|----------|---------|---------|---------|----------------|
+| Accela | 4 | 0 | 0 | 0 |
+| eTRAKiT | 3 | 0 | 0 | 0 |
+| CityView | 1 | 0 | 0 | 0 |
+| Socrata API | 1 | 0 | 0 | 0 |
+| MGO Connect | 0 | 1 | 4 | 0 |
+| EnerGov CSS | 2 | 0 | 2 | 0 |
+| MyGov | 0 | 0 | 1 | 2 |
+| None | 0 | 0 | 0 | 1 |
+| Unknown | 0 | 0 | 0 | 9 |
 
-**Total: 9 working / 10 blocked / 12 not scrapeable or not researched**
+**Total: 11 working / 1 partial / 7 blocked / 13 not scrapeable or not researched**
 
 ---
 
@@ -108,15 +110,64 @@
 | `scrapers/etrakit.py` | Production | eTRAKiT with login support (Plano) |
 | `scrapers/accela.py` | Legacy | LLM-based Accela scraper (slow, expensive) - DEPRECATED |
 | `scrapers/mgo_connect.py` | ❌ Blocked | MGO Connect scraper - anti-bot detection |
-| `scrapers/citizen_self_service.py` | ❌ Broken | EnerGov CSS Angular scraper - timeout issues |
+| `scrapers/citizen_self_service.py` | ⚡ Production | EnerGov CSS scraper (Southlake, Colleyville) - Fixed 12/11/25 |
 | `scrapers/energov.py` | ❌ Broken | EnerGov scraper - Angular timeouts (same as citizen_self_service) |
 | `scrapers/mygov.py` | ❌ Broken | MyGov scraper - URLs 404 |
+| `scrapers/mygov_westlake.py` | 🔍 Proof of Concept | Address-based MyGov scraper for Westlake (requires address list) |
 | `scrapers/deepseek.py` | Utility | LLM structured extraction helper |
 | `scrapers/mgo_test.py` | Debug | MGO Connect debugging tool |
+
+## Session Notes - December 11, 2025
+
+### High-Value Cities Investigation
+
+**Southlake (EnerGov CSS)** - ✅ FIXED
+- **Status**: WORKING
+- **Permits Available**: 140,390
+- **Test Results**: Successfully scraped 10 permits
+- **Fix Applied**: Added explicit wait for results table, relaxed permit ID regex to handle format variations
+- **Command**: `python3 scrapers/citizen_self_service.py southlake 10`
+- **Notes**: Previously marked as broken due to Angular timeouts. Now working reliably with proper waits.
+
+**Colleyville (EnerGov CSS)** - ✅ NEW
+- **Status**: WORKING
+- **Permits Available**: 5,817
+- **Test Results**: Successfully scraped 10 permits
+- **Configuration**: Added to CSS_CITIES with URL https://selfservice.colleyville.com/energov_prod/selfservice
+- **Command**: `python3 scrapers/citizen_self_service.py colleyville 10`
+- **Notes**: Uses same platform as Southlake. Working with same fixes.
+
+**Irving (MGO Connect)** - ⚠️ PARTIAL PROGRESS
+- **Status**: Partial - Login/navigation working, extraction blocked by I/O error
+- **Permits Scraped**: 0 (extraction fails)
+- **Fix Applied**: Fixed dropdown race condition with explicit waits and JavaScript-based selection
+- **Blocking Issue**: `playwright._impl._errors.Error: write could not complete without blocking`
+- **Notes**: Successfully navigates to permit search and selects jurisdiction. Error occurs during data extraction phase. Needs follow-up debugging of I/O handling.
+
+**Westlake (MyGov)** - 🔍 SCRAPEABLE (Different Approach Required)
+- **Status**: Public access confirmed, requires address-based scraping
+- **Public URL**: https://public.mygov.us/westlake_tx/lookup
+- **Access Method**: No login required - public address lookup
+- **Limitation**: Must search by address (not by permit number or date range)
+- **Test Result**: Found 3 permits at test address "1301 Solana Blvd"
+- **Next Step**: Need comprehensive address list to scrape systematically
+- **Scraper Created**: `scrapers/mygov_westlake.py` (proof of concept)
+
+### Impact Summary
+- **New Working Cities**: +2 (Southlake, Colleyville) = 146,207 permits accessible
+- **EnerGov CSS Platform**: Breakthrough - 2 working, 2 still blocked (McKinney, Allen)
+- **MGO Connect Platform**: Progress on Irving but not fully resolved
+- **MyGov Platform**: New approach identified (address-based vs. permit-based)
+
+---
 
 ## Next Steps
 
 1. ~~**Optimize Fort Worth**~~ ✅ DONE - Migrated to `accela_fast.py`
 2. ~~**Research unknown cities**~~ ✅ DONE - Flower Mound (eTRAKiT), Carrollton (CityView), Garland (no portal)
-3. **MGO Decision** - Irving/Lewisville/Denton blocked by anti-automation (consider playwright-stealth + proxies)
-4. ~~**Grapevine/Rowlett**~~ ❌ CLOSED - MyGov requires login/desktop client, not scrapeable
+3. ~~**EnerGov CSS - Southlake/Colleyville**~~ ✅ DONE - Fixed with explicit waits (12/11/25)
+4. **MGO Connect - Irving I/O Error** - Debug playwright I/O blocking error in data extraction
+5. **EnerGov CSS - McKinney/Allen** - Apply Southlake fixes to remaining EnerGov cities
+6. **Westlake Address List** - Obtain comprehensive address list for MyGov address-based scraping
+7. **MGO Decision** - Lewisville/Denton still blocked by anti-automation (consider playwright-stealth + proxies)
+8. ~~**Grapevine/Rowlett**~~ ❌ CLOSED - MyGov requires login/desktop client, not scrapeable
