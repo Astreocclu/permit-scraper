@@ -5,11 +5,16 @@ Simplified Westlake scraper based on working test.
 
 import asyncio
 import json
+import logging
 import re
 from datetime import datetime
 from pathlib import Path
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @retry(
@@ -123,12 +128,75 @@ async def fetch_address_permits(page, address: str) -> list:
     return permits
 
 
+async def scan_neighborhood(page, center_address: str, center_num: int, street_name: str, permits_found: list) -> list:
+    """
+    Expanding Ripple scan: when a permit is found at center_num, scan ±50 addresses.
+
+    Logic:
+    - Range: center_num - 50 to center_num + 50
+    - Step: 2 (preserve street parity - even/odd)
+    - Stop conditions (any):
+      1. Reached ±50 boundary
+      2. 5 consecutive "No Results"
+      3. 15 total failures in this neighborhood
+    """
+    consecutive_failures = 0
+    total_failures = 0
+    MAX_CONSECUTIVE = 5
+    MAX_TOTAL_FAILURES = 15
+    RANGE = 50
+    STEP = 2
+
+    start_num = max(1, center_num - RANGE)
+    end_num = center_num + RANGE
+
+    # Determine parity from center (even addresses vs odd)
+    start_parity = center_num % 2
+    if start_num % 2 != start_parity:
+        start_num += 1
+
+    logger.info(f"Deep dive: scanning {start_num}-{end_num} on {street_name}")
+
+    neighborhood_permits = []
+
+    for num in range(start_num, end_num + 1, STEP):
+        if num == center_num:
+            continue  # Already scanned
+
+        if consecutive_failures >= MAX_CONSECUTIVE:
+            logger.info(f"Stopping deep dive: {MAX_CONSECUTIVE} consecutive failures")
+            break
+
+        if total_failures >= MAX_TOTAL_FAILURES:
+            logger.info(f"Stopping deep dive: {MAX_TOTAL_FAILURES} total failures")
+            break
+
+        address = f"{num} {street_name}"
+        try:
+            results = await fetch_address_permits(page, address)
+            if results:
+                neighborhood_permits.extend(results)
+                consecutive_failures = 0
+                logger.info(f"Found {len(results)} permits at {address}")
+            else:
+                consecutive_failures += 1
+                total_failures += 1
+        except Exception as e:
+            logger.warning(f"Error scanning {address}: {e}")
+            consecutive_failures += 1
+            total_failures += 1
+
+    return neighborhood_permits
+
+
 async def scrape_westlake(target_count=100):
-    """Scrape Westlake permits."""
+    """Scrape Westlake permits with adaptive scanning."""
     print(f"Westlake Permit Scraper - Target: {target_count} permits\n")
 
     all_permits = []
     addresses_tested = []
+    global_request_count = 0
+    MAX_GLOBAL_REQUESTS = 2000
 
     # Generate address list
     test_addresses = []
@@ -167,11 +235,16 @@ async def scrape_westlake(target_count=100):
                     print(f"\nReached target of {target_count} permits!")
                     break
 
+                if global_request_count >= MAX_GLOBAL_REQUESTS:
+                    logger.warning(f"Hit global request limit: {MAX_GLOBAL_REQUESTS}")
+                    break
+
                 print(f"[{idx+1}/{len(test_addresses)}] Testing: {address}...", end='', flush=True)
 
                 # Use retry-decorated function to fetch permits
                 try:
                     permits = await fetch_address_permits(page, address)
+                    global_request_count += 1
 
                     if not permits:
                         print(" no results")
@@ -179,11 +252,33 @@ async def scrape_westlake(target_count=100):
                         print(f" -> Found {len(permits)} permits!")
                         all_permits.extend(permits)
 
+                        # ADAPTIVE: Deep dive into this neighborhood
+                        # Extract street number and street name
+                        parts = address.split(' ', 1)
+                        if len(parts) == 2:
+                            try:
+                                base_num = int(parts[0])
+                                street_name = parts[1]
+
+                                logger.info(f"Triggering neighborhood scan for {address}")
+                                neighborhood = await scan_neighborhood(
+                                    page, address, base_num, street_name, permits
+                                )
+                                all_permits.extend(neighborhood)
+                                # Approximate request count from neighborhood scan
+                                global_request_count += len(neighborhood) // 2
+
+                                if neighborhood:
+                                    logger.info(f"Neighborhood scan found {len(neighborhood)} additional permits")
+                            except ValueError:
+                                logger.warning(f"Could not parse address number from: {address}")
+
                     addresses_tested.append(address)
 
                 except Exception as e:
                     print(f" ERROR: {e}")
                     addresses_tested.append(address)
+                    global_request_count += 1
 
                 # Wait between addresses
                 await asyncio.sleep(0.5)
@@ -201,6 +296,7 @@ async def scrape_westlake(target_count=100):
     print(f"{'='*60}")
     print(f"Addresses tested: {len(addresses_tested)}")
     print(f"Total permits found: {len(all_permits)}")
+    print(f"Global requests made: {global_request_count}")
 
     output = {
         'city': 'Westlake',
