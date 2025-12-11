@@ -16,12 +16,20 @@ import asyncio
 import json
 import os
 import re
+import shutil
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Optional
 
 import httpx
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
+
+from scrapers.utils import parse_excel_permits
+
+# Download directory
+DOWNLOAD_DIR = Path(__file__).parent.parent / "data" / "downloads"
+DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 # City configurations for Citizen Self Service portals
 CSS_CITIES = {
@@ -91,6 +99,48 @@ def clean_html(html: str) -> str:
     html = re.sub(r'<svg[^>]*>[\s\S]*?</svg>', '', html, flags=re.IGNORECASE)
     html = re.sub(r'\s+', ' ', html)
     return html
+
+
+async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Optional[str]:
+    """
+    Click Export button and wait for download.
+
+    Args:
+        page: Playwright page
+        city: City name for filename
+        timeout_ms: Max wait time for download (default 60s)
+
+    Returns:
+        Path to downloaded file, or None if failed
+    """
+    try:
+        # Find and click the Export button
+        export_btn = page.locator("button:has-text('Export'), a:has-text('Export')")
+
+        if not await export_btn.count():
+            print(f"[{city}] Export button not found")
+            return None
+
+        # Wait for download event
+        async with page.expect_download(timeout=timeout_ms) as download_info:
+            await export_btn.first.click()
+            print(f"[{city}] Clicked Export, waiting for download...")
+
+        download = await download_info.value
+
+        # Save to our download directory
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{city.lower()}_{timestamp}.xlsx"
+        dest_path = DOWNLOAD_DIR / filename
+
+        await download.save_as(str(dest_path))
+
+        print(f"[{city}] Downloaded: {dest_path}")
+        return str(dest_path)
+
+    except Exception as e:
+        print(f"[{city}] Download failed: {e}")
+        return None
 
 
 async def scrape(city_key: str, target_count: int = 100):
@@ -222,7 +272,6 @@ async def scrape(city_key: str, target_count: int = 100):
             await asyncio.sleep(2)
 
             # Fill in date range (last 60 days for more results) using Playwright
-            from datetime import timedelta
             start_date = (datetime.now() - timedelta(days=60)).strftime('%m/%d/%Y')
             end_date = datetime.now().strftime('%m/%d/%Y')
 
@@ -420,72 +469,27 @@ async def scrape(city_key: str, target_count: int = 100):
 
             await page.screenshot(path=f'debug_html/{city_key}_css_filtered.png')
 
-            # Step 4b: Try Export button for faster data retrieval
-            print('\n[4b] Trying Export button for bulk data...')
+            # Step 4b: Try Excel export first (more reliable than DOM scraping)
+            print('\n[4b] Attempting Excel export download...')
 
-            # Look for Export button
-            export_clicked = await page.evaluate('''() => {
-                const btns = document.querySelectorAll('button, a, input[type="submit"]');
-                for (const btn of btns) {
-                    if (btn.textContent?.toLowerCase().includes('export')) {
-                        btn.click();
-                        return {clicked: true, text: btn.textContent};
-                    }
-                }
-                return {clicked: false};
-            }''')
-            print(f'    Export button: {export_clicked}')
+            excel_path = await download_excel_export(page, city_name)
 
-            if export_clicked.get('clicked'):
-                await asyncio.sleep(2)
-                await page.screenshot(path=f'debug_html/{city_key}_css_export.png')
+            if excel_path:
+                # Parse the downloaded Excel file
+                excel_permits = parse_excel_permits(excel_path, city_name)
+                if excel_permits:
+                    print(f'    SUCCESS: Got {len(excel_permits)} permits from Excel export')
+                    permits.extend(excel_permits)
 
-                # Fill in filename and click Ok
-                filename = f'{city_key}_export'
-                filled = await page.evaluate(f'''() => {{
-                    // Find filename input
-                    const inputs = document.querySelectorAll('input[type="text"]');
-                    for (const input of inputs) {{
-                        const nearby = input.closest('div, td, tr')?.textContent || '';
-                        if (nearby.toLowerCase().includes('file name')) {{
-                            input.value = '{filename}';
-                            input.dispatchEvent(new Event('input', {{bubbles: true}}));
-                            return {{filled: true, value: '{filename}'}};
-                        }}
-                    }}
-                    // Fallback - fill any visible text input in dialog
-                    const dialog = document.querySelector('[class*="modal"], [class*="dialog"], [role="dialog"]');
-                    if (dialog) {{
-                        const dialogInput = dialog.querySelector('input[type="text"]');
-                        if (dialogInput) {{
-                            dialogInput.value = '{filename}';
-                            dialogInput.dispatchEvent(new Event('input', {{bubbles: true}}));
-                            return {{filled: true, value: '{filename}', method: 'dialog'}};
-                        }}
-                    }}
-                    return {{filled: false}};
-                }}''')
-                print(f'    Filename filled: {filled}')
-
-                # Click OK button
-                await asyncio.sleep(1)
-                ok_clicked = await page.evaluate('''() => {
-                    const btns = document.querySelectorAll('button, input[type="button"], input[type="submit"]');
-                    for (const btn of btns) {
-                        if (btn.textContent?.toLowerCase().trim() === 'ok' ||
-                            btn.value?.toLowerCase().trim() === 'ok') {
-                            btn.click();
-                            return {clicked: true};
-                        }
-                    }
-                    return {clicked: false};
-                }''')
-                print(f'    OK button clicked: {ok_clicked}')
-
-                if ok_clicked.get('clicked'):
-                    await asyncio.sleep(5)  # Wait for download
-                    print(f'    Export initiated - check browser downloads for {filename}.xlsx')
-                    await page.screenshot(path=f'debug_html/{city_key}_css_after_export.png')
+                    # If we got enough permits, we can skip DOM scraping entirely
+                    if len(permits) >= target_count:
+                        print(f'    Target reached via Excel export - skipping DOM scraping')
+                    else:
+                        print(f'    Excel gave {len(permits)} permits, will supplement with DOM scraping if needed')
+                else:
+                    print(f'    WARN: Excel export downloaded but parsing failed - will use DOM scraping')
+            else:
+                print(f'    Export download failed or not available - will use DOM scraping')
 
             # Step 4c: Change sort to Applied Date Descending (newest first)
             print('\n[4c] Changing sort to Applied Date Descending...')
