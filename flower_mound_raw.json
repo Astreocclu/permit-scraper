@@ -1,0 +1,2516 @@
+{
+  "source": "flower_mound",
+  "portal_type": "eTRAKiT",
+  "scraped_at": "2025-12-11T10:12:52.552370",
+  "target_count": 1000,
+  "actual_count": 179,
+  "errors": [],
+  "permits": [
+    {
+      "permit_id": "BP25-02291",
+      "address": "4170 SCENIC DR",
+      "type": "",
+      "status": "",
+      "date": "04/22/2025",
+      "raw_cells": [
+        "BP25-02291",
+        "04/22/2025",
+        "",
+        "4170 SCENIC DR",
+        "ECON:250422080600804"
+      ]
+    },
+    {
+      "permit_id": "BP25-02831",
+      "address": "5604 SANTA LUCIA CT",
+      "type": "",
+      "status": "",
+      "date": "05/16/2025",
+      "raw_cells": [
+        "BP25-02831",
+        "05/16/2025",
+        "",
+        "5604 SANTA LUCIA CT",
+        "ECON:250516015910949"
+      ]
+    },
+    {
+      "permit_id": "BP25-04130",
+      "address": "2350 SPINKS RD",
+      "type": "",
+      "status": "",
+      "date": "07/16/2025",
+      "raw_cells": [
+        "BP25-04130",
+        "07/16/2025",
+        "",
+        "2350 SPINKS RD",
+        "ECON:250716110433981"
+      ]
+    },
+    {
+      "permit_id": "BP25-04840",
+      "address": "2651 WHYBURN DR",
+      "type": "",
+      "status": "",
+      "date": "08/15/2025",
+      "raw_cells": [
+        "BP25-04840",
+        "08/15/2025",
+        "",
+        "2651 WHYBURN DR",
+        "ECON:250815102554370"
+      ]
+    },
+    {
+      "permit_id": "BP24-05237",
+      "address": "2300 ABERDEEN DR",
+      "type": "",
+      "status": "",
+      "date": "08/16/2024",
+      "raw_cells": [
+        "BP24-05237",
+        "08/16/2024",
+        "08/21/2024",
+        "2300 ABERDEEN DR",
+        "ECON:240816111609349"
+      ]
+    },
+    {
+      "permit_id": "BP23-00356",
+      "address": "1200 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "01/17/2023",
+      "raw_cells": [
+        "BP23-00356",
+        "01/17/2023",
+        "",
+        "1200 LONG PRAIRIE RD",
+        "BPEG:230117045419467"
+      ]
+    },
+    {
+      "permit_id": "25-00001",
+      "address": "800 CRESTED BUTTE TRL",
+      "type": "",
+      "status": "",
+      "date": "06/03/2025",
+      "raw_cells": [
+        "25-00001",
+        "06/03/2025",
+        "06/03/2025",
+        "800 CRESTED BUTTE TRL",
+        "ECON:250603031512816"
+      ]
+    },
+    {
+      "permit_id": "25-03868",
+      "address": "4112 MUSTANG TRL",
+      "type": "",
+      "status": "",
+      "date": "07/03/2025",
+      "raw_cells": [
+        "25-03868",
+        "07/03/2025",
+        "07/03/2025",
+        "4112 MUSTANG TRL",
+        "ECON:250703085702950"
+      ]
+    },
+    {
+      "permit_id": "25-04615",
+      "address": "3826 PINE CT",
+      "type": "",
+      "status": "",
+      "date": "08/05/2025",
+      "raw_cells": [
+        "25-04615",
+        "08/05/2025",
+        "",
+        "3826 PINE CT",
+        "EPRS:250805050657441"
+      ]
+    },
+    {
+      "permit_id": "25-05691",
+      "address": "2312 LONG SHIP LN",
+      "type": "",
+      "status": "",
+      "date": "09/24/2025",
+      "raw_cells": [
+        "25-05691",
+        "09/24/2025",
+        "",
+        "2312 LONG SHIP LN",
+        "ECON:250924081830905"
+      ]
+    },
+    {
+      "permit_id": "24-00001",
+      "address": "3508 SARAH SPRINGS TRL",
+      "type": "",
+      "status": "",
+      "date": "10/21/2024",
+      "raw_cells": [
+        "24-00001",
+        "10/21/2024",
+        "",
+        "3508 SARAH SPRINGS TRL",
+        "ECON:241021025134667"
+      ]
+    },
+    {
+      "permit_id": "24-07941",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "12/27/2024",
+      "raw_cells": [
+        "24-07941",
+        "12/27/2024",
+        "",
+        "",
+        "ECON:241227014717289"
+      ]
+    },
+    {
+      "permit_id": "24-07942",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "12/27/2024",
+      "raw_cells": [
+        "24-07942",
+        "12/27/2024",
+        "",
+        "",
+        "ECON:241227014717292"
+      ]
+    },
+    {
+      "permit_id": "24-07943",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "12/27/2024",
+      "raw_cells": [
+        "24-07943",
+        "12/27/2024",
+        "",
+        "",
+        "ECON:241227014717295"
+      ]
+    },
+    {
+      "permit_id": "24-07944",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "12/27/2024",
+      "raw_cells": [
+        "24-07944",
+        "12/27/2024",
+        "",
+        "",
+        "ECON:241227014717298"
+      ]
+    },
+    {
+      "permit_id": "24-07945",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "12/27/2024",
+      "raw_cells": [
+        "24-07945",
+        "12/27/2024",
+        "",
+        "",
+        "ECON:241227014717301"
+      ]
+    },
+    {
+      "permit_id": "23-00001",
+      "address": "3121 MYRTICE DR",
+      "type": "",
+      "status": "",
+      "date": "01/10/2023",
+      "raw_cells": [
+        "23-00001",
+        "01/10/2023",
+        "",
+        "3121 MYRTICE DR",
+        "EPRS:230110123416707"
+      ]
+    },
+    {
+      "permit_id": "23-00244",
+      "address": "2205 BERSHIRE DR",
+      "type": "",
+      "status": "",
+      "date": "01/12/2023",
+      "raw_cells": [
+        "23-00244",
+        "01/12/2023",
+        "",
+        "2205 BERSHIRE DR",
+        "EPRS:230112101906016"
+      ]
+    },
+    {
+      "permit_id": "23-00260",
+      "address": "2505 BIRCHWOOD DR",
+      "type": "",
+      "status": "",
+      "date": "01/12/2023",
+      "raw_cells": [
+        "23-00260",
+        "01/12/2023",
+        "",
+        "2505 BIRCHWOOD DR",
+        "ECON:230112023822096"
+      ]
+    },
+    {
+      "permit_id": "23-00501",
+      "address": "2821 OXFORD LN",
+      "type": "",
+      "status": "",
+      "date": "01/24/2023",
+      "raw_cells": [
+        "23-00501",
+        "01/24/2023",
+        "",
+        "2821 OXFORD LN",
+        "EPRS:230124014140790"
+      ]
+    },
+    {
+      "permit_id": "23-00503",
+      "address": "2124 LONGFELLOW LN",
+      "type": "",
+      "status": "",
+      "date": "01/24/2023",
+      "raw_cells": [
+        "23-00503",
+        "01/24/2023",
+        "",
+        "2124 LONGFELLOW LN",
+        "EPRS:230124024925705"
+      ]
+    },
+    {
+      "permit_id": "23-00583",
+      "address": "2701 SCENIC DR",
+      "type": "",
+      "status": "",
+      "date": "01/27/2023",
+      "raw_cells": [
+        "23-00583",
+        "01/27/2023",
+        "",
+        "2701 SCENIC DR",
+        "EPRS:230127013021464"
+      ]
+    },
+    {
+      "permit_id": "23-00871",
+      "address": "2701 HALSEY DR",
+      "type": "",
+      "status": "",
+      "date": "02/14/2023",
+      "raw_cells": [
+        "23-00871",
+        "02/14/2023",
+        "",
+        "2701 HALSEY DR",
+        "EPRS:230214115459154"
+      ]
+    },
+    {
+      "permit_id": "23-01104",
+      "address": "1833 FLATWOOD DR",
+      "type": "",
+      "status": "",
+      "date": "02/23/2023",
+      "raw_cells": [
+        "23-01104",
+        "02/23/2023",
+        "",
+        "1833 FLATWOOD DR",
+        "EPRS:230223094023625"
+      ]
+    },
+    {
+      "permit_id": "23-01880",
+      "address": "613 SOMERSET DR",
+      "type": "",
+      "status": "",
+      "date": "03/28/2023",
+      "raw_cells": [
+        "23-01880",
+        "03/28/2023",
+        "",
+        "613 SOMERSET DR",
+        "EPRS:230328025328082"
+      ]
+    },
+    {
+      "permit_id": "23-02659",
+      "address": "2105 BLUE SAGE DR",
+      "type": "",
+      "status": "",
+      "date": "05/01/2023",
+      "raw_cells": [
+        "23-02659",
+        "05/01/2023",
+        "05/19/2023",
+        "2105 BLUE SAGE DR",
+        "ECON:230501095930476"
+      ]
+    },
+    {
+      "permit_id": "23-02835",
+      "address": "6200 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "05/08/2023",
+      "raw_cells": [
+        "23-02835",
+        "05/08/2023",
+        "",
+        "6200 LONG PRAIRIE RD",
+        "ECON:230508093720176"
+      ]
+    },
+    {
+      "permit_id": "23-02846",
+      "address": "3008 MYRTICE DR",
+      "type": "",
+      "status": "",
+      "date": "05/08/2023",
+      "raw_cells": [
+        "23-02846",
+        "05/08/2023",
+        "05/08/2023",
+        "3008 MYRTICE DR",
+        "ECON:230508114121237"
+      ]
+    },
+    {
+      "permit_id": "23-02863",
+      "address": "3224 WALNUT GROVE PL",
+      "type": "",
+      "status": "",
+      "date": "05/08/2023",
+      "raw_cells": [
+        "23-02863",
+        "05/08/2023",
+        "",
+        "3224 WALNUT GROVE PL",
+        "EPRS:230508050619617"
+      ]
+    },
+    {
+      "permit_id": "23-03479",
+      "address": "3504 CHIMNEY ROCK DR",
+      "type": "",
+      "status": "",
+      "date": "06/05/2023",
+      "raw_cells": [
+        "23-03479",
+        "06/05/2023",
+        "",
+        "3504 CHIMNEY ROCK DR",
+        "ECON:230605020416405"
+      ]
+    },
+    {
+      "permit_id": "23-03527",
+      "address": "2317 HICKORY LEAF LN",
+      "type": "",
+      "status": "",
+      "date": "06/07/2023",
+      "raw_cells": [
+        "23-03527",
+        "06/07/2023",
+        "",
+        "2317 HICKORY LEAF LN",
+        "ECON:230607090959814"
+      ]
+    },
+    {
+      "permit_id": "23-03570",
+      "address": "3208 VILLAGE CREST CT",
+      "type": "",
+      "status": "",
+      "date": "06/08/2023",
+      "raw_cells": [
+        "23-03570",
+        "06/08/2023",
+        "",
+        "3208 VILLAGE CREST CT",
+        "ECON:230608115906261"
+      ]
+    },
+    {
+      "permit_id": "23-04343",
+      "address": "3220 PARKWOOD DR",
+      "type": "",
+      "status": "",
+      "date": "07/07/2023",
+      "raw_cells": [
+        "23-04343",
+        "07/07/2023",
+        "",
+        "3220 PARKWOOD DR",
+        "ECON:230707041854114"
+      ]
+    },
+    {
+      "permit_id": "23-04900",
+      "address": "3109 SPRINGWOOD RD",
+      "type": "",
+      "status": "",
+      "date": "07/25/2023",
+      "raw_cells": [
+        "23-04900",
+        "07/25/2023",
+        "",
+        "3109 SPRINGWOOD RD",
+        "ECON:230725113150031"
+      ]
+    },
+    {
+      "permit_id": "23-04939",
+      "address": "6604 PALERMO TRL",
+      "type": "",
+      "status": "",
+      "date": "07/26/2023",
+      "raw_cells": [
+        "23-04939",
+        "07/26/2023",
+        "",
+        "6604 PALERMO TRL",
+        "ECON:230726083601929"
+      ]
+    },
+    {
+      "permit_id": "23-05197",
+      "address": "5301 SUN MEADOW DR",
+      "type": "",
+      "status": "",
+      "date": "08/02/2023",
+      "raw_cells": [
+        "23-05197",
+        "08/02/2023",
+        "",
+        "5301 SUN MEADOW DR",
+        "ECON:230802014415735"
+      ]
+    },
+    {
+      "permit_id": "23-05203",
+      "address": "1713 BIRCHBROOK DR",
+      "type": "",
+      "status": "",
+      "date": "08/02/2023",
+      "raw_cells": [
+        "23-05203",
+        "08/02/2023",
+        "",
+        "1713 BIRCHBROOK DR",
+        "ECON:230802022152705"
+      ]
+    },
+    {
+      "permit_id": "23-05365",
+      "address": "4203 SPRING MEADOW LN",
+      "type": "",
+      "status": "",
+      "date": "08/08/2023",
+      "raw_cells": [
+        "23-05365",
+        "08/08/2023",
+        "",
+        "4203 SPRING MEADOW LN",
+        "ECON:230808033152922"
+      ]
+    },
+    {
+      "permit_id": "23-05554",
+      "address": "4609 VILLAGE CREST DR",
+      "type": "",
+      "status": "",
+      "date": "08/15/2023",
+      "raw_cells": [
+        "23-05554",
+        "08/15/2023",
+        "",
+        "4609 VILLAGE CREST DR",
+        "ECON:230815082944324"
+      ]
+    },
+    {
+      "permit_id": "23-05695",
+      "address": "5301 BAYBERRY ST",
+      "type": "",
+      "status": "",
+      "date": "08/18/2023",
+      "raw_cells": [
+        "23-05695",
+        "08/18/2023",
+        "",
+        "5301 BAYBERRY ST",
+        "ECON:230818104449436"
+      ]
+    },
+    {
+      "permit_id": "23-05904",
+      "address": "2428 MERRIWEATHER LN",
+      "type": "",
+      "status": "",
+      "date": "08/24/2023",
+      "raw_cells": [
+        "23-05904",
+        "08/24/2023",
+        "",
+        "2428 MERRIWEATHER LN",
+        "ECON:230824021844139"
+      ]
+    },
+    {
+      "permit_id": "23-06141",
+      "address": "4700 SKYLINE DR",
+      "type": "",
+      "status": "",
+      "date": "09/02/2023",
+      "raw_cells": [
+        "23-06141",
+        "09/02/2023",
+        "",
+        "4700 SKYLINE DR",
+        "ECON:230902102856202"
+      ]
+    },
+    {
+      "permit_id": "23-06519",
+      "address": "2724 SILVER MAPLE CT",
+      "type": "",
+      "status": "",
+      "date": "09/15/2023",
+      "raw_cells": [
+        "23-06519",
+        "09/15/2023",
+        "",
+        "2724 SILVER MAPLE CT",
+        "EPRS:230915022809323"
+      ]
+    },
+    {
+      "permit_id": "23-06896",
+      "address": "3508 SENTINEL OAK RD",
+      "type": "",
+      "status": "",
+      "date": "09/28/2023",
+      "raw_cells": [
+        "23-06896",
+        "09/28/2023",
+        "",
+        "3508 SENTINEL OAK RD",
+        "ECON:230928103446342"
+      ]
+    },
+    {
+      "permit_id": "22-00001",
+      "address": "1716 HOMESTEAD ST",
+      "type": "",
+      "status": "",
+      "date": "01/04/2022",
+      "raw_cells": [
+        "22-00001",
+        "01/04/2022",
+        "",
+        "1716 HOMESTEAD ST",
+        "EPRS:220104024815484"
+      ]
+    },
+    {
+      "permit_id": "22-00093",
+      "address": "3500 DEVONSHIRE CT",
+      "type": "",
+      "status": "",
+      "date": "01/05/2022",
+      "raw_cells": [
+        "22-00093",
+        "01/05/2022",
+        "",
+        "3500 DEVONSHIRE CT",
+        "EPRS:220105020030208"
+      ]
+    },
+    {
+      "permit_id": "22-00098",
+      "address": "589 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "01/05/2022",
+      "raw_cells": [
+        "22-00098",
+        "01/05/2022",
+        "",
+        "589 LAKESIDE PKWY",
+        "EPRS:220105044230407"
+      ]
+    },
+    {
+      "permit_id": "22-00263",
+      "address": "4101 MARK TWAIN BLVD",
+      "type": "",
+      "status": "",
+      "date": "01/12/2022",
+      "raw_cells": [
+        "22-00263",
+        "01/12/2022",
+        "",
+        "4101 MARK TWAIN BLVD",
+        "ECON:220112102925175"
+      ]
+    },
+    {
+      "permit_id": "22-00408",
+      "address": "1028 LAUREL OAK DR",
+      "type": "",
+      "status": "",
+      "date": "01/18/2022",
+      "raw_cells": [
+        "22-00408",
+        "01/18/2022",
+        "",
+        "1028 LAUREL OAK DR",
+        "EPRS:220118093916847"
+      ]
+    },
+    {
+      "permit_id": "22-00516",
+      "address": "1409 CURRANT WAY",
+      "type": "",
+      "status": "",
+      "date": "01/20/2022",
+      "raw_cells": [
+        "22-00516",
+        "01/20/2022",
+        "",
+        "1409 CURRANT WAY",
+        "EPRS:220120024834622"
+      ]
+    },
+    {
+      "permit_id": "22-00677",
+      "address": "2240 MORRISS RD",
+      "type": "",
+      "status": "",
+      "date": "01/27/2022",
+      "raw_cells": [
+        "22-00677",
+        "01/27/2022",
+        "",
+        "2240 MORRISS RD",
+        "EPRS:220127092434699"
+      ]
+    },
+    {
+      "permit_id": "22-00680",
+      "address": "5101 BROWNSTONE DR",
+      "type": "",
+      "status": "",
+      "date": "01/27/2022",
+      "raw_cells": [
+        "22-00680",
+        "01/27/2022",
+        "",
+        "5101 BROWNSTONE DR",
+        "EPRS:220127100359113"
+      ]
+    },
+    {
+      "permit_id": "22-01011",
+      "address": "4605 PACER WAY",
+      "type": "",
+      "status": "",
+      "date": "02/10/2022",
+      "raw_cells": [
+        "22-01011",
+        "02/10/2022",
+        "",
+        "4605 PACER WAY",
+        "EPRS:220210041101690"
+      ]
+    },
+    {
+      "permit_id": "22-01208",
+      "address": "1908 SKELTON ST",
+      "type": "",
+      "status": "",
+      "date": "02/18/2022",
+      "raw_cells": [
+        "22-01208",
+        "02/18/2022",
+        "",
+        "1908 SKELTON ST",
+        "ECON:220218010408436"
+      ]
+    },
+    {
+      "permit_id": "22-01358",
+      "address": "3212 COTTRELL DR",
+      "type": "",
+      "status": "",
+      "date": "02/25/2022",
+      "raw_cells": [
+        "22-01358",
+        "02/25/2022",
+        "",
+        "3212 COTTRELL DR",
+        "EPRS:220225110947532"
+      ]
+    },
+    {
+      "permit_id": "22-01362",
+      "address": "500 ENTERPRISE RD",
+      "type": "",
+      "status": "",
+      "date": "02/25/2022",
+      "raw_cells": [
+        "22-01362",
+        "02/25/2022",
+        "",
+        "500 ENTERPRISE RD",
+        "EPRS:220225120604971"
+      ]
+    },
+    {
+      "permit_id": "22-01717",
+      "address": "3634 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "03/11/2022",
+      "raw_cells": [
+        "22-01717",
+        "03/11/2022",
+        "",
+        "3634 LONG PRAIRIE RD",
+        "EPRS:220311124820440"
+      ]
+    },
+    {
+      "permit_id": "22-01909",
+      "address": "5704 TWAIN DR",
+      "type": "",
+      "status": "",
+      "date": "03/21/2022",
+      "raw_cells": [
+        "22-01909",
+        "03/21/2022",
+        "",
+        "5704 TWAIN DR",
+        "ECON:220321113102151"
+      ]
+    },
+    {
+      "permit_id": "22-02485",
+      "address": "2313 CREEKHAVEN DR",
+      "type": "",
+      "status": "",
+      "date": "04/11/2022",
+      "raw_cells": [
+        "22-02485",
+        "04/11/2022",
+        "",
+        "2313 CREEKHAVEN DR",
+        "EPRS:220411115736611"
+      ]
+    },
+    {
+      "permit_id": "22-02582",
+      "address": "1033 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "04/13/2022",
+      "raw_cells": [
+        "22-02582",
+        "04/13/2022",
+        "",
+        "1033 LONG PRAIRIE RD",
+        "EPRS:220413115913420"
+      ]
+    },
+    {
+      "permit_id": "22-02793",
+      "address": "2904 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "04/20/2022",
+      "raw_cells": [
+        "22-02793",
+        "04/20/2022",
+        "",
+        "2904 LAKESIDE PKWY",
+        "EPRS:220420035257185"
+      ]
+    },
+    {
+      "permit_id": "22-02794",
+      "address": "2901 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "04/20/2022",
+      "raw_cells": [
+        "22-02794",
+        "04/20/2022",
+        "",
+        "2901 LAKESIDE PKWY",
+        "EPRS:220420035655225"
+      ]
+    },
+    {
+      "permit_id": "22-02795",
+      "address": "2937 LAKESIDE VILLAGE PKWY",
+      "type": "",
+      "status": "",
+      "date": "04/20/2022",
+      "raw_cells": [
+        "22-02795",
+        "04/20/2022",
+        "",
+        "2937 LAKESIDE VILLAGE PKWY",
+        "EPRS:220420035928343"
+      ]
+    },
+    {
+      "permit_id": "22-02796",
+      "address": "2801 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "04/20/2022",
+      "raw_cells": [
+        "22-02796",
+        "04/20/2022",
+        "",
+        "2801 LAKESIDE PKWY",
+        "EPRS:220420040224382"
+      ]
+    },
+    {
+      "permit_id": "22-02960",
+      "address": "8608 DORAL CT W",
+      "type": "",
+      "status": "",
+      "date": "04/26/2022",
+      "raw_cells": [
+        "22-02960",
+        "04/26/2022",
+        "",
+        "8608 DORAL CT W",
+        "EPRS:220426110312025"
+      ]
+    },
+    {
+      "permit_id": "22-03111",
+      "address": "1609 HIGHDALE CT",
+      "type": "",
+      "status": "",
+      "date": "05/02/2022",
+      "raw_cells": [
+        "22-03111",
+        "05/02/2022",
+        "",
+        "1609 HIGHDALE CT",
+        "EPRS:220502043433773"
+      ]
+    },
+    {
+      "permit_id": "22-03397",
+      "address": "6404 STONECREST RD",
+      "type": "",
+      "status": "",
+      "date": "05/11/2022",
+      "raw_cells": [
+        "22-03397",
+        "05/11/2022",
+        "",
+        "6404 STONECREST RD",
+        "EPRS:220511104713809"
+      ]
+    },
+    {
+      "permit_id": "22-03439",
+      "address": "3412 PREAKNESS DR",
+      "type": "",
+      "status": "",
+      "date": "05/12/2022",
+      "raw_cells": [
+        "22-03439",
+        "05/12/2022",
+        "",
+        "3412 PREAKNESS DR",
+        "EPRS:220512021916274"
+      ]
+    },
+    {
+      "permit_id": "22-03585",
+      "address": "813 WOOD DUCK WAY",
+      "type": "",
+      "status": "",
+      "date": "05/17/2022",
+      "raw_cells": [
+        "22-03585",
+        "05/17/2022",
+        "",
+        "813 WOOD DUCK WAY",
+        "EPRS:220517064017034"
+      ]
+    },
+    {
+      "permit_id": "22-03596",
+      "address": "1600 NORTH FALLS CT",
+      "type": "",
+      "status": "",
+      "date": "05/18/2022",
+      "raw_cells": [
+        "22-03596",
+        "05/18/2022",
+        "",
+        "1600 NORTH FALLS CT",
+        "ECON:220518111447231"
+      ]
+    },
+    {
+      "permit_id": "22-03603",
+      "address": "1600 NORTH FALLS CT",
+      "type": "",
+      "status": "",
+      "date": "05/18/2022",
+      "raw_cells": [
+        "22-03603",
+        "05/18/2022",
+        "",
+        "1600 NORTH FALLS CT",
+        "ECON:220518122414731"
+      ]
+    },
+    {
+      "permit_id": "22-03608",
+      "address": "6408 ROMA CIR",
+      "type": "",
+      "status": "",
+      "date": "05/18/2022",
+      "raw_cells": [
+        "22-03608",
+        "05/18/2022",
+        "",
+        "6408 ROMA CIR",
+        "EPRS:220518013603381"
+      ]
+    },
+    {
+      "permit_id": "22-03919",
+      "address": "1600 STONE CREST DR",
+      "type": "",
+      "status": "",
+      "date": "05/31/2022",
+      "raw_cells": [
+        "22-03919",
+        "05/31/2022",
+        "",
+        "1600 STONE CREST DR",
+        "ECON:220531024922248"
+      ]
+    },
+    {
+      "permit_id": "22-04077",
+      "address": "1901 BANNER CT",
+      "type": "",
+      "status": "",
+      "date": "06/07/2022",
+      "raw_cells": [
+        "22-04077",
+        "06/07/2022",
+        "",
+        "1901 BANNER CT",
+        "EPRS:220607122523505"
+      ]
+    },
+    {
+      "permit_id": "22-04561",
+      "address": "3105 JUSTIN RD",
+      "type": "",
+      "status": "",
+      "date": "06/27/2022",
+      "raw_cells": [
+        "22-04561",
+        "06/27/2022",
+        "",
+        "3105 JUSTIN RD",
+        "EPRS:220627091553451"
+      ]
+    },
+    {
+      "permit_id": "22-04616",
+      "address": "6400 VICTORY DR",
+      "type": "",
+      "status": "",
+      "date": "06/28/2022",
+      "raw_cells": [
+        "22-04616",
+        "06/28/2022",
+        "",
+        "6400 VICTORY DR",
+        "EPRS:220628121809016"
+      ]
+    },
+    {
+      "permit_id": "22-04777",
+      "address": "2129 SHORELINE DR",
+      "type": "",
+      "status": "",
+      "date": "07/05/2022",
+      "raw_cells": [
+        "22-04777",
+        "07/05/2022",
+        "",
+        "2129 SHORELINE DR",
+        "EPRS:220705100313814"
+      ]
+    },
+    {
+      "permit_id": "22-04798",
+      "address": "1221 MARCUS CT",
+      "type": "",
+      "status": "",
+      "date": "07/05/2022",
+      "raw_cells": [
+        "22-04798",
+        "07/05/2022",
+        "",
+        "1221 MARCUS CT",
+        "EPRS:220705032321902"
+      ]
+    },
+    {
+      "permit_id": "22-05459",
+      "address": "4812 SECLUDED CT",
+      "type": "",
+      "status": "",
+      "date": "07/29/2022",
+      "raw_cells": [
+        "22-05459",
+        "07/29/2022",
+        "",
+        "4812 SECLUDED CT",
+        "ECON:220729075545691"
+      ]
+    },
+    {
+      "permit_id": "22-05493",
+      "address": "4425 BRENDA DR",
+      "type": "",
+      "status": "",
+      "date": "07/29/2022",
+      "raw_cells": [
+        "22-05493",
+        "07/29/2022",
+        "",
+        "4425 BRENDA DR",
+        "EPRS:220729025121846"
+      ]
+    },
+    {
+      "permit_id": "22-05667",
+      "address": "3409 TANYARD CT",
+      "type": "",
+      "status": "",
+      "date": "08/05/2022",
+      "raw_cells": [
+        "22-05667",
+        "08/05/2022",
+        "",
+        "3409 TANYARD CT",
+        "EPRS:220805103350950"
+      ]
+    },
+    {
+      "permit_id": "22-05809",
+      "address": "3301 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "08/11/2022",
+      "raw_cells": [
+        "22-05809",
+        "08/11/2022",
+        "",
+        "3301 LONG PRAIRIE RD",
+        "EPRS:220811024549254"
+      ]
+    },
+    {
+      "permit_id": "22-06276",
+      "address": "6500 VIA ITALIA DR",
+      "type": "",
+      "status": "",
+      "date": "08/31/2022",
+      "raw_cells": [
+        "22-06276",
+        "08/31/2022",
+        "",
+        "6500 VIA ITALIA DR",
+        "EPRS:220831111159428"
+      ]
+    },
+    {
+      "permit_id": "22-06450",
+      "address": "2909 CARTERTON CT",
+      "type": "",
+      "status": "",
+      "date": "09/08/2022",
+      "raw_cells": [
+        "22-06450",
+        "09/08/2022",
+        "",
+        "2909 CARTERTON CT",
+        "EPRS:220908105208643"
+      ]
+    },
+    {
+      "permit_id": "22-06573",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "09/12/2022",
+      "raw_cells": [
+        "22-06573",
+        "09/12/2022",
+        "",
+        "",
+        "EPRS:220912031704235"
+      ]
+    },
+    {
+      "permit_id": "22-06686",
+      "address": "1219 RIVER OAKS DR",
+      "type": "",
+      "status": "",
+      "date": "09/16/2022",
+      "raw_cells": [
+        "22-06686",
+        "09/16/2022",
+        "",
+        "1219 RIVER OAKS DR",
+        "EPRS:220916112548893"
+      ]
+    },
+    {
+      "permit_id": "22-06944",
+      "address": "5100 HEATHER CT",
+      "type": "",
+      "status": "",
+      "date": "09/28/2022",
+      "raw_cells": [
+        "22-06944",
+        "09/28/2022",
+        "",
+        "5100 HEATHER CT",
+        "EPRS:220928060725990"
+      ]
+    },
+    {
+      "permit_id": "22-07123",
+      "address": "5805 SICILY WAY",
+      "type": "",
+      "status": "",
+      "date": "10/06/2022",
+      "raw_cells": [
+        "22-07123",
+        "10/06/2022",
+        "",
+        "5805 SICILY WAY",
+        "EPRS:221006012020219"
+      ]
+    },
+    {
+      "permit_id": "22-07164",
+      "address": "4305 PROVIDENCE LN",
+      "type": "",
+      "status": "",
+      "date": "10/08/2022",
+      "raw_cells": [
+        "22-07164",
+        "10/08/2022",
+        "",
+        "4305 PROVIDENCE LN",
+        "EPRS:221008015755028"
+      ]
+    },
+    {
+      "permit_id": "22-07167",
+      "address": "3413 LEANNE DR",
+      "type": "",
+      "status": "",
+      "date": "10/10/2022",
+      "raw_cells": [
+        "22-07167",
+        "10/10/2022",
+        "",
+        "3413 LEANNE DR",
+        "ECON:221010061840381"
+      ]
+    },
+    {
+      "permit_id": "22-07314",
+      "address": "1617 RIVER BIRCH DR",
+      "type": "",
+      "status": "",
+      "date": "10/14/2022",
+      "raw_cells": [
+        "22-07314",
+        "10/14/2022",
+        "",
+        "1617 RIVER BIRCH DR",
+        "ECON:221014113643723"
+      ]
+    },
+    {
+      "permit_id": "22-07336",
+      "address": "5910 NORTHCREST DR",
+      "type": "",
+      "status": "",
+      "date": "10/14/2022",
+      "raw_cells": [
+        "22-07336",
+        "10/14/2022",
+        "",
+        "5910 NORTHCREST DR",
+        "ECON:221014045317809"
+      ]
+    },
+    {
+      "permit_id": "22-07349",
+      "address": "2805 CAPE BRETT DR",
+      "type": "",
+      "status": "",
+      "date": "10/17/2022",
+      "raw_cells": [
+        "22-07349",
+        "10/17/2022",
+        "",
+        "2805 CAPE BRETT DR",
+        "ECON:221017091007147"
+      ]
+    },
+    {
+      "permit_id": "22-07540",
+      "address": "2201 JUSTIN RD",
+      "type": "",
+      "status": "",
+      "date": "10/24/2022",
+      "raw_cells": [
+        "22-07540",
+        "10/24/2022",
+        "",
+        "2201 JUSTIN RD",
+        "EPRS:221024123829737"
+      ]
+    },
+    {
+      "permit_id": "22-07541",
+      "address": "2201 JUSTIN RD",
+      "type": "",
+      "status": "",
+      "date": "10/24/2022",
+      "raw_cells": [
+        "22-07541",
+        "10/24/2022",
+        "",
+        "2201 JUSTIN RD",
+        "EPRS:221024124423792"
+      ]
+    },
+    {
+      "permit_id": "22-07815",
+      "address": "3717 WINDING OAKS DR",
+      "type": "",
+      "status": "",
+      "date": "11/02/2022",
+      "raw_cells": [
+        "22-07815",
+        "11/02/2022",
+        "",
+        "3717 WINDING OAKS DR",
+        "EPRS:221102042956868"
+      ]
+    },
+    {
+      "permit_id": "22-07868",
+      "address": "5308 TIMBER PARK DR",
+      "type": "",
+      "status": "",
+      "date": "11/04/2022",
+      "raw_cells": [
+        "22-07868",
+        "11/04/2022",
+        "",
+        "5308 TIMBER PARK DR",
+        "EPRS:221104125608852"
+      ]
+    },
+    {
+      "permit_id": "22-07935",
+      "address": "4351 CROSS TIMBERS RD",
+      "type": "",
+      "status": "",
+      "date": "11/08/2022",
+      "raw_cells": [
+        "22-07935",
+        "11/08/2022",
+        "",
+        "4351 CROSS TIMBERS RD",
+        "EPRS:221108025335848"
+      ]
+    },
+    {
+      "permit_id": "22-07953",
+      "address": "5012 BALMORAL LN",
+      "type": "",
+      "status": "",
+      "date": "11/09/2022",
+      "raw_cells": [
+        "22-07953",
+        "11/09/2022",
+        "",
+        "5012 BALMORAL LN",
+        "EPRS:221109094018690"
+      ]
+    },
+    {
+      "permit_id": "22-08181",
+      "address": "758 SANDY LN",
+      "type": "",
+      "status": "",
+      "date": "11/18/2022",
+      "raw_cells": [
+        "22-08181",
+        "11/18/2022",
+        "",
+        "758 SANDY LN",
+        "EPRS:221118031209071"
+      ]
+    },
+    {
+      "permit_id": "22-08183",
+      "address": "2016 DILLON CT",
+      "type": "",
+      "status": "",
+      "date": "11/18/2022",
+      "raw_cells": [
+        "22-08183",
+        "11/18/2022",
+        "",
+        "2016 DILLON CT",
+        "EPRS:221118031905227"
+      ]
+    },
+    {
+      "permit_id": "22-08197",
+      "address": "2701 PASADENA PL",
+      "type": "",
+      "status": "",
+      "date": "11/21/2022",
+      "raw_cells": [
+        "22-08197",
+        "11/21/2022",
+        "",
+        "2701 PASADENA PL",
+        "EPRS:221121094051215"
+      ]
+    },
+    {
+      "permit_id": "22-08500",
+      "address": "5004 MYSTIC HOLLOW CT",
+      "type": "",
+      "status": "",
+      "date": "12/07/2022",
+      "raw_cells": [
+        "22-08500",
+        "12/07/2022",
+        "",
+        "5004 MYSTIC HOLLOW CT",
+        "EPRS:221207061932377"
+      ]
+    },
+    {
+      "permit_id": "22-08548",
+      "address": "4005 TULANE ST",
+      "type": "",
+      "status": "",
+      "date": "12/08/2022",
+      "raw_cells": [
+        "22-08548",
+        "12/08/2022",
+        "",
+        "4005 TULANE ST",
+        "EPRS:221208122814848"
+      ]
+    },
+    {
+      "permit_id": "22-08583",
+      "address": "4401 OVERLOOK RDG",
+      "type": "",
+      "status": "",
+      "date": "12/09/2022",
+      "raw_cells": [
+        "22-08583",
+        "12/09/2022",
+        "",
+        "4401 OVERLOOK RDG",
+        "EPRS:221209015451049"
+      ]
+    },
+    {
+      "permit_id": "22-08752",
+      "address": "5208 RIVER HILL DR",
+      "type": "",
+      "status": "",
+      "date": "12/19/2022",
+      "raw_cells": [
+        "22-08752",
+        "12/19/2022",
+        "",
+        "5208 RIVER HILL DR",
+        "EPRS:221219110426141"
+      ]
+    },
+    {
+      "permit_id": "21-00001",
+      "address": "2913 CYPRESS LEAF LN",
+      "type": "",
+      "status": "",
+      "date": "01/26/2021",
+      "raw_cells": [
+        "21-00001",
+        "01/26/2021",
+        "",
+        "2913 CYPRESS LEAF LN",
+        "EPRS:210126041957334"
+      ]
+    },
+    {
+      "permit_id": "21-00775",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "02/05/2021",
+      "raw_cells": [
+        "21-00775",
+        "02/05/2021",
+        "",
+        "",
+        "EPRS:210205012836714"
+      ]
+    },
+    {
+      "permit_id": "21-00776",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "02/05/2021",
+      "raw_cells": [
+        "21-00776",
+        "02/05/2021",
+        "",
+        "",
+        "EPRS:210205012908748"
+      ]
+    },
+    {
+      "permit_id": "21-00777",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "02/05/2021",
+      "raw_cells": [
+        "21-00777",
+        "02/05/2021",
+        "",
+        "",
+        "EPRS:210205012948774"
+      ]
+    },
+    {
+      "permit_id": "21-00849",
+      "address": "2801 JUSTIN RD",
+      "type": "",
+      "status": "",
+      "date": "02/09/2021",
+      "raw_cells": [
+        "21-00849",
+        "02/09/2021",
+        "",
+        "2801 JUSTIN RD",
+        "EPRS:210209112824399"
+      ]
+    },
+    {
+      "permit_id": "21-00854",
+      "address": "2801 JUSTIN RD",
+      "type": "",
+      "status": "",
+      "date": "02/09/2021",
+      "raw_cells": [
+        "21-00854",
+        "02/09/2021",
+        "",
+        "2801 JUSTIN RD",
+        "EPRS:210209115003785"
+      ]
+    },
+    {
+      "permit_id": "21-00984",
+      "address": "2400 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "02/15/2021",
+      "raw_cells": [
+        "21-00984",
+        "02/15/2021",
+        "",
+        "2400 LAKESIDE PKWY",
+        "EPRS:210215024515101"
+      ]
+    },
+    {
+      "permit_id": "21-01140",
+      "address": "2129 CLAYTON DR",
+      "type": "",
+      "status": "",
+      "date": "02/24/2021",
+      "raw_cells": [
+        "21-01140",
+        "02/24/2021",
+        "",
+        "2129 CLAYTON DR",
+        "ECON:210224042234069"
+      ]
+    },
+    {
+      "permit_id": "21-01359",
+      "address": "4112 WITHERS RD",
+      "type": "",
+      "status": "",
+      "date": "03/04/2021",
+      "raw_cells": [
+        "21-01359",
+        "03/04/2021",
+        "",
+        "4112 WITHERS RD",
+        "ECON:210304020143330"
+      ]
+    },
+    {
+      "permit_id": "21-01538",
+      "address": "3721 JUSTIN RD",
+      "type": "",
+      "status": "",
+      "date": "03/10/2021",
+      "raw_cells": [
+        "21-01538",
+        "03/10/2021",
+        "",
+        "3721 JUSTIN RD",
+        "EPRS:210310103152230"
+      ]
+    },
+    {
+      "permit_id": "21-01681",
+      "address": "6925 BROOMSEDGE DR",
+      "type": "",
+      "status": "",
+      "date": "03/15/2021",
+      "raw_cells": [
+        "21-01681",
+        "03/15/2021",
+        "",
+        "6925 BROOMSEDGE DR",
+        "EPRS:210315100039354"
+      ]
+    },
+    {
+      "permit_id": "21-01769",
+      "address": "1600 RIVER BIRCH DR",
+      "type": "",
+      "status": "",
+      "date": "03/18/2021",
+      "raw_cells": [
+        "21-01769",
+        "03/18/2021",
+        "",
+        "1600 RIVER BIRCH DR",
+        "EPRS:210318083954934"
+      ]
+    },
+    {
+      "permit_id": "21-01815",
+      "address": "4015 RIDGECREST DR",
+      "type": "",
+      "status": "",
+      "date": "03/19/2021",
+      "raw_cells": [
+        "21-01815",
+        "03/19/2021",
+        "",
+        "4015 RIDGECREST DR",
+        "EPRS:210319074912478"
+      ]
+    },
+    {
+      "permit_id": "21-02001",
+      "address": "1732 HOMESTEAD ST",
+      "type": "",
+      "status": "",
+      "date": "03/25/2021",
+      "raw_cells": [
+        "21-02001",
+        "03/25/2021",
+        "",
+        "1732 HOMESTEAD ST",
+        "EPRS:210325015336318"
+      ]
+    },
+    {
+      "permit_id": "21-02113",
+      "address": "5705 SICILY WAY",
+      "type": "",
+      "status": "",
+      "date": "03/30/2021",
+      "raw_cells": [
+        "21-02113",
+        "03/30/2021",
+        "",
+        "5705 SICILY WAY",
+        "EPRS:210330020328957"
+      ]
+    },
+    {
+      "permit_id": "21-02114",
+      "address": "3501 BERINGER CT",
+      "type": "",
+      "status": "",
+      "date": "03/30/2021",
+      "raw_cells": [
+        "21-02114",
+        "03/30/2021",
+        "",
+        "3501 BERINGER CT",
+        "EPRS:210330020855031"
+      ]
+    },
+    {
+      "permit_id": "21-02115",
+      "address": "5701 SICILY WAY",
+      "type": "",
+      "status": "",
+      "date": "03/30/2021",
+      "raw_cells": [
+        "21-02115",
+        "03/30/2021",
+        "",
+        "5701 SICILY WAY",
+        "EPRS:210330021853130"
+      ]
+    },
+    {
+      "permit_id": "21-02123",
+      "address": "8700 BALTUSROL DR",
+      "type": "",
+      "status": "",
+      "date": "03/30/2021",
+      "raw_cells": [
+        "21-02123",
+        "03/30/2021",
+        "",
+        "8700 BALTUSROL DR",
+        "EPRS:210330032157842"
+      ]
+    },
+    {
+      "permit_id": "21-02458",
+      "address": "927 HILLSIDE LN",
+      "type": "",
+      "status": "",
+      "date": "04/12/2021",
+      "raw_cells": [
+        "21-02458",
+        "04/12/2021",
+        "",
+        "927 HILLSIDE LN",
+        "EPRS:210412014204286"
+      ]
+    },
+    {
+      "permit_id": "21-02495",
+      "address": "5021 MARCUS DR",
+      "type": "",
+      "status": "",
+      "date": "04/13/2021",
+      "raw_cells": [
+        "21-02495",
+        "04/13/2021",
+        "",
+        "5021 MARCUS DR",
+        "ECON:210413124015084"
+      ]
+    },
+    {
+      "permit_id": "21-02588",
+      "address": "4812 PACK SADDLE WAY",
+      "type": "",
+      "status": "",
+      "date": "04/16/2021",
+      "raw_cells": [
+        "21-02588",
+        "04/16/2021",
+        "",
+        "4812 PACK SADDLE WAY",
+        "ECON:210416083222885"
+      ]
+    },
+    {
+      "permit_id": "21-02690",
+      "address": "1209 INDIAN CHERRY LN",
+      "type": "",
+      "status": "",
+      "date": "04/20/2021",
+      "raw_cells": [
+        "21-02690",
+        "04/20/2021",
+        "",
+        "1209 INDIAN CHERRY LN",
+        "EPRS:210420031059062"
+      ]
+    },
+    {
+      "permit_id": "21-03080",
+      "address": "2901 CREEK VIEW DR",
+      "type": "",
+      "status": "",
+      "date": "05/05/2021",
+      "raw_cells": [
+        "21-03080",
+        "05/05/2021",
+        "",
+        "2901 CREEK VIEW DR",
+        "EPRS:210505102608259"
+      ]
+    },
+    {
+      "permit_id": "21-03277",
+      "address": "5305 VALLEYDALE DR",
+      "type": "",
+      "status": "",
+      "date": "05/11/2021",
+      "raw_cells": [
+        "21-03277",
+        "05/11/2021",
+        "",
+        "5305 VALLEYDALE DR",
+        "EPRS:210511104707746"
+      ]
+    },
+    {
+      "permit_id": "21-03493",
+      "address": "4151 CROSS TIMBERS RD",
+      "type": "",
+      "status": "",
+      "date": "05/18/2021",
+      "raw_cells": [
+        "21-03493",
+        "05/18/2021",
+        "",
+        "4151 CROSS TIMBERS RD",
+        "EPRS:210518042708658"
+      ]
+    },
+    {
+      "permit_id": "21-03525",
+      "address": "5101 FOREST HILL DR",
+      "type": "",
+      "status": "",
+      "date": "05/19/2021",
+      "raw_cells": [
+        "21-03525",
+        "05/19/2021",
+        "",
+        "5101 FOREST HILL DR",
+        "EPRS:210519014050388"
+      ]
+    },
+    {
+      "permit_id": "21-03661",
+      "address": "9108 SHAWNEE TRL",
+      "type": "",
+      "status": "",
+      "date": "05/24/2021",
+      "raw_cells": [
+        "21-03661",
+        "05/24/2021",
+        "",
+        "9108 SHAWNEE TRL",
+        "EPRS:210524040051875"
+      ]
+    },
+    {
+      "permit_id": "21-03776",
+      "address": "3911 SOUTH BROADWAY AVE",
+      "type": "",
+      "status": "",
+      "date": "05/27/2021",
+      "raw_cells": [
+        "21-03776",
+        "05/27/2021",
+        "",
+        "3911 SOUTH BROADWAY AVE",
+        "EPRS:210527022156826"
+      ]
+    },
+    {
+      "permit_id": "21-03983",
+      "address": "4505 NARROWBROOK DR",
+      "type": "",
+      "status": "",
+      "date": "06/07/2021",
+      "raw_cells": [
+        "21-03983",
+        "06/07/2021",
+        "",
+        "4505 NARROWBROOK DR",
+        "EPRS:210607100548770"
+      ]
+    },
+    {
+      "permit_id": "21-04063",
+      "address": "1316 OAK DR",
+      "type": "",
+      "status": "",
+      "date": "06/08/2021",
+      "raw_cells": [
+        "21-04063",
+        "06/08/2021",
+        "",
+        "1316 OAK DR",
+        "EPRS:210608014228009"
+      ]
+    },
+    {
+      "permit_id": "21-04306",
+      "address": "3619 APPALACHIAN WAY",
+      "type": "",
+      "status": "",
+      "date": "06/15/2021",
+      "raw_cells": [
+        "21-04306",
+        "06/15/2021",
+        "",
+        "3619 APPALACHIAN WAY",
+        "EPRS:210615020209976"
+      ]
+    },
+    {
+      "permit_id": "21-04552",
+      "address": "",
+      "type": "",
+      "status": "",
+      "date": "06/22/2021",
+      "raw_cells": [
+        "21-04552",
+        "06/22/2021",
+        "",
+        "NO ADDRESS ASSIGNED",
+        "EPRS:210622025745047"
+      ]
+    },
+    {
+      "permit_id": "21-04892",
+      "address": "3931 WICHITA TRL",
+      "type": "",
+      "status": "",
+      "date": "06/30/2021",
+      "raw_cells": [
+        "21-04892",
+        "06/30/2021",
+        "",
+        "3931 WICHITA TRL",
+        "EPRS:210630015903110"
+      ]
+    },
+    {
+      "permit_id": "21-05286",
+      "address": "3343 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "07/13/2021",
+      "raw_cells": [
+        "21-05286",
+        "07/13/2021",
+        "",
+        "3343 LONG PRAIRIE RD",
+        "EPRS:210713010724176"
+      ]
+    },
+    {
+      "permit_id": "21-05361",
+      "address": "4212 CRESCENT DR",
+      "type": "",
+      "status": "",
+      "date": "07/15/2021",
+      "raw_cells": [
+        "21-05361",
+        "07/15/2021",
+        "",
+        "4212 CRESCENT DR",
+        "ECON:210715081526068"
+      ]
+    },
+    {
+      "permit_id": "21-05450",
+      "address": "2560 CENTRAL PARK AVE",
+      "type": "",
+      "status": "",
+      "date": "07/19/2021",
+      "raw_cells": [
+        "21-05450",
+        "07/19/2021",
+        "",
+        "2560 CENTRAL PARK AVE",
+        "EPRS:210719101743474"
+      ]
+    },
+    {
+      "permit_id": "21-05581",
+      "address": "1420 LAKESIDE PKWY SUITE 102",
+      "type": "",
+      "status": "",
+      "date": "07/22/2021",
+      "raw_cells": [
+        "21-05581",
+        "07/22/2021",
+        "",
+        "1420 LAKESIDE PKWY SUITE 102",
+        "EPRS:210722072603871"
+      ]
+    },
+    {
+      "permit_id": "21-05593",
+      "address": "1420 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "07/22/2021",
+      "raw_cells": [
+        "21-05593",
+        "07/22/2021",
+        "",
+        "1420 LAKESIDE PKWY",
+        "EPRS:210722100110445"
+      ]
+    },
+    {
+      "permit_id": "21-05730",
+      "address": "5805 NAPLES DR",
+      "type": "",
+      "status": "",
+      "date": "07/27/2021",
+      "raw_cells": [
+        "21-05730",
+        "07/27/2021",
+        "",
+        "5805 NAPLES DR",
+        "EPRS:210727091242734"
+      ]
+    },
+    {
+      "permit_id": "21-05768",
+      "address": "3804 ABRON LN",
+      "type": "",
+      "status": "",
+      "date": "07/27/2021",
+      "raw_cells": [
+        "21-05768",
+        "07/27/2021",
+        "",
+        "3804 ABRON LN",
+        "EPRS:210727053504004"
+      ]
+    },
+    {
+      "permit_id": "21-05842",
+      "address": "4521 DONNOLI DR",
+      "type": "",
+      "status": "",
+      "date": "07/29/2021",
+      "raw_cells": [
+        "21-05842",
+        "07/29/2021",
+        "",
+        "4521 DONNOLI DR",
+        "ECON:210729083921479"
+      ]
+    },
+    {
+      "permit_id": "21-05995",
+      "address": "6200 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "08/03/2021",
+      "raw_cells": [
+        "21-05995",
+        "08/03/2021",
+        "",
+        "6200 LONG PRAIRIE RD",
+        "EPRS:210803101045699"
+      ]
+    },
+    {
+      "permit_id": "21-06173",
+      "address": "2800 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "08/09/2021",
+      "raw_cells": [
+        "21-06173",
+        "08/09/2021",
+        "",
+        "2800 LAKESIDE PKWY",
+        "EPRS:210809104936908"
+      ]
+    },
+    {
+      "permit_id": "21-06174",
+      "address": "2800 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "08/09/2021",
+      "raw_cells": [
+        "21-06174",
+        "08/09/2021",
+        "",
+        "2800 LAKESIDE PKWY",
+        "EPRS:210809105142984"
+      ]
+    },
+    {
+      "permit_id": "21-06175",
+      "address": "2800 LAKESIDE PKWY",
+      "type": "",
+      "status": "",
+      "date": "08/09/2021",
+      "raw_cells": [
+        "21-06175",
+        "08/09/2021",
+        "",
+        "2800 LAKESIDE PKWY",
+        "EPRS:210809105321092"
+      ]
+    },
+    {
+      "permit_id": "21-06817",
+      "address": "1216 MOURNING DOVE DR",
+      "type": "",
+      "status": "",
+      "date": "09/01/2021",
+      "raw_cells": [
+        "21-06817",
+        "09/01/2021",
+        "",
+        "1216 MOURNING DOVE DR",
+        "ECON:210901021241889"
+      ]
+    },
+    {
+      "permit_id": "21-06818",
+      "address": "1229 RED TAILED DR",
+      "type": "",
+      "status": "",
+      "date": "09/01/2021",
+      "raw_cells": [
+        "21-06818",
+        "09/01/2021",
+        "",
+        "1229 RED TAILED DR",
+        "ECON:210901021510961"
+      ]
+    },
+    {
+      "permit_id": "21-06819",
+      "address": "1262 MOURNING DOVE DR",
+      "type": "",
+      "status": "",
+      "date": "09/01/2021",
+      "raw_cells": [
+        "21-06819",
+        "09/01/2021",
+        "",
+        "1262 MOURNING DOVE DR",
+        "ECON:210901021707004"
+      ]
+    },
+    {
+      "permit_id": "21-06823",
+      "address": "0 FIREWHEEL DR & FM2499",
+      "type": "",
+      "status": "",
+      "date": "09/01/2021",
+      "raw_cells": [
+        "21-06823",
+        "09/01/2021",
+        "",
+        "0 FIREWHEEL DR & FM2499",
+        "ECON:210901032046530"
+      ]
+    },
+    {
+      "permit_id": "21-06988",
+      "address": "1260 FLOWER MOUND RD",
+      "type": "",
+      "status": "",
+      "date": "09/08/2021",
+      "raw_cells": [
+        "21-06988",
+        "09/08/2021",
+        "",
+        "1260 FLOWER MOUND RD",
+        "EPRS:210908122911865"
+      ]
+    },
+    {
+      "permit_id": "21-07105",
+      "address": "5524 LAKE GENEVA CT",
+      "type": "",
+      "status": "",
+      "date": "09/13/2021",
+      "raw_cells": [
+        "21-07105",
+        "09/13/2021",
+        "",
+        "5524 LAKE GENEVA CT",
+        "EPRS:210913102249539"
+      ]
+    },
+    {
+      "permit_id": "21-07109",
+      "address": "2501 PELICAN CT",
+      "type": "",
+      "status": "",
+      "date": "09/13/2021",
+      "raw_cells": [
+        "21-07109",
+        "09/13/2021",
+        "",
+        "2501 PELICAN CT",
+        "ECON:210913113743510"
+      ]
+    },
+    {
+      "permit_id": "21-07117",
+      "address": "300 OLD GERAULT RD",
+      "type": "",
+      "status": "",
+      "date": "09/13/2021",
+      "raw_cells": [
+        "21-07117",
+        "09/13/2021",
+        "",
+        "300 OLD GERAULT RD",
+        "EPRS:210913125524870"
+      ]
+    },
+    {
+      "permit_id": "21-07119",
+      "address": "300 OLD GERAULT RD",
+      "type": "",
+      "status": "",
+      "date": "09/13/2021",
+      "raw_cells": [
+        "21-07119",
+        "09/13/2021",
+        "",
+        "300 OLD GERAULT RD",
+        "EPRS:210913010150042"
+      ]
+    },
+    {
+      "permit_id": "21-07336",
+      "address": "3805 ROTHSCHILD DR",
+      "type": "",
+      "status": "",
+      "date": "09/20/2021",
+      "raw_cells": [
+        "21-07336",
+        "09/20/2021",
+        "",
+        "3805 ROTHSCHILD DR",
+        "EPRS:210920045327763"
+      ]
+    },
+    {
+      "permit_id": "21-07440",
+      "address": "1001 CROSS TIMBERS RD",
+      "type": "",
+      "status": "",
+      "date": "09/23/2021",
+      "raw_cells": [
+        "21-07440",
+        "09/23/2021",
+        "",
+        "1001 CROSS TIMBERS RD",
+        "EPRS:210923102703193"
+      ]
+    },
+    {
+      "permit_id": "21-07442",
+      "address": "1001 CROSS TIMBERS RD",
+      "type": "",
+      "status": "",
+      "date": "09/23/2021",
+      "raw_cells": [
+        "21-07442",
+        "09/23/2021",
+        "",
+        "1001 CROSS TIMBERS RD",
+        "EPRS:210923104047393"
+      ]
+    },
+    {
+      "permit_id": "21-07443",
+      "address": "1001 CROSS TIMBERS RD",
+      "type": "",
+      "status": "",
+      "date": "09/23/2021",
+      "raw_cells": [
+        "21-07443",
+        "09/23/2021",
+        "",
+        "1001 CROSS TIMBERS RD",
+        "EPRS:210923105706598"
+      ]
+    },
+    {
+      "permit_id": "21-07445",
+      "address": "1001 CROSS TIMBERS RD",
+      "type": "",
+      "status": "",
+      "date": "09/23/2021",
+      "raw_cells": [
+        "21-07445",
+        "09/23/2021",
+        "",
+        "1001 CROSS TIMBERS RD",
+        "EPRS:210923110113701"
+      ]
+    },
+    {
+      "permit_id": "21-07509",
+      "address": "2409 TIMBERIDGE LN",
+      "type": "",
+      "status": "",
+      "date": "09/24/2021",
+      "raw_cells": [
+        "21-07509",
+        "09/24/2021",
+        "",
+        "2409 TIMBERIDGE LN",
+        "EPRS:210924025912323"
+      ]
+    },
+    {
+      "permit_id": "21-07521",
+      "address": "2405 AMBER LN",
+      "type": "",
+      "status": "",
+      "date": "09/27/2021",
+      "raw_cells": [
+        "21-07521",
+        "09/27/2021",
+        "",
+        "2405 AMBER LN",
+        "EPRS:210927085022578"
+      ]
+    },
+    {
+      "permit_id": "21-07630",
+      "address": "1825 MEADOW RIDGE DR",
+      "type": "",
+      "status": "",
+      "date": "09/29/2021",
+      "raw_cells": [
+        "21-07630",
+        "09/29/2021",
+        "",
+        "1825 MEADOW RIDGE DR",
+        "EPRS:210929090154593"
+      ]
+    },
+    {
+      "permit_id": "21-07656",
+      "address": "3209 BETH DR",
+      "type": "",
+      "status": "",
+      "date": "09/30/2021",
+      "raw_cells": [
+        "21-07656",
+        "09/30/2021",
+        "",
+        "3209 BETH DR",
+        "ECON:210930120031839"
+      ]
+    },
+    {
+      "permit_id": "21-07769",
+      "address": "3208 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "10/04/2021",
+      "raw_cells": [
+        "21-07769",
+        "10/04/2021",
+        "",
+        "3208 LONG PRAIRIE RD",
+        "EPRS:211004040055353"
+      ]
+    },
+    {
+      "permit_id": "21-08153",
+      "address": "4800 US 377",
+      "type": "",
+      "status": "",
+      "date": "10/19/2021",
+      "raw_cells": [
+        "21-08153",
+        "10/19/2021",
+        "",
+        "4800 US 377",
+        "EPRS:211019091733840"
+      ]
+    },
+    {
+      "permit_id": "21-08325",
+      "address": "3700 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "10/25/2021",
+      "raw_cells": [
+        "21-08325",
+        "10/25/2021",
+        "",
+        "3700 LONG PRAIRIE RD",
+        "EPRS:211025033341108"
+      ]
+    },
+    {
+      "permit_id": "21-08522",
+      "address": "1210 SAVANNAH CT",
+      "type": "",
+      "status": "",
+      "date": "11/01/2021",
+      "raw_cells": [
+        "21-08522",
+        "11/01/2021",
+        "",
+        "1210 SAVANNAH CT",
+        "EPRS:211101102429481"
+      ]
+    },
+    {
+      "permit_id": "21-08525",
+      "address": "4305 WINDSOR CENTRE TRL",
+      "type": "",
+      "status": "",
+      "date": "11/01/2021",
+      "raw_cells": [
+        "21-08525",
+        "11/01/2021",
+        "",
+        "4305 WINDSOR CENTRE TRL",
+        "EPRS:211101110948867"
+      ]
+    },
+    {
+      "permit_id": "21-08653",
+      "address": "4609 OAK SPRINGS DR",
+      "type": "",
+      "status": "",
+      "date": "11/04/2021",
+      "raw_cells": [
+        "21-08653",
+        "11/04/2021",
+        "",
+        "4609 OAK SPRINGS DR",
+        "EPRS:211104123159081"
+      ]
+    },
+    {
+      "permit_id": "21-08654",
+      "address": "5205 LIGHTHOUSE DR",
+      "type": "",
+      "status": "",
+      "date": "11/04/2021",
+      "raw_cells": [
+        "21-08654",
+        "11/04/2021",
+        "",
+        "5205 LIGHTHOUSE DR",
+        "EPRS:211104012226388"
+      ]
+    },
+    {
+      "permit_id": "21-09684",
+      "address": "2201 SPINKS RD",
+      "type": "",
+      "status": "",
+      "date": "12/21/2021",
+      "raw_cells": [
+        "21-09684",
+        "12/21/2021",
+        "",
+        "2201 SPINKS RD",
+        "EPRS:211221105922425"
+      ]
+    },
+    {
+      "permit_id": "21-09796",
+      "address": "5810 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "12/29/2021",
+      "raw_cells": [
+        "21-09796",
+        "12/29/2021",
+        "",
+        "5810 LONG PRAIRIE RD",
+        "EPRS:211229104545317"
+      ]
+    },
+    {
+      "permit_id": "21-09829",
+      "address": "1013 LONG PRAIRIE RD",
+      "type": "",
+      "status": "",
+      "date": "12/30/2021",
+      "raw_cells": [
+        "21-09829",
+        "12/30/2021",
+        "",
+        "1013 LONG PRAIRIE RD",
+        "EPRS:211230013548686"
+      ]
+    }
+  ]
+}
