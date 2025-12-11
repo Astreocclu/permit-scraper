@@ -20,7 +20,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import httpx
+from dotenv import load_dotenv
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
+
+# Load environment variables
+load_dotenv()
 
 # City JID mappings (jurisdiction IDs)
 # To find JID: Go to mgoconnect.org, select state/city, check URL parameter
@@ -211,83 +215,69 @@ async def select_jurisdiction_from_home(page, city_name: str) -> bool:
 
     # Select State: Texas
     print('    Selecting State: Texas...')
-    result = await page.evaluate('''async () => {
-        const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
-        const dropdowns = document.querySelectorAll('.p-dropdown');
-        if (dropdowns.length < 1) return { error: 'No state dropdown' };
+    # Click state dropdown and wait for it to open
+    state_dropdown = page.locator('.p-dropdown').first
+    await state_dropdown.click()
+    await asyncio.sleep(1)
 
-        // Click state dropdown
-        dropdowns[0].click();
-        await wait(800);
+    # Select Texas
+    texas_option = page.locator('.p-dropdown-item:has-text("Texas")')
+    await texas_option.click()
+    print('    Texas selected')
 
-        // Find Texas
-        const items = document.querySelectorAll('.p-dropdown-item');
-        for (const item of items) {
-            if (item.textContent.includes('Texas')) {
-                item.click();
-                return { success: true };
-            }
-        }
-        return { error: 'Texas not found' };
-    }''')
+    # CRITICAL: Wait for jurisdiction dropdown to become enabled (API loads jurisdictions)
+    print('    Waiting for jurisdiction dropdown to populate...')
+    try:
+        await page.wait_for_function('''() => {
+            const dropdowns = document.querySelectorAll('.p-dropdown');
+            if (dropdowns.length < 2) return false;
+            // Check if second dropdown is NOT disabled
+            const jurisdictionDropdown = dropdowns[1];
+            return !jurisdictionDropdown.classList.contains('p-disabled') &&
+                   !jurisdictionDropdown.querySelector('.p-dropdown-label')?.textContent?.includes('Select');
+        }''', timeout=15000)
+        print('    Jurisdiction dropdown ready')
+    except Exception as e:
+        print(f'    WARN: Jurisdiction dropdown wait timed out: {e}')
+        # Try anyway
 
-    if result.get('error'):
-        print(f'    ERROR: {result["error"]}')
-        return False
-
-    print('    Texas selected, waiting for jurisdictions...')
-    await asyncio.sleep(5)  # Wait for jurisdictions API
+    await asyncio.sleep(2)
 
     # Select Jurisdiction
     print(f'    Selecting Jurisdiction: {city_name}...')
-    result = await page.evaluate(f'''async (cityName) => {{
-        const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
-        const dropdowns = document.querySelectorAll('.p-dropdown');
-        if (dropdowns.length < 2) return {{ error: 'No jurisdiction dropdown' }};
+    # Click jurisdiction dropdown
+    jurisdiction_dropdown = page.locator('.p-dropdown').nth(1)
+    await jurisdiction_dropdown.click()
+    await asyncio.sleep(1)
 
-        // Click jurisdiction dropdown
-        dropdowns[1].click();
-        await wait(800);
+    # Type to filter (faster than scrolling through list)
+    await page.keyboard.type(city_name[:4], delay=100)
+    await asyncio.sleep(1)
 
-        // Get all options
-        const items = document.querySelectorAll('.p-dropdown-item');
-        const options = Array.from(items).map(i => i.textContent.trim());
+    # Click the matching option
+    city_option = page.locator(f'.p-dropdown-item:has-text("{city_name}")')
+    option_count = await city_option.count()
 
-        // Find the city
-        for (const item of items) {{
-            if (item.textContent.toLowerCase().includes(cityName.toLowerCase())) {{
-                item.click();
-                await wait(500);
-                return {{ success: true, selected: item.textContent.trim(), optionCount: options.length }};
-            }}
-        }}
-        return {{ error: 'City not found', options: options.slice(0, 15) }};
-    }}''', city_name)
-
-    if result.get('error'):
-        print(f'    ERROR: {result["error"]}')
-        if result.get('options'):
-            print(f'    Available options: {result["options"]}')
+    if option_count == 0:
+        # List all available options for debugging
+        options = await page.evaluate('''() => {
+            return Array.from(document.querySelectorAll('.p-dropdown-item'))
+                .map(el => el.textContent?.trim())
+                .slice(0, 20);
+        }''')
+        print(f'    ERROR: {city_name} not found. Available: {options}')
         return False
 
-    print(f'    Selected: {result.get("selected")} (from {result.get("optionCount")} options)')
+    await city_option.first.click()
+    print(f'    Selected: {city_name}')
     await asyncio.sleep(2)
 
     # Click Continue button
     print('    Clicking Continue...')
-    await page.evaluate('''async () => {
-        const wait = (ms) => new Promise(r => setTimeout(r, ms));
-        const buttons = document.querySelectorAll('button');
-        for (const btn of buttons) {
-            if (btn.textContent?.toLowerCase().includes('continue')) {
-                btn.click();
-                return true;
-            }
-        }
-        return false;
-    }''')
+    continue_btn = page.locator('button:has-text("Continue")')
+    await continue_btn.click()
 
     await asyncio.sleep(5)
     await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_after_continue.png')
