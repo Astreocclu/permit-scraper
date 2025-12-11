@@ -323,7 +323,6 @@ async def scrape(city_name: str, target_count: int = 1000):
             if '/api/' in url and response.status == 200:
                 # Skip static assets and charts
                 if '.js' not in url and '.css' not in url and 'chart' not in url.lower():
-                    print(f'    [API] {response.request.method} {url[:120]}')
                     try:
                         data = await response.json()
                         # Look for project/permit data
@@ -331,16 +330,13 @@ async def scrape(city_name: str, target_count: int = 1000):
                             # Check for common response formats
                             items = data.get('data', data.get('results', data.get('items', data.get('projects', []))))
                             if isinstance(items, list) and len(items) > 0:
-                                total = data.get('totalRecords', data.get('total', data.get('recordsTotal', len(items))))
                                 # Only add if items have permit-like fields
                                 sample = items[0] if items else {}
                                 if any(k in str(sample).lower() for k in ['project', 'permit', 'address', 'worktype']):
-                                    print(f'    [API] Captured {len(items)} items (total: {total})')
                                     api_data.extend(items)
                         elif isinstance(data, list) and len(data) > 0:
                             sample = data[0] if data else {}
                             if any(k in str(sample).lower() for k in ['project', 'permit', 'address', 'worktype']):
-                                print(f'    [API] Captured list of {len(data)} items')
                                 api_data.extend(data)
                     except Exception as e:
                         pass  # Not JSON or parsing error
@@ -575,19 +571,39 @@ async def scrape(city_name: str, target_count: int = 1000):
             seen_ids = set()
 
             for item in api_data:
-                permit_id = item.get('projectNumber') or item.get('projectID', '')
+                # Handle both API response format and table extraction format
+                permit_id = (item.get('projectNumber') or item.get('projectID') or
+                           item.get('permit_id', '')) if isinstance(item, dict) else ''
+
                 if permit_id and permit_id not in seen_ids:
                     seen_ids.add(permit_id)
                     raw_permits.append({
                         'permit_id': permit_id,
-                        'address': item.get('projectAddress', ''),
-                        'type': item.get('workType', ''),
+                        'address': item.get('projectAddress') or item.get('address', ''),
+                        'type': item.get('workType') or item.get('type', ''),
                         'designation': item.get('designation', ''),
-                        'status': item.get('projectStatus', ''),
-                        'date': item.get('dateCreated', ''),
-                        'description': item.get('projectDescription') or item.get('projectName', ''),
-                        'contractor': item.get('contractorName', '')
+                        'status': item.get('projectStatus') or item.get('status', ''),
+                        'date': item.get('dateCreated') or item.get('date', ''),
+                        'description': (item.get('projectDescription') or item.get('projectName') or
+                                      item.get('description', '')),
+                        'contractor': item.get('contractorName') or item.get('contractor', '')
                     })
+                elif not permit_id and item.get('address'):
+                    # If no permit_id but has address, still include it with address as identifier
+                    addr = item.get('address') or item.get('projectAddress', '')
+                    if addr and addr not in seen_ids:
+                        seen_ids.add(addr)
+                        raw_permits.append({
+                            'permit_id': '',
+                            'address': addr,
+                            'type': item.get('workType') or item.get('type', ''),
+                            'designation': item.get('designation', ''),
+                            'status': item.get('projectStatus') or item.get('status', ''),
+                            'date': item.get('dateCreated') or item.get('date', ''),
+                            'description': (item.get('projectDescription') or item.get('projectName') or
+                                          item.get('description', '')),
+                            'contractor': item.get('contractorName') or item.get('contractor', '')
+                        })
 
             print(f'    Unique permits: {len(raw_permits)}')
 
