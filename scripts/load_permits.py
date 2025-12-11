@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
 """
-Load permits from JSON files into SQLite database.
+Load permits from JSON files into PostgreSQL database.
 
 This script bridges the gap between scrapers (which output JSON) and
-the enrichment pipeline (which reads from SQLite).
+the enrichment pipeline (which reads from PostgreSQL).
 
 Usage:
     python3 scripts/load_permits.py                    # Load all JSON files
     python3 scripts/load_permits.py --file fort_worth_raw.json  # Load specific file
-    python3 scripts/load_permits.py --db path/to/db    # Custom database
 """
 
 import argparse
 import json
 import logging
-import sqlite3
+import os
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+
+import psycopg2
+from psycopg2.extras import execute_values
 
 logging.basicConfig(
     level=logging.INFO,
@@ -26,44 +29,19 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DEFAULT_DB_PATH = "data/permits.db"
 
-
-def setup_database(conn: sqlite3.Connection):
-    """Create the permits table if it doesn't exist."""
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS permits (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            permit_id TEXT,
-            city TEXT,
-            property_address TEXT,
-            property_address_normalized TEXT,
-            city_name TEXT,
-            zip_code TEXT,
-            permit_type TEXT,
-            description TEXT,
-            status TEXT,
-            issued_date TEXT,
-            applicant_name TEXT,
-            contractor_name TEXT,
-            estimated_value REAL,
-            owner_name TEXT,
-            scraped_at TEXT,
-            source_file TEXT,
-            portal_type TEXT,
-            UNIQUE(permit_id, city)
-        )
-    """)
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_permits_address ON permits(property_address)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_permits_city ON permits(city)")
-    conn.commit()
+def get_connection():
+    """Get PostgreSQL connection from DATABASE_URL."""
+    url = os.environ.get('DATABASE_URL')
+    if not url:
+        raise ValueError("DATABASE_URL environment variable not set")
+    return psycopg2.connect(url)
 
 
 def normalize_address(address: str) -> Optional[str]:
     """Normalize address for matching."""
     if not address:
         return None
-    import re
     addr = address.upper().strip()
     # Remove extra whitespace
     addr = re.sub(r'\s+', ' ', addr)
@@ -77,7 +55,7 @@ def extract_city_from_source(source: str) -> str:
     return city
 
 
-def load_json_file(filepath: Path, conn: sqlite3.Connection) -> tuple[int, int]:
+def load_json_file(filepath: Path, conn) -> tuple[int, int]:
     """
     Load permits from a JSON file into the database.
     Returns (loaded_count, skipped_count).
@@ -91,7 +69,6 @@ def load_json_file(filepath: Path, conn: sqlite3.Connection) -> tuple[int, int]:
 
     # Extract metadata
     source = data.get('source', filepath.stem.replace('_raw', ''))
-    portal_type = data.get('portal_type', 'unknown')
     scraped_at = data.get('scraped_at', datetime.now().isoformat())
     permits = data.get('permits', [])
 
@@ -100,9 +77,9 @@ def load_json_file(filepath: Path, conn: sqlite3.Connection) -> tuple[int, int]:
         return 0, 0
 
     city = source.replace('_', ' ').lower()
-    city_name = extract_city_from_source(source)
 
-    loaded = 0
+    # Transform to PostgreSQL rows
+    pg_rows = []
     skipped = 0
 
     for permit in permits:
@@ -113,56 +90,79 @@ def load_json_file(filepath: Path, conn: sqlite3.Connection) -> tuple[int, int]:
             skipped += 1
             continue
 
-        try:
-            conn.execute("""
-                INSERT OR REPLACE INTO permits (
-                    permit_id, city, property_address, property_address_normalized,
-                    city_name, zip_code, permit_type, description, status,
-                    issued_date, applicant_name, contractor_name, estimated_value,
-                    owner_name, scraped_at, source_file, portal_type
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                permit_id,
-                city,
-                address,
-                normalize_address(address),
-                city_name,
-                permit.get('zip_code'),
-                permit.get('type', permit.get('permit_type')),
-                permit.get('description'),
-                permit.get('status'),
-                permit.get('date', permit.get('issued_date')),
-                permit.get('applicant', permit.get('applicant_name')),
-                permit.get('contractor', permit.get('contractor_name')),
-                permit.get('value', permit.get('estimated_value')),
-                permit.get('owner', permit.get('owner_name')),
-                scraped_at,
-                filepath.name,
-                portal_type
-            ))
-            loaded += 1
-        except sqlite3.Error as e:
-            logger.warning(f"Failed to insert permit {permit_id}: {e}")
-            skipped += 1
+        # Handle issued_date
+        issued_date = permit.get('date', permit.get('issued_date'))
+        issued = None
+        if issued_date:
+            try:
+                issued = datetime.strptime(issued_date[:10], '%Y-%m-%d').date()
+            except (ValueError, TypeError):
+                pass
 
-    conn.commit()
-    return loaded, skipped
+        # Handle scraped_at
+        scraped = datetime.now()
+        if scraped_at:
+            try:
+                scraped = datetime.fromisoformat(scraped_at.replace('Z', '+00:00'))
+            except (ValueError, TypeError):
+                pass
+
+        pg_rows.append((
+            permit_id,
+            city,
+            address,
+            permit.get('type', permit.get('permit_type')),
+            permit.get('description'),
+            permit.get('status'),
+            issued,
+            permit.get('applicant', permit.get('applicant_name')),
+            permit.get('contractor', permit.get('contractor_name')),
+            permit.get('value', permit.get('estimated_value')),
+            scraped,
+            None  # lead_type
+        ))
+
+    if pg_rows:
+        # Deduplicate by (city, permit_id) - keep last occurrence
+        seen = {}
+        for row in pg_rows:
+            key = (row[1], row[0])  # (city, permit_id)
+            seen[key] = row
+        pg_rows = list(seen.values())
+
+        insert_sql = """
+            INSERT INTO leads_permit (
+                permit_id, city, property_address, permit_type, description,
+                status, issued_date, applicant_name, contractor_name,
+                estimated_value, scraped_at, lead_type
+            ) VALUES %s
+            ON CONFLICT ON CONSTRAINT clients_permit_city_permit_id_33861e17_uniq DO UPDATE SET
+                property_address = EXCLUDED.property_address,
+                description = EXCLUDED.description,
+                status = EXCLUDED.status,
+                estimated_value = EXCLUDED.estimated_value
+        """
+        with conn.cursor() as cur:
+            execute_values(cur, insert_sql, pg_rows, page_size=500)
+        conn.commit()
+
+    return len(pg_rows), skipped
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Load permits from JSON files into SQLite database'
+        description='Load permits from JSON files into PostgreSQL database'
     )
-    parser.add_argument('--db', default=DEFAULT_DB_PATH, help='Path to SQLite database')
     parser.add_argument('--file', help='Specific JSON file to load (default: all *_raw.json)')
     parser.add_argument('--dir', default='.', help='Directory to search for JSON files')
     args = parser.parse_args()
 
-    # Setup database
-    db_path = Path(args.db)
-    db_path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(db_path))
-    setup_database(conn)
+    # Connect to database
+    try:
+        conn = get_connection()
+    except ValueError as e:
+        print(f"ERROR: {e}")
+        return 1
 
     # Find JSON files
     search_dir = Path(args.dir)
@@ -173,10 +173,10 @@ def main():
 
     if not json_files:
         logger.warning("No JSON files found to load")
-        return
+        return 0
 
     print(f"=== LOADING PERMITS INTO DATABASE ===")
-    print(f"Database: {db_path}")
+    print(f"Database: PostgreSQL (from DATABASE_URL)")
     print(f"Files: {len(json_files)}\n")
 
     total_loaded = 0
@@ -199,12 +199,14 @@ def main():
     print(f"Total skipped: {total_skipped}")
 
     # Show current database stats
-    cursor = conn.execute("SELECT COUNT(*) FROM permits")
-    total_in_db = cursor.fetchone()[0]
+    with conn.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM leads_permit")
+        total_in_db = cur.fetchone()[0]
     print(f"Total in database: {total_in_db}")
 
     conn.close()
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    exit(main())

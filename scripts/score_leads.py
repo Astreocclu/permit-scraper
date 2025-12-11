@@ -25,13 +25,150 @@ import logging
 import os
 import random
 import re
-import sqlite3
 from dataclasses import dataclass, field, asdict
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import aiohttp
+
+
+# =============================================================================
+# ADDRESS NORMALIZATION
+# =============================================================================
+
+# Unit/apartment indicators to extract
+# Note: patterns require word boundary or punctuation to avoid matching mid-word (e.g., "STEMMONS")
+UNIT_PATTERNS = [
+    r'\b(apt\.?|apartment)\s*#?\s*(\S+)',
+    r'\b(unit)\s*#?\s*(\S+)',
+    r'\b(suite)\s*#?\s*(\S+)',  # Full word only
+    r'(?<![A-Za-z])(ste\.)\s*#?\s*(\S+)',  # Abbreviated requires period
+    r'\b(bldg\.?|building)\s*#?\s*(\S+)',
+    r'\b(fl\.?|floor)\s*#?\s*(\S+)',
+    r'\b(rm\.?|room)\s*#?\s*(\S+)',
+    r'#\s*(\d+\w*)',  # Standalone # numbers
+]
+
+# Street suffixes to standardize
+STREET_SUFFIX_MAP = {
+    'avenue': 'AVE', 'ave': 'AVE', 'av': 'AVE',
+    'boulevard': 'BLVD', 'blvd': 'BLVD',
+    'circle': 'CIR', 'cir': 'CIR',
+    'court': 'CT', 'ct': 'CT',
+    'drive': 'DR', 'dr': 'DR',
+    'expressway': 'EXPY', 'expy': 'EXPY',
+    'freeway': 'FWY', 'fwy': 'FWY',
+    'highway': 'HWY', 'hwy': 'HWY',
+    'lane': 'LN', 'ln': 'LN',
+    'parkway': 'PKWY', 'pkwy': 'PKWY',
+    'place': 'PL', 'pl': 'PL',
+    'road': 'RD', 'rd': 'RD',
+    'street': 'ST', 'st': 'ST', 'str': 'ST',
+    'terrace': 'TER', 'ter': 'TER',
+    'trail': 'TRL', 'trl': 'TRL',
+    'way': 'WAY',
+}
+
+# Directional abbreviations
+DIRECTIONAL_MAP = {
+    'north': 'N', 'n': 'N',
+    'south': 'S', 's': 'S',
+    'east': 'E', 'e': 'E',
+    'west': 'W', 'w': 'W',
+    'northeast': 'NE', 'ne': 'NE',
+    'northwest': 'NW', 'nw': 'NW',
+    'southeast': 'SE', 'se': 'SE',
+    'southwest': 'SW', 'sw': 'SW',
+}
+
+
+def normalize_address(raw_address: str, default_city: str = "") -> dict:
+    """
+    Normalize address to standard format.
+
+    Returns dict with:
+        - address: Normalized street address (uppercase, no unit/city/zip)
+        - unit: Extracted apartment/suite/unit number
+        - city: Extracted or default city (Title Case)
+        - zip_code: Extracted ZIP code
+    """
+    if not raw_address:
+        return {"address": "", "unit": "", "city": default_city.title(), "zip_code": ""}
+
+    addr = raw_address.strip()
+    unit = ""
+    city = default_city
+    zip_code = ""
+
+    # Extract ZIP code (5 or 9 digit)
+    zip_match = re.search(r'\b(\d{5})(?:-\d{4})?\b', addr)
+    if zip_match:
+        zip_code = zip_match.group(1)
+        addr = addr[:zip_match.start()] + addr[zip_match.end():]
+
+    # Extract state abbreviation (TX, etc.) - remove it
+    state_match = re.search(r'\b([A-Z]{2})\s*(?:\d{5}|$)', addr, re.IGNORECASE)
+    if state_match:
+        addr = addr[:state_match.start()] + addr[state_match.end():]
+
+    # Extract city if it follows a comma
+    # Pattern: "123 Main St, Dallas" or "123 Main St, Dallas, TX"
+    city_match = re.search(r',\s*([A-Za-z\s]+?)(?:,|\s*$)', addr)
+    if city_match:
+        potential_city = city_match.group(1).strip()
+        # Only treat as city if it's not a street suffix
+        if potential_city.lower() not in STREET_SUFFIX_MAP:
+            city = potential_city
+            addr = addr[:city_match.start()]
+
+    # Extract unit/apt/suite
+    for pattern in UNIT_PATTERNS:
+        match = re.search(pattern, addr, re.IGNORECASE)
+        if match:
+            if len(match.groups()) >= 2:
+                unit = match.group(2).strip()
+            else:
+                unit = match.group(1).strip()
+            addr = addr[:match.start()] + addr[match.end():]
+            break
+
+    # Clean up the address
+    addr = addr.upper()
+
+    # Standardize street suffixes
+    words = addr.split()
+    normalized_words = []
+    for word in words:
+        word_clean = word.strip('.,;:')
+        word_lower = word_clean.lower()
+
+        if word_lower in STREET_SUFFIX_MAP:
+            normalized_words.append(STREET_SUFFIX_MAP[word_lower])
+        elif word_lower in DIRECTIONAL_MAP:
+            normalized_words.append(DIRECTIONAL_MAP[word_lower])
+        else:
+            normalized_words.append(word_clean)
+
+    # Rebuild address
+    addr = ' '.join(normalized_words)
+
+    # Remove trailing punctuation
+    addr = re.sub(r'[.,;:\s]+$', '', addr)
+
+    # Collapse multiple spaces
+    addr = re.sub(r'\s+', ' ', addr).strip()
+
+    return {
+        "address": addr,
+        "unit": unit.upper() if unit else "",
+        "city": city.title() if city else "",
+        "zip_code": zip_code,
+    }
+
+
+import psycopg2
+from psycopg2.extras import execute_values
 
 logging.basicConfig(
     level=logging.INFO,
@@ -40,7 +177,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DEFAULT_DB_PATH = "data/permits.db"
+DEFAULT_DB_PATH = None  # Use DATABASE_URL environment variable
 
 
 # =============================================================================
@@ -133,7 +270,7 @@ class PermitData:
     """Normalized permit data for scoring."""
     permit_id: str
     city: str
-    property_address: str
+    property_address: str  # Original raw address
     owner_name: str = "Unknown"
     contractor_name: str = ""
     project_description: str = ""
@@ -145,6 +282,10 @@ class PermitData:
     county: str = ""
     year_built: Optional[int] = None
     square_feet: Optional[int] = None
+    # Normalized address fields
+    normalized_address: str = ""  # Clean: "1234 MAIN ST"
+    unit: str = ""  # Extracted: "APT 101", "STE 200"
+    zip_code: str = ""  # Extracted: "75001"
 
 
 @dataclass
@@ -452,56 +593,36 @@ class DeepSeekScorer:
 # DATABASE OPERATIONS
 # =============================================================================
 
-def setup_scored_leads_table(conn: sqlite3.Connection):
-    """Create scored_leads table if it doesn't exist."""
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS scored_leads (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            permit_id TEXT,
-            city TEXT,
-            property_address TEXT,
-            owner_name TEXT,
-            market_value REAL,
-            is_absentee INTEGER,
-            days_old INTEGER,
-            score INTEGER,
-            tier TEXT,
-            category TEXT,
-            trade_group TEXT,
-            reasoning TEXT,
-            chain_of_thought TEXT,
-            flags TEXT,
-            ideal_contractor TEXT,
-            contact_priority TEXT,
-            scoring_method TEXT,
-            scored_at TEXT,
-            UNIQUE(permit_id, city)
-        )
-    """)
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_scored_tier ON scored_leads(tier)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_scored_category ON scored_leads(category)")
-    conn.commit()
+def get_db_connection():
+    """Get PostgreSQL connection from DATABASE_URL."""
+    url = os.environ.get('DATABASE_URL')
+    if not url:
+        raise ValueError("DATABASE_URL environment variable not set")
+    return psycopg2.connect(url)
 
 
-def load_permits_for_scoring(conn: sqlite3.Connection, options: dict) -> List[PermitData]:
-    """Load permits with enrichment data for scoring."""
+def load_permits_for_scoring(conn, options: dict) -> List[PermitData]:
+    """Load permits with enrichment data for scoring.
+
+    Only loads permits that have been successfully enriched (have CAD data).
+    """
     query = """
         SELECT
-            p.permit_id, p.city, p.property_address,
-            COALESCE(prop.owner_name, p.applicant_name, p.owner_name, 'Unknown') as owner_name,
+            p.id, p.permit_id, p.city, p.property_address,
+            COALESCE(prop.owner_name, p.applicant_name, 'Unknown') as owner_name,
             p.contractor_name,
             COALESCE(p.description, p.permit_type, '') as project_description,
             p.permit_type,
             COALESCE(prop.market_value, 0) as market_value,
-            COALESCE(prop.is_absentee, 0) as is_absentee,
+            COALESCE(prop.is_absentee, false) as is_absentee,
             p.issued_date,
             prop.county,
             prop.year_built,
             prop.square_feet
-        FROM permits p
-        LEFT JOIN properties prop ON p.property_address = prop.property_address
-        LEFT JOIN scored_leads sl ON p.permit_id = sl.permit_id AND p.city = sl.city
-        WHERE (prop.enrichment_status = 'success' OR prop.enrichment_status IS NULL)
+        FROM leads_permit p
+        JOIN leads_property prop ON p.property_address = prop.property_address
+        LEFT JOIN clients_scoredlead sl ON p.id = sl.permit_id
+        WHERE prop.enrichment_status = 'success'
     """
 
     conditions = []
@@ -513,55 +634,71 @@ def load_permits_for_scoring(conn: sqlite3.Connection, options: dict) -> List[Pe
 
     # Filter by city
     if options.get('city'):
-        conditions.append("LOWER(p.city) = LOWER(?)")
+        conditions.append("LOWER(p.city) = LOWER(%s)")
         params.append(options['city'])
 
     if conditions:
         query += " AND " + " AND ".join(conditions)
 
-    query += " ORDER BY p.issued_date DESC"
+    query += " ORDER BY p.issued_date DESC NULLS LAST"
 
     if options.get('limit'):
         query += f" LIMIT {options['limit']}"
 
-    cursor = conn.execute(query, params)
+    with conn.cursor() as cur:
+        cur.execute(query, params)
+        rows = cur.fetchall()
 
     permits = []
     today = date.today()
 
-    for row in cursor:
+    for row in rows:
+        pg_id = row[0]  # PostgreSQL id for FK
         issued_date = None
         days_old = 0
-        if row[9]:
+        if row[10]:  # issued_date is now at index 10
             try:
-                issued_date = datetime.strptime(row[9][:10], '%Y-%m-%d').date()
+                if isinstance(row[10], date):
+                    issued_date = row[10]
+                else:
+                    issued_date = datetime.strptime(str(row[10])[:10], '%Y-%m-%d').date()
                 days_old = (today - issued_date).days
             except (ValueError, TypeError):
                 pass
 
+        # Normalize address at load time
+        raw_address = row[3] or ""
+        city_from_db = row[2] or ""
+        addr_parts = normalize_address(raw_address, default_city=city_from_db)
+
         permit = PermitData(
-            permit_id=row[0],
-            city=row[1],
-            property_address=row[2],
-            owner_name=row[3] or "Unknown",
-            contractor_name=row[4] or "",
-            project_description=row[5] or "",
-            permit_type=row[6] or "",
-            market_value=float(row[7]) if row[7] else 0.0,
-            is_absentee=bool(row[8]),
+            permit_id=row[1],
+            city=addr_parts["city"] or city_from_db.title(),  # Use extracted or DB city
+            property_address=raw_address,  # Keep original
+            owner_name=row[4] or "Unknown",
+            contractor_name=row[5] or "",
+            project_description=row[6] or "",
+            permit_type=row[7] or "",
+            market_value=float(row[8]) if row[8] else 0.0,
+            is_absentee=bool(row[9]),
             issued_date=issued_date,
             days_old=days_old,
-            county=row[10] or "",
-            year_built=row[11],
-            square_feet=row[12]
+            county=row[11] or "",
+            year_built=row[12],
+            square_feet=row[13],
+            normalized_address=addr_parts["address"],
+            unit=addr_parts["unit"],
+            zip_code=addr_parts["zip_code"],
         )
+        # Store pg_id as an attribute for later FK lookup
+        permit._pg_id = pg_id
         permits.append(permit)
 
     return permits
 
 
-def save_scored_leads(conn: sqlite3.Connection, leads: List[ScoredLead]) -> Dict[str, int]:
-    """Save scored leads to database."""
+def save_scored_leads(conn, leads: List[ScoredLead]) -> Dict[str, int]:
+    """Save scored leads to PostgreSQL clients_scoredlead table."""
     counts = {'saved': 0, 'skipped': 0}
 
     for lead in leads:
@@ -570,27 +707,63 @@ def save_scored_leads(conn: sqlite3.Connection, leads: List[ScoredLead]) -> Dict
             continue
 
         try:
-            conn.execute("""
-                INSERT OR REPLACE INTO scored_leads (
-                    permit_id, city, property_address, owner_name, market_value,
-                    is_absentee, days_old, score, tier, category, trade_group,
-                    reasoning, chain_of_thought, flags, ideal_contractor,
-                    contact_priority, scoring_method, scored_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                lead.permit.permit_id, lead.permit.city, lead.permit.property_address,
-                lead.permit.owner_name, lead.permit.market_value, lead.permit.is_absentee,
-                lead.permit.days_old, lead.score, lead.tier, lead.category, lead.trade_group,
-                lead.reasoning, lead.chain_of_thought, json.dumps(lead.flags),
-                lead.ideal_contractor, lead.contact_priority, lead.scoring_method,
-                lead.scored_at.isoformat()
-            ))
+            # Get the PostgreSQL permit_id FK
+            pg_permit_id = getattr(lead.permit, '_pg_id', None)
+            if not pg_permit_id:
+                logger.warning(f"No PostgreSQL ID for {lead.permit.permit_id}")
+                counts['skipped'] += 1
+                continue
+
+            is_commercial = lead.trade_group == 'commercial'
+
+            # Check if property exists in leads_property (for FK constraint)
+            cad_property_id = None
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT property_address FROM leads_property WHERE property_address = %s",
+                    (lead.permit.property_address,)
+                )
+                if cur.fetchone():
+                    cad_property_id = lead.permit.property_address
+
+            with conn.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO clients_scoredlead (
+                        permit_id, category, trade_group, is_commercial, score, tier,
+                        reasoning, chain_of_thought, flags, ideal_contractor,
+                        contact_priority, scoring_method, scored_at, status, sold_to,
+                        cad_property_id
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (permit_id) DO UPDATE SET
+                        score = EXCLUDED.score,
+                        tier = EXCLUDED.tier,
+                        reasoning = EXCLUDED.reasoning,
+                        scored_at = EXCLUDED.scored_at
+                """, (
+                    pg_permit_id,
+                    (lead.category or 'other')[:50],
+                    (lead.trade_group or 'other')[:50],
+                    is_commercial,
+                    lead.score,
+                    (lead.tier or 'C')[:5],
+                    lead.reasoning or '',
+                    lead.chain_of_thought or '',
+                    json.dumps(lead.flags),
+                    (lead.ideal_contractor or '')[:200],
+                    (lead.contact_priority or 'email')[:20],
+                    (lead.scoring_method or 'ai')[:20],
+                    lead.scored_at,
+                    'available',
+                    '',
+                    cad_property_id
+                ))
+            conn.commit()  # Commit each save individually
             counts['saved'] += 1
-        except sqlite3.Error as e:
+        except psycopg2.Error as e:
+            conn.rollback()  # Rollback failed transaction
             logger.warning(f"Failed to save {lead.permit.permit_id}: {e}")
             counts['skipped'] += 1
 
-    conn.commit()
     return counts
 
 
@@ -622,7 +795,8 @@ def export_leads(leads: List[ScoredLead], output_dir: str = "exports") -> Dict[s
 
     counts = {}
     csv_fields = [
-        "permit_id", "city", "property_address", "owner_name",
+        "permit_id", "city", "normalized_address", "unit", "zip_code",
+        "property_address", "owner_name",
         "project_description", "market_value", "days_old", "is_absentee",
         "score", "tier", "category", "reasoning", "ideal_contractor", "contact_priority"
     ]
@@ -642,6 +816,9 @@ def export_leads(leads: List[ScoredLead], output_dir: str = "exports") -> Dict[s
                             writer.writerow({
                                 "permit_id": lead.permit.permit_id,
                                 "city": lead.permit.city,
+                                "normalized_address": lead.permit.normalized_address,
+                                "unit": lead.permit.unit,
+                                "zip_code": lead.permit.zip_code,
                                 "property_address": lead.permit.property_address,
                                 "owner_name": lead.permit.owner_name,
                                 "project_description": lead.permit.project_description,
@@ -715,7 +892,6 @@ async def score_leads_async(permits: List[PermitData], max_concurrent: int = 5) 
 
 def main():
     parser = argparse.ArgumentParser(description='Score leads using AI')
-    parser.add_argument('--db', default=DEFAULT_DB_PATH, help='Path to SQLite database')
     parser.add_argument('--limit', type=int, help='Maximum permits to process')
     parser.add_argument('--city', help='Filter to specific city')
     parser.add_argument('--category', help='Filter to category (pool, hvac, roof, etc.)')
@@ -732,9 +908,12 @@ def main():
         print("Set it with: export DEEPSEEK_API_KEY='your-key-here'")
         return 1
 
-    # Connect to database
-    conn = sqlite3.connect(args.db)
-    setup_scored_leads_table(conn)
+    # Connect to PostgreSQL
+    try:
+        conn = get_db_connection()
+    except ValueError as e:
+        print(f"ERROR: {e}")
+        return 1
 
     # Load permits
     options = {
@@ -749,7 +928,7 @@ def main():
         permits = [p for p in permits if categorize_permit(p) == args.category]
 
     print(f"\n=== LEAD SCORING ===")
-    print(f"Database: {args.db}")
+    print(f"Database: PostgreSQL (from DATABASE_URL)")
     print(f"Permits found: {len(permits)}")
 
     if not permits:

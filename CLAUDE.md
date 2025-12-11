@@ -29,16 +29,20 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 ## Architecture
 
 ```
-scrapers/*.py      → {city}_raw.json     (Scraping)
-scripts/load_permits.py   → data/permits.db      (Loading)
-scripts/enrich_cad.py     → {city}_enriched.json (Enrichment)
-scripts/score_leads.py    → {city}_leads.csv     (Scoring/Export)
+scrapers/*.py             → data/raw/{city}_raw.json  (Scraping)
+scripts/load_permits.py   → PostgreSQL (contractors_dev)  (Loading)
+scripts/enrich_cad.py     → PostgreSQL                (Enrichment)
+scripts/score_leads.py    → {city}_leads.csv          (Scoring/Export)
 ```
 
+**Database:** PostgreSQL `contractors_dev` (shared with contractor-auditor)
+- Tables: `leads_permit`, `leads_property`, `leads_lead`, `leads_scraperrun`
+- Connection: `DATABASE_URL` in `.env`
+
 ## Isolation
-- Completely separate from contractor-auditor
-- No shared database
-- No shared services
+- Separate codebase from contractor-auditor
+- **Shared database** (`contractors_dev`) for lead/permit data
+- No code imports between projects
 
 ## DO NOT
 - Import anything from contractor-auditor

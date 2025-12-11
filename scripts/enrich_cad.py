@@ -19,12 +19,14 @@ Usage:
 import argparse
 import json
 import logging
+import os
 import re
-import sqlite3
 import time
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple, Generator
+
+import psycopg2
 
 import requests
 
@@ -32,7 +34,7 @@ import requests
 # CONFIGURATION
 # =============================================================================
 
-DEFAULT_DB_PATH = "data/permits.db"
+# Database connection via DATABASE_URL environment variable
 
 logging.basicConfig(
     level=logging.INFO,
@@ -319,41 +321,12 @@ CITY_TO_COUNTY = {
 # DATABASE SETUP
 # =============================================================================
 
-def setup_database(conn: sqlite3.Connection):
-    """Create the properties table if it doesn't exist."""
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS properties (
-            property_address TEXT PRIMARY KEY,
-            property_address_normalized TEXT,
-            cad_account_id TEXT,
-            county TEXT,
-            owner_name TEXT,
-            mailing_address TEXT,
-            mailing_address_normalized TEXT,
-            market_value REAL,
-            land_value REAL,
-            improvement_value REAL,
-            year_built INTEGER,
-            square_feet INTEGER,
-            lot_size REAL,
-            property_type TEXT,
-            neighborhood_code TEXT,
-            neighborhood_median REAL,
-            is_absentee INTEGER,
-            homestead_exempt INTEGER,
-            enrichment_status TEXT DEFAULT 'pending',
-            enriched_at TEXT,
-            raw_data TEXT
-        )
-    """)
-    conn.commit()
-
-
-def get_db_connection(db_path: str) -> sqlite3.Connection:
-    """Get database connection with row factory."""
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    return conn
+def get_db_connection():
+    """Get PostgreSQL connection from DATABASE_URL."""
+    url = os.environ.get('DATABASE_URL')
+    if not url:
+        raise ValueError("DATABASE_URL environment variable not set")
+    return psycopg2.connect(url)
 
 
 # =============================================================================
@@ -763,53 +736,42 @@ Examples:
     python3 scripts/enrich_cad.py --retry-failed   # Retry previously failed
         """
     )
-    parser.add_argument('--db', default=DEFAULT_DB_PATH, help='Path to SQLite database')
     parser.add_argument('--limit', type=int, default=None, help='Limit number of permits to process')
     parser.add_argument('--force', action='store_true', help='Re-enrich even if already enriched')
     parser.add_argument('--retry-failed', action='store_true', help='Retry previously failed enrichments')
     parser.add_argument('--delay', type=float, default=1.0, help='Delay between API requests (default: 1.0s)')
     args = parser.parse_args()
 
-    # Ensure database exists
-    db_path = Path(args.db)
-    if not db_path.parent.exists():
-        db_path.parent.mkdir(parents=True, exist_ok=True)
-
-    conn = get_db_connection(str(db_path))
-    setup_database(conn)
+    # Connect to PostgreSQL
+    try:
+        conn = get_db_connection()
+    except ValueError as e:
+        print(f"ERROR: {e}")
+        return
 
     print("=== MULTI-COUNTY CAD ENRICHMENT ===")
     print("Supported counties: Tarrant, Denton, Dallas, Collin\n")
 
-    # Get addresses to enrich
-    # First check if permits table exists
-    cursor = conn.execute(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='permits'"
-    )
-    if not cursor.fetchone():
-        print("ERROR: No 'permits' table found. Run scrapers first to populate permits.")
-        conn.close()
-        return
-
     # Build query based on options
     if args.force:
-        sql = "SELECT DISTINCT property_address FROM permits WHERE property_address IS NOT NULL"
+        sql = "SELECT DISTINCT property_address FROM leads_permit WHERE property_address IS NOT NULL"
     elif args.retry_failed:
         sql = """
-            SELECT property_address FROM properties
+            SELECT property_address FROM leads_property
             WHERE enrichment_status = 'failed'
         """
     else:
         sql = """
             SELECT DISTINCT p.property_address
-            FROM permits p
-            LEFT JOIN properties prop ON p.property_address = prop.property_address
+            FROM leads_permit p
+            LEFT JOIN leads_property prop ON p.property_address = prop.property_address
             WHERE p.property_address IS NOT NULL
               AND (prop.property_address IS NULL OR prop.enrichment_status != 'success')
         """
 
-    cursor = conn.execute(sql)
-    addresses = [row[0] for row in cursor.fetchall() if row[0]]
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        addresses = [row[0] for row in cur.fetchall() if row[0]]
 
     if args.limit:
         addresses = addresses[:args.limit]
@@ -858,10 +820,14 @@ Examples:
                     print(f"     Tried variants: {variants}")
 
                 # Save failure
-                conn.execute("""
-                    INSERT OR REPLACE INTO properties (property_address, enrichment_status, enriched_at)
-                    VALUES (?, 'failed', ?)
-                """, (address, datetime.now().isoformat()))
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        INSERT INTO leads_property (property_address, homestead_exempt, enrichment_status, enriched_at)
+                        VALUES (%s, false, 'failed', %s)
+                        ON CONFLICT (property_address) DO UPDATE SET
+                            enrichment_status = 'failed',
+                            enriched_at = EXCLUDED.enriched_at
+                    """, (address, datetime.now()))
                 conn.commit()
                 fail_count += 1
                 time.sleep(args.delay)
@@ -896,21 +862,36 @@ Examples:
                 absentee = None
 
             # Save to database
-            conn.execute("""
-                INSERT OR REPLACE INTO properties (
-                    property_address, cad_account_id, county, owner_name,
-                    mailing_address, market_value, land_value, improvement_value,
-                    year_built, square_feet, lot_size, is_absentee,
-                    enrichment_status, enriched_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'success', ?)
-            """, (
-                address, account_num, county_name.lower(), owner_name,
-                mailing_address if mailing_address else None,
-                market_value, land_value, improvement_value,
-                year_built, square_feet, lot_size,
-                1 if absentee else (0 if absentee is False else None),
-                datetime.now().isoformat()
-            ))
+            with conn.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO leads_property (
+                        property_address, cad_account_id, county, owner_name,
+                        mailing_address, market_value, land_value, improvement_value,
+                        year_built, square_feet, lot_size, is_absentee, homestead_exempt,
+                        enrichment_status, enriched_at
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, false, 'success', %s)
+                    ON CONFLICT (property_address) DO UPDATE SET
+                        cad_account_id = EXCLUDED.cad_account_id,
+                        county = EXCLUDED.county,
+                        owner_name = EXCLUDED.owner_name,
+                        mailing_address = EXCLUDED.mailing_address,
+                        market_value = EXCLUDED.market_value,
+                        land_value = EXCLUDED.land_value,
+                        improvement_value = EXCLUDED.improvement_value,
+                        year_built = EXCLUDED.year_built,
+                        square_feet = EXCLUDED.square_feet,
+                        lot_size = EXCLUDED.lot_size,
+                        is_absentee = EXCLUDED.is_absentee,
+                        enrichment_status = 'success',
+                        enriched_at = EXCLUDED.enriched_at
+                """, (
+                    address, account_num, county_name.lower(), owner_name,
+                    mailing_address if mailing_address else None,
+                    market_value, land_value, improvement_value,
+                    year_built, square_feet, lot_size,
+                    absentee,
+                    datetime.now()
+                ))
             conn.commit()
 
             # Track county stats
@@ -925,10 +906,14 @@ Examples:
 
         except Exception as e:
             print(f"  -> Error: {e}")
-            conn.execute("""
-                INSERT OR REPLACE INTO properties (property_address, enrichment_status, enriched_at)
-                VALUES (?, 'failed', ?)
-            """, (address, datetime.now().isoformat()))
+            with conn.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO leads_property (property_address, homestead_exempt, enrichment_status, enriched_at)
+                    VALUES (%s, false, 'failed', %s)
+                    ON CONFLICT (property_address) DO UPDATE SET
+                        enrichment_status = 'failed',
+                        enriched_at = EXCLUDED.enriched_at
+                """, (address, datetime.now()))
             conn.commit()
             fail_count += 1
 
