@@ -1,5 +1,5 @@
 # Permit Scraper Status Summary
-**Last Updated**: December 9, 2025
+**Last Updated**: December 11, 2025
 **Archive**: See `_archive/` for historical session logs.
 
 ## Working Scrapers
@@ -12,6 +12,8 @@
 | **Arlington** | `dfw_big4_socrata.py` | `python3 scrapers/dfw_big4_socrata.py` | API-based, bulk CSV |
 | **Grand Prairie** | `accela_fast.py` | `python3 scrapers/accela_fast.py grand_prairie 1000` | ⚡ Fast DOM extraction |
 | **Plano** | `etrakit.py` | `python3 scrapers/etrakit.py plano 1000` | Working (Public Login) |
+| **Flower Mound** | `etrakit_fast.py` | `python3 scrapers/etrakit_fast.py flower_mound 1000` | ⚡ Fast DOM extraction (eTRAKiT) |
+| **Carrollton** | `cityview.py` | `python3 scrapers/cityview.py carrollton 500` | CityView portal (limits to ~20 results per search) |
 
 ## Data Inventory (Verified 12/09/25)
 
@@ -41,15 +43,15 @@
 | 9 | **Garland** | 240K | None | — | ❌ No unified portal |
 | 10 | **Denton** | 150K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
 | 11 | **Lewisville** | 115K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
-| 12 | **Carrollton** | 140K | CityView | — | 🔍 New platform (future) |
+| 12 | **Carrollton** | 140K | CityView | `cityview.py` | ✅ Working |
 | 13 | **Richardson** | 120K | Custom (cor.net) | — | ❌ Not Accela (404) |
 | 14 | **Allen** | 110K | EnerGov CSS | `citizen_self_service.py` | ❌ Angular timeouts |
-| 15 | **Flower Mound** | 80K | Unknown | — | 🔍 Not researched |
+| 15 | **Flower Mound** | 80K | eTRAKiT | `etrakit_fast.py` | ✅ Working |
 | 16 | **Cedar Hill** | 50K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
 | 17 | **Mesquite** | 150K | EnerGov CSS | `energov.py` | ❌ Angular timeouts (tested 12/09) |
 | 18 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | ❌ Angular timeouts |
-| 19 | **Rowlett** | 68K | MyGov | `mygov.py` | 🔻 TBD - URLs 404 |
-| 20 | **Grapevine** | 55K | MyGov (.exe) | — | 🔻 TBD - Requires .exe client |
+| 19 | **Rowlett** | 68K | MyGov | — | ❌ Requires contractor login |
+| 20 | **Grapevine** | 55K | MyGov (.exe) | — | ❌ Requires desktop client |
 | 21 | **Duncanville** | 40K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
 | 22 | **Keller** | 50K | EnerGov CSS | — | 🔍 Migrated from eTRAKiT |
 | 23 | **DeSoto** | 55K | Unknown | — | 🔍 Not researched |
@@ -72,17 +74,19 @@
 
 ## Platform Summary
 
-| Platform | Working | Blocked | Unknown/TBD |
-|----------|---------|---------|-------------|
+| Platform | Working | Blocked | Not Scrapeable |
+|----------|---------|---------|----------------|
 | Accela | 4 | 0 | 0 |
-| eTRAKiT | 2 | 0 | 0 |
+| eTRAKiT | 3 | 0 | 0 |
+| CityView | 1 | 0 | 0 |
 | Socrata API | 1 | 0 | 0 |
 | MGO Connect | 0 | 5 | 0 |
 | EnerGov CSS | 0 | 4 | 0 |
-| MyGov | 0 | 0 | 4 |
+| MyGov | 0 | 0 | 2 |
+| None | 0 | 0 | 1 |
 | Unknown | 0 | 1 | 9 |
 
-**Total: 7 working / 10 blocked / 13 not researched or TBD**
+**Total: 9 working / 10 blocked / 12 not scrapeable or not researched**
 
 ---
 
@@ -98,7 +102,8 @@
 | File | Type | Description |
 |------|------|-------------|
 | `scrapers/accela_fast.py` | ⚡ Production | Fast DOM extraction for Accela portals (Dallas, Fort Worth, Grand Prairie) |
-| `scrapers/etrakit_fast.py` | ⚡ Production | Fast DOM extraction for eTRAKiT (Frisco) - GOLD STANDARD |
+| `scrapers/etrakit_fast.py` | ⚡ Production | Fast DOM extraction for eTRAKiT (Frisco, Flower Mound) - GOLD STANDARD |
+| `scrapers/cityview.py` | Production | CityView portal scraper (Carrollton) |
 | `scrapers/dfw_big4_socrata.py` | ⚡ Production | API-based bulk extraction (Arlington) |
 | `scrapers/etrakit.py` | Production | eTRAKiT with login support (Plano) |
 | `scrapers/accela.py` | Legacy | LLM-based Accela scraper (slow, expensive) - DEPRECATED |
@@ -112,6 +117,6 @@
 ## Next Steps
 
 1. ~~**Optimize Fort Worth**~~ ✅ DONE - Migrated to `accela_fast.py`
-2. **Research unknown cities** - Garland, Carrollton, Flower Mound (high pop, unknown platform)
-3. **MGO Decision** - Irving/Lewisville/Denton blocked by anti-automation (may need proxy/residential IP)
-4. 🔻 **Grapevine/Rowlett** - TBD, low priority (Grapevine requires .exe desktop client)
+2. ~~**Research unknown cities**~~ ✅ DONE - Flower Mound (eTRAKiT), Carrollton (CityView), Garland (no portal)
+3. **MGO Decision** - Irving/Lewisville/Denton blocked by anti-automation (consider playwright-stealth + proxies)
+4. ~~**Grapevine/Rowlett**~~ ❌ CLOSED - MyGov requires login/desktop client, not scrapeable
