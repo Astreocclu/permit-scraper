@@ -1,176 +1,208 @@
 #!/usr/bin/env python3
 """
-WESTLAKE MYGOV PORTAL INVESTIGATION
-Purpose: Determine if Westlake's MyGov portal is scrapeable.
-
-Known facts:
-- URL: https://public.mygov.us/westlake_tx
-- Same platform as Rowlett/Grapevine (marked "not scrapeable")
-- High-value leads per the user
-
-This script will:
-1. Load the portal
-2. Check for login requirements
-3. Try to find permit search
-4. Document what we find
+Simplified Westlake scraper based on working test.
 """
 
 import asyncio
+import json
+import re
 from datetime import datetime
 from pathlib import Path
 from playwright.async_api import async_playwright
 
-async def investigate():
-    print('=' * 60)
-    print('WESTLAKE MYGOV INVESTIGATION')
-    print('=' * 60)
-    print(f'Time: {datetime.now().isoformat()}\n')
 
-    findings = {
-        'url': 'https://public.mygov.us/westlake_tx',
-        'timestamp': datetime.now().isoformat(),
-        'accessible': False,
-        'requires_login': None,
-        'has_permit_search': None,
-        'blockers': [],
-        'notes': []
-    }
+async def scrape_westlake(target_count=100):
+    """Scrape Westlake permits."""
+    print(f"Westlake Permit Scraper - Target: {target_count} permits\n")
+
+    all_permits = []
+    addresses_tested = []
+
+    # Generate address list
+    test_addresses = []
+
+    # Known streets in Westlake
+    streets = [
+        'Solana Blvd',
+        'Ottinger Rd',
+        'Dove Rd',
+        'Westlake Pkwy',
+        'Trophy Club Dr',
+        'Village Cir',
+        'Pearson Ln',
+        'Carillon Pkwy',
+        'State Highway 114',
+        'Byron Nelson Blvd',
+        'Continental Blvd',
+        'Circle Dr',
+        'Roanoke Rd',
+        'Davis Blvd',
+        'Park Dr',
+    ]
+
+    # Generate addresses (every 100 from 1000-3500)
+    for street in streets:
+        for num in range(1000, 3600, 100):
+            test_addresses.append(f'{num} {street}')
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        context = await browser.new_context(
-            viewport={'width': 1280, 'height': 900},
-            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        )
-        page = await context.new_page()
-
-        Path('debug_html').mkdir(exist_ok=True)
+        page = await browser.new_page()
 
         try:
-            # Step 1: Load the portal
-            print('[1] Loading Westlake MyGov portal...')
-            response = await page.goto(findings['url'], timeout=30000)
+            for idx, address in enumerate(test_addresses):
+                if len(all_permits) >= target_count:
+                    print(f"\nReached target of {target_count} permits!")
+                    break
 
-            findings['status_code'] = response.status if response else None
-            findings['final_url'] = page.url
-            print(f'    Status: {findings["status_code"]}')
-            print(f'    Final URL: {findings["final_url"]}')
+                print(f"[{idx+1}/{len(test_addresses)}] Testing: {address}...", end='', flush=True)
 
-            await asyncio.sleep(3)
-            await page.screenshot(path='debug_html/westlake_mygov_initial.png')
+                # Load lookup page
+                await page.goto('https://public.mygov.us/westlake_tx/lookup', timeout=20000)
+                await asyncio.sleep(1)
 
-            # Step 2: Check for login wall
-            print('\n[2] Checking for login requirements...')
-            page_text = await page.inner_text('body')
+                # Search for address
+                search_input = await page.query_selector('input[type="text"]')
+                if not search_input:
+                    print(" SKIP (no input)")
+                    continue
 
-            login_indicators = ['sign in', 'log in', 'login', 'username', 'password', 'authenticate']
-            has_login = any(ind in page_text.lower() for ind in login_indicators)
-            findings['requires_login'] = has_login
-            print(f'    Login wall detected: {has_login}')
+                await search_input.fill(address)
+                await asyncio.sleep(0.5)
+                await search_input.press('Enter')
+                await asyncio.sleep(2)
 
-            if has_login:
-                findings['blockers'].append('Login required')
+                # Check for accordion items
+                accordion_items = await page.query_selector_all('a.accordion-toggle')
 
-            # Step 3: Look for permit/project links
-            print('\n[3] Searching for permit/project links...')
-            links = await page.evaluate('''() => {
-                return Array.from(document.querySelectorAll('a'))
-                    .map(a => ({href: a.href, text: a.textContent?.trim()}))
-                    .filter(l => l.text && l.text.length < 50);
-            }''')
+                if not accordion_items:
+                    print(" no results")
+                    addresses_tested.append(address)
+                    continue
 
-            permit_links = [l for l in links if any(
-                kw in (l.get('text', '') + l.get('href', '')).lower()
-                for kw in ['permit', 'project', 'search', 'public']
-            )]
+                print(f" {len(accordion_items)} entities")
 
-            findings['permit_related_links'] = permit_links[:10]
-            print(f'    Found {len(permit_links)} permit-related links')
-            for link in permit_links[:5]:
-                print(f'      - {link.get("text")}: {link.get("href", "")[:60]}')
+                # Click first accordion to see if there are permits
+                permits_found_for_address = 0
 
-            # Step 4: Try clicking "Projects" or similar
-            if permit_links:
-                print('\n[4] Attempting to navigate to projects/permits...')
-                for link in permit_links[:3]:
-                    if 'project' in link.get('text', '').lower() or 'permit' in link.get('text', '').lower():
-                        try:
-                            await page.click(f'a:has-text("{link["text"]}")', timeout=5000)
-                            await asyncio.sleep(3)
-                            await page.screenshot(path='debug_html/westlake_mygov_projects.png')
+                for item_idx, accordion in enumerate(accordion_items[:10]):  # Check first 10 entities
+                    try:
+                        await accordion.click()
+                        await asyncio.sleep(0.8)
 
-                            # Check if we got to a search or list
-                            new_text = await page.inner_text('body')
-                            if 'search' in new_text.lower() or 'results' in new_text.lower():
-                                findings['has_permit_search'] = True
-                                findings['notes'].append(f'Found search via: {link["text"]}')
-                            break
-                        except Exception as e:
-                            findings['notes'].append(f'Click failed: {link["text"]} - {e}')
+                        # Look for the parent <li> element which contains the accordion content
+                        parent_li = await accordion.evaluate_handle('node => node.closest("li")')
+                        if not parent_li:
+                            await accordion.click()  # Collapse
+                            await asyncio.sleep(0.3)
+                            continue
 
-            # Step 5: Check for heavy JS/Canvas issues
-            print('\n[5] Checking for technical blockers...')
-            tech_check = await page.evaluate('''() => {
-                return {
-                    hasCanvas: document.querySelectorAll('canvas').length > 0,
-                    hasIframe: document.querySelectorAll('iframe').length > 0,
-                    hasCaptcha: document.body.innerHTML.toLowerCase().includes('captcha'),
-                    angularApp: typeof window.angular !== 'undefined',
-                    reactApp: typeof window.React !== 'undefined' || document.querySelector('[data-reactroot]') !== null,
-                };
-            }''')
+                        # Get text within this specific list item
+                        li_text = await parent_li.inner_text() if parent_li else ''
+                        permit_match = re.search(r'Permits?\s*\((\d+)\)', li_text, re.IGNORECASE)
 
-            findings['technical'] = tech_check
-            print(f'    Canvas rendering: {tech_check["hasCanvas"]}')
-            print(f'    Iframe detected: {tech_check["hasIframe"]}')
-            print(f'    CAPTCHA detected: {tech_check["hasCaptcha"]}')
 
-            if tech_check['hasCanvas']:
-                findings['blockers'].append('Canvas rendering (may be difficult to scrape)')
-            if tech_check['hasCaptcha']:
-                findings['blockers'].append('CAPTCHA detected')
+                        if permit_match and int(permit_match.group(1)) > 0:
+                            # Click permits toggle
+                            permit_toggle = await page.query_selector('a.lookup-toggle-button')
+                            if permit_toggle:
+                                await permit_toggle.click()
+                                await asyncio.sleep(0.5)
 
-            findings['accessible'] = len(findings['blockers']) == 0
+                                # Extract permits
+                                permit_divs = await page.query_selector_all('.lb-right')
+
+                                for pdiv in permit_divs:
+                                    title_elem = await pdiv.query_selector('h3.lookup-project-title')
+                                    if not title_elem:
+                                        continue
+
+                                    title_text = await title_elem.inner_text()
+                                    entity_name = await accordion.inner_text()
+
+                                    # Parse project ID
+                                    project_id = ''
+                                    if 'Project ' in title_text:
+                                        pid_match = re.search(r'Project\s+([\d-]+)', title_text)
+                                        if pid_match:
+                                            project_id = pid_match.group(1)
+
+                                    # Get title (before the bracket)
+                                    title = title_text.split('[')[0].strip()
+
+                                    # Get status
+                                    status_elem = await pdiv.query_selector('strong.step-status')
+                                    status = await status_elem.inner_text() if status_elem else ''
+
+                                    # Get description
+                                    desc_elem = await pdiv.query_selector('.lookup-project-description p')
+                                    description = await desc_elem.inner_text() if desc_elem else ''
+
+                                    # Get date
+                                    date_elem = await pdiv.query_selector('em span')
+                                    date_info = await date_elem.inner_text() if date_elem else ''
+
+                                    all_permits.append({
+                                        'permit_id': project_id,
+                                        'title': title,
+                                        'address': address,
+                                        'entity': entity_name.strip(),
+                                        'status': status.strip(),
+                                        'description': description.strip(),
+                                        'date': date_info.strip(),
+                                        'city': 'Westlake',
+                                        'state': 'TX',
+                                        'scraped_at': datetime.now().isoformat()
+                                    })
+
+                                    permits_found_for_address += 1
+
+                        # Collapse before next
+                        await accordion.click()
+                        await asyncio.sleep(0.3)
+
+                    except Exception as e:
+                        # Skip this entity if error
+                        continue
+
+                if permits_found_for_address > 0:
+                    print(f"  -> Found {permits_found_for_address} permits!")
+
+                addresses_tested.append(address)
+
+                # Wait between addresses
+                await asyncio.sleep(0.5)
 
         except Exception as e:
-            print(f'\nERROR: {e}')
-            findings['error'] = str(e)
-            findings['blockers'].append(f'Exception: {e}')
-            await page.screenshot(path='debug_html/westlake_mygov_error.png')
-
+            print(f"\nError: {e}")
+            import traceback
+            traceback.print_exc()
         finally:
             await browser.close()
 
-    # Summary
-    print('\n' + '=' * 60)
-    print('INVESTIGATION SUMMARY')
-    print('=' * 60)
-    print(f'Portal URL: {findings["url"]}')
-    print(f'Accessible: {findings["accessible"]}')
-    print(f'Requires Login: {findings["requires_login"]}')
-    print(f'Has Permit Search: {findings["has_permit_search"]}')
-    print(f'Blockers: {findings["blockers"]}')
-    print(f'Notes: {findings["notes"]}')
+    # Save results
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Addresses tested: {len(addresses_tested)}")
+    print(f"Total permits found: {len(all_permits)}")
 
-    # Write findings
-    import json
-    Path('westlake_investigation.json').write_text(json.dumps(findings, indent=2))
-    print(f'\nFindings saved to: westlake_investigation.json')
+    output = {
+        'city': 'Westlake',
+        'state': 'TX',
+        'scrape_date': datetime.now().isoformat(),
+        'permit_count': len(all_permits),
+        'addresses_tested': addresses_tested,
+        'permits': all_permits
+    }
 
-    # Verdict
-    print('\n' + '-' * 60)
-    if findings['accessible'] and findings['has_permit_search']:
-        print('VERDICT: PROCEED - Portal appears scrapeable')
-        print('NEXT: Build proper scraper based on findings')
-    elif findings['requires_login']:
-        print('VERDICT: BLOCKED - Login required')
-        print('NEXT: Check if public access is available, or skip this city')
-    else:
-        print('VERDICT: INVESTIGATE FURTHER - See debug screenshots')
-        print('NEXT: Review westlake_mygov_initial.png for manual analysis')
+    Path('westlake_raw.json').write_text(json.dumps(output, indent=2))
+    print(f"\nSaved to: {Path('westlake_raw.json').absolute()}")
 
-    return findings
+    return output
 
 
 if __name__ == '__main__':
-    asyncio.run(investigate())
+    import sys
+    target = int(sys.argv[1]) if len(sys.argv) > 1 else 100
+    asyncio.run(scrape_westlake(target))
