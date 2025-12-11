@@ -88,8 +88,53 @@ async def extract_permits_from_page(page) -> list:
     }''')
 
 
+async def do_search(page, search_term: str) -> list:
+    """Execute a single search and extract permits."""
+    permits = []
+
+    try:
+        # Clear and fill search box (id="searchValue")
+        search_box = await page.query_selector('#searchValue, input[type="text"]')
+        if not search_box:
+            return []
+
+        # Clear existing text
+        await search_box.click()
+        await page.keyboard.press('Control+a')
+        await page.keyboard.press('Backspace')
+        await asyncio.sleep(0.3)
+
+        # Type search term
+        await search_box.type(search_term, delay=50)
+        await asyncio.sleep(2)
+
+        # Click Go button (it's an input with id="bsearch")
+        go_button = await page.query_selector('#bsearch, input[value="Go!"]')
+        if go_button:
+            await go_button.click()
+        else:
+            await search_box.press('Enter')
+
+        # Wait for loading
+        try:
+            await page.wait_for_selector('text="Please Wait"', timeout=3000)
+            await page.wait_for_selector('text="Please Wait"', state='hidden', timeout=30000)
+        except:
+            pass
+
+        await asyncio.sleep(2)
+
+        # Extract permits
+        permits = await extract_permits_from_page(page)
+
+    except Exception as e:
+        print(f'      Search error for "{search_term}": {e}')
+
+    return permits
+
+
 async def scrape(city_key: str, target_count: int = 100):
-    """Scrape permits from CityView portal."""
+    """Scrape permits from CityView portal using multiple granular searches."""
     city_key = city_key.lower()
     if city_key not in CITYVIEW_CITIES:
         print(f'ERROR: Unknown city. Available: {list(CITYVIEW_CITIES.keys())}')
@@ -103,9 +148,33 @@ async def scrape(city_key: str, target_count: int = 100):
     print(f'Target: {target_count} permits')
     print(f'Time: {datetime.now().isoformat()}\n')
 
-    permits = []
-    api_permits = []
+    all_permits = []
+    seen_ids = set()
     errors = []
+
+    # Granular search terms - streets, permit types, years, etc.
+    search_terms = [
+        # Years (permit numbers often contain year)
+        '2025', '2024', '2023', '2022', '2021', '2020',
+        # Permit type prefixes
+        'PRBD', 'PREL', 'PRPL', 'PRMH', 'PRRO', 'PRFR', 'PRSG', 'PRDE', 'PRPO', 'PRFE',
+        'BD', 'EL', 'PL', 'MH', 'RO', 'FR', 'SG', 'DE', 'PO', 'FE',
+        # Common street names in Carrollton
+        'Main', 'Keller', 'Belt Line', 'Josey', 'Hebron', 'Trinity',
+        'Frankford', 'Marsh', 'Rosemeade', 'Valley View', 'Whitlock',
+        'Broadway', 'Jackson', 'Peters Colony', 'Crosby', 'Country Club',
+        'Luna', 'Denton', 'Park', 'Old Denton', 'Kelly',
+        # Street types
+        'Dr', 'Ln', 'Ct', 'Cir', 'Way', 'Pl', 'Blvd',
+        # Numbers (address starts)
+        '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+        '20', '21', '22', '23', '24', '25',
+        '100', '200', '300', '400', '500', '600', '700', '800', '900',
+        '1000', '1100', '1200', '1300', '1400', '1500', '1600', '1700', '1800', '1900',
+        '2000', '2100', '2200', '2300', '2400', '2500', '2600', '2700', '2800', '2900',
+        '3000', '3100', '3200', '3300', '3400', '3500',
+    ]
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -115,145 +184,77 @@ async def scrape(city_key: str, target_count: int = 100):
         )
         page = await context.new_page()
 
-        # Capture API responses
-        async def handle_response(response):
-            url = response.url
-            if response.status == 200 and 'permit' in url.lower():
-                try:
-                    content_type = response.headers.get('content-type', '')
-                    if 'json' in content_type:
-                        data = await response.json()
-                        if isinstance(data, list):
-                            api_permits.extend(data)
-                            print(f'    [API] Captured {len(data)} permits')
-                        elif isinstance(data, dict):
-                            items = data.get('data', data.get('results', data.get('permits', [])))
-                            if items:
-                                api_permits.extend(items)
-                                print(f'    [API] Captured {len(items)} permits')
-                except Exception:
-                    pass
-
-        page.on('response', handle_response)
-
         try:
-            # Step 1: Load search page
+            # Load search page
             print('[1] Loading CityView search page...')
             await page.goto(config['search_url'], wait_until='networkidle', timeout=60000)
             await asyncio.sleep(3)
-
-            Path('debug_html').mkdir(exist_ok=True)
-            await page.screenshot(path=f'debug_html/cityview_{city_key}_initial.png', full_page=True)
             print(f'    URL: {page.url}')
 
-            # Step 2: Try to search - use address search with autocomplete
-            print('\n[2] Attempting search...')
+            Path('debug_html').mkdir(exist_ok=True)
 
-            # Try typing a search term that will return many results
-            try:
-                # Fill in search box with a year to match permit numbers
-                search_box = await page.query_selector('input[type="text"]')
-                if search_box:
-                    # Try typing "2025" to match recent permit numbers
-                    await search_box.type('2025', delay=100)
-                    print('    Typed "2025" to search for recent permits')
-                    await asyncio.sleep(3)  # Wait for autocomplete
+            # Execute multiple searches
+            print(f'\n[2] Running {len(search_terms)} granular searches...')
 
-                    # Check if autocomplete list appeared
-                    autocomplete_check = await page.evaluate('''() => {
-                        const lists = document.querySelectorAll('ul.ui-autocomplete, .autocomplete-results, [role="listbox"]');
-                        for (const list of lists) {
-                            if (list.children.length > 0) {
-                                const firstItem = list.children[0];
-                                firstItem.click();
-                                return { success: true, clicked: firstItem.textContent };
-                            }
-                        }
-                        return { success: false };
-                    }''')
-                    print(f'    Autocomplete result: {autocomplete_check}')
-
-                    if autocomplete_check.get('success'):
-                        await asyncio.sleep(2)
-                    else:
-                        # No autocomplete, try clicking Go
-                        go_button = await page.query_selector('button:has-text("Go!"), input[value*="Go"]')
-                        if go_button:
-                            await go_button.click()
-                            print('    Clicked Go! button')
-                        else:
-                            await search_box.press('Enter')
-                            print('    Pressed Enter')
-
-                    # Wait for "Please Wait" dialog to appear and disappear
-                    print('    Waiting for search to complete...')
-                    try:
-                        # Wait for loading indicator to disappear (max 60 seconds)
-                        await page.wait_for_selector('text="Please Wait"', timeout=5000)
-                        print('    Loading dialog appeared')
-                        await page.wait_for_selector('text="Please Wait"', state='hidden', timeout=60000)
-                        print('    Loading dialog disappeared')
-                    except:
-                        print('    No loading dialog or already complete')
-
-                    await asyncio.sleep(3)
-                else:
-                    print('    ERROR: Could not find search input')
-            except Exception as e:
-                print(f'    Search error: {e}')
-
-            await page.screenshot(path=f'debug_html/cityview_{city_key}_after_search.png', full_page=True)
-
-            # Step 3: Extract results from DOM
-            print('\n[3] Extracting permits from page...')
-
-            # Extract from DOM (primary method for CityView)
-            dom_permits = await extract_permits_from_page(page)
-            print(f'    DOM extraction: {len(dom_permits)} permits')
-            permits.extend(dom_permits[:target_count])
-
-            # Step 4: Try pagination if needed
-            print(f'\n[4] Checking pagination (have {len(permits)} permits)...')
-            page_num = 1
-            max_pages = 20
-
-            while len(permits) < target_count and page_num < max_pages:
-                has_next = await page.evaluate('''() => {
-                    const nextBtns = document.querySelectorAll(
-                        'a.next, .pagination .next, [rel="next"], ' +
-                        'button[aria-label*="next"], a[aria-label*="next"], ' +
-                        '.page-link:not(.disabled)'
-                    );
-                    for (const btn of nextBtns) {
-                        const text = (btn.textContent || '').toLowerCase();
-                        if ((text.includes('next') || text === '>') && !btn.disabled) {
-                            btn.click();
-                            return true;
-                        }
-                    }
-                    return false;
-                }''')
-
-                if not has_next:
-                    print('    No more pages')
+            for i, term in enumerate(search_terms):
+                if len(all_permits) >= target_count:
+                    print(f'\n    Reached target of {target_count} permits')
                     break
 
-                page_num += 1
-                await asyncio.sleep(3)
+                permits = await do_search(page, term)
 
-                more_permits = await extract_permits_from_page(page)
-                new_count = len([p for p in more_permits if p.get('permit_id') not in [x.get('permit_id') for x in permits]])
-                permits.extend([p for p in more_permits if p.get('permit_id') not in [x.get('permit_id') for x in permits]])
-                print(f'    Page {page_num}: +{new_count} permits ({len(permits)} total)')
+                # Add only new permits
+                new_count = 0
+                for p in permits:
+                    pid = p.get('permit_id', '')
+                    if pid and pid not in seen_ids:
+                        seen_ids.add(pid)
+                        all_permits.append(p)
+                        new_count += 1
 
-            print(f'\n    Total permits: {len(permits)}')
+                if new_count > 0:
+                    print(f'    [{i+1}/{len(search_terms)}] "{term}": +{new_count} new ({len(all_permits)} total)')
+
+                # Save periodically (every 50 permits)
+                if len(all_permits) % 50 < 20 and len(all_permits) > 0:
+                    temp_output = {
+                        'source': city_key,
+                        'portal_type': 'CityView',
+                        'scraped_at': datetime.now().isoformat(),
+                        'target_count': target_count,
+                        'actual_count': len(all_permits),
+                        'errors': errors,
+                        'permits': all_permits
+                    }
+                    Path(f'{city_key}_raw.json').write_text(json.dumps(temp_output, indent=2))
+
+                # Brief pause between searches
+                await asyncio.sleep(0.5)
+
+            print(f'\n    Total unique permits: {len(all_permits)}')
 
         except Exception as e:
             print(f'\nERROR: {e}')
             import traceback
             traceback.print_exc()
             errors.append({'step': 'main', 'error': str(e)})
-            await page.screenshot(path=f'debug_html/cityview_{city_key}_error.png', full_page=True)
+            try:
+                await page.screenshot(path=f'debug_html/cityview_{city_key}_error.png', full_page=True)
+            except:
+                pass
+            # Save whatever we have before crash
+            if all_permits:
+                crash_output = {
+                    'source': city_key,
+                    'portal_type': 'CityView',
+                    'scraped_at': datetime.now().isoformat(),
+                    'target_count': target_count,
+                    'actual_count': len(all_permits),
+                    'errors': errors,
+                    'permits': all_permits
+                }
+                Path(f'{city_key}_raw.json').write_text(json.dumps(crash_output, indent=2))
+                print(f'    Saved {len(all_permits)} permits before crash')
 
         finally:
             await browser.close()
@@ -264,9 +265,9 @@ async def scrape(city_key: str, target_count: int = 100):
         'portal_type': 'CityView',
         'scraped_at': datetime.now().isoformat(),
         'target_count': target_count,
-        'actual_count': len(permits),
+        'actual_count': len(all_permits),
         'errors': errors,
-        'permits': permits[:target_count]
+        'permits': all_permits[:target_count]
     }
 
     output_file = f'{city_key}_raw.json'
@@ -280,9 +281,9 @@ async def scrape(city_key: str, target_count: int = 100):
     print(f'Errors: {len(errors)}')
     print(f'Output: {output_file}')
 
-    if permits:
+    if all_permits:
         print('\nSAMPLE:')
-        for p in permits[:5]:
+        for p in all_permits[:5]:
             print(f'  {p.get("permit_id", "?")} | {p.get("type", "?")} | {p.get("address", "?")[:40]}')
 
     return output

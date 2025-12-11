@@ -203,8 +203,68 @@ async def scrape(city_key: str, target_count: int = 100):
             print(f'    Module selection: {module_selected}')
             await asyncio.sleep(2)
 
-            # Step 3: Execute search
-            print('\n[3] Executing search...')
+            # Step 3: Use Advanced search to filter by recent date range
+            print('\n[3] Using Advanced search for recent permits...')
+
+            # Click Advanced button to expand date filters
+            advanced_clicked = await page.evaluate('''() => {
+                // Look for Advanced button
+                const btns = document.querySelectorAll('button, a');
+                for (const btn of btns) {
+                    if (btn.textContent?.toLowerCase().includes('advanced')) {
+                        btn.click();
+                        return {clicked: true, text: btn.textContent};
+                    }
+                }
+                return {clicked: false};
+            }''')
+            print(f'    Advanced button: {advanced_clicked}')
+            await asyncio.sleep(2)
+
+            # Fill in date range (last 60 days for more results) using Playwright
+            from datetime import timedelta
+            start_date = (datetime.now() - timedelta(days=60)).strftime('%m/%d/%Y')
+            end_date = datetime.now().strftime('%m/%d/%Y')
+
+            # Find Applied Date row and fill the From/To inputs
+            # The Applied Date row has: label "Applied Date", input (from), "To" text, input (to)
+            date_filled = await page.evaluate(f'''() => {{
+                const result = {{start: false, end: false}};
+
+                // Find the row containing "Applied Date"
+                const labels = document.querySelectorAll('label, td, th, div');
+                for (const label of labels) {{
+                    if (label.textContent?.trim() === 'Applied Date') {{
+                        // Found the Applied Date label, now find inputs in same row
+                        const row = label.closest('tr, div, .form-group');
+                        if (row) {{
+                            const inputs = row.querySelectorAll('input[type="text"], input:not([type])');
+                            if (inputs.length >= 2) {{
+                                // First input = From date, Second input = To date
+                                inputs[0].value = '{start_date}';
+                                inputs[0].dispatchEvent(new Event('input', {{bubbles: true}}));
+                                inputs[0].dispatchEvent(new Event('change', {{bubbles: true}}));
+                                result.start = '{start_date}';
+
+                                inputs[1].value = '{end_date}';
+                                inputs[1].dispatchEvent(new Event('input', {{bubbles: true}}));
+                                inputs[1].dispatchEvent(new Event('change', {{bubbles: true}}));
+                                result.end = '{end_date}';
+                                break;
+                            }}
+                        }}
+                    }}
+                }}
+                return result;
+            }}''')
+            print(f'    Date range filled: {date_filled}')
+            await asyncio.sleep(1)
+
+            # Take screenshot after filling dates
+            await page.screenshot(path=f'debug_html/{city_key}_css_dates_filled.png')
+
+            # Now execute search
+            print('    Executing search with date filter...')
 
             # Try multiple approaches to trigger search
             search_executed = await page.evaluate('''() => {
@@ -359,6 +419,117 @@ async def scrape(city_key: str, target_count: int = 100):
                     await asyncio.sleep(3)
 
             await page.screenshot(path=f'debug_html/{city_key}_css_filtered.png')
+
+            # Step 4b: Try Export button for faster data retrieval
+            print('\n[4b] Trying Export button for bulk data...')
+
+            # Look for Export button
+            export_clicked = await page.evaluate('''() => {
+                const btns = document.querySelectorAll('button, a, input[type="submit"]');
+                for (const btn of btns) {
+                    if (btn.textContent?.toLowerCase().includes('export')) {
+                        btn.click();
+                        return {clicked: true, text: btn.textContent};
+                    }
+                }
+                return {clicked: false};
+            }''')
+            print(f'    Export button: {export_clicked}')
+
+            if export_clicked.get('clicked'):
+                await asyncio.sleep(2)
+                await page.screenshot(path=f'debug_html/{city_key}_css_export.png')
+
+                # Fill in filename and click Ok
+                filename = f'{city_key}_export'
+                filled = await page.evaluate(f'''() => {{
+                    // Find filename input
+                    const inputs = document.querySelectorAll('input[type="text"]');
+                    for (const input of inputs) {{
+                        const nearby = input.closest('div, td, tr')?.textContent || '';
+                        if (nearby.toLowerCase().includes('file name')) {{
+                            input.value = '{filename}';
+                            input.dispatchEvent(new Event('input', {{bubbles: true}}));
+                            return {{filled: true, value: '{filename}'}};
+                        }}
+                    }}
+                    // Fallback - fill any visible text input in dialog
+                    const dialog = document.querySelector('[class*="modal"], [class*="dialog"], [role="dialog"]');
+                    if (dialog) {{
+                        const dialogInput = dialog.querySelector('input[type="text"]');
+                        if (dialogInput) {{
+                            dialogInput.value = '{filename}';
+                            dialogInput.dispatchEvent(new Event('input', {{bubbles: true}}));
+                            return {{filled: true, value: '{filename}', method: 'dialog'}};
+                        }}
+                    }}
+                    return {{filled: false}};
+                }}''')
+                print(f'    Filename filled: {filled}')
+
+                # Click OK button
+                await asyncio.sleep(1)
+                ok_clicked = await page.evaluate('''() => {
+                    const btns = document.querySelectorAll('button, input[type="button"], input[type="submit"]');
+                    for (const btn of btns) {
+                        if (btn.textContent?.toLowerCase().trim() === 'ok' ||
+                            btn.value?.toLowerCase().trim() === 'ok') {
+                            btn.click();
+                            return {clicked: true};
+                        }
+                    }
+                    return {clicked: false};
+                }''')
+                print(f'    OK button clicked: {ok_clicked}')
+
+                if ok_clicked.get('clicked'):
+                    await asyncio.sleep(5)  # Wait for download
+                    print(f'    Export initiated - check browser downloads for {filename}.xlsx')
+                    await page.screenshot(path=f'debug_html/{city_key}_css_after_export.png')
+
+            # Step 4c: Change sort to Applied Date Descending (newest first)
+            print('\n[4c] Changing sort to Applied Date Descending...')
+
+            sort_changed = await page.evaluate('''() => {
+                const result = {field: false, order: false};
+                const selects = document.querySelectorAll('select');
+
+                for (const select of selects) {
+                    const options = Array.from(select.options);
+
+                    // First dropdown: try to change to Applied Date
+                    for (const opt of options) {
+                        const text = opt.textContent.toLowerCase();
+                        if (text.includes('applied') || text.includes('date')) {
+                            select.value = opt.value;
+                            select.dispatchEvent(new Event('change', {bubbles: true}));
+                            result.field = opt.textContent.trim();
+                            break;
+                        }
+                    }
+
+                    // Second dropdown: change to Descending
+                    for (const opt of options) {
+                        if (opt.textContent.toLowerCase().includes('descend')) {
+                            select.value = opt.value;
+                            select.dispatchEvent(new Event('change', {bubbles: true}));
+                            result.order = opt.textContent.trim();
+
+                            // Trigger Angular digest
+                            if (window.angular) {
+                                try {
+                                    const scope = angular.element(select).scope();
+                                    if (scope && scope.$apply) scope.$apply();
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                }
+                return result;
+            }''')
+
+            print(f'    Sort change result: {sort_changed}')
+            await asyncio.sleep(5)  # Wait for results to re-sort
 
             # Step 5: Extract permits from results using direct DOM parsing (faster than LLM)
             print('\n[5] Extracting permits via DOM...')
@@ -530,8 +701,19 @@ async def scrape(city_key: str, target_count: int = 100):
                     print('    Failed to click Next')
                     break
 
-                # Wait for Angular to update
-                await asyncio.sleep(4)
+                # Wait for URL to change (indicates page navigation)
+                old_url = page.url
+                try:
+                    await page.wait_for_function(
+                        f'() => window.location.href !== "{old_url}"',
+                        timeout=10000
+                    )
+                    print(f'    URL changed to page {page_num + 1}')
+                except:
+                    print(f'    WARN: URL did not change, waiting anyway...')
+
+                # Additional wait for Angular to render new content
+                await asyncio.sleep(2)
                 page_num += 1
 
             print(f'\n    Total permits extracted: {len(permits)}')

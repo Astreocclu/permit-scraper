@@ -373,58 +373,50 @@ async def scrape(city_name: str, target_count: int = 1000):
             print(f'    Current URL: {page.url}')
             await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_search_page.png', full_page=True)
 
-            # Step 4: Click "New in 30d" or the permit count to load those permits
-            print('\n[4] Clicking permit stats to load data...')
+            # Step 4: Execute search with date filter and export to Excel
+            print('\n[4] Executing search with date filter and Excel export...')
 
-            # Clear the api_data before clicking
+            # Wait for page to stabilize
+            await asyncio.sleep(2)
+
+            # Fill in "Created After" date (30 days ago) to limit search
+            created_after_date = datetime.now() - timedelta(days=30)
+            created_after_str = created_after_date.strftime('%m/%d/%Y')
+            print(f'    Setting Created After date: {created_after_str}')
+
+            # Find the "Created After" date input
+            created_after_input = page.locator('input[placeholder="Created After"], input[name*="createdAfter"]').first
+            if await created_after_input.count() > 0:
+                await created_after_input.fill(created_after_str)
+                print(f'    Filled Created After: {created_after_str}')
+                await asyncio.sleep(1)
+
+            # Check the EXCEL checkbox for export
+            excel_checkbox = page.locator('input[type="checkbox"][id*="excel"], input[type="checkbox"] + label:has-text("EXCEL")').first
+            if await excel_checkbox.count() > 0:
+                print('    Checking EXCEL checkbox...')
+                await excel_checkbox.check()
+                await asyncio.sleep(0.5)
+
+            # Click the Export button (not Search)
+            export_btn = page.locator('button:has-text("Export")').first
+            if await export_btn.count() > 0:
+                print('    Clicking Export button...')
+                await export_btn.click(timeout=10000)
+                await asyncio.sleep(5)  # Wait for export to process
+            else:
+                # If no Export button, click Search
+                search_btn = page.locator('button:has-text("Search")').first
+                print('    Clicking Search button...')
+                await search_btn.click(timeout=10000)
+                await asyncio.sleep(10)
+
+            await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_after_search_click.png', full_page=True)
+            print(f'    NOTE: MGO Connect search may require manual interaction or downloads may go to browser downloads folder.')
+            print(f'    Current URL: {page.url}')
+
+            # Clear the api_data before searching
             api_data.clear()
-
-            # First, try clicking on the "New in 30d" section or the number
-            click_result = await page.evaluate('''async () => {
-                const wait = (ms) => new Promise(r => setTimeout(r, ms));
-
-                // Look for clickable stat elements
-                const allElements = document.querySelectorAll('*');
-                let clicked = null;
-
-                // First priority: Click on "New in 30d" label or its parent
-                for (const el of allElements) {
-                    const text = el.textContent?.trim();
-                    if (text === 'New in 30d' || text?.includes('New in 30d')) {
-                        // Try clicking the parent card/container
-                        const parent = el.closest('[class*="card"], [class*="stat"], [class*="widget"], div');
-                        if (parent && parent !== document.body) {
-                            parent.click();
-                            clicked = { element: 'New in 30d parent', text: parent.textContent?.substring(0, 50) };
-                            break;
-                        }
-                        el.click();
-                        clicked = { element: 'New in 30d', text };
-                        break;
-                    }
-                }
-
-                if (!clicked) {
-                    // Try clicking the number (e.g., "733")
-                    for (const el of allElements) {
-                        const text = el.textContent?.trim();
-                        if (text && /^[0-9]{2,4}$/.test(text) && el.children.length === 0) {
-                            const num = parseInt(text);
-                            if (num > 100 && num < 2000) {
-                                el.click();
-                                clicked = { element: 'permit count', text };
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                return clicked || { element: 'none', text: 'no clickable found' };
-            }''')
-            print(f'    Click result: {click_result}')
-
-            await asyncio.sleep(8)
-            await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_after_stat_click.png', full_page=True)
 
             # Check if any new API calls were made
             print(f'    API data captured after stat click: {len(api_data)} items')
@@ -441,28 +433,73 @@ async def scrape(city_name: str, target_count: int = 1000):
             }''')
             print(f'    After stat click: pagination={results_info.get("pagination")}, rows={results_info.get("rowCount")}')
 
-            # If still no data, try the Public Records Data export
+            # If still no data, try searching directly with a broad search
             if len(api_data) == 0 and results_info.get('pagination', {}).get('total', '0') == '0':
-                print('    No data from stat click, trying Public Records export...')
+                print('    No data from stat click, trying direct search...')
 
-                # Go back to search and try Advanced Reporting -> Open Records Data Export
-                advanced_link = page.locator('text=Click here for advanced reporting')
-                if await advanced_link.count() > 0:
-                    await advanced_link.click(timeout=5000)
-                    await asyncio.sleep(3)
+                # Look for search inputs on the current search page
+                search_input = page.locator('input[placeholder*="search"], input[type="search"], input[name*="search"]').first
+                if await search_input.count() > 0:
+                    print('    Found search input, searching for all permits...')
+                    # Clear any existing search and hit Enter to show all
+                    await search_input.clear()
+                    await search_input.press('Enter')
+                    await asyncio.sleep(5)
 
-                    # Click the last "View Report" button (Open Records Data Export by Address)
-                    view_btns = page.locator('button:has-text("View Report")')
-                    btn_count = await view_btns.count()
-                    print(f'    Found {btn_count} View Report buttons')
+                    # Check if this loaded data
+                    new_results = await page.evaluate('''() => {
+                        const rows = document.querySelectorAll('.p-datatable-tbody tr, table tbody tr');
+                        return rows.length;
+                    }''')
+                    print(f'    After search: {new_results} rows visible')
+                else:
+                    # Try the advanced reporting approach
+                    print('    Trying Advanced Reporting -> Open Records Data Export...')
 
-                    if btn_count > 0:
-                        # Click the first one (Permits Issued Based on Work Type)
-                        await view_btns.first.click(timeout=10000)
-                        await asyncio.sleep(5)
+                    advanced_link = page.locator('text=Click here for advanced reporting')
+                    if await advanced_link.count() > 0:
+                        await advanced_link.click(timeout=5000)
+                        await asyncio.sleep(3)
 
-                        await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_report_page.png', full_page=True)
-                        print(f'    Report page URL: {page.url}')
+                        # Look for different report options - try the LAST button (Open Records Data Export)
+                        view_btns = page.locator('button:has-text("View Report")')
+                        btn_count = await view_btns.count()
+                        print(f'    Found {btn_count} View Report buttons, trying the last one...')
+
+                        if btn_count > 0:
+                            # Click the LAST one (Open Records Data Export by Address) - more likely to have tabular data
+                            await view_btns.last.click(timeout=10000)
+                            await asyncio.sleep(5)
+
+                            await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_export_page.png', full_page=True)
+                            print(f'    Export page URL: {page.url}')
+
+                            # This is a PDF export page - fill dates and get the PDF
+                            # Calculate dates: 30 days ago to today
+                            end_date = datetime.now()
+                            start_date = end_date - timedelta(days=30)
+                            print(f'    Filling dates: {start_date.strftime("%m/%d/%Y")} to {end_date.strftime("%m/%d/%Y")}')
+
+                            # Fill date inputs
+                            date_inputs = await page.locator('.p-calendar input').count()
+                            if date_inputs >= 2:
+                                # Start date
+                                await page.locator('.p-calendar input').first.click()
+                                await asyncio.sleep(0.5)
+                                if start_date.month != end_date.month:
+                                    await page.locator('.p-datepicker-prev').first.click()
+                                    await asyncio.sleep(0.3)
+                                await page.locator(f'.p-datepicker-calendar td span:has-text("{start_date.day}")').first.click()
+                                await asyncio.sleep(0.5)
+
+                                # End date
+                                await page.locator('.p-calendar input').nth(1).click()
+                                await asyncio.sleep(0.5)
+                                await page.locator(f'.p-datepicker-calendar td span:has-text("{end_date.day}")').first.click()
+                                await asyncio.sleep(1)
+
+                                print('    NOTE: This report exports to PDF. Irving MGO Connect does not provide CSV/Excel export.')
+                                print('    Skipping PDF export - no permit data can be extracted from this portal.')
 
             # Step 5: Extract data from the results table
             print('\n[5] Extracting permit data from table...')
@@ -567,6 +604,11 @@ async def scrape(city_name: str, target_count: int = 1000):
 
             # Step 8: Process permits
             print('\n[8] Processing permits...')
+            print(f'    Total API data items to process: {len(api_data)}')
+            if len(api_data) > 0:
+                print(f'    Sample item keys: {list(api_data[0].keys()) if isinstance(api_data[0], dict) else "not a dict"}')
+                print(f'    Sample item: {api_data[0]}')
+
             raw_permits = []
             seen_ids = set()
 
