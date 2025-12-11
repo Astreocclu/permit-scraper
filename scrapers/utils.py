@@ -12,6 +12,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import os
 import random
 import re
 from collections import defaultdict
@@ -20,6 +21,7 @@ from pathlib import Path
 from typing import Any, Awaitable, Callable, Optional, TypeVar
 
 import httpx
+import pandas as pd
 from bs4 import BeautifulSoup
 from playwright.async_api import (
     Browser,
@@ -502,3 +504,134 @@ async def scrape_batch(
                 return {"item": item, "error": str(e), "success": False}
 
     return await asyncio.gather(*[scrape_one(i) for i in items])
+
+
+# ============================================================
+# EXCEL PARSING (CSS/EnerGov Portals)
+# ============================================================
+
+# Flexible column mapping - handles variations across cities
+COLUMN_MAP = {
+    # Permit ID variations
+    'permitnumber': 'permit_id',
+    'permitno': 'permit_id',
+    'permit number': 'permit_id',
+    'permit_number': 'permit_id',
+    'projectnumber': 'permit_id',
+
+    # Description variations
+    'projectname': 'description',
+    'description': 'description',
+    'work description': 'description',
+    'project description': 'description',
+
+    # Date variations
+    'applieddate': 'date',
+    'issuedate': 'date',
+    'date': 'date',
+    'applied date': 'date',
+    'issued date': 'date',
+
+    # Address variations
+    'address': 'address',
+    'siteaddress': 'address',
+    'site address': 'address',
+    'project location': 'address',
+    'projectaddress': 'address',
+
+    # Type variations
+    'permittype': 'type',
+    'permit type': 'type',
+    'type': 'type',
+    'workclass': 'type',
+
+    # Status variations
+    'status': 'status',
+    'permitstatus': 'status',
+    'permit status': 'status',
+}
+
+
+def parse_excel_permits(filepath: str, city: str) -> list[dict]:
+    """
+    Parse Excel export from CSS/EnerGov portal with flexible column mapping.
+
+    Args:
+        filepath: Path to downloaded .xlsx file
+        city: City name for logging
+
+    Returns:
+        List of permit dicts with standardized keys
+    """
+    # Check file exists and has content
+    if not os.path.exists(filepath):
+        logger.error(f"Excel file not found: {filepath}")
+        return []
+
+    file_size = os.path.getsize(filepath)
+    if file_size < 1024:  # Less than 1KB = likely empty/corrupted
+        logger.warning(f"Excel file too small ({file_size} bytes), likely empty: {filepath}")
+        return []
+
+    try:
+        df = pd.read_excel(filepath, engine='openpyxl')
+    except Exception as e:
+        logger.error(f"Failed to read Excel file: {e}")
+        return []
+
+    if df.empty:
+        logger.info(f"Excel file has no data rows: {filepath}")
+        return []
+
+    # Log original columns for debugging
+    original_cols = list(df.columns)
+    logger.info(f"[{city}] Excel columns found: {original_cols}")
+
+    # Normalize column names: lowercase, strip whitespace
+    df.columns = [str(c).lower().strip() for c in df.columns]
+
+    # Map columns to standard schema
+    mapped_cols = {}
+    unmapped_cols = []
+
+    for col in df.columns:
+        if col in COLUMN_MAP:
+            mapped_cols[col] = COLUMN_MAP[col]
+        else:
+            unmapped_cols.append(col)
+
+    if unmapped_cols:
+        logger.debug(f"[{city}] Unmapped columns (ignored): {unmapped_cols}")
+
+    # Rename mapped columns
+    df = df.rename(columns=mapped_cols)
+
+    # Keep only standard columns that exist
+    standard_cols = ['permit_id', 'address', 'type', 'status', 'date', 'description']
+    keep_cols = [c for c in standard_cols if c in df.columns]
+
+    if 'permit_id' not in keep_cols:
+        logger.error(f"[{city}] No permit ID column found! Available: {list(df.columns)}")
+        # Save debug info
+        debug_path = filepath.replace('.xlsx', '_columns_debug.txt')
+        with open(debug_path, 'w') as f:
+            f.write(f"Original columns: {original_cols}\n")
+            f.write(f"After normalization: {list(df.columns)}\n")
+        logger.info(f"Saved column debug info to {debug_path}")
+        return []
+
+    df = df[keep_cols]
+
+    # Convert to list of dicts
+    permits = df.to_dict('records')
+
+    # Clean up values
+    for permit in permits:
+        for key, val in permit.items():
+            if pd.isna(val):
+                permit[key] = None
+            elif isinstance(val, str):
+                permit[key] = val.strip()
+
+    logger.info(f"[{city}] Parsed {len(permits)} permits from Excel")
+    return permits
