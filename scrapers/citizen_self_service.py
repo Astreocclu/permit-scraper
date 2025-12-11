@@ -33,6 +33,10 @@ CSS_CITIES = {
         'name': 'Southlake',
         'base_url': 'https://energov.cityofsouthlake.com/EnerGov_Prod/SelfService',
     },
+    'colleyville': {
+        'name': 'Colleyville',
+        'base_url': 'https://selfservice.colleyville.com/energov_prod/selfservice',
+    },
     'allen': {
         'name': 'Allen',
         'base_url': 'https://energovweb.cityofallen.org/EnerGov/SelfService',
@@ -274,6 +278,16 @@ async def scrape(city_key: str, target_count: int = 100):
             # Step 4: Check for results and filter by Permit type
             print('\n[4] Checking for results and applying Permit filter...')
 
+            # Wait for results to appear in DOM before parsing
+            try:
+                await page.wait_for_selector(
+                    'table tbody tr, .search-result, .result-item, [class*="permit-row"], a[href*="permit"]',
+                    timeout=20000
+                )
+                print('    Results detected in DOM')
+            except PlaywrightTimeout:
+                print('    WARN: Timeout waiting for results selector - continuing anyway')
+
             # Look for result count or filter sidebar
             page_state = await page.evaluate('''() => {
                 const state = {
@@ -377,8 +391,8 @@ async def scrape(city_key: str, target_count: int = 100):
                     // METHOD 1: Try to find permit links directly (most reliable)
                     // The permit number is a clickable link in format "000001-2024"
                     const permitLinks = document.querySelectorAll('a');
-                    // Match permit IDs: 000001-2024 or 000001-2024-CMISC
-                    const permitIdPattern = /^\d{6}-\d{4}(-[A-Z0-9]+)?$/;
+                    // Flexible: 6+ chars, alphanumeric with dashes (handles various city formats)
+                    const permitIdPattern = /^[A-Z0-9]{2,}-[A-Z0-9-]{2,}$/i;
                     const seenIds = new Set();
 
                     for (const link of permitLinks) {
