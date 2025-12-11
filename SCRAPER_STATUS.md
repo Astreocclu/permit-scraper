@@ -137,12 +137,19 @@
 - **Command**: `python3 scrapers/citizen_self_service.py colleyville 10`
 - **Notes**: Uses same platform as Southlake. Working with same fixes.
 
-**Irving (MGO Connect)** - ⚠️ PARTIAL PROGRESS
-- **Status**: Partial - Login/navigation working, extraction blocked by I/O error
-- **Permits Scraped**: 0 (extraction fails)
-- **Fix Applied**: Fixed dropdown race condition with explicit waits and JavaScript-based selection
-- **Blocking Issue**: `playwright._impl._errors.Error: write could not complete without blocking`
-- **Notes**: Successfully navigates to permit search and selects jurisdiction. Error occurs during data extraction phase. Needs follow-up debugging of I/O handling.
+**Irving (MGO Connect)** - ⚠️ BLOCKED - PDF Only
+- **Status**: Portal only exports to PDF format. No HTML tables or API data available.
+- **Portal**: https://irving.mgoconnect.com/
+- **Auth**: Requires login (MGO_EMAIL, MGO_PASSWORD in .env)
+- **Current State**:
+  - `scrapers/irving_pdf_sampler.py` - Downloads sample PDF for analysis (created 12/11/25)
+  - `scrapers/mgo_connect.py` - Has login/navigation, PDF parsing NOT implemented
+- **Next Steps**:
+  1. Run `python scrapers/irving_pdf_sampler.py` to get sample PDF
+  2. Analyze PDF structure (text vs image, table layout)
+  3. If text-based: implement pdfplumber parser
+  4. If image-based: requires OCR (pytesseract) - more complex
+- **Sample Location**: `data/samples/irving_sample_*.pdf`
 
 **Westlake (MyGov)** - 🔍 SCRAPEABLE (Different Approach Required)
 - **Status**: Public access confirmed, requires address-based scraping
