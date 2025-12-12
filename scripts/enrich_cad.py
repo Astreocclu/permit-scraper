@@ -743,6 +743,7 @@ Examples:
     parser.add_argument('--force', action='store_true', help='Re-enrich even if already enriched')
     parser.add_argument('--retry-failed', action='store_true', help='Retry previously failed enrichments')
     parser.add_argument('--delay', type=float, default=1.0, help='Delay between API requests (default: 1.0s)')
+    parser.add_argument('--recent', action='store_true', help='Only process permits from last 90 days')
     args = parser.parse_args()
 
     # Connect to PostgreSQL
@@ -756,20 +757,26 @@ Examples:
     print("Supported counties: Tarrant, Denton, Dallas, Collin\n")
 
     # Build query based on options
+    recent_filter = ""
+    if args.recent:
+        recent_filter = "AND (p.issued_date IS NULL OR p.issued_date > NOW() - INTERVAL '90 days')"
+        print("Filtering to recent permits (last 90 days)\n")
+
     if args.force:
-        sql = "SELECT DISTINCT property_address FROM leads_permit WHERE property_address IS NOT NULL"
+        sql = f"SELECT DISTINCT property_address FROM leads_permit p WHERE property_address IS NOT NULL {recent_filter}"
     elif args.retry_failed:
         sql = """
             SELECT property_address FROM leads_property
             WHERE enrichment_status = 'failed'
         """
     else:
-        sql = """
+        sql = f"""
             SELECT DISTINCT p.property_address
             FROM leads_permit p
             LEFT JOIN leads_property prop ON p.property_address = prop.property_address
             WHERE p.property_address IS NOT NULL
               AND (prop.property_address IS NULL OR prop.enrichment_status != 'success')
+              {recent_filter}
         """
 
     with conn.cursor() as cur:

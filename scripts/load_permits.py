@@ -93,14 +93,23 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
             skipped += 1
             continue
 
-        # Handle issued_date
+        # Handle issued_date - try multiple formats
         issued_date = permit.get('date', permit.get('issued_date'))
         issued = None
         if issued_date:
-            try:
-                issued = datetime.strptime(issued_date[:10], '%Y-%m-%d').date()
-            except (ValueError, TypeError):
-                pass
+            date_formats = [
+                '%m/%d/%Y',   # 12/12/2025 (most common from scrapers)
+                '%m/%d/%y',   # 12/12/25
+                '%Y-%m-%d',   # 2025-12-12 (ISO)
+                '%Y/%m/%d',   # 2025/12/12
+                '%d-%m-%Y',   # 12-12-2025
+            ]
+            for fmt in date_formats:
+                try:
+                    issued = datetime.strptime(issued_date.strip()[:10], fmt).date()
+                    break
+                except (ValueError, TypeError):
+                    continue
 
         # Handle scraped_at
         scraped = datetime.now()
@@ -143,6 +152,7 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
                 property_address = EXCLUDED.property_address,
                 description = EXCLUDED.description,
                 status = EXCLUDED.status,
+                issued_date = EXCLUDED.issued_date,
                 estimated_value = EXCLUDED.estimated_value
         """
         with conn.cursor() as cur:

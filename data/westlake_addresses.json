@@ -1,1499 +1,206 @@
-{
-  "Cedar Elm": [
-    {
-      "address": "2213 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5910
-    },
-    {
-      "address": "2108 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5784
-    },
-    {
-      "address": "2106 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5785
-    },
-    {
-      "address": "2101 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5794
-    },
-    {
-      "address": "2103 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5795
-    },
-    {
-      "address": "2100 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5889
-    },
-    {
-      "address": "2104 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5891
-    },
-    {
-      "address": "2107 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5893
-    },
-    {
-      "address": "2110 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5896
-    },
-    {
-      "address": "2200 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5898
-    },
-    {
-      "address": "2202 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5900
-    },
-    {
-      "address": "2206 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5903
-    },
-    {
-      "address": "2207 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5904
-    },
-    {
-      "address": "2208 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5905
-    },
-    {
-      "address": "2211 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5908
-    },
-    {
-      "address": "2212 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5909
-    },
-    {
-      "address": "2210 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5700
-    },
-    {
-      "address": "2214 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5911
-    },
-    {
-      "address": "2215 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5912
-    },
-    {
-      "address": "2218 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5915
-    },
-    {
-      "address": "2222 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5918
-    },
-    {
-      "address": "2223 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5919
-    },
-    {
-      "address": "2228 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5923
-    },
-    {
-      "address": "2300 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5925
-    },
-    {
-      "address": "2308 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5931
-    },
-    {
-      "address": "2310 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5933
-    },
-    {
-      "address": "2311 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5934
-    },
-    {
-      "address": "2314 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5937
-    },
-    {
-      "address": "2315 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5938
-    },
-    {
-      "address": "2317 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5940
-    },
-    {
-      "address": "2320 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5942
-    },
-    {
-      "address": "2209 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5473
-    },
-    {
-      "address": "2322 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5438
-    },
-    {
-      "address": "2318 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5440
-    },
-    {
-      "address": "2316 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5441
-    },
-    {
-      "address": "2312 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5443
-    },
-    {
-      "address": "2306 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5446
-    },
-    {
-      "address": "2226 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5448
-    },
-    {
-      "address": "2224 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5449
-    },
-    {
-      "address": "2220 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5451
-    },
-    {
-      "address": "2216 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5453
-    },
-    {
-      "address": "2102 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5458
-    },
-    {
-      "address": "2109 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5459
-    },
-    {
-      "address": "2111 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5460
-    },
-    {
-      "address": "2201 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5469
-    },
-    {
-      "address": "2203 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5470
-    },
-    {
-      "address": "2205 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5471
-    },
-    {
-      "address": "2324 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5437
-    },
-    {
-      "address": "2112 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5497
-    },
-    {
-      "address": "2326 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5507
-    },
-    {
-      "address": "2304 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5508
-    },
-    {
-      "address": "2302 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5509
-    },
-    {
-      "address": "2217 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5514
-    },
-    {
-      "address": "2219 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5515
-    },
-    {
-      "address": "2221 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5516
-    },
-    {
-      "address": "2225 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5518
-    },
-    {
-      "address": "2305 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5519
-    },
-    {
-      "address": "2307 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5520
-    },
-    {
-      "address": "2309 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5521
-    },
-    {
-      "address": "2313 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5523
-    },
-    {
-      "address": "2229 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5609
-    },
-    {
-      "address": "2303 Cedar Elm Terr., Westlake, TX 76262",
-      "location_id": 5610
-    }
-  ],
-  "Post Oak": [
-    {
-      "address": "Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5607
-    },
-    {
-      "address": "2004 Post Oak, Westlake, TX 76262",
-      "location_id": 5995
-    },
-    {
-      "address": "1105 Post Oak, Westlake, TX 76262",
-      "location_id": 5992
-    },
-    {
-      "address": "1408 Post Oak, Westlake, TX 76262",
-      "location_id": 5993
-    },
-    {
-      "address": "1868 Post Oak, Westlake, TX 76262",
-      "location_id": 5994
-    },
-    {
-      "address": "2012 Post Oak, Westlake, TX 76262",
-      "location_id": 5996
-    },
-    {
-      "address": "2013 Post Oak, Westlake, TX 76262",
-      "location_id": 5997
-    },
-    {
-      "address": "2014 Post Oak, Westlake, TX 76262",
-      "location_id": 5998
-    },
-    {
-      "address": "2016 Post Oak, Westlake, TX 76262",
-      "location_id": 5999
-    },
-    {
-      "address": "2020 Post Oak, Westlake, TX 76262",
-      "location_id": 6000
-    },
-    {
-      "address": "2207 Post Oak, Westlake, TX 76262",
-      "location_id": 6001
-    },
-    {
-      "address": "1109 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5672
-    },
-    {
-      "address": "1115 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5671
-    },
-    {
-      "address": "1106 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5664
-    },
-    {
-      "address": "1110 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5663
-    },
-    {
-      "address": "1112 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5662
-    },
-    {
-      "address": "1850 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5780
-    },
-    {
-      "address": "1711 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5656
-    },
-    {
-      "address": "1711 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5655
-    },
-    {
-      "address": "1117 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5653
-    },
-    {
-      "address": "1119 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5652
-    },
-    {
-      "address": "2007 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5648
-    },
-    {
-      "address": "1103 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5673
-    },
-    {
-      "address": "1100 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5688
-    },
-    {
-      "address": "1873 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5697
-    },
-    {
-      "address": "1126 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5769
-    },
-    {
-      "address": "1122 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5770
-    },
-    {
-      "address": "1118 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5646
-    },
-    {
-      "address": "1121 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5782
-    },
-    {
-      "address": "1865 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5790
-    },
-    {
-      "address": "1108 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5853
-    },
-    {
-      "address": "1712 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5863
-    },
-    {
-      "address": "1867 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5865
-    },
-    {
-      "address": "1505 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 6056
-    },
-    {
-      "address": "1403 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5421
-    },
-    {
-      "address": "1331 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5494
-    },
-    {
-      "address": "1511 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5490
-    },
-    {
-      "address": "1415 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5436
-    },
-    {
-      "address": "1413 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5435
-    },
-    {
-      "address": "1411 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5434
-    },
-    {
-      "address": "1409 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5433
-    },
-    {
-      "address": "1407 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5432
-    },
-    {
-      "address": "1405 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5431
-    },
-    {
-      "address": "1330 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5495
-    },
-    {
-      "address": "1401 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5420
-    },
-    {
-      "address": "1400 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5419
-    },
-    {
-      "address": "1402 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5418
-    },
-    {
-      "address": "1404 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5417
-    },
-    {
-      "address": "1406 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5416
-    },
-    {
-      "address": "1410 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5415
-    },
-    {
-      "address": "1509 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5406
-    },
-    {
-      "address": "1114 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5647
-    },
-    {
-      "address": "1417 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5496
-    },
-    {
-      "address": "1506 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5499
-    },
-    {
-      "address": "1854 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5561
-    },
-    {
-      "address": "1871 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5566
-    },
-    {
-      "address": "1861 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5567
-    },
-    {
-      "address": "1859 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5568
-    },
-    {
-      "address": "1857 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5569
-    },
-    {
-      "address": "1714 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5577
-    },
-    {
-      "address": "1711 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5595
-    },
-    {
-      "address": "1420 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5596
-    },
-    {
-      "address": "1320 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5608
-    },
-    {
-      "address": "1716 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5611
-    },
-    {
-      "address": "1711 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5612
-    },
-    {
-      "address": "1120 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5645
-    },
-    {
-      "address": "1507 Post Oak Pl., Westlake, TX 76262",
-      "location_id": 5405
-    }
-  ],
-  "Fountain Grass": [
-    {
-      "address": "1408 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5422
-    },
-    {
-      "address": "1407 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5423
-    },
-    {
-      "address": "1405 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5424
-    },
-    {
-      "address": "1403 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5425
-    },
-    {
-      "address": "1401 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5426
-    },
-    {
-      "address": "1400 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5427
-    },
-    {
-      "address": "1402 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5428
-    },
-    {
-      "address": "1404 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5429
-    },
-    {
-      "address": "1406 Fountain Grass Ct., Westlake, TX 76262",
-      "location_id": 5430
-    }
-  ],
-  "Wills Ct": [
-    {
-      "address": "1503 Wills Ct., Westlake, TX 76262",
-      "location_id": 5407
-    },
-    {
-      "address": "1501 Wills Ct., Westlake, TX 76262",
-      "location_id": 5408
-    },
-    {
-      "address": "1505 Wills Ct., Westlake, TX 76262",
-      "location_id": 5491
-    },
-    {
-      "address": "1502 Wills Ct., Westlake, TX 76262",
-      "location_id": 5661
-    },
-    {
-      "address": "1500 Wills Ct., Westlake, TX 76262",
-      "location_id": 5717
-    }
-  ],
-  "White Wing": [
-    {
-      "address": "2000 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5586
-    },
-    {
-      "address": "2002 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5587
-    },
-    {
-      "address": "2004 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5588
-    },
-    {
-      "address": "2006 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5589
-    },
-    {
-      "address": "2007 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5590
-    },
-    {
-      "address": "2005 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5591
-    },
-    {
-      "address": "2003 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5592
-    },
-    {
-      "address": "2001 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5593
-    },
-    {
-      "address": "2008 White Wing Cove, Westlake, TX 76262",
-      "location_id": 5594
-    }
-  ],
-  "Vaquero Club": [
-    {
-      "address": "Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5493
-    },
-    {
-      "address": "Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5492
-    },
-    {
-      "address": "1798 Vaquero Club, Westlake, TX 76262",
-      "location_id": 6023
-    },
-    {
-      "address": "2202 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5467
-    },
-    {
-      "address": "2102 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5820
-    },
-    {
-      "address": "2203 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5764
-    },
-    {
-      "address": "2210 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5506
-    },
-    {
-      "address": "2206 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5505
-    },
-    {
-      "address": "2217 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5504
-    },
-    {
-      "address": "1501 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5489
-    },
-    {
-      "address": "2200 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5468
-    },
-    {
-      "address": "2204 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5466
-    },
-    {
-      "address": "2100 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5465
-    },
-    {
-      "address": "2104 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5464
-    },
-    {
-      "address": "2106 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5463
-    },
-    {
-      "address": "2201 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5414
-    },
-    {
-      "address": "2207 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5413
-    },
-    {
-      "address": "2209 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5412
-    },
-    {
-      "address": "2211 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5411
-    },
-    {
-      "address": "2213 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5410
-    },
-    {
-      "address": "2215 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5409
-    },
-    {
-      "address": "The Vaquero Club 2300 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5186
-    }
-  ],
-  "Vaquero": [
-    {
-      "address": "Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5493
-    },
-    {
-      "address": "Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5492
-    },
-    {
-      "address": "1798 Vaquero Club, Westlake, TX 76262",
-      "location_id": 6023
-    },
-    {
-      "address": "0 Vaquero-Phase 2B, Westlake, TX 76262",
-      "location_id": 6025
-    },
-    {
-      "address": "0 Vaquero-Phase 2C, Westlake, TX 76262",
-      "location_id": 6026
-    },
-    {
-      "address": "2200 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5468
-    },
-    {
-      "address": "2203 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5764
-    },
-    {
-      "address": "2102 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5820
-    },
-    {
-      "address": "2007 Vaquero Estates, Westlake, TX 76262",
-      "location_id": 6024
-    },
-    {
-      "address": "2210 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5506
-    },
-    {
-      "address": "2206 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5505
-    },
-    {
-      "address": "2217 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5504
-    },
-    {
-      "address": "1501 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5489
-    },
-    {
-      "address": "2202 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5467
-    },
-    {
-      "address": "2204 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5466
-    },
-    {
-      "address": "2100 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5465
-    },
-    {
-      "address": "2104 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5464
-    },
-    {
-      "address": "2106 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5463
-    },
-    {
-      "address": "2201 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5414
-    },
-    {
-      "address": "2207 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5413
-    },
-    {
-      "address": "2209 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5412
-    },
-    {
-      "address": "2211 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5411
-    },
-    {
-      "address": "2213 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5410
-    },
-    {
-      "address": "2215 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5409
-    },
-    {
-      "address": "Vaquero 1415 Sabine Dr., Westlake, TX 76262",
-      "location_id": 6678
-    },
-    {
-      "address": "2218 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5669
-    },
-    {
-      "address": "2200 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5606
-    },
-    {
-      "address": "2206 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5622
-    },
-    {
-      "address": "2220 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5657
-    },
-    {
-      "address": "2204 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5665
-    },
-    {
-      "address": "2201 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5824
-    },
-    {
-      "address": "2208 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5666
-    },
-    {
-      "address": "2212 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5767
-    },
-    {
-      "address": "2210 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5667
-    },
-    {
-      "address": "2203 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5687
-    },
-    {
-      "address": "2205 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5686
-    },
-    {
-      "address": "2207 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5685
-    },
-    {
-      "address": "2209 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5684
-    },
-    {
-      "address": "2211 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5683
-    },
-    {
-      "address": "2220 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5670
-    },
-    {
-      "address": "2216 Vaquero Estates Blvd., Westlake, TX 76262",
-      "location_id": 5668
-    },
-    {
-      "address": "The Vaquero Club 2300 Vaquero Club Dr., Westlake, TX 76262",
-      "location_id": 5186
-    }
-  ],
-  "Saddle White": [],
-  "King Fisher": [
-    {
-      "address": "2216 King Fisher, Westlake, TX 76262",
-      "location_id": 5968
-    },
-    {
-      "address": "2110 King Fisher, Westlake, TX 76262",
-      "location_id": 5967
-    },
-    {
-      "address": "2207 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5633
-    },
-    {
-      "address": "2251 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5763
-    },
-    {
-      "address": "2226 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5718
-    },
-    {
-      "address": "2210 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5712
-    },
-    {
-      "address": "2220 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5703
-    },
-    {
-      "address": "2202 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5660
-    },
-    {
-      "address": "2204 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5659
-    },
-    {
-      "address": "2203 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5639
-    },
-    {
-      "address": "2212 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5638
-    },
-    {
-      "address": "2214 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5637
-    },
-    {
-      "address": "2249 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5636
-    },
-    {
-      "address": "2217 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5635
-    },
-    {
-      "address": "2215 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5634
-    },
-    {
-      "address": "2252 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5615
-    },
-    {
-      "address": "2201 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5632
-    },
-    {
-      "address": "2227 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5631
-    },
-    {
-      "address": "2225 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5630
-    },
-    {
-      "address": "2223 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5629
-    },
-    {
-      "address": "2221 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5628
-    },
-    {
-      "address": "2219 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5627
-    },
-    {
-      "address": "2258 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5623
-    },
-    {
-      "address": "2254 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5621
-    },
-    {
-      "address": "2256 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5620
-    },
-    {
-      "address": "2255 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5619
-    },
-    {
-      "address": "2224 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5618
-    },
-    {
-      "address": "2222 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5617
-    },
-    {
-      "address": "2250 King Fisher Dr., Westlake, TX 76262",
-      "location_id": 5616
-    }
-  ],
-  "Paigebrooke": [
-    {
-      "address": "2 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5713
-    },
-    {
-      "address": "3 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5714
-    },
-    {
-      "address": "5 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5715
-    },
-    {
-      "address": "6 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5716
-    },
-    {
-      "address": "4 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5793
-    },
-    {
-      "address": "9 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5990
-    },
-    {
-      "address": "1 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5991
-    },
-    {
-      "address": "11 Paigebrooke, Westlake, TX 76262",
-      "location_id": 5989
-    },
-    {
-      "address": "12 Paigebrooke, Westlake, TX 76262",
-      "location_id": 6489
-    }
-  ],
-  "Wimbledon": [],
-  "Dove Rd": [
-    {
-      "address": "1445 Dove Rd., Westlake, TX 76262",
-      "location_id": 5195
-    },
-    {
-      "address": "1600 Dove Rd., Westlake, TX 76262",
-      "location_id": 6667
-    },
-    {
-      "address": "2777 Dove Rd., Westlake, TX 76262",
-      "location_id": 6510
-    },
-    {
-      "address": "2450 Dove Rd., Westlake, TX 76262",
-      "location_id": 6476
-    },
-    {
-      "address": "1559 Dove Rd., Westlake, TX 76262",
-      "location_id": 5775
-    },
-    {
-      "address": "1563 Dove Rd., Westlake, TX 76262",
-      "location_id": 5774
-    },
-    {
-      "address": "1565 Dove Rd., Westlake, TX 76262",
-      "location_id": 5773
-    },
-    {
-      "address": "1567 Dove Rd., Westlake, TX 76262",
-      "location_id": 5772
-    },
-    {
-      "address": "1569 Dove Rd., Westlake, TX 76262",
-      "location_id": 5771
-    },
-    {
-      "address": "1475 Dove Rd., Westlake, TX 76262",
-      "location_id": 5761
-    },
-    {
-      "address": "1455 Dove Rd., Westlake, TX 76262",
-      "location_id": 5760
-    },
-    {
-      "address": "1340 Dove Rd., Westlake, TX 76262",
-      "location_id": 5759
-    },
-    {
-      "address": "1300 Dove Rd., Westlake, TX 76262",
-      "location_id": 5745
-    },
-    {
-      "address": "1350 Dove Rd., Westlake, TX 76262",
-      "location_id": 5743
-    },
-    {
-      "address": "1400 Dove Rd., Westlake, TX 76262",
-      "location_id": 5742
-    },
-    {
-      "address": "1489 Dove Rd., Westlake, TX 76262",
-      "location_id": 5719
-    },
-    {
-      "address": "2200 Dove Rd., Westlake, TX 76262",
-      "location_id": 5711
-    },
-    {
-      "address": "2331 Dove Rd., Westlake, TX 76262",
-      "location_id": 5624
-    },
-    {
-      "address": "1422 Dove Rd., Westlake, TX 76262",
-      "location_id": 5741
-    },
-    {
-      "address": "1482 Dove Rd., Westlake, TX 76262",
-      "location_id": 5502
-    },
-    {
-      "address": "1700 Dove Rd., Westlake, TX 76262",
-      "location_id": 5389
-    },
-    {
-      "address": "3060 Dove Rd., Westlake, TX 76262",
-      "location_id": 5295
-    },
-    {
-      "address": "2565 Dove Rd., Westlake, TX 76262",
-      "location_id": 5292
-    },
-    {
-      "address": "1485 Dove Rd., Westlake, TX 76262",
-      "location_id": 5275
-    },
-    {
-      "address": "1650 Dove Rd., Westlake, TX 76262",
-      "location_id": 5180
-    },
-    {
-      "address": "1755 Dove Rd., Westlake, TX 76262",
-      "location_id": 5258
-    },
-    {
-      "address": "2629 Dove Rd., Westlake, TX 76262",
-      "location_id": 5254
-    },
-    {
-      "address": "1465 Dove Rd., Westlake, TX 76262",
-      "location_id": 5821
-    },
-    {
-      "address": "1900 Dove Rd., Westlake, TX 76262",
-      "location_id": 6253
-    },
-    {
-      "address": "Flock Camera 3 1282 Dove Rd., Westlake, TX 76262",
-      "location_id": 6720
-    },
-    {
-      "address": "Fire Station #1 2000 Dove Rd., Westlake, TX 76262",
-      "location_id": 5953
-    },
-    {
-      "address": "N1 Meter Station 1401 Dove Rd., Westlake, TX 76262",
-      "location_id": 5256
-    },
-    {
-      "address": "Carlyle Entrance 1480 Dove Rd., Westlake, TX 76262",
-      "location_id": 5503
-    },
-    {
-      "address": "Public Works Storage 2901 Dove Rd., Westlake, TX 76262",
-      "location_id": 5259
-    },
-    {
-      "address": "Granada Open Space Lot (Retention Pond) 1800 Dove Rd., Westlake, TX 76262",
-      "location_id": 6080
-    }
-  ],
-  "Dove": [
-    {
-      "address": "2900 Dove, Westlake, TX 76262",
-      "location_id": 5957
-    },
-    {
-      "address": "2650 Dove, Westlake, TX 76262",
-      "location_id": 5956
-    },
-    {
-      "address": "2001 Dove, Westlake, TX 76262",
-      "location_id": 5954
-    },
-    {
-      "address": "1440 Dove, Westlake, TX 76262",
-      "location_id": 5952
-    },
-    {
-      "address": "1280 Dove, Westlake, TX 76262",
-      "location_id": 5951
-    },
-    {
-      "address": "1563 Dove Rd., Westlake, TX 76262",
-      "location_id": 5774
-    },
-    {
-      "address": "1422 Dove Rd., Westlake, TX 76262",
-      "location_id": 5741
-    },
-    {
-      "address": "1400 Dove Rd., Westlake, TX 76262",
-      "location_id": 5742
-    },
-    {
-      "address": "1350 Dove Rd., Westlake, TX 76262",
-      "location_id": 5743
-    },
-    {
-      "address": "1300 Dove Rd., Westlake, TX 76262",
-      "location_id": 5745
-    },
-    {
-      "address": "1340 Dove Rd., Westlake, TX 76262",
-      "location_id": 5759
-    },
-    {
-      "address": "1455 Dove Rd., Westlake, TX 76262",
-      "location_id": 5760
-    },
-    {
-      "address": "1475 Dove Rd., Westlake, TX 76262",
-      "location_id": 5761
-    },
-    {
-      "address": "1569 Dove Rd., Westlake, TX 76262",
-      "location_id": 5771
-    },
-    {
-      "address": "1567 Dove Rd., Westlake, TX 76262",
-      "location_id": 5772
-    },
-    {
-      "address": "1565 Dove Rd., Westlake, TX 76262",
-      "location_id": 5773
-    },
-    {
-      "address": "1445 Dove Rd., Westlake, TX 76262",
-      "location_id": 5195
-    },
-    {
-      "address": "1559 Dove Rd., Westlake, TX 76262",
-      "location_id": 5775
-    },
-    {
-      "address": "2450 Dove Rd., Westlake, TX 76262",
-      "location_id": 6476
-    },
-    {
-      "address": "2777 Dove Rd., Westlake, TX 76262",
-      "location_id": 6510
-    },
-    {
-      "address": "1600 Dove Rd., Westlake, TX 76262",
-      "location_id": 6667
-    },
-    {
-      "address": "2200 Dove Rd., Westlake, TX 76262",
-      "location_id": 5711
-    },
-    {
-      "address": "2331 Dove Rd., Westlake, TX 76262",
-      "location_id": 5624
-    },
-    {
-      "address": "1650 Dove Rd., Westlake, TX 76262",
-      "location_id": 5180
-    },
-    {
-      "address": "1482 Dove Rd., Westlake, TX 76262",
-      "location_id": 5502
-    },
-    {
-      "address": "2629 Dove Rd., Westlake, TX 76262",
-      "location_id": 5254
-    },
-    {
-      "address": "1755 Dove Rd., Westlake, TX 76262",
-      "location_id": 5258
-    },
-    {
-      "address": "1485 Dove Rd., Westlake, TX 76262",
-      "location_id": 5275
-    },
-    {
-      "address": "2565 Dove Rd., Westlake, TX 76262",
-      "location_id": 5292
-    },
-    {
-      "address": "3060 Dove Rd., Westlake, TX 76262",
-      "location_id": 5295
-    },
-    {
-      "address": "1700 Dove Rd., Westlake, TX 76262",
-      "location_id": 5389
-    },
-    {
-      "address": "1489 Dove Rd., Westlake, TX 76262",
-      "location_id": 5719
-    },
-    {
-      "address": "1465 Dove Rd., Westlake, TX 76262",
-      "location_id": 5821
-    },
-    {
-      "address": "1900 Dove Rd., Westlake, TX 76262",
-      "location_id": 6253
-    },
-    {
-      "address": "2001 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5783
-    },
-    {
-      "address": "2000 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5390
-    },
-    {
-      "address": "2002 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5391
-    },
-    {
-      "address": "2004 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5392
-    },
-    {
-      "address": "2006 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5393
-    },
-    {
-      "address": "2005 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5394
-    },
-    {
-      "address": "2007 Rock Dove Ct., Westlake, TX 76262",
-      "location_id": 5487
-    },
-    {
-      "address": "Flock Camera 3 1282 Dove Rd., Westlake, TX 76262",
-      "location_id": 6720
-    },
-    {
-      "address": "Fire Station #1 2000 Dove Rd., Westlake, TX 76262",
-      "location_id": 5953
-    },
-    {
-      "address": "N1 Meter Station 1401 Dove Rd., Westlake, TX 76262",
-      "location_id": 5256
-    },
-    {
-      "address": "Carlyle Entrance 1480 Dove Rd., Westlake, TX 76262",
-      "location_id": 5503
-    },
-    {
-      "address": "Public Works Storage 2901 Dove Rd., Westlake, TX 76262",
-      "location_id": 5259
-    },
-    {
-      "address": "Granada Open Space Lot (Retention Pond) 1800 Dove Rd., Westlake, TX 76262",
-      "location_id": 6080
-    }
-  ],
-  "Ottinger": [
-    {
-      "address": "3120 Ottinger, Westlake, TX 76262",
-      "location_id": 5988
-    },
-    {
-      "address": "2650 Ottinger, Westlake, TX 76262",
-      "location_id": 5987
-    },
-    {
-      "address": "2445 Ottinger, Westlake, TX 76262",
-      "location_id": 5985
-    },
-    {
-      "address": "2025 Ottinger, Westlake, TX 76262",
-      "location_id": 5982
-    },
-    {
-      "address": "3000 Ottinger, Westlake, TX 76262",
-      "location_id": 5981
-    },
-    {
-      "address": "2145 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 6331
-    },
-    {
-      "address": "2321 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5296
-    },
-    {
-      "address": "2341 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5297
-    },
-    {
-      "address": "2301 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5831
-    },
-    {
-      "address": "1730 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5979
-    },
-    {
-      "address": "2650 J T Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5191
-    },
-    {
-      "address": "2780 J T Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5709
-    },
-    {
-      "address": "3500 J T Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5708
-    },
-    {
-      "address": "2780 J T Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5707
-    },
-    {
-      "address": "2700 J T Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5250
-    },
-    {
-      "address": "Flock Camera 1 2868 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 6718
-    },
-    {
-      "address": "Flock Camera 5 2660 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 6721
-    },
-    {
-      "address": "Flock Camera 6 2657 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 6722
-    },
-    {
-      "address": "Flock Camera 7 3626 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 6723
-    },
-    {
-      "address": "Flock Camera 18 2871 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 6728
-    },
-    {
-      "address": "Westlake Academy 2600 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5841
-    },
-    {
-      "address": "Westlake Academy 2651 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5190
-    },
-    {
-      "address": "Westlake IOOF Cemetery 3101 JT Ottinger Rd., Westlake, TX 76262",
-      "location_id": 5192
-    }
-  ],
-  "Sam School": [
-    {
-      "address": "1865 Sam School, Westlake, TX 76262",
-      "location_id": 6009
-    },
-    {
-      "address": "1991 Sam School, Westlake, TX 76262",
-      "location_id": 6010
-    },
-    {
-      "address": "2646 Sam School Rd., Westlake, TX 76262",
-      "location_id": 5181
-    },
-    {
-      "address": "1855 Sam School Rd., Westlake, TX 76262",
-      "location_id": 5746
-    },
-    {
-      "address": "Solana Hills 1850 Sam School Rd., Westlake, TX 76262",
-      "location_id": 6371
-    },
-    {
-      "address": "Mayor's Hill 1951 Sam School Rd., Westlake, TX 76277",
-      "location_id": 6436
-    },
-    {
-      "address": "Flock Camera 22 2204 Sam School Rd., Westlake, TX 76262",
-      "location_id": 6731
-    },
-    {
-      "address": "LIFE TIME FITNESS 2902 Sam School Rd., Westlake, TX 76262",
-      "location_id": 5814
-    }
-  ],
-  "Oak Ridge": []
-}
+[
+  {
+    "address": "0 A St",
+    "location_id": "0"
+  },
+  {
+    "address": "1 A St",
+    "location_id": "1"
+  },
+  {
+    "address": "2 A St",
+    "location_id": "2"
+  },
+  {
+    "address": "3 A St",
+    "location_id": "3"
+  },
+  {
+    "address": "4 A St",
+    "location_id": "4"
+  },
+  {
+    "address": "5 A St",
+    "location_id": "5"
+  },
+  {
+    "address": "6 A St",
+    "location_id": "6"
+  },
+  {
+    "address": "7 A St",
+    "location_id": "7"
+  },
+  {
+    "address": "8 A St",
+    "location_id": "8"
+  },
+  {
+    "address": "9 A St",
+    "location_id": "9"
+  },
+  {
+    "address": "10 A St",
+    "location_id": "10"
+  },
+  {
+    "address": "11 A St",
+    "location_id": "11"
+  },
+  {
+    "address": "12 A St",
+    "location_id": "12"
+  },
+  {
+    "address": "13 A St",
+    "location_id": "13"
+  },
+  {
+    "address": "14 A St",
+    "location_id": "14"
+  },
+  {
+    "address": "15 A St",
+    "location_id": "15"
+  },
+  {
+    "address": "16 A St",
+    "location_id": "16"
+  },
+  {
+    "address": "17 A St",
+    "location_id": "17"
+  },
+  {
+    "address": "18 A St",
+    "location_id": "18"
+  },
+  {
+    "address": "19 A St",
+    "location_id": "19"
+  },
+  {
+    "address": "20 A St",
+    "location_id": "20"
+  },
+  {
+    "address": "21 A St",
+    "location_id": "21"
+  },
+  {
+    "address": "22 A St",
+    "location_id": "22"
+  },
+  {
+    "address": "23 A St",
+    "location_id": "23"
+  },
+  {
+    "address": "24 A St",
+    "location_id": "24"
+  },
+  {
+    "address": "25 A St",
+    "location_id": "25"
+  },
+  {
+    "address": "26 A St",
+    "location_id": "26"
+  },
+  {
+    "address": "27 A St",
+    "location_id": "27"
+  },
+  {
+    "address": "28 A St",
+    "location_id": "28"
+  },
+  {
+    "address": "29 A St",
+    "location_id": "29"
+  },
+  {
+    "address": "30 A St",
+    "location_id": "30"
+  },
+  {
+    "address": "31 A St",
+    "location_id": "31"
+  },
+  {
+    "address": "32 A St",
+    "location_id": "32"
+  },
+  {
+    "address": "33 A St",
+    "location_id": "33"
+  },
+  {
+    "address": "34 A St",
+    "location_id": "34"
+  },
+  {
+    "address": "35 A St",
+    "location_id": "35"
+  },
+  {
+    "address": "36 A St",
+    "location_id": "36"
+  },
+  {
+    "address": "37 A St",
+    "location_id": "37"
+  },
+  {
+    "address": "38 A St",
+    "location_id": "38"
+  },
+  {
+    "address": "39 A St",
+    "location_id": "39"
+  },
+  {
+    "address": "40 A St",
+    "location_id": "40"
+  },
+  {
+    "address": "41 A St",
+    "location_id": "41"
+  },
+  {
+    "address": "42 A St",
+    "location_id": "42"
+  },
+  {
+    "address": "43 A St",
+    "location_id": "43"
+  },
+  {
+    "address": "44 A St",
+    "location_id": "44"
+  },
+  {
+    "address": "45 A St",
+    "location_id": "45"
+  },
+  {
+    "address": "46 A St",
+    "location_id": "46"
+  },
+  {
+    "address": "47 A St",
+    "location_id": "47"
+  },
+  {
+    "address": "48 A St",
+    "location_id": "48"
+  },
+  {
+    "address": "49 A St",
+    "location_id": "49"
+  },
+  {
+    "address": "1 AA St",
+    "location_id": "100"
+  }
+]

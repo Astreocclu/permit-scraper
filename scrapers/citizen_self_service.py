@@ -537,8 +537,80 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
 
             await page.screenshot(path=f'debug_html/{city_key}_css_filtered.png')
 
-            # Step 4b: Try Excel export first (more reliable than DOM scraping)
-            print('\n[4b] Attempting Excel export download...')
+            # Step 4b: Change sort to "Issued Date" Descending (newest first)
+            # MUST happen BEFORE export so export gets sorted results
+            print('\n[4b] Changing sort to Issued Date Descending...')
+
+            sort_changed = await page.evaluate('''() => {
+                const result = {field: false, order: false, debug: []};
+                const selects = document.querySelectorAll('select');
+
+                // Find and set the sort FIELD dropdown (first one with date options)
+                for (const select of selects) {
+                    const options = Array.from(select.options);
+                    const optTexts = options.map(o => o.textContent.toLowerCase());
+
+                    // This is likely the sort field dropdown if it has "permit number" and date options
+                    if (optTexts.some(t => t.includes('permit number') || t.includes('case number'))) {
+                        result.debug.push('Found sort field dropdown');
+
+                        // Find "Issued Date" or "Date Issued" option
+                        for (const opt of options) {
+                            const text = opt.textContent.toLowerCase();
+                            if (text.includes('issued') && text.includes('date')) {
+                                select.value = opt.value;
+                                select.dispatchEvent(new Event('change', {bubbles: true}));
+                                result.field = opt.textContent.trim();
+                                result.debug.push('Selected: ' + opt.textContent.trim());
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                // Find and set the sort ORDER dropdown (has Ascending/Descending)
+                for (const select of selects) {
+                    const options = Array.from(select.options);
+                    const optTexts = options.map(o => o.textContent.toLowerCase());
+
+                    if (optTexts.some(t => t.includes('ascending')) && optTexts.some(t => t.includes('descending'))) {
+                        result.debug.push('Found sort order dropdown');
+
+                        for (const opt of options) {
+                            if (opt.textContent.toLowerCase().includes('descending')) {
+                                select.value = opt.value;
+                                select.dispatchEvent(new Event('change', {bubbles: true}));
+                                result.order = opt.textContent.trim();
+                                result.debug.push('Selected: ' + opt.textContent.trim());
+
+                                // Trigger Angular digest
+                                if (window.angular) {
+                                    try {
+                                        const scope = angular.element(select).scope();
+                                        if (scope && scope.$apply) scope.$apply();
+                                    } catch(e) {}
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                return result;
+            }''')
+
+            print(f'    Sort result: field={sort_changed.get("field")}, order={sort_changed.get("order")}')
+            if sort_changed.get('debug'):
+                for d in sort_changed.get('debug', []):
+                    print(f'      {d}')
+
+            await asyncio.sleep(3)  # Wait for results to re-sort
+            await page.screenshot(path=f'debug_html/{city_key}_css_sorted.png')
+
+            # Step 4c: Try Excel export (more reliable than DOM scraping)
+            print('\n[4c] Attempting Excel export download...')
 
             # If permit_type is set, use "Export Current View" to get filtered results
             excel_path = await download_excel_export(
@@ -594,50 +666,6 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                 document.body.classList.remove('modal-open');
             }''')
             await asyncio.sleep(1)
-
-            # Step 4c: Change sort to Applied Date Descending (newest first)
-            print('\n[4c] Changing sort to Applied Date Descending...')
-
-            sort_changed = await page.evaluate('''() => {
-                const result = {field: false, order: false};
-                const selects = document.querySelectorAll('select');
-
-                for (const select of selects) {
-                    const options = Array.from(select.options);
-
-                    // First dropdown: try to change to Applied Date
-                    for (const opt of options) {
-                        const text = opt.textContent.toLowerCase();
-                        if (text.includes('applied') || text.includes('date')) {
-                            select.value = opt.value;
-                            select.dispatchEvent(new Event('change', {bubbles: true}));
-                            result.field = opt.textContent.trim();
-                            break;
-                        }
-                    }
-
-                    // Second dropdown: change to Descending
-                    for (const opt of options) {
-                        if (opt.textContent.toLowerCase().includes('descend')) {
-                            select.value = opt.value;
-                            select.dispatchEvent(new Event('change', {bubbles: true}));
-                            result.order = opt.textContent.trim();
-
-                            // Trigger Angular digest
-                            if (window.angular) {
-                                try {
-                                    const scope = angular.element(select).scope();
-                                    if (scope && scope.$apply) scope.$apply();
-                                } catch(e) {}
-                            }
-                        }
-                    }
-                }
-                return result;
-            }''')
-
-            print(f'    Sort change result: {sort_changed}')
-            await asyncio.sleep(5)  # Wait for results to re-sort
 
             # Step 5: Extract permits from results using direct DOM parsing (faster than LLM)
             print('\n[5] Extracting permits via DOM...')
@@ -846,12 +874,17 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                         return null;
                     }''')
                     if check_data == first_permit_before:
-                        print(f'    WARN: Page content unchanged (same first permit: {first_permit_before})')
+                        consecutive_failures += 1
+                        print(f'    WARN: Page content unchanged (same first permit: {first_permit_before}) - failure {consecutive_failures}/3')
+                        if consecutive_failures >= 3:
+                            print('    Stopping: 3 consecutive unchanged pages')
+                            break
                         # Try scrolling to trigger lazy load
                         await page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
                         await asyncio.sleep(2)
                     else:
                         print(f'    Page changed: {first_permit_before} -> {check_data}')
+                        consecutive_failures = 0  # Reset on successful page change
 
                 page_num += 1
 

@@ -2,6 +2,134 @@
 
 ---
 
+## Session: 2025-12-12 - Residential Permit Filtering & Westlake Harvester
+
+### Context
+- User wanted to fix Southlake/Westlake scrapers which were returning commercial permits instead of residential
+- Goal: Filter for residential-only permits at the portal level, not just post-processing
+- Also needed to fix Westlake scraper which was guessing addresses instead of using verified data
+
+### Work Completed
+
+1. **Gemini Collaborative Planning** (3 rounds)
+   - Analyzed Southlake CSS portal and Westlake MyGov portal
+   - Discovered Southlake needs portal-level permit type filtering
+   - Discovered Westlake has API endpoint for address harvesting (not autocomplete)
+
+2. **Southlake Post-Processing Filter** (`scrapers/filters.py`)
+   - Created `filter_residential_permits()` function with TDD (4 tests)
+   - Keywords: residential, pool, spa, roof, foundation, accessory, patio, remodel, addition
+   - Excludes: commercial, business, sign, fire, certificate of occupancy
+   - Commit: `db8caf1`
+
+3. **Integrated Filter into CSS Scraper** (`scrapers/citizen_self_service.py`)
+   - Added import and filter call for Southlake
+   - Filter runs after Excel export, before save
+   - Commit: `ec35787`
+
+4. **Westlake API Discovery** (Spike)
+   - Discovered API endpoint: `https://public.mygov.us/westlake_tx/getLookupResults`
+   - POST with `address_search` param returns `[{address, location_id}, ...]`
+   - Much better than guessing addresses!
+   - Commit: `a283d7d`
+
+5. **Westlake Address Harvester** (`scrapers/westlake_harvester.py`)
+   - Uses discovered API to harvest real addresses
+   - 367 addresses harvested from 16 residential streets
+   - Streets: Cedar Elm, Post Oak, Vaquero, Paigebrooke, Dove Rd, etc.
+   - Saved to `data/westlake_addresses.json`
+   - 6 TDD tests
+   - Commit: `463d4e7`
+
+6. **Updated Westlake Scraper** (`scrapers/mygov_westlake.py`)
+   - Now loads harvested addresses instead of guessing
+   - Falls back to brute force if harvested file missing
+   - Commit: `14aad97`
+
+7. **Added Permit Type Filtering to CSS Scraper** (`scrapers/citizen_self_service.py`)
+   - New `--permit-type` / `-t` argument
+   - Selects permit type in Advanced Search dropdown
+   - Uses "Export Current View" when filtering (gets filtered results only)
+   - Includes permit type in export filename
+   - Commit: `e58b183`
+
+8. **Created Batch Residential Scraper** (`scrapers/southlake_residential_batch.py`)
+   - Iterates through 14 residential permit types
+   - Downloads each type separately
+   - Partial success: 90 permits from 8 types (some timing issues)
+
+### Current State
+
+**Southlake Permit Types Found (54 residential):**
+- High-value: `Residential New Building (Single Family Home)`, `Residential Remodel`, `Pool (Residential)`, etc.
+- Full list discovered programmatically from portal
+
+**Batch Scraper Results (partial run):**
+| Type | Permits |
+|------|---------|
+| Residential Remodel | 17 |
+| Residential Addition Conditioned & Uncond | 31 |
+| Pool (Residential) | 10 |
+| Mechanical Permit (Residential) | 10 |
+| Residential Reroof | 11 |
+| Solar Panel - Residential | 10 |
+| Residential New Building (Duplex) | 1 |
+| **TOTAL** | **90** |
+
+**Westlake:**
+- 367 harvested addresses ready to use
+- Scraper updated to use harvested addresses
+- Full scrape not yet run (would take time with 367 addresses)
+
+### Next Steps
+
+1. **Complete Southlake batch scrape** - Run `southlake_residential_batch.py` with better error recovery to get all types
+2. **Run Westlake scraper** - Use harvested addresses to get residential permits
+3. **Score new permits** - Load, enrich, and score the residential permits
+4. **Consider expanding date range** - Current results are limited; older permits may have more data
+
+### Notes
+
+**Southlake CSS Portal Structure:**
+- Permit Type dropdown: Select element with `--Select Permit Type--` first option
+- Has 136 permit types total, 54 residential
+- "Export Current View" exports filtered results only
+- "Export first 500 Results" exports unfiltered
+
+**Westlake MyGov API:**
+- Endpoint: `POST https://public.mygov.us/westlake_tx/getLookupResults`
+- Body: `address_search=<search_term>` (form-encoded)
+- Returns: `[{"address": "...", "location_id": 123}, ...]`
+- Works with partial street names (e.g., "Vaquero" returns all Vaquero addresses)
+
+**Timing Issues:**
+- CSS scraper has timing issues in headless mode
+- Batch scraper works better with `headless=False`
+- Some permit types fail to find dropdown on retry (need page refresh between types)
+
+### Key Files
+
+**New/Modified:**
+- `scrapers/filters.py` - Residential permit filter (NEW)
+- `scrapers/westlake_harvester.py` - Address harvester using API (NEW)
+- `scrapers/southlake_residential_batch.py` - Batch scraper for all residential types (NEW)
+- `scrapers/westlake_spike.py` - API discovery spike (MODIFIED)
+- `scrapers/citizen_self_service.py` - Added `--permit-type` arg (MODIFIED)
+- `scrapers/mygov_westlake.py` - Uses harvested addresses (MODIFIED)
+
+**Test Files:**
+- `tests/test_filters.py` - 4 tests for residential filter
+- `tests/test_westlake_harvester.py` - 6 tests for harvester
+
+**Data Files:**
+- `data/westlake_addresses.json` - 367 harvested addresses
+- `data/downloads/southlake_*.xlsx` - Downloaded residential permits
+
+**Plans:**
+- `docs/plans/2025-12-11-residential-permit-filtering.md` - Implementation plan
+
+---
+
 ## Session: 2025-12-11 (Late PM) - CSS Scraper Fixes & High-Value Suburbs
 
 ### Context
