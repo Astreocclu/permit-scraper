@@ -74,6 +74,14 @@ CSS_CITIES = {
         'name': 'Waxahachie',
         'base_url': 'https://waxahachietx-energovpub.tylerhost.net/Apps/SelfService',
     },
+    'cedar_hill': {
+        'name': 'Cedar Hill',
+        'base_url': 'https://cedarhilltx-energovpub.tylerhost.net/Apps/SelfService',
+    },
+    'desoto': {
+        'name': 'DeSoto',
+        'base_url': 'https://cityofdesototx-energovweb.tylerhost.net/apps/selfservice',
+    },
 }
 
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
