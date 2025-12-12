@@ -50,6 +50,54 @@ async def fetch_redfin_image(
     timeout_ms: int = 45000,
 ) -> Optional[dict]:
     """
+    Fetch property image from Redfin with retry logic.
+
+    Wraps _fetch_redfin_image_impl with exponential backoff retries.
+    """
+    last_error = None
+
+    for attempt in range(MAX_RETRIES):
+        try:
+            result = await _fetch_redfin_image_impl(
+                address=address,
+                city=city,
+                state=state,
+                output_dir=output_dir,
+                filename_prefix=filename_prefix,
+                prefer_backyard=prefer_backyard,
+                timeout_ms=timeout_ms,
+            )
+
+            # Success or graceful "not found" (None is valid)
+            return result
+
+        except PlaywrightTimeout as e:
+            last_error = e
+            if attempt < MAX_RETRIES - 1:
+                delay = RETRY_BASE_DELAY * (2 ** attempt)
+                logger.warning(f"Redfin attempt {attempt + 1} timed out, retrying in {delay}s...")
+                await asyncio.sleep(delay)
+            else:
+                logger.error(f"Redfin failed after {MAX_RETRIES} attempts: {e}")
+
+        except Exception as e:
+            last_error = e
+            logger.error(f"Redfin unexpected error: {e}")
+            break  # Don't retry on unexpected errors
+
+    return None
+
+
+async def _fetch_redfin_image_impl(
+    address: str,
+    city: str,
+    state: str,
+    output_dir: Path,
+    filename_prefix: str,
+    prefer_backyard: bool = True,
+    timeout_ms: int = 45000,
+) -> Optional[dict]:
+    """
     Fetch property image from Redfin for a given address.
 
     Args:
