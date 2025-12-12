@@ -22,10 +22,18 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 import httpx
+
+load_dotenv()
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 
-from scrapers.utils import parse_excel_permits
+try:
+    from scrapers.utils import parse_excel_permits
+    from scrapers.filters import filter_residential_permits
+except ImportError:
+    from utils import parse_excel_permits
+    from filters import filter_residential_permits
 
 # Download directory
 DOWNLOAD_DIR = Path(__file__).parent.parent / "data" / "downloads"
@@ -103,7 +111,7 @@ def clean_html(html: str) -> str:
 
 async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Optional[str]:
     """
-    Click Export button and wait for download.
+    Click Export button, handle the export modal, and wait for download.
 
     Args:
         page: Playwright page
@@ -121,22 +129,58 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Opt
             print(f"[{city}] Export button not found")
             return None
 
-        # Wait for download event
-        async with page.expect_download(timeout=timeout_ms) as download_info:
-            await export_btn.first.click()
-            print(f"[{city}] Clicked Export, waiting for download...")
+        # Click export button to open modal
+        await export_btn.first.click()
+        print(f"[{city}] Clicked Export, checking for modal...")
+        await asyncio.sleep(1)
 
-        download = await download_info.value
+        # Check for Export Options modal and fill it
+        export_modal = page.locator('text="Export Options", [class*="modal"]:has-text("Export Options")')
+        filename_input = page.locator('input[type="text"]').filter(has=page.locator('xpath=ancestor::*[contains(., "file name")]'))
 
-        # Save to our download directory
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"{city.lower()}_{timestamp}.xlsx"
-        dest_path = DOWNLOAD_DIR / filename
+        # Try to find filename input in the modal
+        modal_input = page.locator('.modal input[type="text"], [role="dialog"] input[type="text"]')
+        if await modal_input.count() > 0:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            await modal_input.first.fill(f"{city.lower()}_{timestamp}")
+            print(f"[{city}] Filled filename in export modal")
 
-        await download.save_as(str(dest_path))
+            # Ensure "Export first 1000 Results" is selected (should be default)
+            export_1000_radio = page.locator('input[type="radio"]').first
+            if await export_1000_radio.count() > 0:
+                await export_1000_radio.check()
 
-        print(f"[{city}] Downloaded: {dest_path}")
-        return str(dest_path)
+            # Wait for download after clicking Ok
+            ok_btn = page.locator('button:has-text("Ok"), button:has-text("OK")')
+            if await ok_btn.count() > 0:
+                async with page.expect_download(timeout=timeout_ms) as download_info:
+                    await ok_btn.first.click()
+                    print(f"[{city}] Clicked Ok, waiting for download...")
+
+                download = await download_info.value
+
+                # Save to our download directory
+                filename = f"{city.lower()}_{timestamp}.xlsx"
+                dest_path = DOWNLOAD_DIR / filename
+
+                await download.save_as(str(dest_path))
+
+                print(f"[{city}] Downloaded: {dest_path}")
+                return str(dest_path)
+        else:
+            # No modal - try direct download (older portal version)
+            print(f"[{city}] No modal detected, trying direct download...")
+            async with page.expect_download(timeout=timeout_ms) as download_info:
+                # Already clicked, just wait
+                pass
+
+            download = await download_info.value
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{city.lower()}_{timestamp}.xlsx"
+            dest_path = DOWNLOAD_DIR / filename
+            await download.save_as(str(dest_path))
+            print(f"[{city}] Downloaded: {dest_path}")
+            return str(dest_path)
 
     except Exception as e:
         print(f"[{city}] Download failed: {e}")
@@ -201,54 +245,26 @@ async def scrape(city_key: str, target_count: int = 100):
             }''')
             print(f'    Angular detected: {angular_ready}')
 
-            # Step 2: Select "Permit" module in search dropdown
+            # Step 2: Select "Permit" module in search dropdown using Playwright
             print('\n[2] Selecting Permit module...')
 
-            module_selected = await page.evaluate('''() => {
-                // Look for module dropdown (various possible selectors)
-                const selectors = [
-                    'select[ng-model*="module"]',
-                    'select[ng-model*="Module"]',
-                    'select[id*="module"]',
-                    'select[id*="Module"]',
-                    'md-select[ng-model*="module"]',
-                    '[ng-model*="selectedModule"]',
-                    'select.form-control'
-                ];
-
-                for (const sel of selectors) {
-                    const dropdown = document.querySelector(sel);
-                    if (dropdown && dropdown.tagName === 'SELECT') {
-                        // Find Permit option
-                        for (const opt of dropdown.options) {
-                            if (opt.textContent.toLowerCase().includes('permit')) {
-                                dropdown.value = opt.value;
-                                dropdown.dispatchEvent(new Event('change', {bubbles: true}));
-
-                                // Trigger Angular digest if available
-                                if (window.angular) {
-                                    try {
-                                        const scope = angular.element(dropdown).scope();
-                                        if (scope && scope.$apply) {
-                                            scope.$apply();
-                                        }
-                                    } catch(e) {}
-                                }
-                                return {found: true, value: opt.textContent, selector: sel};
-                            }
-                        }
-                    }
-                }
-
-                // Try md-select (Angular Material)
-                const mdSelect = document.querySelector('md-select');
-                if (mdSelect) {
-                    mdSelect.click();
-                    return {found: 'md-select-clicked', note: 'Need to select option next'};
-                }
-
-                return {found: false};
-            }''')
+            # Use Playwright's native select_option with the correct value format
+            module_selected = {'found': False}
+            try:
+                # Try the known ID first (SearchModule)
+                search_module = page.locator('#SearchModule')
+                if await search_module.count() > 0:
+                    await search_module.select_option(value='number:2')  # 'number:2' = Permit
+                    module_selected = {'found': True, 'value': 'Permit', 'selector': '#SearchModule'}
+                else:
+                    # Fallback: try any select with Module in ID
+                    module_select = page.locator('select[id*="Module"]')
+                    if await module_select.count() > 0:
+                        await module_select.first.select_option(label='Permit')
+                        module_selected = {'found': True, 'value': 'Permit', 'selector': 'select[id*=Module]'}
+            except Exception as e:
+                print(f'    Module selection error: {e}')
+                module_selected = {'found': False, 'error': str(e)}
 
             print(f'    Module selection: {module_selected}')
             await asyncio.sleep(2)
@@ -275,37 +291,31 @@ async def scrape(city_key: str, target_count: int = 100):
             start_date = (datetime.now() - timedelta(days=60)).strftime('%m/%d/%Y')
             end_date = datetime.now().strftime('%m/%d/%Y')
 
-            # Find Applied Date row and fill the From/To inputs
-            # The Applied Date row has: label "Applied Date", input (from), "To" text, input (to)
-            date_filled = await page.evaluate(f'''() => {{
-                const result = {{start: false, end: false}};
+            # Use the known input IDs from the EnerGov CSS form
+            date_filled = {'start': False, 'end': False}
 
-                // Find the row containing "Applied Date"
-                const labels = document.querySelectorAll('label, td, th, div');
-                for (const label of labels) {{
-                    if (label.textContent?.trim() === 'Applied Date') {{
-                        // Found the Applied Date label, now find inputs in same row
-                        const row = label.closest('tr, div, .form-group');
-                        if (row) {{
-                            const inputs = row.querySelectorAll('input[type="text"], input:not([type])');
-                            if (inputs.length >= 2) {{
-                                // First input = From date, Second input = To date
-                                inputs[0].value = '{start_date}';
-                                inputs[0].dispatchEvent(new Event('input', {{bubbles: true}}));
-                                inputs[0].dispatchEvent(new Event('change', {{bubbles: true}}));
-                                result.start = '{start_date}';
+            try:
+                # Applied Date inputs have IDs: ApplyDateFrom and ApplyDateTo
+                from_input = page.locator('#ApplyDateFrom')
+                to_input = page.locator('#ApplyDateTo')
 
-                                inputs[1].value = '{end_date}';
-                                inputs[1].dispatchEvent(new Event('input', {{bubbles: true}}));
-                                inputs[1].dispatchEvent(new Event('change', {{bubbles: true}}));
-                                result.end = '{end_date}';
-                                break;
-                            }}
-                        }}
-                    }}
-                }}
-                return result;
-            }}''')
+                if await from_input.count() > 0:
+                    await from_input.click()
+                    await from_input.fill(start_date)
+                    await from_input.press('Tab')  # Trigger Angular change event
+                    date_filled['start'] = start_date
+                    print(f'    Filled start date: {start_date}')
+
+                if await to_input.count() > 0:
+                    await to_input.click()
+                    await to_input.fill(end_date)
+                    await to_input.press('Tab')  # Trigger Angular change event
+                    date_filled['end'] = end_date
+                    print(f'    Filled end date: {end_date}')
+
+            except Exception as e:
+                print(f'    Error filling dates: {e}')
+
             print(f'    Date range filled: {date_filled}')
             await asyncio.sleep(1)
 
@@ -490,6 +500,37 @@ async def scrape(city_key: str, target_count: int = 100):
                     print(f'    WARN: Excel export downloaded but parsing failed - will use DOM scraping')
             else:
                 print(f'    Export download failed or not available - will use DOM scraping')
+
+            # Dismiss any modal dialogs that may have been opened by export attempt
+            await page.evaluate('''() => {
+                // Close any bootstrap modals
+                const modals = document.querySelectorAll('.modal.in, .modal.show, [role="dialog"]');
+                for (const modal of modals) {
+                    // Try clicking close/cancel buttons
+                    const closeBtn = modal.querySelector('[data-dismiss="modal"], .close, .btn-close');
+                    if (closeBtn) closeBtn.click();
+                    // Try to find Cancel button by text
+                    const buttons = modal.querySelectorAll('button');
+                    for (const btn of buttons) {
+                        if (btn.textContent.toLowerCase().includes('cancel') ||
+                            btn.textContent.toLowerCase().includes('close')) {
+                            btn.click();
+                            break;
+                        }
+                    }
+                    // Also try to hide the modal directly
+                    modal.classList.remove('in', 'show');
+                    modal.style.display = 'none';
+                }
+                // Remove any modal backdrops
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                for (const backdrop of backdrops) {
+                    backdrop.remove();
+                }
+                // Reset body class
+                document.body.classList.remove('modal-open');
+            }''')
+            await asyncio.sleep(1)
 
             # Step 4c: Change sort to Applied Date Descending (newest first)
             print('\n[4c] Changing sort to Applied Date Descending...')
@@ -690,34 +731,65 @@ async def scrape(city_key: str, target_count: int = 100):
 
                 print(f'    Clicking Next...')
 
-                clicked = await page.evaluate('''() => {
-                    const links = document.querySelectorAll('a');
-                    for (const link of links) {
-                        if (link.textContent.trim() === 'Next') {
-                            link.click();
-                            return true;
-                        }
-                    }
-                    return false;
-                }''')
+                # Get the first permit ID before clicking (to detect page change)
+                first_permit_before = None
+                if page_data and page_data.get('permits'):
+                    first_permit_before = page_data['permits'][0]['permit_id'] if page_data['permits'] else None
+
+                # Use Playwright's native click - more reliable for Angular apps
+                try:
+                    next_link = page.locator('a:text-is("Next")')
+                    if await next_link.count() > 0:
+                        await next_link.first.click()
+                        clicked = True
+                    else:
+                        # Fallback: try partial text match
+                        next_link = page.locator('a:has-text("Next")')
+                        if await next_link.count() > 0:
+                            await next_link.first.click()
+                            clicked = True
+                        else:
+                            clicked = False
+                except Exception as e:
+                    print(f'    Click error: {e}')
+                    clicked = False
 
                 if not clicked:
                     print('    Failed to click Next')
                     break
 
-                # Wait for URL to change (indicates page navigation)
-                old_url = page.url
+                # Wait for Angular to update - check for content change, not URL
+                # Angular SPAs often don't change URL on pagination
                 try:
-                    await page.wait_for_function(
-                        f'() => window.location.href !== "{old_url}"',
-                        timeout=10000
-                    )
-                    print(f'    URL changed to page {page_num + 1}')
+                    # Wait for network to settle
+                    await page.wait_for_load_state('networkidle', timeout=10000)
                 except:
-                    print(f'    WARN: URL did not change, waiting anyway...')
+                    pass  # May timeout, that's ok
 
-                # Additional wait for Angular to render new content
-                await asyncio.sleep(2)
+                # Give Angular time to render
+                await asyncio.sleep(3)
+
+                # Verify page actually changed by checking if first permit is different
+                if first_permit_before:
+                    check_data = await page.evaluate(r'''() => {
+                        const permitLinks = document.querySelectorAll('a');
+                        const permitIdPattern = /^[A-Z0-9]{2,}-[A-Z0-9-]{2,}$/i;
+                        for (const link of permitLinks) {
+                            const linkText = link.textContent.trim();
+                            if (permitIdPattern.test(linkText)) {
+                                return linkText;
+                            }
+                        }
+                        return null;
+                    }''')
+                    if check_data == first_permit_before:
+                        print(f'    WARN: Page content unchanged (same first permit: {first_permit_before})')
+                        # Try scrolling to trigger lazy load
+                        await page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
+                        await asyncio.sleep(2)
+                    else:
+                        print(f'    Page changed: {first_permit_before} -> {check_data}')
+
                 page_num += 1
 
             print(f'\n    Total permits extracted: {len(permits)}')
@@ -729,6 +801,12 @@ async def scrape(city_key: str, target_count: int = 100):
 
         finally:
             await browser.close()
+
+    # Filter for residential permits if this is Southlake
+    if city_key.lower() == 'southlake':
+        original_count = len(permits)
+        permits = filter_residential_permits(permits)
+        print(f'\n[FILTER] Filtered to {len(permits)} residential permits (from {original_count} total)')
 
     # Save results
     output = {
