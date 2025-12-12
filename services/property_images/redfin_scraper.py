@@ -167,7 +167,16 @@ async def fetch_redfin_image(
                     first_result = await page.query_selector(selector)
                     if first_result:
                         await first_result.click()
-                        await page.wait_for_load_state("networkidle", timeout=timeout_ms)
+                        # Wait for property page to load
+                        await page.wait_for_load_state("domcontentloaded", timeout=timeout_ms)
+                        # Wait for images to appear
+                        try:
+                            await page.wait_for_selector(
+                                'img[src*="photo"], .PhotoCarousel, .HomeMainMedia',
+                                timeout=10000
+                            )
+                        except PlaywrightTimeout:
+                            pass  # Continue anyway, images might still be there
 
                         if await _is_blocked(page):
                             return None
