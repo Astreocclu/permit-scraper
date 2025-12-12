@@ -43,3 +43,12 @@ class TestRedfinScraper:
         )
 
         assert result is None
+
+    @pytest.mark.asyncio
+    async def test_retry_constants_exist(self):
+        """Test that retry configuration is available."""
+        from services.property_images import redfin_scraper
+        assert hasattr(redfin_scraper, 'MAX_RETRIES')
+        assert hasattr(redfin_scraper, 'RETRY_BASE_DELAY')
+        assert redfin_scraper.MAX_RETRIES >= 2
+        assert redfin_scraper.RETRY_BASE_DELAY >= 1.0

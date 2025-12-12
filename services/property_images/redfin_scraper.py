@@ -27,6 +27,10 @@ REDFIN_BASE_URL = "https://www.redfin.com"
 MIN_DELAY_SECONDS = 3.0
 MAX_DELAY_SECONDS = 5.0
 
+# Retry configuration
+MAX_RETRIES = 3
+RETRY_BASE_DELAY = 2.0  # Exponential: 2s, 4s, 8s
+
 # User agents to rotate
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
