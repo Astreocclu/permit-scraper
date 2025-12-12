@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Westlake Address Harvester (Recursive A-Z Search)
+Westlake Address Harvester (Numeric Prefix Search)
 
-Discovers ALL addresses in Westlake via recursive prefix search.
+Discovers ALL addresses in Westlake via numeric prefix search.
 Uses MyGov API endpoint with exponential backoff for rate limiting.
 
 Algorithm:
-1. Search A, B, C... Z, 0-9
-2. If any search hits result limit (50), drill down (AA, AB, AC...)
-3. Recurse up to depth 3 to handle dense prefixes
+1. Search numeric prefixes: 100-199, 200-299, ... 1000-1099, etc.
+2. Addresses start with street numbers, so numeric search is more effective
+3. Uses recursive drill-down if results hit limit (50)
 4. Checkpoint progress for resumability
 
 Run: python scrapers/westlake_harvester.py
@@ -179,23 +179,74 @@ def load_existing_addresses() -> dict:
         return {}
 
 
+def harvest_numeric_range(start: int, end: int, all_addresses: dict):
+    """Harvest addresses for a numeric range (e.g., 100-199).
+
+    Args:
+        start: Starting number (inclusive)
+        end: Ending number (exclusive)
+        all_addresses: Dict to accumulate results
+    """
+    for num in range(start, end):
+        prefix = str(num)
+        results = search_addresses(prefix)
+
+        new_count = 0
+        for item in results:
+            addr = item.get('address')
+            if addr and addr not in all_addresses:
+                all_addresses[addr] = item
+                new_count += 1
+
+        if new_count > 0:
+            print(f"{prefix}*: +{new_count} new (total: {len(all_addresses)})")
+
+        # Checkpoint periodically
+        if new_count > 0 and num % 50 == 0:
+            save_addresses(all_addresses)
+
+        time.sleep(BASE_SLEEP * 0.3)  # Faster for numeric search
+
+
 def main():
-    """Run the recursive address harvest."""
-    print("Westlake Recursive Address Harvester")
+    """Run the numeric address harvest."""
+    print("Westlake Numeric Address Harvester")
     print("=" * 50)
 
     # Load any existing addresses
     all_addresses = load_existing_addresses()
     print(f"Loaded {len(all_addresses)} existing addresses")
 
-    # Search A-Z, 0-9
-    start_chars = string.ascii_uppercase + string.digits
+    # Numeric ranges to search (street numbers)
+    # Most Westlake addresses are in 100-2000 range
+    ranges = [
+        (100, 200),   # 100-199
+        (200, 300),   # 200-299
+        (300, 400),   # 300-399
+        (400, 500),   # 400-499
+        (500, 600),   # 500-599
+        (600, 700),   # 600-699
+        (700, 800),   # 700-799
+        (800, 900),   # 800-899
+        (900, 1000),  # 900-999
+        (1000, 1100), # 1000-1099
+        (1100, 1200), # 1100-1199
+        (1200, 1300), # 1200-1299
+        (1300, 1400), # 1300-1399
+        (1400, 1500), # 1400-1499
+        (1500, 1600), # 1500-1599
+        (1600, 1700), # 1600-1699
+        (1700, 1800), # 1700-1799
+        (1800, 1900), # 1800-1899
+        (1900, 2000), # 1900-1999
+        (2000, 2100), # 2000-2099
+    ]
 
-    print(f"\nStarting recursive search for {len(start_chars)} prefixes...")
-
-    for char in start_chars:
-        recursive_search(char, all_addresses, depth=0)
-        time.sleep(BASE_SLEEP)
+    total_ranges = len(ranges)
+    for i, (start, end) in enumerate(ranges):
+        print(f"\n[{i+1}/{total_ranges}] Scanning range {start}-{end-1}...")
+        harvest_numeric_range(start, end, all_addresses)
+        save_addresses(all_addresses)
 
     # Final save
     save_addresses(all_addresses)

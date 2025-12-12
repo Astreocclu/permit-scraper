@@ -29,6 +29,14 @@ import httpx
 load_dotenv()
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 
+# Stealth mode to bypass bot detection (Cloudflare, etc.)
+try:
+    from playwright_stealth import Stealth
+    STEALTH = Stealth()
+except ImportError:
+    STEALTH = None
+    print("WARN: playwright-stealth not found. Install: pip install playwright-stealth")
+
 try:
     from scrapers.utils import parse_excel_permits
     from scrapers.filters import filter_residential_permits
@@ -256,6 +264,11 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         )
         page = await context.new_page()
+
+        # Apply stealth to bypass bot detection
+        if STEALTH:
+            await STEALTH.apply_stealth_async(page)
+            print('[STEALTH] Applied playwright-stealth for anti-bot bypass')
 
         try:
             Path('debug_html').mkdir(exist_ok=True)
