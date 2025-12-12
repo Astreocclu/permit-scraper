@@ -128,7 +128,13 @@ async def fetch_redfin_image(
             await page.keyboard.press("Enter")
 
             try:
-                await page.wait_for_load_state("networkidle", timeout=timeout_ms)
+                # Wait for navigation, not network idle
+                await page.wait_for_load_state("domcontentloaded", timeout=timeout_ms)
+                # Wait for either property page or search results
+                await page.wait_for_selector(
+                    'img[src*="photo"], .HomeCard, [data-rf-test-id="home-card"], .searchResults',
+                    timeout=15000
+                )
             except PlaywrightTimeout:
                 logger.warning("Timeout waiting for search results")
                 return None
@@ -138,8 +144,8 @@ async def fetch_redfin_image(
                 logger.error("Redfin blocked after search - stopping")
                 return None
 
-            # Wait for potential redirect to property page
-            await asyncio.sleep(2)
+            # Brief pause for any redirects
+            await asyncio.sleep(1)
 
             current_url = page.url
 
