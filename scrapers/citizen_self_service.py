@@ -57,6 +57,10 @@ CSS_CITIES = {
         'name': 'Allen',
         'base_url': 'https://energovweb.cityofallen.org/EnerGov/SelfService',
     },
+    'trophy_club': {
+        'name': 'Trophy Club',
+        'base_url': 'https://energovweb.trophyclub.org/energovprod/selfservice',
+    },
 }
 
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
@@ -943,7 +947,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Scrape permits from Citizen Self Service portals')
     parser.add_argument('city', nargs='?', default='mckinney',
-                        help='City to scrape (mckinney, southlake, colleyville, allen)')
+                        help='City to scrape (mckinney, southlake, colleyville, allen, trophy_club)')
     parser.add_argument('count', nargs='?', type=int, default=100,
                         help='Target number of permits')
     parser.add_argument('--permit-type', '-t', dest='permit_type',
