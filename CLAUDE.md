@@ -36,6 +36,9 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 - Westlake - `mygov_westlake.py` (address-based)
 - Mansfield, Rowlett, Burleson, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py` (NEW)
 
+### SmartGov
+- Sachse - `smartgov_sachse.py` (NEW)
+
 ### Other
 - Arlington (Socrata API) - `dfw_big4_socrata.py`
 - Carrollton (CityView) - `cityview.py`
@@ -64,6 +67,9 @@ python3 scrapers/mygov_multi.py mansfield 100   # Mansfield (NEW)
 python3 scrapers/mygov_multi.py rowlett 100     # Rowlett (NEW)
 python3 scrapers/mygov_multi.py --list          # Show all MyGov cities
 python3 scrapers/mygov_westlake.py              # Westlake (address-based)
+
+# SmartGov
+python3 scrapers/smartgov_sachse.py 500         # Sachse (NEW)
 
 # Other platforms
 python3 scrapers/dfw_big4_socrata.py            # Arlington (API)
