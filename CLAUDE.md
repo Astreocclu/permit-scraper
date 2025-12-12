@@ -19,17 +19,26 @@ This repo contains permit portal scrapers for the DFW Signal Engine.
 Scrapes building permits, enriches with CAD data, scores leads for contractor marketing.
 
 ## Working Portals (All Fast DOM Extraction)
-- Dallas (Accela) - `accela_fast.py`
-- Fort Worth (Accela) - `accela_fast.py`
-- Frisco (eTRAKiT) - `etrakit_fast.py`
+
+### Accela
+- Dallas, Fort Worth, Grand Prairie - `accela_fast.py`
+
+### eTRAKiT
+- Frisco, Flower Mound - `etrakit_fast.py`
+- Plano - `etrakit.py`
+- Denton - `etrakit_fast.py`
+
+### EnerGov CSS
+- Southlake, Colleyville, McKinney, Allen, Trophy Club, Waxahachie - `citizen_self_service.py`
+- Cedar Hill, DeSoto - `citizen_self_service.py` (NEW)
+
+### MyGov
+- Westlake - `mygov_westlake.py` (address-based)
+- Mansfield, Rowlett, Burleson, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py` (NEW)
+
+### Other
 - Arlington (Socrata API) - `dfw_big4_socrata.py`
-- Grand Prairie (Accela) - `accela_fast.py`
-- Plano (eTRAKiT) - `etrakit.py`
-- Flower Mound (eTRAKiT) - `etrakit_fast.py`
 - Carrollton (CityView) - `cityview.py`
-- Southlake (EnerGov CSS) - `citizen_self_service.py`
-- Colleyville (EnerGov CSS) - `citizen_self_service.py`
-- Westlake (MyGov) - `mygov_westlake.py`
 
 ## Common Commands
 
@@ -45,11 +54,20 @@ python3 scrapers/etrakit_fast.py frisco 1000
 python3 scrapers/etrakit_fast.py flower_mound 1000
 python3 scrapers/etrakit.py plano 1000
 
+# EnerGov CSS cities
+python3 scrapers/citizen_self_service.py southlake 500   # Southlake
+python3 scrapers/citizen_self_service.py cedar_hill 500  # Cedar Hill (NEW)
+python3 scrapers/citizen_self_service.py desoto 500      # DeSoto (NEW)
+
+# MyGov cities (9 cities)
+python3 scrapers/mygov_multi.py mansfield 100   # Mansfield (NEW)
+python3 scrapers/mygov_multi.py rowlett 100     # Rowlett (NEW)
+python3 scrapers/mygov_multi.py --list          # Show all MyGov cities
+python3 scrapers/mygov_westlake.py              # Westlake (address-based)
+
 # Other platforms
-python3 scrapers/dfw_big4_socrata.py                    # Arlington (API)
-python3 scrapers/cityview.py carrollton 500             # Carrollton
-python3 scrapers/citizen_self_service.py southlake 500  # Southlake/Colleyville
-python3 scrapers/mygov_westlake.py                      # Westlake
+python3 scrapers/dfw_big4_socrata.py            # Arlington (API)
+python3 scrapers/cityview.py carrollton 500     # Carrollton
 ```
 
 ### Pipeline
