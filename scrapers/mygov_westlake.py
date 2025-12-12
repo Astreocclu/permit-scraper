@@ -16,6 +16,42 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Path to harvested addresses file
+ADDRESSES_FILE = Path(__file__).parent.parent / "data" / "westlake_addresses.json"
+
+
+def load_harvested_addresses() -> list[str]:
+    """
+    Load pre-harvested addresses from JSON file instead of guessing.
+
+    Returns list of address strings in format: "2204 Cedar Elm Terr., Westlake, TX 76262"
+    Flattens all streets into a single list for iteration.
+    """
+    if not ADDRESSES_FILE.exists():
+        logger.warning(f"Harvested addresses file not found: {ADDRESSES_FILE}")
+        logger.warning("Run scrapers/westlake_harvester.py first to harvest addresses.")
+        return []
+
+    try:
+        with open(ADDRESSES_FILE) as f:
+            data = json.load(f)
+
+        # Flatten all street addresses into single list
+        addresses = []
+        for street_name, street_addresses in data.items():
+            for addr_obj in street_addresses:
+                if isinstance(addr_obj, dict) and 'address' in addr_obj:
+                    addresses.append(addr_obj['address'])
+                elif isinstance(addr_obj, str):
+                    addresses.append(addr_obj)
+
+        logger.info(f"Loaded {len(addresses)} harvested addresses from {len(data)} streets")
+        return addresses
+
+    except Exception as e:
+        logger.error(f"Error loading harvested addresses: {e}")
+        return []
+
 
 @retry(
     stop=stop_after_attempt(3),
@@ -198,32 +234,39 @@ async def scrape_westlake(target_count=100):
     global_request_count = 0
     MAX_GLOBAL_REQUESTS = 2000
 
-    # Generate address list
-    test_addresses = []
+    # Load harvested addresses from JSON file
+    test_addresses = load_harvested_addresses()
 
-    # Known streets in Westlake
-    streets = [
-        'Solana Blvd',
-        'Ottinger Rd',
-        'Dove Rd',
-        'Westlake Pkwy',
-        'Trophy Club Dr',
-        'Village Cir',
-        'Pearson Ln',
-        'Carillon Pkwy',
-        'State Highway 114',
-        'Byron Nelson Blvd',
-        'Continental Blvd',
-        'Circle Dr',
-        'Roanoke Rd',
-        'Davis Blvd',
-        'Park Dr',
-    ]
+    if not test_addresses:
+        # Fallback to address guessing if harvested file doesn't exist
+        print("WARNING: No harvested addresses found. Falling back to address guessing.")
+        print("This is less efficient. Run scrapers/westlake_harvester.py to harvest addresses first.\n")
 
-    # Generate addresses (every 100 from 1000-3500)
-    for street in streets:
-        for num in range(1000, 3600, 100):
-            test_addresses.append(f'{num} {street}')
+        # Known streets in Westlake
+        streets = [
+            'Solana Blvd',
+            'Ottinger Rd',
+            'Dove Rd',
+            'Westlake Pkwy',
+            'Trophy Club Dr',
+            'Village Cir',
+            'Pearson Ln',
+            'Carillon Pkwy',
+            'State Highway 114',
+            'Byron Nelson Blvd',
+            'Continental Blvd',
+            'Circle Dr',
+            'Roanoke Rd',
+            'Davis Blvd',
+            'Park Dr',
+        ]
+
+        # Generate addresses (every 100 from 1000-3500)
+        for street in streets:
+            for num in range(1000, 3600, 100):
+                test_addresses.append(f'{num} {street}')
+    else:
+        print(f"Using {len(test_addresses)} harvested addresses from data/westlake_addresses.json\n")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
