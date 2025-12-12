@@ -32,8 +32,64 @@ SMARTGOV_CONFIG = {
     'search_url': 'https://ci-sachse-tx.smartgovcommunity.com/ApplicationPublic/ApplicationSearch',
 }
 
-# Search terms to find permits
-SEARCH_TERMS = ['2025', '2024', '2023', 'residential', 'commercial', 'new', 'remodel']
+# Search terms to find permits (years cover most permits)
+SEARCH_TERMS = ['2025', '2024', '2023']
+
+
+def parse_page_content(content: str) -> list:
+    """Parse permit data from page text content."""
+    permits = []
+    lines = content.split('\n')
+
+    current_permit = {}
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        # Check for permit ID (8 digits starting with 202)
+        if re.match(r'^202\d{5}$', line):
+            # Save previous permit if exists
+            if current_permit.get('permit_id'):
+                permits.append(current_permit)
+
+            current_permit = {
+                'permit_id': line,
+                'permit_type': '',
+                'status': '',
+                'date': '',
+                'address': '',
+                'city': 'Sachse',
+                'source': 'smartgov',
+            }
+
+        elif current_permit.get('permit_id'):
+            # Try to classify the line
+            if any(t in line.lower() for t in ['residential', 'commercial', 'electrical', 'mechanical', 'plumbing', 'new construction', 'remodel', 'addition', 'fence', 'pool', 'roof']):
+                if not current_permit['permit_type']:
+                    current_permit['permit_type'] = line
+
+            elif re.search(r'\d{1,2}/\d{1,2}/\d{4}', line):
+                # Status + Date line
+                date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})', line)
+                if date_match:
+                    current_permit['date'] = date_match.group(1)
+                    current_permit['status'] = line.replace(date_match.group(1), '').strip().rstrip(',').strip()
+
+            elif re.match(r'^\d+\s+[A-Z]', line) and not current_permit['address']:
+                # Address line (starts with number)
+                current_permit['address'] = line
+
+            elif line in ['SACHSE, TX', 'SACHSE TX', ',']:
+                # City/state - append to address if needed
+                if current_permit['address'] and 'SACHSE' not in current_permit['address']:
+                    current_permit['address'] += f", {line}"
+
+    # Don't forget last permit
+    if current_permit.get('permit_id'):
+        permits.append(current_permit)
+
+    return permits
 
 
 @retry(
@@ -42,9 +98,10 @@ SEARCH_TERMS = ['2025', '2024', '2023', 'residential', 'commercial', 'new', 'rem
     retry=retry_if_exception_type((PlaywrightTimeout,)),
     reraise=True
 )
-async def search_permits(page, search_term: str) -> list:
-    """Search for permits and extract results."""
+async def search_permits(page, search_term: str, target_count: int = 1000, max_pages: int = 150) -> list:
+    """Search for permits with pagination and extract results."""
     permits = []
+    seen_ids = set()
 
     try:
         await page.goto(SMARTGOV_CONFIG['search_url'], timeout=30000)
@@ -55,63 +112,56 @@ async def search_permits(page, search_term: str) -> list:
         await page.click('button:has-text("SEARCH")')
         await asyncio.sleep(3)
 
-        # Extract results from page text
-        # Results appear as: permit_id, type, status+date, address
-        content = await page.inner_text('body')
+        # Get total results count
+        body_text = await page.inner_text('body')
+        count_match = re.search(r'(\d+)\s*results?', body_text.lower())
+        total_results = int(count_match.group(1)) if count_match else 0
+        logger.info(f"Search '{search_term}': {total_results} total results")
 
-        # Parse results - look for permit patterns
-        # Format: 8-digit number followed by type, status, date, address
-        lines = content.split('\n')
+        # Calculate pages needed (10 results per page), cap at target
+        pages_for_target = (target_count + 9) // 10
+        total_pages = min((total_results + 9) // 10, max_pages, pages_for_target)
 
-        current_permit = {}
-        for i, line in enumerate(lines):
-            line = line.strip()
-            if not line:
-                continue
+        # Iterate through pages
+        for page_num in range(total_pages):
+            # Parse current page
+            content = await page.inner_text('body')
+            page_permits = parse_page_content(content)
 
-            # Check for permit ID (8 digits starting with 202)
-            if re.match(r'^202\d{5}$', line):
-                # Save previous permit if exists
-                if current_permit.get('permit_id'):
-                    permits.append(current_permit)
+            # Add new permits (dedupe)
+            new_count = 0
+            for permit in page_permits:
+                pid = permit.get('permit_id')
+                if pid and pid not in seen_ids:
+                    seen_ids.add(pid)
+                    permits.append(permit)
+                    new_count += 1
 
-                current_permit = {
-                    'permit_id': line,
-                    'permit_type': '',
-                    'status': '',
-                    'date': '',
-                    'address': '',
-                    'city': 'Sachse',
-                    'source': 'smartgov',
-                }
+            if page_num % 10 == 0:
+                logger.info(f"  Page {page_num + 1}/{total_pages}: +{new_count} permits (total: {len(permits)})")
 
-            elif current_permit.get('permit_id'):
-                # Try to classify the line
-                if any(t in line.lower() for t in ['residential', 'commercial', 'electrical', 'mechanical', 'plumbing', 'new construction', 'remodel', 'addition', 'fence', 'pool', 'roof']):
-                    if not current_permit['permit_type']:
-                        current_permit['permit_type'] = line
+            # Stop early if we have enough
+            if len(permits) >= target_count:
+                logger.info(f"Reached target count of {target_count}")
+                break
 
-                elif re.search(r'\d{1,2}/\d{1,2}/\d{4}', line):
-                    # Status + Date line
-                    date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})', line)
-                    if date_match:
-                        current_permit['date'] = date_match.group(1)
-                        current_permit['status'] = line.replace(date_match.group(1), '').strip().rstrip(',').strip()
+            # Go to next page if not the last
+            if page_num < total_pages - 1:
+                # Click the next page link directly
+                next_page = page_num + 2  # Display is 1-indexed
+                try:
+                    await page.click(f'a[aria-label="Go To Page {next_page}."]', timeout=5000)
+                    await asyncio.sleep(1.5)  # Wait for page to load
+                except Exception:
+                    # Fallback: try clicking by page number text
+                    try:
+                        await page.click(f'.search-results-page:has-text("{next_page}")', timeout=3000)
+                        await asyncio.sleep(1.5)
+                    except Exception:
+                        logger.warning(f"Could not navigate to page {next_page}")
+                        break
 
-                elif re.match(r'^\d+\s+[A-Z]', line) and not current_permit['address']:
-                    # Address line (starts with number)
-                    current_permit['address'] = line
-
-                elif line in ['SACHSE, TX', 'SACHSE TX', ',']:
-                    # City/state - append to address if needed
-                    if current_permit['address'] and 'SACHSE' not in current_permit['address']:
-                        current_permit['address'] += f", {line}"
-
-        # Don't forget last permit
-        if current_permit.get('permit_id'):
-            permits.append(current_permit)
-
-        logger.info(f"Search '{search_term}': found {len(permits)} permits")
+        logger.info(f"Search '{search_term}': extracted {len(permits)} permits")
 
     except PlaywrightTimeout:
         logger.warning(f"Timeout searching '{search_term}'")
@@ -146,7 +196,9 @@ async def scrape_sachse(target_count: int) -> list:
                 if len(all_permits) >= target_count:
                     break
 
-                permits = await search_permits(page, term)
+                # Calculate remaining permits needed
+                remaining = target_count - len(all_permits)
+                permits = await search_permits(page, term, target_count=remaining)
 
                 # Dedupe
                 new_count = 0
