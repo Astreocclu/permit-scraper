@@ -10,6 +10,7 @@ It uses a simpler keyword search with filter sidebar.
 Usage:
   python scrapers/citizen_self_service.py mckinney 100
   python scrapers/citizen_self_service.py southlake 100
+  python scrapers/citizen_self_service.py waxahachie 100
 """
 
 import asyncio
@@ -60,6 +61,10 @@ CSS_CITIES = {
     'trophy_club': {
         'name': 'Trophy Club',
         'base_url': 'https://energovweb.trophyclub.org/energovprod/selfservice',
+    },
+    'waxahachie': {
+        'name': 'Waxahachie',
+        'base_url': 'https://waxahachietx-energovpub.tylerhost.net/Apps/SelfService',
     },
 }
 
@@ -947,7 +952,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Scrape permits from Citizen Self Service portals')
     parser.add_argument('city', nargs='?', default='mckinney',
-                        help='City to scrape (mckinney, southlake, colleyville, allen, trophy_club)')
+                        help='City to scrape (mckinney, southlake, colleyville, allen, trophy_club, waxahachie)')
     parser.add_argument('count', nargs='?', type=int, default=100,
                         help='Target number of permits')
     parser.add_argument('--permit-type', '-t', dest='permit_type',
