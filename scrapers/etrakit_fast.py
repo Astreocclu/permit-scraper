@@ -62,7 +62,10 @@ ETRAKIT_CITIES = {
         'base_url': 'https://dntn-trk.aspgov.com/eTRAKiT',
         'search_path': '/Search/permit.aspx',
         # Denton uses YYMM-#### format: 2501-0001 (2025-Jan), 2412-0001 (2024-Dec)
-        'prefixes': ['2501', '2412', '2411', '2410', '2409', '2408', '2407'],
+        # Need ~20 months to get 1000 permits (~50/month)
+        'prefixes': ['2501', '2412', '2411', '2410', '2409', '2408', '2407', '2406',
+                     '2405', '2404', '2403', '2402', '2401', '2312', '2311', '2310',
+                     '2309', '2308', '2307', '2306'],
         'permit_regex': r'^\d{4}-\d{4}$',
     },
 }
