@@ -1,75 +1,94 @@
-"""Tests for Westlake address harvester."""
+"""Tests for Westlake Address Harvester."""
 import pytest
-from scrapers.westlake_harvester import (
-    parse_api_response,
-    RESIDENTIAL_STREETS,
-    search_addresses
-)
+from unittest.mock import patch, MagicMock
+import json
 
 
-def test_residential_streets_defined():
-    """Verify we have target streets configured."""
-    assert len(RESIDENTIAL_STREETS) >= 5
-    assert 'Vaquero' in ' '.join(RESIDENTIAL_STREETS)
+class TestRecursiveSearch:
+    """Test the recursive A-Z search algorithm."""
+
+    def test_recursive_search_single_letter(self):
+        """Single letter search should query API."""
+        from scrapers.westlake_harvester import recursive_search
+
+        all_addresses = {}
+
+        with patch('scrapers.westlake_harvester.search_addresses') as mock_search:
+            mock_search.return_value = [
+                {'address': '100 Apple St', 'location_id': '1'},
+                {'address': '200 Acorn Ln', 'location_id': '2'},
+            ]
+
+            recursive_search('A', all_addresses, depth=0)
+
+            mock_search.assert_called_once_with('A')
+            assert len(all_addresses) == 2
+            assert '100 Apple St' in all_addresses
+
+    def test_recursive_search_drills_down_on_limit(self):
+        """When results hit limit (50+), should recurse with next character."""
+        from scrapers.westlake_harvester import recursive_search
+
+        all_addresses = {}
+
+        with patch('scrapers.westlake_harvester.search_addresses') as mock_search:
+            # First call returns 50 results (hit limit)
+            first_results = [{'address': f'{i} A St', 'location_id': str(i)} for i in range(50)]
+            # Subsequent calls return fewer
+            subsequent = [{'address': '1 AA St', 'location_id': '100'}]
+
+            mock_search.side_effect = [first_results] + [subsequent] * 36  # A-Z + 0-9
+
+            recursive_search('A', all_addresses, depth=0)
+
+            # Should have drilled down
+            assert mock_search.call_count > 1
+
+    def test_recursive_search_respects_max_depth(self):
+        """Should not recurse beyond max depth."""
+        from scrapers.westlake_harvester import recursive_search
+
+        all_addresses = {}
+
+        with patch('scrapers.westlake_harvester.search_addresses') as mock_search:
+            mock_search.return_value = []
+
+            recursive_search('AAAA', all_addresses, depth=4)
+
+            # Should not call API at depth > 3
+            mock_search.assert_not_called()
 
 
-def test_parse_api_response_extracts_addresses():
-    """Test parsing API response from getLookupResults."""
-    # Actual MyGov API response format
-    response = [
-        {'address': '2204 Vaquero Club Dr., Westlake, TX 76262', 'location_id': 5493},
-        {'address': '2206 Vaquero Club Dr., Westlake, TX 76262', 'location_id': 5492},
-    ]
+class TestRetryLogic:
+    """Test urllib3 retry/backoff integration."""
 
-    addresses = parse_api_response(response)
+    def test_session_has_retry_adapter(self):
+        """Session should have retry adapter configured."""
+        from scrapers.westlake_harvester import get_session
 
-    assert len(addresses) == 2
-    assert addresses[0]['address'] == '2204 Vaquero Club Dr., Westlake, TX 76262'
-    assert addresses[0]['location_id'] == 5493
-    assert addresses[1]['address'] == '2206 Vaquero Club Dr., Westlake, TX 76262'
-    assert addresses[1]['location_id'] == 5492
+        session = get_session()
 
-
-def test_parse_api_response_handles_empty():
-    """Handle empty or invalid responses gracefully."""
-    assert parse_api_response([]) == []
-    assert parse_api_response(None) == []
+        # Check HTTPS adapter exists
+        adapter = session.get_adapter('https://')
+        assert adapter is not None
+        # Should have retry config
+        assert adapter.max_retries.total >= 3
 
 
-def test_parse_api_response_handles_malformed():
-    """Handle malformed data gracefully."""
-    # Missing location_id
-    response = [{'address': '123 Main St'}]
-    addresses = parse_api_response(response)
-    assert len(addresses) == 0  # Skip invalid entries
+class TestCheckpointing:
+    """Test progress saving for resumability."""
 
-    # Missing address
-    response = [{'location_id': 123}]
-    addresses = parse_api_response(response)
-    assert len(addresses) == 0  # Skip invalid entries
+    def test_save_addresses_creates_file(self, tmp_path):
+        """Should save addresses to JSON file."""
+        from scrapers.westlake_harvester import save_addresses
 
+        addresses = {
+            '100 Test St': {'address': '100 Test St', 'location_id': '1'}
+        }
 
-def test_search_addresses_basic():
-    """Test basic address search functionality."""
-    # This will make a real API call - use a known street
-    results = search_addresses('Vaquero')
+        with patch('scrapers.westlake_harvester.OUTPUT_FILE', tmp_path / 'addresses.json'):
+            save_addresses(addresses)
 
-    # Should return list of address dicts
-    assert isinstance(results, list)
-
-    # Should have at least a few results
-    assert len(results) > 0
-
-    # Each result should have address and location_id
-    for result in results:
-        assert 'address' in result
-        assert 'location_id' in result
-        assert 'Vaquero' in result['address'] or 'vaquero' in result['address'].lower()
-
-
-def test_search_addresses_handles_no_results():
-    """Handle searches with no results."""
-    # Search for something that won't exist
-    results = search_addresses('XYZNONEXISTENT9999')
-    assert isinstance(results, list)
-    assert len(results) == 0
+            saved = json.loads((tmp_path / 'addresses.json').read_text())
+            assert len(saved) == 1
+            assert saved[0]['address'] == '100 Test St'

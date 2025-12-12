@@ -1,89 +1,82 @@
 #!/usr/bin/env python3
 """
-Westlake Address Harvester
+Westlake Address Harvester (Recursive A-Z Search)
 
-Collects valid residential addresses via MyGov API endpoint.
-Uses the discovered API: https://public.mygov.us/westlake_tx/getLookupResults
+Discovers ALL addresses in Westlake via recursive prefix search.
+Uses MyGov API endpoint with exponential backoff for rate limiting.
 
-The API requires POST with form data: address_search=<term>
-Returns: [{'address': '...', 'location_id': 123}, ...]
+Algorithm:
+1. Search A, B, C... Z, 0-9
+2. If any search hits result limit (50), drill down (AA, AB, AC...)
+3. Recurse up to depth 3 to handle dense prefixes
+4. Checkpoint progress for resumability
+
+Run: python scrapers/westlake_harvester.py
+Output: data/westlake_addresses.json
 """
 import json
 import time
+import string
 from pathlib import Path
-import requests
 
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+# Configuration
 API_URL = "https://public.mygov.us/westlake_tx/getLookupResults"
 OUTPUT_FILE = Path(__file__).parent.parent / "data" / "westlake_addresses.json"
+STATE_FILE = Path(__file__).parent.parent / "data" / "westlake_harvest_state.json"
 
-# High-value residential streets in Westlake
-RESIDENTIAL_STREETS = [
-    # Vaquero Club area
-    "Cedar Elm",
-    "Post Oak",
-    "Fountain Grass",
-    "Wills Ct",
-    "White Wing",
-    "Vaquero Club",
-    "Vaquero",  # General search
-    "Saddle White",
-    "King Fisher",
-    # Glenwyck area
-    "Paigebrooke",
-    "Wimbledon",
-    # General residential
-    "Dove Rd",
-    "Dove",
-    "Ottinger",
-    "Sam School",
-    "Oak Ridge",
-]
+# Search parameters
+RESULT_LIMIT = 50  # If we get this many, we need to drill down
+MAX_DEPTH = 3  # Don't recurse deeper than this
+BASE_SLEEP = 1.0  # Seconds between requests
 
 
-def parse_api_response(response):
-    """
-    Extract addresses from API response.
+def get_session():
+    """Create requests session with retry/backoff for rate limiting."""
+    session = requests.Session()
 
-    Args:
-        response: List of dicts with 'address' and 'location_id' keys
+    retries = Retry(
+        total=5,
+        backoff_factor=1,  # Wait 1s, 2s, 4s, 8s, 16s on retry
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["POST"]
+    )
 
-    Returns:
-        List of dicts with both address and location_id, or empty list
-    """
-    if not response:
-        return []
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount('https://', adapter)
+    session.mount('http://', adapter)
 
-    addresses = []
-    for item in response:
-        if not isinstance(item, dict):
-            continue
-
-        # Both address and location_id are required
-        address = item.get('address')
-        location_id = item.get('location_id')
-
-        if address and location_id:
-            addresses.append({
-                'address': address,
-                'location_id': location_id
-            })
-
-    return addresses
+    return session
 
 
-def search_addresses(search_term):
-    """
-    Search for addresses using the MyGov API.
+# Global session for reuse
+_session = None
+
+
+def get_global_session():
+    """Get or create global session."""
+    global _session
+    if _session is None:
+        _session = get_session()
+    return _session
+
+
+def search_addresses(search_term: str) -> list:
+    """Search MyGov API for addresses matching term.
 
     Args:
-        search_term: Street name or partial address to search
+        search_term: Prefix to search (e.g., "A", "AB", "100")
 
     Returns:
-        List of dicts with 'address' and 'location_id' keys
+        List of address dicts with 'address' and 'location_id' keys
     """
+    session = get_global_session()
+
     try:
-        # The API expects form-encoded POST data with 'address_search' parameter
-        response = requests.post(
+        response = session.post(
             API_URL,
             data={'address_search': search_term},
             headers={
@@ -96,73 +89,120 @@ def search_addresses(search_term):
             timeout=30
         )
 
-        if response.status_code == 200:
-            data = response.json()
-            return parse_api_response(data)
-        else:
-            print(f"Warning: API returned status {response.status_code} for '{search_term}'")
-            return []
+        response.raise_for_status()
+        data = response.json()
+
+        # Parse response - extract address items
+        results = []
+        for item in data if isinstance(data, list) else []:
+            if isinstance(item, dict) and item.get('address'):
+                results.append({
+                    'address': item.get('address'),
+                    'location_id': item.get('location_id')
+                })
+
+        return results
 
     except requests.exceptions.RequestException as e:
-        print(f"Error searching for '{search_term}': {e}")
+        print(f"  ERROR searching '{search_term}': {e}")
         return []
     except json.JSONDecodeError as e:
-        print(f"Error parsing JSON response for '{search_term}': {e}")
+        print(f"  ERROR parsing response for '{search_term}': {e}")
         return []
 
 
-def harvest_all_addresses():
-    """
-    Harvest addresses for all residential streets.
-
-    Returns:
-        Dict mapping street name to list of address dicts
-    """
-    all_addresses = {}
-
-    for street in RESIDENTIAL_STREETS:
-        print(f"Searching: {street}...")
-        addresses = search_addresses(street)
-        all_addresses[street] = addresses
-        print(f"  Found {len(addresses)} addresses")
-
-        # Rate limit to be respectful
-        time.sleep(0.5)
-
-    return all_addresses
-
-
-def save_addresses(addresses):
-    """
-    Save harvested addresses to JSON.
+def recursive_search(prefix: str, all_addresses: dict, depth: int = 0):
+    """Recursively search addresses by prefix.
 
     Args:
-        addresses: Dict mapping street name to list of address dicts
+        prefix: Current search prefix (e.g., "A", "AB")
+        all_addresses: Dict to accumulate results (address -> item dict)
+        depth: Current recursion depth
     """
+    # Safety: Don't recurse too deep
+    if depth > MAX_DEPTH:
+        return
+
+    print(f"{'  ' * depth}Scanning: {prefix}* ...")
+    results = search_addresses(prefix)
+
+    # Add new addresses
+    new_count = 0
+    for item in results:
+        addr = item.get('address')
+        if addr and addr not in all_addresses:
+            all_addresses[addr] = item
+            new_count += 1
+
+    print(f"{'  ' * depth}  Found {len(results)} results ({new_count} new)")
+
+    # If we hit the limit, need to drill down
+    if len(results) >= RESULT_LIMIT:
+        print(f"{'  ' * depth}  HIT LIMIT - drilling down...")
+        chars = string.ascii_uppercase + string.digits
+        for char in chars:
+            recursive_search(prefix + char, all_addresses, depth + 1)
+            time.sleep(BASE_SLEEP * 0.5)  # Shorter sleep for drill-down
+
+    # Checkpoint after significant progress
+    if new_count > 0 and depth == 0:
+        save_addresses(all_addresses)
+
+
+def save_addresses(addresses: dict):
+    """Save addresses to JSON file.
+
+    Args:
+        addresses: Dict mapping address string to full item dict
+    """
+    # Convert dict to list for JSON
+    data = list(addresses.values())
+
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     with open(OUTPUT_FILE, 'w') as f:
-        json.dump(addresses, f, indent=2)
+        json.dump(data, f, indent=2)
 
-    print(f"\nSaved to {OUTPUT_FILE}")
+    print(f"  Checkpointed {len(data)} addresses to {OUTPUT_FILE}")
+
+
+def load_existing_addresses() -> dict:
+    """Load previously harvested addresses for resumption."""
+    if not OUTPUT_FILE.exists():
+        return {}
+
+    try:
+        data = json.loads(OUTPUT_FILE.read_text())
+        return {item['address']: item for item in data if item.get('address')}
+    except Exception as e:
+        print(f"Could not load existing addresses: {e}")
+        return {}
 
 
 def main():
-    """Main entry point for harvesting addresses."""
-    print("Westlake Address Harvester")
+    """Run the recursive address harvest."""
+    print("Westlake Recursive Address Harvester")
     print("=" * 50)
 
-    addresses = harvest_all_addresses()
-    save_addresses(addresses)
+    # Load any existing addresses
+    all_addresses = load_existing_addresses()
+    print(f"Loaded {len(all_addresses)} existing addresses")
 
-    # Print summary
-    total = sum(len(v) for v in addresses.values())
-    print(f"\nTotal addresses harvested: {total}")
+    # Search A-Z, 0-9
+    start_chars = string.ascii_uppercase + string.digits
 
-    # Print breakdown by street
-    print("\nBreakdown by street:")
-    for street, addrs in sorted(addresses.items(), key=lambda x: len(x[1]), reverse=True):
-        print(f"  {street}: {len(addrs)} addresses")
+    print(f"\nStarting recursive search for {len(start_chars)} prefixes...")
+
+    for char in start_chars:
+        recursive_search(char, all_addresses, depth=0)
+        time.sleep(BASE_SLEEP)
+
+    # Final save
+    save_addresses(all_addresses)
+
+    print("\n" + "=" * 50)
+    print(f"COMPLETE: Harvested {len(all_addresses)} unique addresses")
+    print(f"Output: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
