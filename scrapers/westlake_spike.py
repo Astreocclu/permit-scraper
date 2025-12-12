@@ -1,68 +1,90 @@
 # scrapers/westlake_spike.py
 """
-Spike: Verify Westlake MyGov autocomplete endpoint.
-Run this to confirm we can harvest addresses from autocomplete.
+Spike: Verify Westlake MyGov address search.
+This portal uses a search (not autocomplete) - type address, press Enter, get results list.
 """
 import asyncio
 from playwright.async_api import async_playwright
 
 WESTLAKE_URL = "https://public.mygov.us/westlake_tx/lookup"
 
-async def spike_autocomplete():
-    """Type a street name and capture autocomplete responses."""
+async def spike_search():
+    """Type a street name, press Enter, and capture search results."""
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)  # Visible for debugging
         page = await browser.new_page()
 
-        # Capture network requests
-        addresses_found = []
+        # Capture ALL network responses to find the API
+        api_responses = []
 
         async def handle_response(response):
-            if 'autocomplete' in response.url.lower() or 'search' in response.url.lower():
+            url = response.url.lower()
+            # Look for any API that might return address data
+            if any(kw in url for kw in ['lookup', 'search', 'address', 'api', 'query']):
                 try:
-                    data = await response.json()
-                    print(f"FOUND API: {response.url}")
-                    print(f"DATA: {data}")
-                    addresses_found.append(data)
+                    if response.status == 200:
+                        data = await response.json()
+                        print(f"API FOUND: {response.url}")
+                        print(f"  Status: {response.status}")
+                        print(f"  Data preview: {str(data)[:200]}...")
+                        api_responses.append({'url': response.url, 'data': data})
                 except:
-                    pass
+                    pass  # Not JSON, skip
 
         page.on("response", handle_response)
 
         await page.goto(WESTLAKE_URL)
         await page.wait_for_timeout(2000)
 
-        # Look for address input field
-        address_input = page.locator('input[placeholder*="address" i], input[name*="address" i], input#address')
+        # Find input - it's a simple text input
+        address_input = page.locator('input[type="text"]').first
 
-        if await address_input.count() > 0:
-            print("Found address input field")
-            await address_input.first.fill("Vaquero")
-            await page.wait_for_timeout(3000)  # Wait for autocomplete
+        print("Typing 'Vaquero' and pressing Enter...")
+        await address_input.fill("Vaquero")
+        await address_input.press("Enter")
 
-            # Try to find dropdown options
-            options = page.locator('.autocomplete-item, .ui-menu-item, [role="option"], .dropdown-item')
-            count = await options.count()
-            print(f"Found {count} autocomplete options in DOM")
+        # Wait for loading spinner to disappear and results to appear
+        print("Waiting for results to load...")
+        await page.wait_for_timeout(5000)  # Give it more time
 
-            for i in range(min(count, 10)):
-                text = await options.nth(i).text_content()
-                print(f"  Option {i}: {text}")
-        else:
-            print("Could not find address input field")
-            # List all inputs for debugging
-            inputs = page.locator('input')
-            for i in range(await inputs.count()):
-                inp = inputs.nth(i)
-                placeholder = await inp.get_attribute('placeholder') or ''
-                name = await inp.get_attribute('name') or ''
-                print(f"  Input {i}: placeholder='{placeholder}' name='{name}'")
+        # Look for ANY list-like elements that appeared
+        print("\n--- Searching for result elements ---")
 
+        # Try various selectors for result lists
+        selectors_to_try = [
+            'li',                    # List items
+            '.result',               # Result class
+            '.address',              # Address class
+            '[class*="result"]',     # Any class containing "result"
+            '[class*="address"]',    # Any class containing "address"
+            '.accordion',            # Accordion items
+            '.card',                 # Card components
+            'a[href*="lookup"]',     # Links to lookup pages
+        ]
+
+        for selector in selectors_to_try:
+            elements = page.locator(selector)
+            count = await elements.count()
+            if count > 0:
+                print(f"\n{selector}: Found {count} elements")
+                for i in range(min(count, 5)):
+                    text = await elements.nth(i).text_content()
+                    if text and text.strip():
+                        print(f"  [{i}]: {text.strip()[:100]}")
+
+        # Also dump the page HTML structure for debugging
+        print("\n--- Page structure (main content) ---")
+        main_content = page.locator('main, .content, #content, body > div').first
+        if await main_content.count() > 0:
+            inner_html = await main_content.inner_html()
+            print(inner_html[:1500])
+
+        await page.wait_for_timeout(3000)  # Keep browser open to inspect
         await browser.close()
 
-        return addresses_found
+        return api_responses
 
 if __name__ == "__main__":
-    results = asyncio.run(spike_autocomplete())
+    results = asyncio.run(spike_search())
     print(f"\nSPIKE COMPLETE: Found {len(results)} API responses")

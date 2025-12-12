@@ -28,9 +28,34 @@ ETRAKIT_CITIES = {
         'name': 'Flower Mound',
         'base_url': 'https://etrakit.flower-mound.com',
         'search_path': '/etrakit/Search/permit.aspx',
-        # Both commercial (BP25-XXXXX) and residential (25-XXXXX) formats
-        'prefixes': ['BP25', 'BP24', 'BP23', '25-', '24-', '23-', '22-', '21-'],
-        'permit_regex': r'^(BP)?\d{2}-\d{5}$',  # BP25-00001 or 25-00001 format
+        # Flower Mound uses type-based prefixes: BP (Building), EL (Electrical), PL (Plumbing), etc.
+        # Format: XX-YY-NNNNN or XXNN-NNNNN (e.g., EL-00-0026, BP13-01542, RER-11-3040)
+        'prefixes': [
+            'BP',   # Building Permits
+            'EL',   # Electrical
+            'PL',   # Plumbing
+            'ME',   # Mechanical
+            'RO',   # Roofing
+            'RF',   # Roofing (alt)
+            'AC',   # A/C
+            'HV',   # HVAC
+            'RE',   # Residential
+            'RER',  # Residential Remodel
+            'CO',   # Certificate of Occupancy
+            'DE',   # Demolition
+            'PO',   # Pool
+            'FE',   # Fence
+            'IR',   # Irrigation
+            'FR',   # Fire
+            'SW',   # Swimming
+            'DR',   # Driveway
+            'GR',   # Grading
+            'SI',   # Sign
+            'PC',   # Plan Check
+            'COM',  # Commercial
+            'AD',   # Addition
+        ],
+        'permit_regex': r'^[A-Z]{1,4}\d{0,2}-?\d{2}-?\d{4,5}$',  # Flexible: EL-00-0026, BP13-01542, RER-11-3040
     },
 }
 
@@ -44,39 +69,48 @@ async def extract_permits_from_page(page, permit_regex: str = r'^[A-Z]{1,2}\d{2}
 
         for (const row of rows) {
             const cells = row.querySelectorAll('td');
-            if (cells.length < 4) continue;
+            if (cells.length < 3) continue;
 
             // Extract text from cells
             const cellTexts = Array.from(cells).map(c => c.innerText.trim());
 
-            // Find permit ID using city-specific pattern
+            // Find permit ID - ALWAYS try link first (most reliable)
             let permit_id = null;
             let address = null;
             let permit_type = null;
             let status = null;
             let date = null;
-            let description = null;
 
-            for (const text of cellTexts) {
-                if (permitPattern.test(text)) {
-                    permit_id = text;
-                } else if (/^\d+\s+[A-Z]/.test(text) && text.length > 10) {
-                    address = text;
-                } else if (/^(Building|Electrical|Plumbing|Mechanical|Roofing|Pool|Demolition|Fire|HVAC|Gas|Irrigation)/i.test(text)) {
-                    permit_type = text;
-                } else if (/^(Issued|Active|Final|Expired|Closed|Pending|Approved|Void)/i.test(text)) {
-                    status = text;
-                } else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(text)) {
-                    if (!date) date = text;
+            // Get permit_id from link (most reliable method)
+            const link = row.querySelector('a');
+            if (link) {
+                const linkText = link.innerText.trim();
+                // Accept any text that looks like a permit ID (has letters and numbers with dashes)
+                if (/^[A-Z]{1,4}[\d-]+/i.test(linkText) && linkText.length < 20) {
+                    permit_id = linkText;
                 }
             }
 
-            // Also try to get permit_id from link
-            const link = row.querySelector('a');
-            if (link && !permit_id) {
-                const linkText = link.innerText.trim();
-                if (permitPattern.test(linkText)) {
-                    permit_id = linkText;
+            // Fallback: try regex on cell texts
+            if (!permit_id) {
+                for (const text of cellTexts) {
+                    if (permitPattern.test(text)) {
+                        permit_id = text;
+                        break;
+                    }
+                }
+            }
+
+            // Extract other fields from cells
+            for (const text of cellTexts) {
+                if (!address && /^\d+\s+[A-Z]/i.test(text) && text.length > 10) {
+                    address = text;
+                } else if (!permit_type && /^(Building|Electrical|Plumbing|Mechanical|Roofing|Pool|Demolition|Fire|HVAC|Gas|Irrigation)/i.test(text)) {
+                    permit_type = text;
+                } else if (!status && /^(Issued|Active|Final|Expired|Closed|Pending|Approved|Void)/i.test(text)) {
+                    status = text;
+                } else if (!date && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(text)) {
+                    date = text;
                 }
             }
 

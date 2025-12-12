@@ -19,6 +19,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import psycopg2
 from psycopg2.extras import execute_values
 
@@ -86,7 +89,7 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
         permit_id = permit.get('permit_id', permit.get('id', ''))
         address = permit.get('address', permit.get('property_address', ''))
 
-        if not permit_id:
+        if not permit_id or not address:
             skipped += 1
             continue
 

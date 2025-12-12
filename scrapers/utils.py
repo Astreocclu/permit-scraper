@@ -518,9 +518,12 @@ COLUMN_MAP = {
     'permit number': 'permit_id',
     'permit_number': 'permit_id',
     'projectnumber': 'permit_id',
+    'case number': 'permit_id',  # EnerGov CSS export format
+    'casenumber': 'permit_id',
 
     # Description variations
     'projectname': 'description',
+    'project name': 'description',  # EnerGov CSS export format
     'description': 'description',
     'work description': 'description',
     'project description': 'description',
@@ -574,10 +577,17 @@ def parse_excel_permits(filepath: str, city: str) -> list[dict]:
         return []
 
     try:
-        df = pd.read_excel(filepath, engine='openpyxl')
-    except Exception as e:
-        logger.error(f"Failed to read Excel file: {e}")
-        return []
+        # Try CSV first (some portals export CSV with .xlsx extension)
+        df = pd.read_csv(filepath)
+        logger.info(f"[{city}] Parsed as CSV")
+    except Exception as csv_err:
+        try:
+            # Fall back to Excel
+            df = pd.read_excel(filepath, engine='openpyxl')
+            logger.info(f"[{city}] Parsed as Excel")
+        except Exception as excel_err:
+            logger.error(f"Failed to read file as CSV ({csv_err}) or Excel ({excel_err})")
+            return []
 
     if df.empty:
         logger.info(f"Excel file has no data rows: {filepath}")

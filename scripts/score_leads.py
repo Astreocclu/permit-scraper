@@ -30,6 +30,9 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import aiohttp
 
 
@@ -101,16 +104,18 @@ def normalize_address(raw_address: str, default_city: str = "") -> dict:
     city = default_city
     zip_code = ""
 
-    # Extract ZIP code (5 or 9 digit)
-    zip_match = re.search(r'\b(\d{5})(?:-\d{4})?\b', addr)
+    # Extract ZIP code (5 or 9 digit) - must be at end or after state abbrev
+    # Pattern: either "TX 75201" or just "75201" at end of string
+    zip_match = re.search(r'\b([A-Z]{2})\s+(\d{5})(?:-\d{4})?\s*$', addr, re.IGNORECASE)
     if zip_match:
-        zip_code = zip_match.group(1)
-        addr = addr[:zip_match.start()] + addr[zip_match.end():]
-
-    # Extract state abbreviation (TX, etc.) - remove it
-    state_match = re.search(r'\b([A-Z]{2})\s*(?:\d{5}|$)', addr, re.IGNORECASE)
-    if state_match:
-        addr = addr[:state_match.start()] + addr[state_match.end():]
+        zip_code = zip_match.group(2)
+        addr = addr[:zip_match.start()].strip()
+    else:
+        # Try ZIP at very end without state
+        zip_match = re.search(r'\s(\d{5})(?:-\d{4})?\s*$', addr)
+        if zip_match:
+            zip_code = zip_match.group(1)
+            addr = addr[:zip_match.start()].strip()
 
     # Extract city if it follows a comma
     # Pattern: "123 Main St, Dallas" or "123 Main St, Dallas, TX"
@@ -252,13 +257,29 @@ JUNK_PROJECTS = [
     "tenant finish", "tenant improvement", "ti permit",
 ]
 
+# Positive indicators that override "demolition" being junk
+REMODEL_INDICATORS = [
+    "addition", "remodel", "rebuild", "new construction",
+    "second story", "second-story", "2nd story", "expansion",
+    "renovate", "renovation", "convert", "build new",
+]
+
 
 def is_junk_project(description: str) -> bool:
     """Check if project description indicates a junk/low-value project."""
     if not description:
         return False
     desc_lower = description.lower()
-    return any(junk in desc_lower for junk in JUNK_PROJECTS)
+
+    for junk in JUNK_PROJECTS:
+        if junk in desc_lower:
+            # Special case: demolition + remodel indicators = not junk
+            if junk in ["demolition", "demo permit"]:
+                if any(indicator in desc_lower for indicator in REMODEL_INDICATORS):
+                    continue  # Skip this junk keyword, it's part of a real project
+            return True
+
+    return False
 
 
 # =============================================================================
@@ -523,12 +544,20 @@ class DeepSeekScorer:
                 result = self._parse_response(content)
 
                 category = categorize_permit(permit)
+
+                # Override tier to "U" (Unverified) if freshness unknown
+                tier = result.get("tier", "B")
+                flags = result.get("flags", [])
+                if permit.days_old == -1:
+                    tier = "U"
+                    flags = flags + ["unverified_freshness"]
+
                 return ScoredLead(
                     permit=permit,
                     score=result.get("score", 50),
-                    tier=result.get("tier", "B"),
+                    tier=tier,
                     reasoning=result.get("reasoning", ""),
-                    flags=result.get("flags", []),
+                    flags=flags,
                     ideal_contractor=result.get("ideal_contractor", ""),
                     contact_priority=result.get("contact_priority", "email"),
                     category=category,
@@ -655,7 +684,7 @@ def load_permits_for_scoring(conn, options: dict) -> List[PermitData]:
     for row in rows:
         pg_id = row[0]  # PostgreSQL id for FK
         issued_date = None
-        days_old = 0
+        days_old = -1  # Sentinel: unknown freshness (will become tier "U")
         if row[10]:  # issued_date is now at index 10
             try:
                 if isinstance(row[10], date):
@@ -789,7 +818,7 @@ def export_leads(leads: List[ScoredLead], output_dir: str = "exports") -> Dict[s
         if trade_group not in buckets:
             buckets[trade_group] = {}
         if category not in buckets[trade_group]:
-            buckets[trade_group][category] = {"a": [], "b": [], "c": []}
+            buckets[trade_group][category] = {"a": [], "b": [], "c": [], "u": []}
 
         buckets[trade_group][category][tier].append(lead)
 
@@ -851,6 +880,7 @@ async def score_leads_async(permits: List[PermitData], max_concurrent: int = 5) 
         'tier_a': 0,
         'tier_b': 0,
         'tier_c': 0,
+        'tier_u': 0,
         'retry': 0,
         'discard_reasons': {}
     }
@@ -884,6 +914,8 @@ async def score_leads_async(permits: List[PermitData], max_concurrent: int = 5) 
             stats['tier_a'] += 1
         elif lead.tier == "B":
             stats['tier_b'] += 1
+        elif lead.tier == "U":
+            stats['tier_u'] += 1
         else:
             stats['tier_c'] += 1
 
@@ -981,6 +1013,7 @@ def main():
     print(f"\nTier A (80+):   {stats['tier_a']}")
     print(f"Tier B (50-79): {stats['tier_b']}")
     print(f"Tier C (<50):   {stats['tier_c']}")
+    print(f"Tier U (unverified): {stats['tier_u']}")
     if stats['retry']:
         print(f"Retry (failed): {stats['retry']}")
 

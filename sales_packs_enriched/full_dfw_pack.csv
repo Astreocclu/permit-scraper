@@ -1,0 +1,712 @@
+property_address,phone,email,owner_name,market_value,score,category,city,issued_date,has_phone
+"1004 CASSION DR, Lewisville TX",(214) 718-4103,"","JONES, MICHAEL ALAN",455889.00,65,other,lewisville,2025-11-10,Yes
+"1005 VANCOUVER DR, Lewisville TX","","","LIAN, TIN CUNG & IANG, BLAK & SANG, DAWT K",423323.00,65,roof,lewisville,2025-12-01,No
+"100 LINDENWOOD DR, Fort Worth TX 76107",(202) 288-8736,"","THOMPSON, JAMES",1082189.00,85,other,fort_worth,2025-11-21,Yes
+"100 N BARNETT AVE, Dallas TX 75211",(903) 312-0410,"",CASAS JOSUE,433360.00,65,electrical,dallas,2025-12-04,Yes
+10101 CARANO CT,"","",SHAIKH KHUSHBU MEHBOOB,539200.00,72,foundation,irving,,No
+"10101 CARANO CT, Irving TX","","",SHAIKH KHUSHBU MEHBOOB,539200.00,65,foundation,irving,2025-12-04,No
+"10121 FERNDALE RD, Dallas TX 75238",(504) 909-1022,"",AIKEN MICHAEL WILLIAM & TRICIA ANN,1122060.00,85,plumbing,dallas,2025-12-03,Yes
+1013 STONEPORT LN ALLEN TX 75002,(972) 727-4578,ind.manny@gmail.com,MANNY ROBERT STEVEN,519730.00,85,foundation,allen,,Yes
+"1019 WATERFORD DR, Dallas TX 75218",(214) 384-6608,cwelch@welcharchitecture.com,WELCH CLIFFORD M &,483800.00,68,other,dallas,2025-12-03,Yes
+"10208 DONLEY DR, Irving TX",(512) 328-0637,"",WIEBOLD FAMILY TRUST THE,504540.00,65,plumbing,irving,2025-11-25,Yes
+"10209 DONLEY DR, Irving TX",(972) 831-9734,swardrup@yahoo.com,WARDRUP SARA,445200.00,68,concrete,irving,2025-12-03,Yes
+10212 DONLEY DR,(214) 280-7251,ltflowers@yahoo.com,FLOWERS LATONYA,464060.00,65,plumbing,irving,,Yes
+"10218 WOODFORD DR, Dallas TX 75229",(858) 204-1344,ba_frazier@yahoo.com,FRAZIER BRIAN A &,1448110.00,92,foundation,dallas,2025-12-04,Yes
+"10224 BEST DR, Dallas TX 75229",(214) 352-1396,"",PATEL SHEETAL & DIPESH,830680.00,65,foundation,dallas,2025-12-05,Yes
+1022 GROVE DR,(409) 882-9642,"","MILLER, ANDREA & AARON",441350.00,65,plumbing,lewisville,,Yes
+"10249 E RANCHO DIEGO LN, Fort Worth TX 76036",(817) 551-1564,pckakara@aol.com,"KAKARA, PERRY",406726.00,65,foundation,fort_worth,2025-11-25,Yes
+"1026 LAUSANNE AVE, Dallas TX 75208",(469) 693-6405,phrydayenator@gmail.com,FRIDAY LACIE E,671660.00,85,fence,dallas,2025-12-08,Yes
+"1026 N WINNETKA AVE, Dallas TX 75208",(817) 706-6356,"",HOLMES MICHAEL W,640000.00,65,roof,dallas,2025-12-03,Yes
+"10306 BETTY JANE LN, Dallas TX 75229","","",BAMBERGER REVOCABLE TRUST,1306790.00,85,plumbing,dallas,2025-12-05,No
+"10311 LAKEMERE DR, Dallas TX 75238","","",HILL JOSH & KARA,528170.00,68,plumbing,dallas,2025-12-08,No
+"10322 PINECREST DR, Dallas TX 75228",(469) 766-6489,patriciacreswell@yahoo.com,CRESWELL PATRICIA A,314600.00,65,foundation,dallas,2025-12-09,Yes
+"10329 ROSSER RD, Dallas TX 75229",(214) 695-5186,captaincurvebreaker@hotmail.com,POTTS KEVIN JOHN & LINDA TRAN,1757500.00,85,plumbing,dallas,2025-12-08,Yes
+1033 LONG PRAIRIE RD,(949) 706-9355,benchen8@gmail.com,BATRA PARTNERS LLC,3020426.00,65,other,flower_mound,,Yes
+"1035 MONARCH DR, Lewisville TX",(858) 401-9295,meharvison@msn.com,"HARVISON, BILLY W",404437.00,68,foundation,lewisville,2025-12-01,Yes
+"10409 MATEO TRL, Irving TX",(214) 662-4852,nputrevu@gmail.com,PUTREVU NARAYAN &,615000.00,72,plumbing,irving,2025-11-25,Yes
+"10416 MARSH LN, Dallas TX 75229",(630) 531-6345,npatel082@yahoo.com,PATEL NEIL & BINITA,1085000.00,85,other,dallas,2025-12-04,Yes
+"10425 COUNTESS DR, Dallas TX 75229",(214) 802-2486,david.b.matthews@icloud.com,MATTHEWS DAVID &,567230.00,72,electrical,dallas,2025-12-06,Yes
+"10433 REMINGTON LN, Dallas TX 75229",(214) 361-2719,kyle.gibbons01@gmail.com,GIBBONS GARRETT R JR,770000.00,85,addition,dallas,2025-12-09,Yes
+1043 ARCHES PARK DR ALLEN TX 75013,(972) 954-7418,nichole.l.taylor@gmail.com,SLATON MISCHELLE S & BROCK L,932729.00,85,hvac,allen,,Yes
+"10509 ESTATE LN, Dallas TX 75238",(214) 348-5365,kerry.hancock@gmail.com,HANCOCK KERRY L &,499860.00,68,hvac,dallas,2025-12-03,Yes
+"10519 MAPLERIDGE DR, Dallas TX 75238",(214) 354-8202,paul.clemmons@yahoo.com,CLEMMONS PAUL A & PRISCILLA A,517310.00,78,foundation,dallas,2025-12-05,Yes
+"1051 N CLINTON AVE, Dallas TX 75208","","",SHIRZAD DAVID W & MADELEINE S,769590.00,65,other,dallas,2025-12-08,No
+"10544 PAGEWOOD DR, Dallas TX 75230",(214) 850-3147,gsennette@msn.com,SENNETTEBROWN GRADYNE,629470.00,85,roof,dallas,2025-12-08,Yes
+"10611 NEW CHURCH RD, Dallas TX 75229",(972) 562-7479,ruthjkerico@aol.com,KERICO THEODORE &,2400000.00,85,addition,dallas,2025-12-05,Yes
+"10705 ENCHANTED ROCK WAY, Fort Worth TX 76126",(818) 268-1448,erinlsav@aol.com,"LOPEZ, JORGE",484053.00,65,pool,fort_worth,2025-11-10,Yes
+"10716 MEADOWCLIFF LN, Dallas TX 75238",(214) 348-3688,"",SCOTT SANDRA J ESTATE OF,729260.00,65,electrical,dallas,2025-12-09,Yes
+"107 MEREDITH DR, Irving TX",(210) 846-3505,"",BEXLEY JAMISON & SEREENA,507950.00,68,fence,irving,2025-12-01,Yes
+107 SAN JACINTO CT,(817) 823-9567,joeyshankland@hotmail.com,"BERGSTROM, CATHERINE",992536.00,85,plumbing,southlake,2025-11-19,Yes
+"10832 MEADOWCLIFF LN, Dallas TX 75238",(214) 808-6616,mwnessy@msn.com,NESUDA MICHAEL W,838930.00,85,roof,dallas,2025-12-04,Yes
+"1085 LEISURE LN, Irving TX",(646) 934-0567,"",GADHIRAJU DEEPTHI,565000.00,75,concrete,irving,2025-11-26,Yes
+108 SIERRA CT ALLEN TX 75013,(972) 390-9621,"",LUTER EDWARD CARL & KRISTA FRAMBES,631404.00,85,foundation,allen,,Yes
+"10905 SCOTSMEADOW DR, Dallas TX 75218",(203) 625-7003,whtulipe@aol.com,HOLLAND RICHARD W & RENEE,590200.00,65,electrical,dallas,2025-12-05,Yes
+"10943 MCCREE RD, Dallas TX 75238",(309) 532-3538,"",BLEVINS SARAH,459680.00,65,plumbing,dallas,2025-12-08,Yes
+"11021 TUMBLEWEED DR, Dallas TX 75217",(214) 881-9180,liliacambray84@hotmail.com,FINLEY JIMMY & DONNA,228320.00,65,foundation,dallas,2025-12-09,Yes
+"11029 SHADY TRL, 110, Dallas TX 75229",(972) 247-7224,"",MY FIVESTAR LLC,1660000.00,65,other,dallas,2025-12-08,Yes
+"1104 LADY CAROL LN, Lewisville TX",(214) 534-3223,garyobtwo@aol.com,"CALHOUN, JOHN L & LAURA E",868912.00,85,plumbing,lewisville,2025-11-25,Yes
+"1108 KING MARK DR, Lewisville TX",(469) 222-9996,nancymcclaren@gmail.com,"PATTILLO, BRIAN & TAYLOR",1529556.00,85,remodel,lewisville,2025-11-25,Yes
+1108 SANDY CREEK DR ALLEN TX 75002,(972) 727-8949,cat5833@hotmail.com,WALKER RICK K,387178.00,65,hvac,allen,,Yes
+"1108 SANTA FE TRL, Irving TX",(214) 272-7074,a2sala@gmail.com,SALAZAR ADRIAN &,524720.00,65,plumbing,irving,2025-12-04,Yes
+"110 PARKWAY DR, Lewisville TX",(757) 893-7999,mcwright820@gmail.com,"WRIGHT, MICHAEL C",458019.00,68,hvac,lewisville,2025-12-01,Yes
+"1110 TIMPLEMORE DR, Dallas TX 75218",(903) 530-8099,rjones2795@aol.com,JONES REBECCA O & MARK C,1019030.00,85,plumbing,dallas,2025-12-09,Yes
+"11116 DWARFS CIR, Dallas TX 75229",(469) 774-0557,fried96@aol.com,FRIEDBERG STEPHEN R &,901040.00,85,commercial_electrical,dallas,2025-12-03,Yes
+"1111 FIREWATER CIR, Lewisville TX",(972) 618-9601,catherinepompeo@yahoo.com,"POMPEO, CATHERINE",459456.00,65,concrete,lewisville,2025-12-01,Yes
+"1112 BREEZEWOOD DR, Lewisville TX",(972) 219-8423,nkchochrek@gmail.com,"CHOCHREK, LEONARD",489975.00,68,hvac,lewisville,2025-11-26,Yes
+"1114 KATELYN CT, Irving TX",(512) 337-7723,mailcall1948@yahoo.com,MITCHELL LINDA WEBB,407210.00,65,plumbing,irving,2025-11-19,Yes
+"111 N WINDOMERE AVE, Dallas TX 75208",(214) 941-7424,meauxoh@gmail.com,EHRLICHER DAVID L &,491580.00,65,plumbing,dallas,2025-12-09,Yes
+"1120 PEBBLE CREEK RD, Fort Worth TX 76107",(956) 369-0374,"","RODRIGUEZ, ANDRE",3787677.00,85,other,fort_worth,2025-11-14,Yes
+"11219 ST JUDES DR, Dallas TX 75230",(917) 608-9304,boriqa842001@yahoo.com,GONZALEZ LORENZO &,1386430.00,85,commercial_electrical,dallas,2025-12-05,Yes
+"1125 WINDHAVEN CIR, Lewisville TX",(972) 436-2008,edward.thomas@latinmail.com,"THOMAS, EDWARD JR & SANDRA",482857.00,65,windows,lewisville,2025-11-18,Yes
+"1131 TRANQUILLA DR, Dallas TX 75218",(214) 821-4415,amandy0522@yahoo.com,CABRERA JOSE L JR &,535700.00,65,addition,dallas,2025-12-08,Yes
+"1135 RANCH VISTA, Irving TX",(214) 507-7164,"",GARCIA XAVIER M & TAMMY H,697460.00,72,plumbing,irving,2025-12-01,Yes
+"11529 MID SURREY CT, Dallas TX 75234",(214) 693-6680,"",SAINT MICHAEL H,482400.00,68,outdoor_living,dallas,2025-12-04,Yes
+"11540 E NORTHWEST HWY, Dallas TX 75218",(972) 475-3800,jnkhalil@gmail.com,KHALIL NAGY,850000.00,65,plumbing,dallas,2025-12-06,Yes
+1157 VALLEY OAKS DR,(972) 315-2239,dishs@msn.com,CONFIDENTIAL OWNER,461977.00,65,hvac,lewisville,,Yes
+"11635 ROGUE WAY, Dallas TX 75218",(214) 801-8006,tmorris@cuisinecounselor.com,MORRIS THOMAS JAMES &,504420.00,65,plumbing,dallas,2025-12-09,Yes
+"11651 MCRAE RD, Dallas TX 75228",(972) 513-7746,sciortino25@netzero.net,SCIORTINO VINCENZO & RITA,323980.00,65,roof,dallas,2025-12-09,Yes
+118 VILLAGE DR,(972) 317-0531,"","SCOGGINS, ROBIN & SCOGGINS, RANDALL",320692.00,65,electrical,lewisville,,Yes
+"119 SPEAR CT, Irving TX",(727) 490-7723,tximran@yahoo.com,MOHAMMED IMRAN &,901510.00,68,concrete,irving,2025-11-14,Yes
+"12007 QUINCY LN, Dallas TX 75230",(972) 233-5368,cornelius.russell@rochester.rr.com,HARVEY MIKE & CATHY HOFMANN,1788170.00,85,pool,dallas,2025-12-03,Yes
+1201 MORGAN LEFAY LN,(732) 513-6883,jackbarko@yahoo.com,"BARKO, JASON & JENNIFER",905053.00,95,foundation,lewisville,,Yes
+1203 VIRIDIAN PARK LANE,(909) 841-3923,stephaniemoses@yahoo.com,"FELTON, STEPHANIE",1446909.00,85,other,arlington,2025-10-21,Yes
+"1204 GARDEN TERRACE DR, Irving TX",(775) 302-3528,joanne030743@sbcglobal.net,STONE JANE REVOCABLE LIVING,609960.00,65,roof,irving,2025-11-18,Yes
+1206 CLEARWOOD CT ALLEN TX 75002,(469) 438-9310,kpav66@live.com,TILLMAN LLOYD WAYNE & RHONDA,321031.00,65,concrete,allen,,Yes
+1207 NORMAN CIRCLE,"","","GARICA, JOSE",889179.00,65,foundation,arlington,2025-11-11,No
+"1207 NORMAN CIRCLE, Arlington TX","","","GARICA, JOSE",889179.00,65,foundation,arlington,2025-11-11,No
+1207 TWIN CREEKS DR ALLEN TX 75013,"","",FIRST CHRISTIAN CHURCH OF ALLEN,1024234.00,85,outdoor_living,allen,,No
+"1214 ICHABOD CT, Irving TX",(972) 254-0072,douglas75061@hotmail.com,HIGHFIELD DONNA REVOCABLE,466190.00,65,fence,irving,2025-11-11,Yes
+"1215 N BISHOP AVE, Dallas TX 75208",(713) 204-2667,"",SHELDEN AMY JEAN,529000.00,85,foundation,dallas,2025-12-09,Yes
+1216 BEL AIR DR ALLEN TX 75013,(214) 509-0558,mrsdbowe1@gmail.com,ADAMS R SCOTT & MARQUITA N,591988.00,85,hvac,allen,,Yes
+1219 GRANADA LN,(972) 510-4177,tallen492@yahoo.com,"JONES, TRACY MARIE",301830.00,65,foundation,lewisville,,Yes
+"12231 HOBLITZELLE DR, Dallas TX 75243",(214) 682-6142,judge.mcgee@yahoo.com,MCGEE HURLINE,217810.00,65,hvac,dallas,2025-12-05,Yes
+"1223 N TRAVIS CIR, Irving TX",(908) 612-0606,geobin08@gmail.com,GEORGE BINDU &,1702430.00,85,concrete,irving,2025-11-14,Yes
+1226 COLLIN DR ALLEN TX 75002,(972) 424-7797,"",SWENHOLT KRISTIN,294013.00,65,hvac,allen,,Yes
+"1229 MCMAHAN DR, Lewisville TX",(469) 693-6851,joewilli66@yahoo.com,"WILLIAMS, JOSEPH T",351654.00,65,fence,lewisville,2025-11-24,Yes
+"122 N WINDOMERE AVE, Dallas TX 75208",(214) 733-6830,ashueston@hotmail.com,HUESTON ALLEN JR & ASHLEE L,727890.00,68,plumbing,dallas,2025-12-03,Yes
+"1232 TWISTING WIND DR, Fort Worth TX 76052","","","ROGERS, CHRISTOPHER B",590698.00,65,other,fort_worth,2025-11-14,No
+"12356 GREEN ASH DR, Fort Worth TX 76244",(817) 741-1781,acourtney@pga.com,"COURTNEY, DAVID A",629562.00,65,remodel,fort_worth,2025-11-19,Yes
+"123 S MONTCLAIR AVE, Dallas TX 75208",(972) 291-1534,sgbishop51@gmail.com,HAMMOND BRYSON D,688040.00,85,fence,dallas,2025-12-09,Yes
+"12407 CEDAR BEND DR, Dallas TX 75244",(469) 363-0208,brandon.yjones@yahoo.com,JONES KELLIE D,421960.00,65,plumbing,dallas,2025-12-03,Yes
+"1248 MCMAHAN DR, Lewisville TX",(972) 998-4167,chong.oh@cableone.net,"OH, CHONG A",463289.00,68,hvac,lewisville,2025-12-03,Yes
+"12515 HIGH MEADOW DR, Dallas TX 75244",(214) 226-5348,cwirt99@aol.com,WIRT COLLEEN JOYCE,504000.00,78,hvac,dallas,2025-12-04,Yes
+1304 GIBRALTAR ST,(201) 686-5211,sn_zubair@yahoo.com,SYED ZAKI UDDIN &,1202000.00,85,electrical,plano,,Yes
+1310 KENSHIRE CT ALLEN TX 75013,(646) 724-1925,thorsten.schmugge@yahoo.com,SCHMUGGE THORSTEN & NADINE,428640.00,65,electrical,allen,,Yes
+"1312 GARDEN TERRACE DR, Irving TX",(214) 272-7084,"",JOHNSTON PIERCE C,395820.00,65,fence,irving,2025-11-26,Yes
+"13134 RAVENVIEW RD, Dallas TX 75253",(817) 992-6658,ktquentin@hotmail.com,QUENTIN CHRISTOPHER &,438510.00,65,concrete,dallas,2025-12-08,Yes
+1318 KERRVILLE DR ALLEN TX 75013,(214) 729-1316,echristensen@usa.net,CHRISTENSEN ERIC J & NOPPARAT T,809361.00,85,concrete,allen,,Yes
+"1319 STARLING LN, Lewisville TX",(408) 826-7076,iraqiamnah01@yahoo.com,"ALMAMORI, AMNAH & HASSAN, ALI SABIR",282856.00,65,hvac,lewisville,2025-12-04,Yes
+"1320 VENEZIA LN, Lewisville TX",(202) 285-3301,"","DANIEL, DAN & BABU, SARAH THOMAS",471662.00,68,concrete,lewisville,2025-11-18,Yes
+"13210 WITTMORE CIR, Dallas TX 75240",(512) 255-9356,jennihefton@gmail.com,HEFTON ADAM S & JENNIFER A,1084870.00,85,pool,dallas,2025-12-08,Yes
+"1348 FALCON DR, Dallas TX 75051","","",JOHNSON DAWN,331680.00,65,roof,dallas,2025-12-07,No
+1350 CLEAR CREEK DR,(214) 392-4763,pamarketer@aol.com,"CAREY, GEORGE GARNER JR & RICHARDSON, KEELY D TRTS JAMWAAG LIV TRUST",443319.00,65,roof,lewisville,,Yes
+"13517 FAR HILLS LN, Dallas TX 75240",(972) 980-2361,overberg@bellsouth.net,OVERBERG RONALD & CHRIS EST OF,501880.00,65,plumbing,dallas,2025-12-03,Yes
+"139 TURTLE CREEK BLVD, Dallas TX 75207",(214) 606-7951,gurli_7@hotmail.com,N13 GROUP LLC,2375820.00,65,other,dallas,2025-12-09,Yes
+1409 CURRANT WAY,(214) 783-1259,ginah@bhcs.com,"SCHNEIDER, MARISSA BECK & PHILLIP JAMES",665910.00,65,other,flower_mound,,Yes
+1410 LOMBARDY WAY ALLEN TX 75002,(614) 804-5706,adguajar@hotmail.com,GUAJARDO ALEJANDRO & BELINDA ALEIDA GUTIERREZ,488595.00,85,roof,allen,,Yes
+"14119 MONTFORT DR, Dallas TX 75254","","",CYPRESS CREEK MONTFORT DRIVE,6461030.00,85,other,dallas,2025-12-08,No
+"1412 MAIN ST, A, Dallas TX 75201","","",FRANK NEEDHAM,1500.00,85,other,dallas,2025-12-08,No
+1429 CIBOLO DR ALLEN TX 75013,(214) 850-8499,dianals_@yahoo.com,LOLLAR DALE & TARA,838382.00,85,roof,allen,,Yes
+1431 GREENBRIAR DR ALLEN TX 75013,(469) 617-1226,yaparlaunamunda@yahoo.com,WATKINS FAMILY TRUST,604430.00,65,roof,allen,,Yes
+1434 RIO GRANDE DR ALLEN TX 75013,(972) 841-1226,alfred.morris@mindspring.com,MORRIS ALFRED W & WENDY J,848673.00,92,concrete,allen,,Yes
+1441 WELLESLEY DR,(817) 733-5214,"","LOEFFLER, PATRICK A",510497.00,85,plumbing,lewisville,,Yes
+1454 COTTONWOOD VALLEY CT,(214) 208-3801,uwhusky89@hotmail.com,MITCHELLA PATRICK C & CHRISTINA A,1032590.00,85,plumbing,irving,,Yes
+14 HERITAGE WOODS PL ALLEN TX 75002,(972) 396-5676,tcolver@gmail.com,COLVER THOMAS F,498102.00,85,plumbing,allen,,Yes
+"15020 RAVENS WAY, Fort Worth TX 76262","","","TRIPP, TIMOTHY F & GRETCHEN",551017.00,65,remodel,fort_worth,2025-11-18,No
+1506 N VALLEY PKWY,(972) 436-6757,bacaforce1@yahoo.com,"FUNKHOUSER, PHILIP L",616254.00,85,electrical,lewisville,,Yes
+1508 RIVERDALE DR ALLEN TX 75013,(972) 363-3357,ayodhyaf@hotmail.com,FERNANDO AYODHYA M & HIRAN R,772057.00,85,foundation,allen,,Yes
+1509 WHISTLE BROOK DR ALLEN TX 75013,(732) 407-1447,"",CHENNUPATHY RAVIKANTH & SIRISHA GUMMADI,943000.00,92,foundation,allen,,Yes
+"15101 RAVENS WAY, Fort Worth TX 76262","","","WILLIAMSON, ROGER & DONNA",525976.00,85,pool,fort_worth,2025-11-19,No
+1525 PARMA CT,"","",CAMPOS MARIA ELOISA,302920.00,65,roof,irving,,No
+"15315 LEAVALLEY CIR, Dallas TX 75248",(214) 293-9498,"",TARTER AMANDA,1034940.00,85,concrete,dallas,2025-12-05,Yes
+"1537 CEDAR HILL AVE, Dallas TX 75208","","",BENNETT NANCY,798940.00,85,hvac,dallas,2025-12-04,No
+1539 SUNFLOWER DR ALLEN TX 75002,(651) 635-9435,rubanrouge@hotmail.com,BARKLEY CAROL J,344807.00,65,roof,allen,,Yes
+"15556 LEAVALLEY CIR, Dallas TX 75248",(817) 556-9544,"",MCCLURE MARY KATHERINE &,514600.00,65,plumbing,dallas,2025-12-09,Yes
+1572 MAHOGANY DR ALLEN TX 75002,(847) 997-8890,jolickal@aol.com,OLICKAL JOEL & BINDU,454586.00,65,hvac,allen,,Yes
+"1574 COLLEGE PKWY, Lewisville TX",(214) 222-0230,"","GOMEZ, GLORIA L ETAL",375481.00,65,foundation,lewisville,2025-12-05,Yes
+"1600 CRIPPLE CREEK DR, Irving TX",(972) 438-5973,"",WEST MICHAEL & MARY,499480.00,75,concrete,irving,2025-12-04,Yes
+1600 NORTH FALLS CT,"","","LYONS, SCOTT E & MELISSA A",519088.00,65,other,flower_mound,,No
+"16016 RED CEDAR TRL, Dallas TX 75248",(214) 316-6716,aaron.michael.kaufman@gmail.com,KAUFMAN JULIA ZWICK & AARON MICHAEL,748000.00,85,plumbing,dallas,2025-12-08,Yes
+1604 OAK MEADOW DR,(972) 253-7881,edvirgmac@aol.com,MCCARTY RAYMOND E EST OF,478850.00,65,foundation,irving,,Yes
+"1606 RONNE DR, Irving TX",(817) 832-1606,jwscott1948@gmail.com,SCOTT JAMES DAVID &,342990.00,65,roof,irving,2025-12-05,Yes
+"16105 RED CEDAR TRL, Dallas TX 75248",(214) 850-4089,jbrown2106@hotmail.com,BROWN JAMES D JR,815590.00,85,roof,dallas,2025-12-08,Yes
+"1613 GLEN VALLEY DR, Irving TX",(972) 579-9521,evr2@juno.com,ROSE RUBY LORETTA,481300.00,62,fence,irving,2025-11-10,Yes
+1613 PARKSIDE TRL,(972) 436-5866,"","DEEN, LORRAINE & DEEN, PAUL",386161.00,65,electrical,lewisville,,Yes
+1614 LAKE TRAVIS DR ALLEN TX 75002,(972) 978-6750,kdiazhall@hotmail.com,HALL JUDSON DEWAYNE & KARLA SOLEDAD DIAZ CABANILLAS DE HALL,449870.00,72,outdoor_living,allen,,Yes
+1617 BRYCE CANYON LN ALLEN TX 75002,(972) 369-1409,lmurphy368@aol.com,MURPHY LAVETTE M,530795.00,65,plumbing,allen,,Yes
+1620 WESTFIELD WAY ALLEN TX 75002,(214) 454-7001,chewy0618@gmail.com,ABBOUD CHELSEA A & JAMAL K,531043.00,85,foundation,allen,,Yes
+1625 LIVE OAK DR,(817) 658-7987,papa331@yahoo.com,"RUSH, MARTIN & DENISE T",301567.00,65,plumbing,lewisville,,Yes
+1654 CANTERBURY LN,(713) 473-9807,balkec@attbi.com,"BALKE, CHARLES W TR BALKE REVOCABLE LIVING TRUST",358038.00,65,plumbing,lewisville,,Yes
+"16619 VICARAGE CT, Dallas TX 75248",(214) 883-5228,dragonsword7@hotmail.com,KINDER DARIN L & HEATHER I,797490.00,85,addition,dallas,2025-12-04,Yes
+1676 NIAGARA BLVD,(214) 693-9031,cbowie619i5@bellsouth.net,"BOWIE, DRUSCILLA G",447126.00,65,roof,lewisville,,Yes
+"1707 SAN JACINTO ST, Dallas TX 75201","","",FIRST BAPTIST CHURCH OF,1339700.00,85,demolition,dallas,2025-12-08,No
+"17101 EARTHWIND DR, Dallas TX 75248",(972) 896-8511,michelle.litt@hotmail.com,LITT MICHELLE,880000.00,85,plumbing,dallas,2025-12-08,Yes
+"17117 SKELTON PL, Dallas TX 75248",(469) 828-0487,nealrothstein@gmail.com,ROTHSTEIN NEAL & PAIGE M,1000000.00,85,concrete,dallas,2025-12-03,Yes
+"17122 BULLAYE WAY, Dallas TX 75080",(404) 971-7617,cravenhawke@gmail.com,MCKINNON DANIEL PATRICK &,1020900.00,85,outdoor_living,dallas,2025-12-08,Yes
+"1712 CRIPPLE CREEK DR, Irving TX",(435) 744-5512,janetstock@uswest.net,MAYEFSKE JARED &,482110.00,68,plumbing,irving,2025-12-01,Yes
+1713 BIRCHBROOK DR,(940) 648-5134,jrsirron@gmail.com,"GIBSON, SPENCER",538726.00,65,other,flower_mound,,Yes
+1715 N MACARTHUR BLVD,(214) 601-6955,"",ADRIAN TERESA D,572420.00,75,hvac,irving,,Yes
+"1717 Dove Rd., Grapevine TX",(713) 203-0329,"","DEDE, MARY E",809000.00,68,electrical,grapevine,2025-11-13,Yes
+"1764 MASSEY DR, Lewisville TX",(956) 381-1976,cfaires@concentric.net,"FAIRES, CASEY",304509.00,65,hvac,lewisville,2025-12-05,Yes
+"176 CARRINGTON LN, Lewisville TX",(972) 342-6878,cheribedair@yahoo.com,"BEDAIR, CHERI",438013.00,65,plumbing,lewisville,2025-12-04,Yes
+"1777 EMPIRE CENTRAL, Dallas TX 75235",(512) 422-2446,hmiller76@hotmail.com,PPF LO 1900 ANSON VENTURE LLC,3453050.00,65,other,dallas,2025-12-08,Yes
+"18110 MIDWAY RD, 176, Dallas TX 75287",(281) 651-0842,stephen6781@yahoo.com,MID55 LLC,8641561.00,65,commercial_plumbing,dallas,2025-12-03,Yes
+1821 LAKE TEXOMA CIR ALLEN TX 75002,(214) 325-3279,zwillems@address.com,WILLEMS ZANDY O & ANGELA L MORRIS,434700.00,65,roof,allen,,Yes
+1821 LAKE TRAVIS DR ALLEN TX 75002,(469) 206-6600,hotswifey@gmail.com,SIMPSON KAREN LYNN & THOMAS LEE,388419.00,65,roof,allen,,Yes
+"1829 EUCLID ST, Dallas TX 75206",(617) 930-2146,michaelthill@mail.com,THILL MICHAEL ANTHONY &,1033180.00,85,electrical,dallas,2025-12-07,Yes
+"1830 KRAFT ST, Dallas TX 75212","","",TAN DANIEL J & JEREMY CHUA,499000.00,65,electrical,dallas,2025-12-04,No
+"18316 SUMMERFIELD DR, Dallas TX 75287",(512) 699-6196,"","JOHNSON, JOSHUA J & BAGWELL, STEPHANIE C",553965.00,68,plumbing,dallas,2025-12-05,Yes
+1832 OLNEY DR ALLEN TX 75013,(972) 983-1528,"",SIEWSURUT BORIPAT & CHLOE DANG,953071.00,85,concrete,allen,,Yes
+"18515 SHADOW RIDGE DR, Dallas TX 75287",(214) 679-4196,jdfirebomb@aol.com,"WILLIAMS, JAMESON & LAUREN",373162.00,65,concrete,dallas,2025-12-08,Yes
+"1861 Oak Pl., Westlake TX","","","HARRIS, BRADFORD",3995881.00,85,electrical,westlake,2025-10-30,No
+"18624 HIGHLAND CREEK LN, Dallas TX 75252",(214) 850-9112,baddocs@earthlink.net,DICKSON REVOCABLE TRUST,942834.00,85,other,dallas,2025-12-08,Yes
+"18914 RAVENGLEN CT, Dallas TX 75287",(469) 371-9906,bennettgrayson@gmail.com,GRASKA BOZENA,362404.00,65,plumbing,dallas,2025-12-04,Yes
+1893 CLIFF VIEW DR,(225) 329-3021,"","VARGAS, ANITA & JAVIER VARGAS ORDUNA",346230.00,65,plumbing,lewisville,,Yes
+1901 BANNER CT,(972) 355-0324,mm18a@hotmail.com,"MEDEPALLI, MOHAN",694810.00,65,other,flower_mound,,Yes
+"1902 WOODOAK DR, Irving TX",(214) 693-7921,jefflewke@yahoo.com,MCCALLUM MICHAEL D &,416400.00,65,concrete,irving,2025-12-04,Yes
+1913 CANTERBURY ST,(972) 570-3819,danmarybates@gmail.com,"KOSLOW, JUDY",1590000.00,95,foundation,irving,,Yes
+"1913 CANTERBURY ST, Irving TX",(972) 570-3819,danmarybates@gmail.com,"KOSLOW, JUDY",1590000.00,65,plumbing,irving,2025-11-03,Yes
+1913 CEDAR RIDGE DR,(972) 219-3937,"","HARGIS, VELMA G",338341.00,65,hvac,lewisville,,Yes
+"1960 PEAVY RD, Dallas TX 75228",(214) 324-3111,"",GALLEY MATTHIAS,795720.00,65,demolition,dallas,2025-12-09,Yes
+"1 Crest Dr., Grapevine TX","","","GODAWSKI, JOSEPH",470195.00,65,other,grapevine,2025-11-25,No
+"2002 BETSY LN, Irving TX","","",ONTIVEROS ENRIQUE A RODRIGUEZ,269810.00,65,plumbing,irving,2025-12-02,No
+"2004 HEMISON LN, Lewisville TX",(214) 738-0129,tcuhornedfrogs86@gmail.com,"CUKR, WILLIAM G",682545.00,65,other,lewisville,2025-11-25,Yes
+2006 GLENMERE DR ALLEN TX 75013,(214) 952-6857,drjzz23@gmail.com,ROSS DAVID R,633885.00,85,concrete,allen,,Yes
+"2007 Thrush Ct., Westlake TX","","",DECLARATION OF TRUST 1999,3102232.00,85,other,westlake,2025-11-12,No
+"2008 WARRIOR DR, Lewisville TX",(972) 900-2343,pclifford4@verizon.net,"CLIFFORD, PRICE & JANICE",416468.00,65,concrete,lewisville,2025-11-18,Yes
+"2009 CROCKETT CT, Irving TX","","",THAIMURIYIL RAINU PAUL &,560560.00,65,plumbing,irving,2025-12-04,No
+"2009 Thrush Ct., Westlake TX","","",MJOLNIR TRUST,3397153.00,85,other,westlake,2025-11-25,No
+"200 TOUCHDOWN DR, Irving TX",(972) 910-8681,williamhollis@go.com,HOLLIS WILLIAM C,472280.00,65,pool,irving,2025-11-10,Yes
+"201 SIR BRINE DR, Lewisville TX",(636) 795-5948,linda.brinkley@live.com,"BRINKLEY, KRISTOPHER M & YE, YONGLUAN",591716.00,65,plumbing,lewisville,2025-11-20,Yes
+2024 BUFFALO BEND DR,(972) 459-4107,seb3roma@verizon.net,"LANGSTON, LARRY & WILHELMSEN, ALEXANDRA",520763.00,85,roof,lewisville,,Yes
+2025 ASPEN DR,(214) 801-9171,"","GARBUTT, MA NELFA",339170.00,65,hvac,lewisville,,Yes
+"202 HEDGEROW LN, Lewisville TX",(619) 339-4222,icookall@live.com,"MARSHALL, DANIEL WAYNE & DELLA MOHOKOI LATU",366786.00,65,electrical,lewisville,2025-11-17,Yes
+"2040 MODERN PL, Dallas TX 75214",(214) 559-4313,edwardmcgonigle@yahoo.com,MCGONIGLE EDWARD O & BROOKE,825940.00,85,plumbing,dallas,2025-12-08,Yes
+"2043 WANDERLUST DR, Lewisville TX",(303) 693-3663,kappjohn@aol.com,"KAPPELER, KATIE & RYAN",418952.00,65,hvac,lewisville,2025-11-24,Yes
+"2050 BRIARCLIFF RD, Lewisville TX",(972) 315-3667,ssidorenko@yahoo.com,"SIDORENKO, SERGUEI & SUZANNE",402917.00,68,plumbing,lewisville,2025-11-21,Yes
+"2065 CANDLEWOOD CIR, Lewisville TX",(469) 567-9156,gary.vest@gmail.com,"VEST, GARY W & ISABEL",347993.00,65,hvac,lewisville,2025-12-05,Yes
+"2068 HEATHER GLEN DR, Lewisville TX",(972) 658-0465,tspitzjr@gmail.com,"SPITZ, THOMAS",434219.00,65,plumbing,lewisville,2025-12-01,Yes
+"207 RIDGEWOOD DR, Lewisville TX",(972) 345-4022,keldavis2001@yahoo.com,"DAVIS, KELLY",725603.00,88,pool,lewisville,2025-12-05,Yes
+"2080 Holt Way, Grapevine TX",(817) 733-2823,zena_37@hotmail.com,"MORRIS, KIMBERLY",1169483.00,85,electrical,grapevine,2025-11-12,Yes
+"208 CRESTWOOD DR, Fort Worth TX 76107",(817) 378-0946,mikeandline@aol.com,"WILSON, MICHAEL B",842554.00,85,addition,fort_worth,2025-11-24,Yes
+2100 RAINTREE DR,(972) 432-8944,bkbaylor@aol.com,BAYLOR EDWARD KIRK,817350.00,92,foundation,irving,,Yes
+2105 BLUE SAGE DR,(214) 995-7677,pjohnson1907@comcast.net,"JOHNSTON, TIMOTHY S & KATHERINE F",571893.00,65,other,flower_mound,,Yes
+"2108 JOE FIELD RD, Dallas TX 75229",(972) 241-2321,"",HENSLEY G H,12716310.00,85,electrical,dallas,2025-12-09,Yes
+"2110 NORTH HILL DR, Irving TX",(214) 532-4094,sannette@concentric.net,"RICCETTI, RICHARD",425000.00,65,pool,irving,2025-12-04,Yes
+"211 N WINDOMERE AVE, Dallas TX 75208",(214) 941-4646,christian.dimas@yahoo.com,DIMARCO CHRISTOPHER & ELIZABETH M,757720.00,85,roof,dallas,2025-12-08,Yes
+2124 LONGFELLOW LN,(609) 313-0234,merewiese@comcast.net,"PAUL, DENISE R & JOSEPH E",630028.00,65,other,flower_mound,,Yes
+215 WILDFIRE DR,(515) 277-8797,mackderm74@gmail.com,"MCDERMOTT, JERRY",293372.00,65,foundation,lewisville,,Yes
+2205 RIVER RIDGE ROAD,(702) 234-8495,pemrich@go2vanguard.com,"EMRICH, PHILIP",462259.00,58,windows,arlington,2025-11-12,Yes
+"2205 RIVER RIDGE ROAD, Arlington TX",(702) 234-8495,pemrich@go2vanguard.com,"EMRICH, PHILIP",462259.00,65,windows,arlington,2025-11-12,Yes
+"221 Austin St., Grapevine TX",(469) 879-2678,courtneygesualdi@gmail.com,"MONTEMAYOR, JOE",404988.00,65,fence,grapevine,2025-11-18,Yes
+"2224 ASHLAND AVE, Fort Worth TX 76107",(817) 731-0944,maggienklein@gmail.com,"MCCARTY, MIRA",598379.00,68,addition,fort_worth,2025-11-21,Yes
+"2227 N CLEARSPRING DR, Irving TX","","",VAZQUEZ GABRIEL & CLAUDINE,644720.00,65,other,irving,2025-11-11,No
+"2235 FOREST HOLLOW PARK, Dallas TX 75228",(713) 204-2855,hotnycbabe@aol.com,LEAHY ELIZABETH PAGE &,677660.00,85,roof,dallas,2025-12-03,Yes
+2282 KING ARTHUR BLVD,(214) 403-8444,vannabright@gmail.com,"BRIGHT, HARVEY",1258531.00,95,foundation,lewisville,,Yes
+2282 SIR AMANT DR,(913) 530-0765,bjl4385@gmail.com,"LEE, BRANDON JOSEPH & MOLLY TERESA TR LEE LIVING TRUST",609982.00,85,plumbing,lewisville,,Yes
+2283 MAGIC MANTLE DR,(972) 899-2249,williameldorado@juno.com,"ELDORADO, WILLIAM H & KELLI SUE",581770.00,85,plumbing,lewisville,,Yes
+"2300 KINGS COUNTRY DR, Irving TX",(281) 204-9275,"",BENTLEY JOHN K & NATALIE,714810.00,65,foundation,irving,2025-11-04,Yes
+"2309 MAGIC MANTLE DR, Lewisville TX",(972) 876-9518,"","COOK, BRANDI BARBOUR",728759.00,65,windows,lewisville,2025-11-12,Yes
+"2309 SIR BELIN DR, Lewisville TX",(817) 504-5972,dllekang@yahoo.com,"MALUTICH, JASON & MARIAN",669545.00,68,plumbing,lewisville,2025-11-13,Yes
+"2310 QUEEN MORGAN LN, Lewisville TX",(315) 333-3333,allyjay3@gmail.com,"JAYASON, MARSHAL",669380.00,65,plumbing,lewisville,2025-12-02,Yes
+"2312 LADY CORNWALL DR, Lewisville TX",(561) 615-6269,waslam@gmail.com,"ASLAM, WASEEM & NAJISH",935960.00,85,roof,lewisville,2025-11-26,Yes
+"2314 S CREEKSIDE CIR, Irving TX",(314) 276-7988,joseph.flaherty@erols.com,FLAHERTY JOSEPH &,841000.00,65,plumbing,irving,2025-11-11,Yes
+2317 HICKORY LEAF LN,(972) 533-6628,jwillborn@tivo.com,"TABANIAG, JOSEPH & TERRI V",555262.00,65,other,flower_mound,,Yes
+"2318 LAWNDALE DR, Dallas TX 75211",(214) 704-7659,boggan.gregory@yahoo.com,BOGGAN GREGORY,420680.00,65,roof,dallas,2025-12-09,Yes
+2325 N FIELDER ROAD,(817) 277-2414,rachelreynolds48@yahoo.com,"REYNOLDS, CHARLES R",1623350.00,65,remodel,arlington,2025-10-28,Yes
+"2325 N FIELDER ROAD, Arlington TX","","","REYNOLDS, CHARLES R",1623350.00,65,remodel,arlington,2025-10-28,No
+"2407 PARK VISTA DR, Dallas TX 75228",(214) 374-3219,"",LOPEZ SILVIA PADRON,577400.00,85,concrete,dallas,2025-12-08,Yes
+2408 CASTLE ST,(901) 870-7475,"","JOHNSON, LARRY W",709790.00,85,plumbing,irving,,Yes
+2421 SYRACUSE DR,(281) 855-9338,lulurmelendez@yahoo.com,RODRIGUEZ MARIBEL SALAS &,347560.00,65,hvac,irving,,Yes
+"2428 SAFFIRE WAY, Lewisville TX",(972) 236-2781,estrickland@cambridgecos.com,"STRICKLAND, ELIZABETH ELAINE",714949.00,68,windows,lewisville,2025-11-13,Yes
+"2432 LISMORE LN, Irving TX",(401) 654-5168,rambabu_sonti@yahoo.com,SONTI RAMBABU & SWATHI,689690.00,65,windows,irving,2025-11-13,Yes
+"245 HEROD ST, Lewisville TX",(214) 500-9035,genis_vel@msn.com,"VAUGHN, TRINITY & DIANA",724427.00,65,roof,lewisville,2025-12-04,Yes
+2509 GLEN COVE DR,(469) 321-0945,aaronica06@yahoo.com,CURTIS KRISTEN AYN &,336620.00,65,plumbing,irving,,Yes
+"2515 CAMBRIA BLVD, Dallas TX 75214",(254) 741-9371,jleinfelder@tivejo.com,LEINFELDER ELISABETH & STEPHEN,1321420.00,85,electrical,dallas,2025-12-07,Yes
+2517 SIR ALEXANDER LN,(972) 418-5364,dbasgall@gmail.com,"BASGALL, DARRELL D & CARELYN D",554854.00,85,foundation,lewisville,,Yes
+"2555 WAITS AVE, Fort Worth TX 76109",(408) 440-2950,bethwilems@hotmail.com,"CLARK, ELIZABETH",1469751.00,85,fence,fort_worth,2025-11-11,Yes
+"2603 SIR GAWAIN LN, Lewisville TX",(972) 670-2174,drcarasa@hotmail.com,"GRANT, SCOTT ALLEN REVOCABLE LIVING TRUST",1335398.00,65,other,lewisville,2025-11-13,Yes
+"2606 DAME BRISEN DR, Lewisville TX","","","CATON, KEVIN R & NIDHI JINDAL",1496637.00,85,outdoor_living,lewisville,2025-11-11,No
+"2610 ROUND TABLE BLVD, Lewisville TX",(214) 704-5674,neilicia@yahoo.com,"HOWARD, NEILICIA PETERS & DENNIS CORBET",1209923.00,85,electrical,lewisville,2025-11-25,Yes
+"2611 SIR TURQUIN LN, Lewisville TX",(972) 394-6793,rachelg508@gmail.com,"MARTIN, RICHARD K & BROOKE R",734607.00,65,pool,lewisville,2025-11-11,Yes
+2625 SIR LANCELOT BLVD,(214) 476-8094,kenneth.thomson@hotmail.com,"THOMSON, KENNETH DEREK & LEAH BALLARD THOMSON",964529.00,95,pool,lewisville,,Yes
+"2634 SIR GAWAIN LN, Lewisville TX",(336) 406-0345,"","TEAGE, LACY",1283069.00,85,plumbing,lewisville,2025-12-04,Yes
+2699 SIERRA MORADO DR,(501) 666-6834,alexanderbrownk@yahoo.com,"BROWN, KAREN & KENNETH",600172.00,65,other,lewisville,,Yes
+2701 HALSEY DR,(214) 695-8683,privet3@yahoo.com,"SNOWDEN, JEFFREY B & ELIZABETH C",599300.00,65,other,flower_mound,,Yes
+2701 SCENIC DR,"","","DIXON, STEVEN & AMANDA TRUSTEES OF THE DIXON JOINT REVOCABLE TRUST",1972622.00,85,other,flower_mound,,No
+"2701 WALLIN DR, Irving TX",(214) 503-3154,rmartinez1347@cox.net,MARTINEZ RAYMOND S &,347000.00,65,fence,irving,2025-12-01,Yes
+"2705 QUEEN ELAINE DR, Lewisville TX",(972) 899-2800,cblakeway@gmail.com,"BLAKEWAY, CLARK & MARIA",791669.00,68,fence,lewisville,2025-11-10,Yes
+"2707 POSEY DR, Irving TX","","",OSMAN MOHAMED,475650.00,68,foundation,irving,2025-12-05,No
+"2707 SAFE HARBOR DR, Lewisville TX",(214) 578-1401,steve.giunta@peoplepc.com,"GIUNTA, STEPHEN PAUL JR & AUTUMN MARAE",425708.00,65,foundation,lewisville,2025-11-10,Yes
+"2709 WATERFORD DR, Irving TX",(214) 801-7502,mason.sanders@centurytel.net,"GRUBB, KEITH & ROBIN",830209.00,85,plumbing,irving,2025-12-02,Yes
+"2710 SIMONDALE DR, Fort Worth TX 76109",(817) 307-7021,bryce.phillips@gmail.com,"PHILLIPS, BRYCE",2810336.00,85,remodel,fort_worth,2025-11-17,Yes
+"2712 DA VINCI DR, Dallas TX 75287",(214) 901-1503,tlico@comcast.net,"LICO, TULIO",342298.00,65,plumbing,dallas,2025-12-05,Yes
+"2712 POINTVIEW CT, Lewisville TX",(972) 788-5123,nothing.exe@gmail.com,"BROWN, JOHN C",697253.00,85,fence,lewisville,2025-12-04,Yes
+"2715 AMISTAD DR, Irving TX",(732) 910-7870,"",KUMANIA SAKSHI,568840.00,65,other,irving,2025-11-19,Yes
+"2723 AMISTAD DR, Irving TX",(626) 454-4936,joe.bolanos@aol.com,BOLANOS JOSE A,565520.00,65,roof,irving,2025-11-19,Yes
+"2732 DAYBREAK DR, Dallas TX 75287",(505) 292-5952,larryw3025@yahoo.com,"WALLACE, MICHAEL & REBECCA",353143.00,65,plumbing,dallas,2025-12-08,Yes
+2805 CAPE BRETT DR,(972) 342-2550,apulianda@hotmail.com,"MATTHEWS, SEAN P & ASHLEY",847699.00,65,other,flower_mound,,Yes
+"2819 SAN MEDINA AVE, Dallas TX 75228",(972) 279-2694,blaze.7@live.com,YATES DIANE,307920.00,65,plumbing,dallas,2025-12-03,Yes
+"2830 W JEFFERSON BLVD, Dallas TX 75211","","",CASTILLO EDUARDO T,407310.00,65,outdoor_living,dallas,2025-12-05,No
+"2850 CLAUDETTE AVE, Dallas TX 75211",(214) 467-4840,gustavo.gonzales@msn.com,GONZALES GUSTAVO E,397940.00,65,plumbing,dallas,2025-12-09,Yes
+"2900 W JEFFERSON BLVD, Dallas TX 75211",(817) 808-2883,bosandi@aol.com,BOLINGER BOWEN P,444550.00,85,pool,dallas,2025-12-04,Yes
+"2906 PACIFIC CT, Irving TX",(972) 213-6505,jeana_giagnacovo@yahoo.com,GIAGNACOVO JEANA &,545290.00,65,plumbing,irving,2025-12-03,Yes
+"2908 RIVER PINE LN, Fort Worth TX 76116",(512) 918-3752,dvaneaton@gmail.com,"VAN EATON, DAVID",848000.00,85,fence,fort_worth,2025-12-01,Yes
+2909 CARTERTON CT,(972) 839-2446,alycekorn@yahoo.com,"HOLT, JASON D & LAURA S",703283.00,65,other,flower_mound,,Yes
+"2910 Parr Ln., Grapevine TX","","",CHRISSY PENNINGTON INVESTMENTS,1833322.00,65,fence,grapevine,2025-11-26,No
+"2918 LIVE OAK ST, Dallas TX 75204",(786) 246-1145,"",CARTER ROBERT W & JANET E,469970.00,65,other,dallas,2025-12-05,Yes
+"2936 COURTLAND DR, Dallas TX 75287",(469) 774-7424,rchengesqot@yahoo.com,"CHENG, RICHARD Y",335227.00,65,outdoor_living,dallas,2025-12-03,Yes
+"3001 RIDGELAKE WAY, Lewisville TX","","","DAWOOD, DANISH & KIRBY, JULIANNE",772424.00,85,pool,lewisville,2025-11-11,No
+"3001 WESTRIDGE AVE, Fort Worth TX 76116",(940) 767-0090,lar1238@aol.com,"RALSTON, BENJAMIN",1165000.00,65,addition,fort_worth,2025-10-31,Yes
+300 WESTMINSTER DR,(214) 557-6736,lockmaster92@hotmail.com,"SCHMIDT, NICHOLAS A & CONNIE L",508576.00,85,hvac,lewisville,,Yes
+"3010 SIMONDALE DR, Fort Worth TX 76109",(817) 313-0845,carolyn_jowers@yahoo.com,"WATSON, DAVID L",1090320.00,65,pool,fort_worth,2025-10-20,Yes
+"3013 PARLIAMENT ST, Irving TX","","",ROMERO KEVIN &,251780.00,65,electrical,irving,2025-11-14,No
+"3020 SIMONDALE DR, Fort Worth TX 76109",(281) 296-7912,"",HUNTER ROBERT R,1086000.00,65,addition,fort_worth,2025-11-05,Yes
+"307 N WAVERLY DR, Dallas TX 75208",(214) 500-0066,"",WILGUS JOHN ROBERT &,417250.00,65,hvac,dallas,2025-12-03,Yes
+"308 CRESTWOOD DR, Fort Worth TX 76107",(817) 360-5144,jasonhiley@yahoo.com,"DAVIDSON, GLENN",2081473.00,65,addition,fort_worth,2025-10-23,Yes
+"308 TAMPICO ST, Irving TX",(972) 717-5149,skrosellini@yahoo.com,ROSELLINI FAMILY REV TR THE,795870.00,65,outdoor_living,irving,2025-11-12,Yes
+"309 WATERSIDE DR, Irving TX",(214) 493-9178,tamirha107@gmail.com,MEEHAN DAVID J JR &,641230.00,68,electrical,irving,2025-11-17,Yes
+"3108 CHAPARRAL LN, BLDG, Fort Worth TX 76109","","","SANDLER, CHRISTOPHER",808000.00,68,addition,fort_worth,2025-11-18,No
+3121 MYRTICE DR,(208) 938-2252,babyblue2209@yahoo.com,"IVORY, BENJAMIN A & KARI A",596747.00,65,other,flower_mound,,Yes
+"3121 TREVOLLE PL, Dallas TX, 3121",(214) 477-5100,rubenjramirez@aol.com,RAMIREZ RUBEN J,696260.00,65,other,dallas,2025-12-08,Yes
+3122 LARK LN,(574) 850-2117,wjscpollock@yahoo.com,POLLOCK SHERRY L,291220.00,65,hvac,irving,,Yes
+"3125 LOCKMOOR LN, Dallas TX 75220",(972) 242-6021,"",ENIX MASON,433880.00,65,electrical,dallas,2025-12-05,Yes
+"316 COSBIE DR, Irving TX",(972) 213-6043,dariyai@yahoo.com,INOZEMTSEVA DARIYA,462040.00,65,other,irving,2025-11-19,Yes
+3191 HILLTOP DR,(817) 703-8281,shellyewu@yahoo.com,"UNRUH, RANDALL",1212654.00,85,plumbing,southlake,2025-11-20,Yes
+3205 DOVER DR,(972) 867-9597,angela.hanson2396@gmail.com,PITRE ARACELLI E & ROBERT JOSEPH PITRE JR,469806.00,65,other,plano,,Yes
+3208 PLAINS CT,(214) 632-5182,buzzlackey@gmail.com,LACKEY LAMOINE R & DONNA M,423949.00,65,plumbing,plano,,Yes
+3208 VILLAGE CREST CT,(972) 409-9500,jays@apexexpress.net,"RICH, JEFFREY & ANNA",770199.00,65,other,flower_mound,,Yes
+"3211 RICCI LN, Irving TX",(972) 791-5010,laura.russell@mindspring.com,RUSSELL LAURA A,619120.00,72,roof,irving,2025-12-01,Yes
+3212 COTTRELL DR,(817) 721-6183,"","HAUTT, BILLY & LORI LEE TRTS OF HAUTT FAMILY TRUST",661969.00,65,other,flower_mound,,Yes
+"3212 HIDALGO ST, Irving TX",(972) 887-7111,"",WALKER W STEVEN &,754730.00,65,outdoor_living,irving,2025-11-11,Yes
+"3215 LOGANWOOD DR, Dallas TX 75227",(817) 713-6304,"",HENNESSY PATRICK RYAN &,315860.00,65,roof,dallas,2025-12-08,Yes
+"321 CLASSEN DR, Dallas TX 75218",(214) 727-8845,jules7572@gmail.com,GOULD JULIE POOL,771250.00,85,other,dallas,2025-12-03,Yes
+321 CREEKMEADOW LN,(214) 794-7242,angelramos@address.com,"RAMOS, ANGEL & VIZCAYA, ANA",272711.00,65,plumbing,lewisville,,Yes
+3220 N BRITAIN RD,(214) 762-7146,joe_big_sexy@hotmail.com,BAGGETT JOSEPH EUGENE JR &,428670.00,65,electrical,irving,,Yes
+"3220 N BRITAIN RD, Irving TX",(214) 762-7146,joe_big_sexy@hotmail.com,BAGGETT JOSEPH EUGENE JR &,428670.00,65,plumbing,irving,2025-12-02,Yes
+3220 PARKWOOD DR,(972) 691-3261,chelsea.krahulik@gmail.com,"MISHARK-WYNN, REBECCA & MISHARK, TIMOTHY BRIAN",594724.00,65,other,flower_mound,,Yes
+"3224 WHITEHALL DR, Dallas TX 75229",(214) 361-2030,"",PAGEL MITCHELL JOSEPH,557850.00,65,plumbing,dallas,2025-12-03,Yes
+"326 LUCILLE ST, Irving TX",(904) 339-4958,"",SOLACHE DAVID ARZOLA,315310.00,65,roof,irving,2025-12-01,Yes
+328 FAGG DR,"","","MORALES, EVER A GUERRERO",409856.00,65,fence,lewisville,,No
+3301 SAILMAKER LN,(972) 618-5679,sd152355@gmail.com,SAMUEL DAVID & RENY,441094.00,65,electrical,plano,,Yes
+"3305 WAYLAND DR, Fort Worth TX 76133",(917) 975-4465,lessthanjake21@yahoo.com,"RUDDOCK, BRIAN",362902.00,65,foundation,fort_worth,2025-12-01,Yes
+"3310 KENDALL LN, Irving TX",(972) 507-5577,"",LUCAS ELENA A & MARK R,603820.00,85,roof,irving,2025-12-03,Yes
+"3315 TENNESSEE AVE, Dallas TX 75224",(214) 331-4767,roseh@ymcadallas.org,HEARON MERROSE,368890.00,65,outdoor_living,dallas,2025-12-08,Yes
+"3321 DARTMOOR DR, Dallas TX 75229",(303) 832-3951,phil_epple@msn.com,EPPLE PHILIP NOLAN &,648220.00,65,other,dallas,2025-12-06,Yes
+"332 WYNDALE DR, Lewisville TX",(469) 471-4001,anoorani211@hotmail.com,"NOORANI, ABDUL R & DILSHAD",562261.00,68,outdoor_living,lewisville,2025-11-12,Yes
+"335 BUTTERNUT WAY, Irving TX",(678) 886-5940,radwan84@hotmail.com,RADWAN NOOR ALKURDI,1094890.00,65,plumbing,irving,2025-11-14,Yes
+"3375 NORTHAVEN RD, Dallas TX 75229",(214) 263-8919,"",CRAIG MARGARET G,510000.00,85,roof,dallas,2025-12-05,Yes
+"3401 LEE PKWY, 803, Dallas TX 75219",(917) 514-7556,winland29@gmail.com,CARREKER JAMES D,2077320.00,85,plumbing,dallas,2025-12-03,Yes
+3409 TANYARD CT,(214) 683-9567,"","BECK, JEFFREY F",518126.00,65,other,flower_mound,,Yes
+3412 PREAKNESS DR,(972) 899-4949,jason.salcido@gmail.com,"MCGOLDRICK, PAUL J & JUDITH S",681452.00,65,other,flower_mound,,Yes
+"3431 Marsh Ln., Grapevine TX",(817) 919-1748,dustin_bray@hotmail.com,"BRAY, DALE A",705397.00,72,other,grapevine,2025-12-01,Yes
+"3451 SALISBURY DR, Dallas TX 75229",(469) 371-2276,lynette.hendricks@cox.net,HENDRICKS MARILYN LYNETTE &,673580.00,85,roof,dallas,2025-12-04,Yes
+"3504 BELLAH CT, Irving TX",(469) 441-0777,beverlybell433@yahoo.com,BELL BEVERLY JANE,488850.00,65,pool,irving,2025-12-04,Yes
+3504 CHIMNEY ROCK DR,"","","PEREZ, ISAAC",1432933.00,85,other,flower_mound,,No
+3508 SARAH SPRINGS TRL,(972) 467-9377,mkawalek@yahoo.com,"BURTON, BERTHA A & RONALD T",1163253.00,85,other,flower_mound,,Yes
+"3509 PARK HOLLOW, Fort Worth TX 76109",(281) 757-2608,ksbaker71@yahoo.com,"DIXON, STEPHEN O",1105853.00,85,pool,fort_worth,2025-11-24,Yes
+"3516 ELM CREEK CT, Fort Worth TX 76109",(469) 203-0368,"","SISEMORE, JUSTIN",1169776.00,85,remodel,fort_worth,2025-11-17,Yes
+"3517 KIESTCREST DR, Dallas TX 75233",(214) 335-7724,coreyparis5@gmail.com,PARIS COREY,566980.00,65,plumbing,dallas,2025-12-03,Yes
+"3528 N BRIARCLIFF CT, Irving TX",(972) 742-4528,my2girlsmom68@gmail.com,STEELY MARK & TERI L,395600.00,65,concrete,irving,2025-12-01,Yes
+"3601 TURTLE CREEK BLVD, 203, Dallas TX 75219",(214) 244-4787,mpwatt@gmail.com,COWDEN ANNE BURLESON,961400.00,85,plumbing,dallas,2025-12-06,Yes
+"3604 OVERBROOK DR, Dallas TX 75205",(214) 220-4910,btorgerson@chicagotube.com,MCNAMARA DONALD JAMES JR & JOAN P,5349640.00,85,other,dallas,2025-12-03,Yes
+"3605 ENCANTO CIR, Irving TX",(972) 594-5758,susanna.rafferty@aol.com,RAFFERTY SUSANNA LOUISE CAMP,334040.00,65,plumbing,irving,2025-12-05,Yes
+"3607 HAWTHORNE AVE, Dallas TX 75219",(214) 914-5248,suncyn@hotmail.com,HORNE CYNDE L,378330.00,65,fence,dallas,2025-12-05,Yes
+"3619 S VERSAILLES AVE, Dallas TX 75209",(214) 502-0030,mlsc0133@sbcglobal.net,SMITH MARGARET L LIFE ESTATE &,1310370.00,85,electrical,dallas,2025-12-08,Yes
+"3621 RIDGLEA COUNTRY CLUB DR, Fort Worth TX 76116",(817) 602-9101,castro0619@mail.com,"SMITH, TAYLOR",701822.00,65,pool,fort_worth,2025-10-16,Yes
+"3627 HAWTHORNE AVE, Dallas TX 75219",(214) 454-7721,eec1607@yahoo.com,CORDOVA EDUARDO E,378330.00,85,fence,dallas,2025-12-05,Yes
+3717 WINDING OAKS DR,(214) 912-2187,jenjohnson91@verizon.net,"STONE, TERRY",981727.00,65,other,flower_mound,,Yes
+"3728 MATADOR DR, Dallas TX 75220",(505) 917-8050,"",MASCIOTRA MARA &,1295000.00,85,outdoor_living,dallas,2025-12-09,Yes
+"3731 PETER PAN DR, Dallas TX 75229",(405) 853-1590,zach.hardaway@gmail.com,HARDAWAY ZACHARY &,1038960.00,88,hvac,dallas,2025-12-08,Yes
+3742 ADRIANA AVE,(682) 429-5259,ppatel1283@aol.com,PATEL PRIYANK &,574590.00,85,plumbing,irving,,Yes
+3802 TIMBERLAKE DR,(469) 450-5144,thomashill@allstate.com,HILL THOMAS W & TANYIA,398077.00,65,plumbing,plano,,Yes
+3813 EVESHAM DR,(972) 334-9291,nannan39home@aol.com,MORGAN NANCY H,573878.00,75,hvac,plano,,Yes
+"3821 S VERSAILLES AVE, Dallas TX 75209",(214) 572-3786,emilyherndon@msn.com,HERNDON EMILY S,782760.00,85,plumbing,dallas,2025-12-08,Yes
+3824 BUCKINGHAM DR,(972) 252-6380,"",ANCONA LEON A &,461550.00,85,foundation,irving,,Yes
+"3856 GASPAR DR, Dallas TX 75220",(214) 350-8815,alisia.cepeda@gmail.com,CEPEDA ALISIA D,479560.00,78,fence,dallas,2025-12-03,Yes
+"3900 ACAPULCO ST, Irving TX",(210) 844-0324,"",CLARK BRENTON & CAROLYN,909330.00,65,roof,irving,2025-11-24,Yes
+"3909 PORT ROYAL DR, Dallas TX 75244",(972) 971-1310,bmshoe@gmail.com,ZERBE KARIN LANE,690000.00,85,plumbing,dallas,2025-12-09,Yes
+"3917 LYNNCREST DR, Fort Worth TX 76109",(817) 319-5332,alexandash@gmail.com,"ARMSTRONG, ALEXANDER",1485000.00,85,pool,fort_worth,2025-10-10,Yes
+"3923 COBBLESTONE DR, Dallas TX 75229",(469) 888-1188,brandynparadise@aol.com,DENEAU KIM,942990.00,85,electrical,dallas,2025-12-03,Yes
+"3928 MODLIN AVE, Fort Worth TX 76107",(407) 342-3530,cjchance@gmail.com,"CRANZ, JONATHAN",921637.00,65,fence,fort_worth,2025-10-25,Yes
+"3928 REGENT CIR, Dallas TX 75229",(847) 332-8906,"",KIM TAE YONG & SO HYUM,852930.00,65,electrical,dallas,2025-12-03,Yes
+"3930 BOWSER AVE, 5, Dallas TX 75219",(417) 483-8611,bhays@mail.com,ACARREGUI COURTNEY MICHELLE,556630.00,65,plumbing,dallas,2025-12-08,Yes
+"3933 FLOYD DR, Fort Worth TX 76116",(817) 737-2459,"","MURRAY, ROBERT R",531159.00,65,remodel,fort_worth,2025-11-17,Yes
+"3940 BENT ELM LN, Fort Worth TX 76109",(903) 452-6520,wilsonpeppard@gmail.com,"PEPPARD, WILSON",1268362.00,85,addition,fort_worth,2025-11-11,Yes
+"3950 PARK LN, Dallas TX 75220",(407) 399-1598,"",COVINGTON DWIGHT ARCHIE,473700.00,78,pool,dallas,2025-12-04,Yes
+"3953 MERRELL RD, Dallas TX 75229",(972) 492-3195,"",GUPTA DEV,1910170.00,85,electrical,dallas,2025-12-09,Yes
+"3974 KIEST VALLEY PKWY, Dallas TX 75233",(469) 939-7592,bkrchk31@yahoo.com,ORTEGA LETICIA GONZALEZ,326740.00,65,electrical,dallas,2025-12-03,Yes
+"3984 ROCHELLE DR, Dallas TX 75220",(214) 366-3653,"",THOMAS JOHN E IV,809620.00,85,outdoor_living,dallas,2025-12-05,Yes
+"4008 DAVID PHILLIPS ST, Dallas TX 75227",(214) 254-6730,mookiemeyeon@gmail.com,HOLMAN SHARON Y,257140.00,65,outdoor_living,dallas,2025-12-09,Yes
+"400 BALBOA CT, Irving TX","","",SIKES TIMOTHY PAUL,614640.00,65,remodel,irving,2025-12-04,No
+"400 BENWICK WAY, Lewisville TX",(682) 551-6473,dheisz@yahoo.com,"HEISZ, DEBORAH K & KATHERINE A",783455.00,65,windows,lewisville,2025-11-18,Yes
+"400 BLUE SAGE CT, Irving TX",(816) 505-1404,rbreckenridge@mac.com,BRECKENRIDGE LIVING TRUST,913220.00,65,outdoor_living,irving,2025-11-18,Yes
+"400 CEDAR ELM CT, Irving TX",(972) 402-8448,danno141@hotmail.com,ULOTH JAMES D & ANN G,632790.00,72,fence,irving,2025-11-26,Yes
+"400 LA PAZ CT, Irving TX","","",LAYTHER MARK JEFFREY & TANYA K,885540.00,78,foundation,irving,2025-11-20,No
+"4017 WINGREN RD, Irving TX",(214) 698-3177,mrosenthal@gibsondunn.com,ROSENTHAL MICHAEL A,973630.00,85,plumbing,irving,2025-12-05,Yes
+4018 W ROCHELLE RD,(214) 914-6361,mlesterm@yahoo.com,LESTER MEJIA MELLISSA K,308090.00,65,hvac,irving,,Yes
+"401 JENKINS LN, Lewisville TX",(818) 481-5777,anamunoz75067@yahoo.com,"MUNOZ, BRUCE & ANA",493496.00,68,foundation,lewisville,2025-11-18,Yes
+401 WOLVERLEY LN ALLEN TX 75002,(214) 535-5854,"",PELTON MICHELLE DAWN,490524.00,85,hvac,allen,,Yes
+"4039 FAWNHOLLOW DR, Dallas TX 75244",(214) 537-9572,paulwiley972@aol.com,RESTRUCTURE INC,821880.00,65,electrical,dallas,2025-12-08,Yes
+"405 OLD YORK RD, Irving TX",(972) 556-2875,nspo16@hotmail.com,STEPHANIE NADINE,415770.00,65,hvac,irving,2025-11-24,Yes
+4101 MARK TWAIN BLVD,"","","GUDIPATI, VENKATA SESHA SAI ARVIND & LOTHUGEDDA, ARCHANA",1758927.00,65,other,flower_mound,,No
+"4106 BAKER AVE, Dallas TX 75212",(469) 279-4144,abelalba.aa@gmail.com,VIERA ANGELA,218160.00,65,pool,dallas,2025-12-09,Yes
+"4109 GALT AVE, Fort Worth TX 76109",(817) 924-5060,dlynch1212@yahoo.com,"LYNCH, DAVID MICHAELS",1431746.00,85,remodel,fort_worth,2025-11-21,Yes
+4112 MUSTANG TRL,(225) 223-1005,twingrits@yahoo.com,"ZIMMERMAN, ROGER N & PENNEY L",724269.00,65,other,flower_mound,,Yes
+"4118 CROSSING LN, Dallas TX 75220",(559) 717-8845,jdeddom@gmail.com,DIAZ JESUS EDUARDO &,475190.00,72,roof,dallas,2025-12-04,Yes
+"4119 ENTRADA WAY, Dallas TX 75219",(979) 836-9460,"",HOELSCHER CLINTON DICKSON,763000.00,65,plumbing,dallas,2025-12-04,Yes
+"412 E NORTHGATE DR, Irving TX",(972) 890-4025,caribeanchica@yahoo.com,FUSTER GREYS,481740.00,68,plumbing,irving,2025-12-01,Yes
+"412 S HAMPTON RD, Dallas TX 75208",(469) 226-7642,kazani786@gmail.com,"MOGHAL, NASIR NIZAM & NAHEED",749872.00,65,hvac,dallas,2025-12-07,Yes
+"4135 SEABURY DR, Dallas TX 75287",(972) 380-4877,keepitreal19@hotmail.com,VOIGHT RHONDA K AND KENNETH C,533259.00,75,plumbing,dallas,2025-12-05,Yes
+"4139 BUENA VISTA ST, Dallas TX 75204",(214) 789-6377,teresatread@gmail.com,COUGHLIN D KRISTIN,777090.00,85,pool,dallas,2025-12-08,Yes
+"4140 SHADY HILL DR, Dallas TX 75229",(432) 254-7057,morganmoylan@yahoo.com,FOWLER MATTHEW,966480.00,85,other,dallas,2025-12-08,Yes
+"4156 COURTSHIRE DR, Dallas TX 75229",(469) 335-0046,henry.wallace@webtv.net,WALLACE HENRY KEITH,965850.00,85,foundation,dallas,2025-12-05,Yes
+"4167 LOMITA LN, Dallas TX 75220",(630) 782-5527,tangg@comcast.net,TANG JIUNNYANN,888090.00,65,plumbing,dallas,2025-12-03,Yes
+416 BRAZORIA DR ALLEN TX 75013,(214) 547-0238,liminjie@yahoo.com,LI JAY M & VIVIAN J ZHOU,814000.00,85,concrete,allen,,Yes
+419 MAINSAIL DR ALLEN TX 75013,(925) 681-8579,rkferreira@hotmail.com,FERREIRA DAVID & RACHEL,637305.00,85,hvac,allen,,Yes
+"420 N BAILEY AVE, Fort Worth TX 76107",(713) 302-7844,mark.standish@yahoo.com,"STANDISH, MARK",796000.00,68,addition,fort_worth,2025-11-14,Yes
+4211  WHISPERING WILLOW WAY   ,"","","MOSBY, JOHN",585900.00,65,other,arlington,2025-11-11,No
+"4216 HOCKADAY DR, Dallas TX 75229",(214) 505-5705,"",MORENO DANIA DUNCAN &,1850000.00,85,concrete,dallas,2025-12-08,Yes
+"4219 CREEKMEADOW DR, Dallas TX 75287",(469) 734-9740,mirkin.dave@gmail.com,MIRKIN DAVID & GAVIN DUNNETT,863271.00,85,plumbing,dallas,2025-12-05,Yes
+"4221 BLUFFVIEW BLVD, Dallas TX 75209",(214) 352-7043,loishough@yahoo.com,HOUGH LOIS A,1043220.00,85,electrical,dallas,2025-12-05,Yes
+"4222 WILLOW GROVE RD, Dallas TX 75220",(214) 352-8282,deewhaley@aol.com,4222 WILLOW DEV LLC,1560730.00,65,fence,dallas,2025-12-03,Yes
+"4223 ALTA VISTA LN, Dallas TX 75229",(214) 357-3333,williamdeloache@mchsi.com,DELOACHE WILLIAM J &,1702850.00,85,fence,dallas,2025-12-05,Yes
+"422 COLLINS DR, Irving TX",(469) 274-8302,cowboys.slambert62@gmail.com,"DENEAULT, ROLAND & HEATHER",502763.00,65,plumbing,irving,2025-11-24,Yes
+"4231 MUNGER AVE, Dallas TX 75204",(979) 690-7378,dc_hobbes@yahoo.com,CARLTON LUKE,800000.00,85,electrical,dallas,2025-12-08,Yes
+"4231 SHADY HILL DR, Dallas TX 75229",(719) 481-2049,"",GRIFFITH BRIAN B & COURTNEY,1409330.00,85,plumbing,dallas,2025-12-05,Yes
+"4233 NORTHVIEW LN, Dallas TX 75229",(214) 538-4744,gdahlander@gmail.com,DAHLANDER GERALD W &,2020700.00,85,plumbing,dallas,2025-12-05,Yes
+"424 ADVENTUROUS SHIELD DR, Lewisville TX",(952) 403-1783,seankoo71@gmail.com,"KOO, SEUNG & CHO, SOJOUNG",633044.00,65,windows,lewisville,2025-11-13,Yes
+424 FRONT NINE AVE ALLEN TX 75002,(240) 344-5405,"",JACKSON LILLIAN IGNACIO & TIMOTHY JAKE,519453.00,65,commercial_plumbing,allen,,Yes
+4305 PROVIDENCE LN,(972) 691-4959,mdgmitro@verizon.net,"GMITRO, MARK & DAWN",811895.00,65,other,flower_mound,,Yes
+"4308 VILLAGE GREEN DR, Irving TX",(972) 977-4549,baird@acad.udallas.edu,BAIRD JAMES G & JOANNE R,459010.00,68,foundation,irving,2025-12-02,Yes
+"4309 SYLVESTER ST, Dallas TX 75219","","",VAGAS DALLAS LLC,1057320.00,65,other,dallas,2025-12-05,No
+"4310 VALLEY RIDGE RD, Dallas TX 75220",(214) 352-4564,"",4214 BROOKVIEW LLC,1423970.00,65,commercial_pool,dallas,2025-12-06,Yes
+"4317 MIDDLETON RD, Dallas TX 75229",(469) 917-7144,"",SHELTON LINDSAY BLAIR &,853670.00,85,demolition,dallas,2025-12-03,Yes
+"4325 CONCHO ST, Dallas TX 75206",(817) 924-6339,sherry.reese@juno.com,REESE SHERRY,712050.00,85,hvac,dallas,2025-12-09,Yes
+"4327 BLUFFVIEW BLVD, Dallas TX 75209",(214) 663-5000,dukes4963@yahoo.com,STONE LOREN &,2515280.00,85,pool,dallas,2025-12-09,Yes
+"4341 CONCHO ST, Dallas TX 75206",(505) 573-8510,"",FUNKHOUSER ERIK D & LISA GU,1437260.00,85,plumbing,dallas,2025-12-05,Yes
+"4411 ROSELAND AVE, Dallas TX 75204",(817) 354-5564,"",VALLINE GAVYN,634150.00,68,pool,dallas,2025-12-03,Yes
+"4412 HOCKADAY DR, Dallas TX 75229",(972) 239-0520,jefferybaxter@aol.com,BAXTER JEFFERY D &,1535130.00,95,roof,dallas,2025-12-08,Yes
+"4415 MILL CREEK RD, Dallas TX 75244",(817) 424-4227,samantha.hall@sbcglobal.net,HALL SAMANTHA D &,858020.00,85,plumbing,dallas,2025-12-03,Yes
+4416 HELSTON DR,(972) 712-5420,chi.siu@excite.com,SIU KA-MING & SIU-FONG,524825.00,65,plumbing,plano,,Yes
+"4418 CONCHO ST, Dallas TX 75206",(325) 232-3646,kelli_wray@yahoo.com,WRAY KELLI L,1217150.00,85,hvac,dallas,2025-12-04,Yes
+"4422 POMONA RD, Dallas TX 75209","","",Owner Withheld per Sec 25.025 & 25.026,2206330.00,85,plumbing,dallas,2025-12-04,No
+"4431 W RED BIRD LN, Dallas TX 75236",(214) 709-5911,hightowerj@hotmail.com,STOKER JOHN W,232010.00,65,electrical,dallas,2025-12-08,Yes
+"4435 FOREST BEND RD, Dallas TX 75244","","",RINCON MARCIAL A OQUENDO &,1011070.00,85,plumbing,dallas,2025-12-04,No
+"4441 ABRAMS RD, Dallas TX 75214",(214) 821-6619,paulhalebian@earthlink.net,HALEBIAN PAUL H &,569300.00,85,plumbing,dallas,2025-12-09,Yes
+"4442 TAOS RD, Dallas TX 75209",(713) 880-8811,k.shae@yahoo.com,SHAE CATHERINE C & RICHARD N,2565170.00,85,plumbing,dallas,2025-12-05,Yes
+445 RIDGE POINT DR,(214) 566-7205,laurajdavis@verizon.net,"DAVIS, MARK ALLEN & LAURA JORDAN",532611.00,85,fence,lewisville,,Yes
+449 FRANKIE LN,(972) 353-9477,patricia.mcleroy@childrens.com,"MCLEROY, MIKE M",602427.00,85,electrical,lewisville,,Yes
+"4506 NEWMORE AVE, Dallas TX, 4506",(817) 657-7756,sjimmerson3@yahoo.com,JIMMERSON SHIRLEY,529120.00,65,other,dallas,2025-12-08,Yes
+"4512 ISABELLA LN, Dallas TX 75229","","",SKV TRUST,8799370.00,85,roof,dallas,2025-12-08,No
+"4520 BLUFFVIEW BLVD, Dallas TX 75209",(214) 366-7686,haroldledoux@yahoo.com,WHEELER MICHAEL W &,2169820.00,85,pool,dallas,2025-12-08,Yes
+"4520 JUNIUS ST, Dallas TX 75246",(972) 742-1030,ed.gardner.theophilus@gmail.com,GARDNER EDWARD LEE &,602880.00,85,roof,dallas,2025-12-08,Yes
+"4521 POMONA RD, Dallas TX 75209",(469) 766-6304,joycecollie@sbcglobal.net,COLLIE JOYCE SANDERS & C  CHARLES,1001630.00,85,other,dallas,2025-12-03,Yes
+"4525 INWOOD RD, Fort Worth TX 76109",(817) 308-1096,jesse.arriaga55@gmail.com,"ARRIAGA, JESUS R",570000.00,65,other,fort_worth,2025-11-17,Yes
+"4541 BYRON CIR, Irving TX",(650) 823-9501,"",BOLAND FAMILY TRUST,1746880.00,65,pool,irving,2025-11-04,Yes
+4605 PACER WAY,(972) 672-9261,derral@fstexas.com,"GOODMAN, JONN F & ALEXA DEWITT TRS GOODMAN FAMILY REVOCABLE TRUST",1005930.00,85,other,flower_mound,,Yes
+"4608 HARRYS LN, Dallas TX 75229",(214) 363-6700,agitelman@hotmail.com,DREAMA TRUST,8063620.00,85,pool,dallas,2025-12-04,Yes
+4609 VILLAGE CREST DR,(978) 828-3845,copeland.dan@gmail.com,"YIN, DAVID W & YUCHING E",800116.00,65,other,flower_mound,,Yes
+"4623 TANGIER ST, Irving TX","","",SHAIK SHAH JAHAN,896660.00,65,roof,irving,2025-11-12,No
+"4701 ALCAZAR CT, Irving TX",(978) 374-0589,nawazep@yahoo.com,ELERAPATTY NAWAZ PHYAREJAN &,713490.00,65,fence,irving,2025-12-01,Yes
+"4724 BERRIDGE LN, Dallas TX 75227",(316) 409-1147,dmmotis29@gmail.com,LIU JIAN & YINGXIA HOU,563710.00,65,plumbing,dallas,2025-12-06,Yes
+"4748 ALTA VISTA CIR, Dallas TX 75229",(972) 898-8907,matthew.soderberg@juno.com,SODERBERG MATTHEW DAVID &,1680150.00,85,other,dallas,2025-12-05,Yes
+"4800 WINTHROP AVE W, Fort Worth TX 76116",(817) 917-2337,aer1086@yahoo.com,"KOPP, CHRISTOPHER C",684000.00,65,fence,fort_worth,2025-11-12,Yes
+4812 SECLUDED CT,"","","BARNHILL, DEREK JAMES & KIMBERELY ANN",718112.00,65,other,flower_mound,,No
+"4903 HIGH CREEK DRIVE, Arlington TX",(214) 529-6836,rcraig324@gmail.com,"CRAIG, ROBERT P",479335.00,65,foundation,arlington,2025-11-11,Yes
+"4908 CAPE CORAL DR, Dallas TX 75287",(732) 319-2838,eolschwang@gmail.com,OLSCHWANG ELLIOT & MONICA,1100984.00,85,plumbing,dallas,2025-12-03,Yes
+"4908 GREENVILLE AVE, Dallas TX 75206","","",VEERY GREEN LLC,1082460.00,65,commercial_plumbing,dallas,2025-12-05,No
+"4909 WREN WAY, Dallas TX 75209",(903) 821-4389,blakeklement@cs.com,KLEMENT SARAH BLAKE &,1425260.00,88,fence,dallas,2025-12-04,Yes
+"4916 RADBROOK PL, Dallas TX 75220",(214) 357-5353,g.moise@dallasnews.com,MOISE GRANT S,1711660.00,85,electrical,dallas,2025-12-03,Yes
+"4928 EMPIRE WAY, Irving TX",(917) 992-6042,"",CONNORS MICHAEL & ANN,450190.00,65,electrical,irving,2025-11-20,Yes
+"5008 RADBROOK PL, Dallas TX 75220",(201) 825-3793,comprochem@aol.com,ARNOLDI MELISSA,4041480.00,95,electrical,dallas,2025-12-09,Yes
+5012 BALMORAL LN,(469) 948-0241,maup2@aol.com,"PEREZ, HECTOR M & MIAN, SOPHIA A",895441.00,65,other,flower_mound,,Yes
+"5023 PEBBLEBROOK DR, Dallas TX 75229",(704) 309-0982,celinaracheal2017@gmail.com,RESIDENTIAL CREDIT,1741260.00,85,foundation,dallas,2025-12-08,Yes
+"5030 MILL RUN RD, Dallas TX 75244",(972) 980-0205,baschultx@gmail.com,SCHULTZ BRIAN A & KRISTEN,907640.00,85,electrical,dallas,2025-12-07,Yes
+"5033 HIGHLAND MEADOW DR, Fort Worth TX 76132",(817) 926-5615,ritaw96@gmail.com,"WILSON, RITA",557344.00,65,remodel,fort_worth,2025-11-14,Yes
+"503 EDGEMONT AVE, Dallas TX 75216",(214) 998-9854,childbfierce@yahoo.com,ISAAC JUSTIN & AMANDA,396700.00,65,plumbing,dallas,2025-12-04,Yes
+"5060 WATEKA DR, Dallas TX 75209","","",JOSEPH DION,1250150.00,85,pool,dallas,2025-12-05,No
+507 TWIN CREEKS DR ALLEN TX 75013,(972) 965-2093,jonathonrlewis@aol.com,LEWIS JAMES R & WENDY A,680480.00,85,outdoor_living,allen,,Yes
+5100 HEATHER CT,(281) 989-3557,breannbolster@yahoo.com,"BRADFORD, BRYAN",720412.00,65,other,flower_mound,,Yes
+5101 BROWNSTONE DR,(469) 293-5066,jdcapozzi@att.net,"SHUMWAY, KRISTEN G & TIMOTHY D",906874.00,65,other,flower_mound,,Yes
+5113 RAIN FOREST TRL,(972) 473-6230,"",KACHHLA RASIK & RASHMI,1335986.00,85,plumbing,plano,,Yes
+"5114 FREESTONE CIR, Dallas TX 75227",(214) 288-1919,apernell@gmail.com,PERNELL ALICE G,357480.00,65,plumbing,dallas,2025-12-09,Yes
+"5146 VANDERBILT AVE, Dallas TX 75206",(214) 783-2557,"",OWENS RICHARD BLAKE,704990.00,85,foundation,dallas,2025-12-09,Yes
+"514 AQUA DR, Dallas TX 75218",(512) 825-4817,onelove6204@sbcglobal.net,MARQUEZ MORGAN & ALEJANDRO,632260.00,85,electrical,dallas,2025-12-07,Yes
+"515 S PEAK ST, 100, Dallas TX 75223","","","PHILLIPS, DAVID W",905462.00,85,plumbing,dallas,2025-12-08,No
+"515 S PEAK ST, 120, Dallas TX 75223","","","PHILLIPS, DAVID W",905462.00,85,plumbing,dallas,2025-12-08,No
+"516 Lucas Dr., Grapevine TX",(972) 355-6430,lorihallford@gmail.com,"HALLFORD, LORI B.",592846.00,65,other,grapevine,2025-11-18,Yes
+"5204 WILLIS AVE, Dallas TX 75206",(214) 827-0107,grantgaberino1961@hotmail.com,ARNOLD DAVID ALEXANDER,964180.00,85,other,dallas,2025-12-09,Yes
+"5225 CRESTFIELD PL, Dallas TX 75206",(714) 328-7882,"",FELBAB MELISSA LEE,739260.00,65,plumbing,dallas,2025-12-08,Yes
+"523 W ARAWE CIR, Irving TX","","",MORENO JOSE ALBINO RODARTE &,582040.00,65,concrete,irving,2025-11-20,No
+"5241 ROYAL CREST DR, Dallas TX 75229",(214) 373-4500,colinlavalle@att.net,LAVALLE MICHAEL R &,1936970.00,85,other,dallas,2025-12-05,Yes
+"5253 RICHARD AVE, Dallas TX 75206",(405) 210-3843,"",OHARE DANIEL &,658900.00,85,plumbing,dallas,2025-12-09,Yes
+"5271 RAVINE DR, Dallas TX 75220","","",5242 PARK LANE TRUST THE,2405800.00,85,other,dallas,2025-12-05,No
+5301 BAYBERRY ST,(214) 683-4201,den92cor@aol.com,"SEELEY, MARK R & KIM, SUN Y",587609.00,65,other,flower_mound,,Yes
+5301 SUN MEADOW DR,(407) 342-8700,alainemoore@hotmail.com,"BUTLER, BRETT",625015.00,65,other,flower_mound,,Yes
+"5303 MERCEDES AVE, Dallas TX 75206",(214) 824-2396,tkasim@gmail.com,RALL SUSAN PARKS,862140.00,88,plumbing,dallas,2025-12-08,Yes
+"5305 EMERSON AVE, Dallas TX 75209",(817) 481-2244,"",WILLIAMS VERONICA GRACE,1297750.00,85,plumbing,dallas,2025-12-05,Yes
+"5308 BOCA RATON DR, Dallas TX 75229",(214) 368-3844,dorisrobinson@peoplepc.com,SSAR ENTERPRISES LTD,1226240.00,65,concrete,dallas,2025-12-08,Yes
+5308 TIMBER PARK DR,(817) 228-2300,jerg37@yahoo.com,"SYPTAK-WELCH, ANNA M & WELCH, BENJAMINE AUSTIN",642361.00,65,other,flower_mound,,Yes
+"5311 KELSEY RD, Dallas TX, 5311",(214) 443-2000,punma@hotmail.com,TRUMPOWER IAN N &,3936000.00,85,other,dallas,2025-12-08,Yes
+"5316 WILLOW WOOD LN, Dallas TX 75252",(214) 906-3814,matthew_craig@aol.com,MSC TRUST,1189121.00,65,electrical,dallas,2025-12-08,Yes
+"5318 WESTGROVE DR, Dallas TX 75248",(817) 907-6046,nataliesmeltzer@yahoo.com,HR TEXAS FAMILY TRUST,2500000.00,65,concrete,dallas,2025-12-05,Yes
+"5321 NORTHCREST RD, Fort Worth TX 76107",(817) 737-9655,rafgarza@sbcglobal.net,"GARZA, RAFAEL G",746781.00,65,pool,fort_worth,2025-10-20,Yes
+"5331 PEBBLEBROOK DR, Dallas TX 75229",(214) 673-4711,aaronscow@hotmail.com,SCOW AARON,1820000.00,85,plumbing,dallas,2025-12-04,Yes
+"5343 WENONAH DR, Dallas TX 75209",(214) 405-0225,wesgoyer@gmail.com,GOYER CHARLES W III &,1855280.00,85,addition,dallas,2025-12-04,Yes
+"5346 DRANE DR, Dallas TX 75209",(214) 902-9054,"",HANDS REVOCABLE MANAGEMENT,2501410.00,85,outdoor_living,dallas,2025-12-08,Yes
+"5366 WANETA DR, Dallas TX 75209",(817) 291-1160,"",BIRD J COLLIN &,3230000.00,85,outdoor_living,dallas,2025-12-03,Yes
+"5407 WILLOW WOOD LN, Dallas TX 75252",(214) 957-3142,golfergirlkatie5@gmail.com,GELFAND ANDREW &,1101916.00,85,plumbing,dallas,2025-12-03,Yes
+"5410 WILLIS AVE, Dallas TX 75206",(469) 291-7249,"",TEMPLETON WILLIAM C &,1260000.00,85,other,dallas,2025-12-05,Yes
+"5416 LOFTSMOOR CT, Fort Worth TX 76244",(817) 239-1869,sai~dan@swbell.net,"SALGADO, DANIEL",507612.00,65,other,fort_worth,2025-11-14,Yes
+"5422 DRUID LN, Dallas TX 75209",(940) 704-4000,brookeboddy@yahoo.com,EHRLICH ROBERT &,943890.00,85,electrical,dallas,2025-12-05,Yes
+"5425 WYNDROOK ST, Fort Worth TX 76244","","","HARRINGTON, PATRICK",474717.00,65,other,fort_worth,2025-11-20,No
+"5429 HUNTLY DR, Fort Worth TX 76109",(817) 441-5955,atreilly@yahoo.com,"REILLY, AUSTIN T",1589846.00,92,pool,fort_worth,2025-12-01,Yes
+"5433 GREENWOOD WAY, North Richland Hills TX",(682) 438-0773,shelby_ty4ever@yahoo.com,"GRIFFITH, SHELBY",512517.00,65,pool,north_richland_hills,2025-11-06,Yes
+"5439 VANDERBILT AVE, Dallas TX 75206",(214) 828-4463,tarsiat@aol.com,TARSIA THOMAS F & REBECCA,877740.00,85,foundation,dallas,2025-12-03,Yes
+"5443 RIDGEDALE AVE, Dallas TX 75206",(940) 231-5747,kevinlawson@verizon.net,LAWSON KEVIN ANDREW &,850000.00,88,pool,dallas,2025-12-04,Yes
+"5448 BOCA RATON DR, Dallas TX 75229",(214) 361-6739,jane.chalk@operationsinternational.com,CHAMI ZACH DESCENDANTS TRUST,1782730.00,65,other,dallas,2025-12-05,Yes
+"5502 VANDERBILT AVE, Dallas TX 75206",(615) 513-1071,barneyka@aol.com,BEASLEY WILLIAM B III &,698450.00,85,plumbing,dallas,2025-12-08,Yes
+"5510 W HANOVER AVE, Dallas TX 75209",(214) 500-5216,"",MCGEE WILLIAM,2368390.00,85,outdoor_living,dallas,2025-12-05,Yes
+"5514 LOBELLO DR, Dallas TX 75229",(361) 853-0088,dustin@kerbexitandgrowthcapital.com,MCARTHUR DUSTIN,6200270.00,85,other,dallas,2025-12-04,Yes
+"5518 MELSHIRE DR, Dallas TX 75230",(469) 358-6711,gaylau@gmail.com,MATHIS GAYLA LYNETTE,2244700.00,85,plumbing,dallas,2025-12-09,Yes
+"5522 HARBOR TOWN DR, Dallas TX 75287",(214) 733-7955,"",RAZA AHMAD & MARYAM,2517957.00,85,plumbing,dallas,2025-12-08,Yes
+"5565 NAKOMA DR, Dallas TX 75209",(214) 801-8330,rnc@huntfinancial.com,CATHEY ROBERT & ASHLEY,4525260.00,85,plumbing,dallas,2025-12-08,Yes
+"5604 RIDGEDALE AVE, Dallas TX 75206",(214) 552-1152,cdiamond_drg@hotmail.com,ROBINSON JAMES D,721840.00,88,pool,dallas,2025-12-09,Yes
+5604 SANTA LUCIA CT,"","","SCHJERVEN, ROBERT & ANITA REVOCABLE TRUST",1769859.00,65,other,flower_mound,,No
+"560 REALE DR, Irving TX",(972) 506-9902,jeantanandsummer@hotmail.com,KEENE ALLISON &,476300.00,68,hvac,irving,2025-12-03,Yes
+"5623 MORNINGSIDE AVE, Dallas TX 75206",(415) 290-3536,jmsalmonson@gmail.com,SALMONSON MATTHEW & REBECCA,1696510.00,85,pool,dallas,2025-12-09,Yes
+"5704 RICHWATER DR, Dallas TX 75252",(972) 741-0410,kary715@aol.com,SILBERMAN GRAHAM & KAREN,1053322.00,85,plumbing,dallas,2025-12-03,Yes
+5704 TWAIN DR,(214) 629-6758,rick_tutt@yahoo.com,"ROGERS, JOHN K & MARLENE",568439.00,65,other,flower_mound,,Yes
+"5706 DELOACHE AVE, Dallas TX 75225",(214) 206-7621,dennis.mcclain@temerlinmcclain.com,MCCLAIN DENNIS D & CLAUDIA T,1861530.00,85,plumbing,dallas,2025-12-03,Yes
+"5710 WINDMIER CIR, Dallas TX 75252",(214) 883-8660,ryanmalphurs@gmail.com,MALPHURS RYAN A &,1312201.00,85,concrete,dallas,2025-12-03,Yes
+"5715 BOCA RATON DR, Dallas TX 75230",(214) 369-8316,"",5715 DRIVE TRUST,4109400.00,85,electrical,dallas,2025-12-03,Yes
+"5726 STANFORD AVE, Dallas TX 75209",(601) 291-3186,"",GILBERT CULLEN T & ALISON R,1235750.00,85,electrical,dallas,2025-12-08,Yes
+"5730 LLANO AVE, Dallas TX 75206",(214) 973-3511,"",GOODE DAWN MARIE,900000.00,85,fence,dallas,2025-12-06,Yes
+"5801 BENT OAK CT, Dallas TX 75248",(214) 507-8917,mdalecon@sbcglobal.net,CONWELL M DALE & ANNE F,1600000.00,85,plumbing,dallas,2025-12-05,Yes
+5805 SICILY WAY,"","","KALU, UCHE S & CARMEN C",813477.00,65,other,flower_mound,,No
+"5816 CALADIUM DR, Dallas TX 75230",(214) 351-2991,bpazandak@gmail.com,PAZANDAK BRADFORD &,966900.00,65,other,dallas,2025-12-08,Yes
+"5819 FOREST LN, Dallas TX 75230",(562) 507-5403,"",GAHNG PAUL M JR,877430.00,65,other,dallas,2025-12-05,Yes
+"5821 LA VISTA CT, Dallas TX 75206",(609) 758-0480,"",GELATA MATTHEW,554770.00,65,plumbing,dallas,2025-12-05,Yes
+"5822 MORNINGSIDE AVE, Dallas TX 75206",(832) 683-2100,justin.r.clark@live.com,CLARK JUSTIN R &,954170.00,85,other,dallas,2025-12-08,Yes
+"5823 FLINTSHIRE LN, Dallas TX 75252",(214) 608-7649,theables@msn.com,LUCKY FAMILY LIVING TRUST,1010000.00,85,addition,dallas,2025-12-08,Yes
+"5844 BOCA RATON DR, Dallas TX 75230",(214) 621-7150,hshokouh@post.cis.smu.edu,SHOKOUHI HOSSAIN ARNOLD &,2581470.00,85,other,dallas,2025-12-04,Yes
+"5903 TWIN COVES, Dallas TX 75248",(214) 212-2188,dshalev@earthlink.net,PHILLIP DAVID M & MARGUERITE,1355000.00,85,pool,dallas,2025-12-03,Yes
+"5906 BENTWOOD TRL, Dallas TX 75252",(713) 306-2937,"",RODRIGUEZ BIANCA & RYAN,850000.00,85,electrical,dallas,2025-12-09,Yes
+"5907 ST MARKS CIR, Dallas TX 75230",(214) 696-5186,educoff@yahoo.com,DUCOFF 2015 TRUST,1047920.00,65,other,dallas,2025-12-08,Yes
+5915 GARY LANE,(817) 653-7470,"","TANNAHILL, MARY MARGARET",478254.00,58,windows,arlington,2025-11-12,Yes
+"5915 GARY LANE, Arlington TX",(817) 653-7470,"","TANNAHILL, MARY MARGARET",478254.00,58,windows,arlington,2025-11-12,Yes
+"5925 BURGUNDY RD, Dallas TX 75230",(214) 369-8014,"",WOOD JOE H,1373900.00,85,roof,dallas,2025-12-09,Yes
+"5930 RICHMOND AVE, Dallas TX 75206","","",MODI PUNIT &,540000.00,65,plumbing,dallas,2025-12-03,No
+"6008 FIELDSTONE DR, Dallas TX 75252",(469) 853-3904,davidgouldin@yahoo.com,GOULDIN LIVING TRUST,744012.00,85,outdoor_living,dallas,2025-12-03,Yes
+600 RATON PASS,(214) 908-5686,j.schaeffer227@gmail.com,THANKAPPAN HARIDAS C,444870.00,65,hvac,irving,,Yes
+"6026 ANITA ST, Dallas TX 75206","","",ST JOHN LESLIE LYNN,594010.00,85,roof,dallas,2025-12-08,No
+"604 EASTWOOD AVE, Fort Worth TX 76107",(817) 625-1360,lisaharris85@hotmail.com,"HARRISON, FREDERICK J",634861.00,65,other,fort_worth,2025-11-19,Yes
+605 BELLAH DR,(972) 255-4305,ntill64@gmail.com,TILLERSON CHARLES WAYNE &,699760.00,85,roof,irving,,Yes
+"605 FIESTA CIR, Irving TX",(972) 506-0920,c_j_myer@hotmail.com,MYER CYNTHIA J,322800.00,65,foundation,irving,2025-12-01,Yes
+"6103 COPPERHILL DR, Dallas TX 75248",(972) 407-9537,jboomstein@yahoo.com,BOOMSTEIN JANICE & DAVID,589590.00,85,plumbing,dallas,2025-12-08,Yes
+6108 WINDSONG DRIVE,(404) 287-1677,george.cooper@gci.net,"COOPER, GEORGE A",481123.00,58,windows,arlington,2025-11-13,Yes
+"6108 WINDSONG DRIVE, Arlington TX",(404) 287-1677,george.cooper@gci.net,"COOPER, GEORGE A",481123.00,65,windows,arlington,2025-11-13,Yes
+"6109 DEL ROY DR, Dallas TX 75230",(214) 566-7877,cburton29@hotmail.com,BURTON CHRISTINE B & LEE A,1280000.00,85,roof,dallas,2025-12-05,Yes
+"6128 N JIM MILLER RD, Dallas TX 75228",(817) 456-1181,lorisays@hotmail.com,PRICE LORI SIMONE &,404980.00,65,other,dallas,2025-12-08,Yes
+"6136 BRANDEIS LN, Dallas TX 75214",(817) 676-2052,scottchiu@hotmail.com,CHIU SCOTT & LINDSAY,788190.00,72,other,dallas,2025-12-04,Yes
+613 RAINFOREST LN ALLEN TX 75013,(972) 838-3399,dgutknecht@gmail.com,GUTKNECHT JEFFREY NORMAN,679518.00,85,hvac,allen,,Yes
+613 SOMERSET DR,(972) 691-8040,franmottern@in.com,"FAHIM, CAROLYNE",659013.00,65,other,flower_mound,,Yes
+"6141 BELMONT AVE, Dallas TX 75214",(510) 735-1315,fgscub@yahoo.com,SIPPEL MICHAEL F &,1223040.00,85,hvac,dallas,2025-12-05,Yes
+"614 N CHARLES ST, Lewisville TX","","","BREZEALE, DARIN",352997.00,65,plumbing,lewisville,2025-11-19,No
+"616 ROARING SPRINGS RD, Fort Worth TX 76107",(817) 846-0585,stokdad@aol.com,"LACAMP, JAMES",911078.00,65,addition,fort_worth,2025-11-18,Yes
+616 SAN JUAN CT,(704) 737-8870,"",MUELLER ROBERT ALLEN JR &,736290.00,65,hvac,irving,,Yes
+"6206 YORKSHIRE DR, Dallas TX 75230",(214) 341-7991,elmolbell@aol.com,OTR PROPERTIES LLC,2418520.00,65,commercial_pool,dallas,2025-12-03,Yes
+"6210 CRESTMONT DR, Dallas TX 75214","","",BYRNES BRADY M &,779030.00,65,other,dallas,2025-12-06,No
+"6211 VELASCO AVE, Dallas TX 75214",(281) 202-7697,jen_rodosta@yahoo.com,BARRERA RODRIGO JR & JENNIFER,1578580.00,85,roof,dallas,2025-12-04,Yes
+"6229 ABERDEEN AVE, Dallas TX 75230",(214) 750-4848,stokesdeirdre@gmail.com,GAVIN KYLE E,3464680.00,85,electrical,dallas,2025-12-08,Yes
+"6230 JOYCE WAY, Dallas TX, 6230",(214) 361-2098,ckramertaggart@yahoo.com,SMALLWOOD CARL JEFFREY &,3475110.00,85,other,dallas,2025-12-04,Yes
+"6237 KENWICK AVE, Fort Worth TX 76116",(817) 343-5604,gtom.rt87eid@excite.com,"REID, THOS L",1094096.00,65,addition,fort_worth,2025-11-04,Yes
+"626 WOOLSEY DR, Dallas TX 75224",(469) 766-6972,sambo626@sbcglobal.net,HARRINGER SAMUEL E,468540.00,65,plumbing,dallas,2025-12-08,Yes
+"6310 TELLURIDE LN, Dallas TX 75252",(972) 342-2466,markjgsp@gmail.com,JOHNS MARK & TATIANNA ZETTERHOLM,559023.00,85,hvac,dallas,2025-12-09,Yes
+"6330 E MOCKINGBIRD LN, Dallas TX 75214","","",ADX REAL ESTATE LLC &,6850000.00,65,other,dallas,2025-12-09,No
+"6351 VELASCO AVE, Dallas TX 75214",(903) 597-5733,megan.a.doss@gmail.com,JOHNSTON ERIN BARNES,753380.00,68,pool,dallas,2025-12-03,Yes
+637 LAKE CITY DR,(316) 640-9160,drseyfert@yahoo.com,"SEYFERT, MARK ALAN & TERESA MARIE LIVING TRUST",511429.00,85,concrete,lewisville,,Yes
+"6403 LAKESHORE DR, Dallas TX 75214",(214) 558-1393,debra.hodges@cei.net,HODGES DEBRA L,704130.00,85,hvac,dallas,2025-12-04,Yes
+6403 TIFFANY OAKS LANE,(817) 366-4395,ratreno@gmail.com,"CARTER, RICHARD A",1725000.00,65,windows,arlington,2025-10-28,Yes
+"6403 TIFFANY OAKS LANE, Arlington TX",(817) 366-4395,ratreno@gmail.com,"CARTER, RICHARD A",1725000.00,65,windows,arlington,2025-10-28,Yes
+"6407 GLENROSE CT, Dallas TX 75214",(405) 812-5229,ssikka@hotmail.com,SIKKA SEEMA RANI,897690.00,85,windows,dallas,2025-12-08,Yes
+"6407 WESTGATE DR, Dallas TX 75254, 6407",(216) 312-0279,gitsbhai@gmail.com,SHARMA NIDHI &,1985510.00,85,other,dallas,2025-12-04,Yes
+6408 ROMA CIR,(972) 691-1131,rajithaa@hotmail.com,"ANDAPALLY, SRIDHAR & RAJITHA",1331895.00,85,other,flower_mound,,Yes
+"6414 BLANCH CIR, Dallas TX 75214",(214) 827-2486,"",6414 BLANCH CIRCLE LLC,1161350.00,65,fence,dallas,2025-12-04,Yes
+"6416 ROYAL CT, North Richland Hills TX",(817) 455-2379,jtapp@flash.net,"TAPP, TERRY L",420910.00,65,outdoor_living,north_richland_hills,2025-11-12,Yes
+"6420 EMERALDWOOD DR, Dallas TX 75254",(469) 618-5968,bradley.menefee@gmail.com,READER JONATHAN &,1688590.00,85,electrical,dallas,2025-12-05,Yes
+"6430 MERCEDES AVE, Dallas TX 75214",(972) 854-2490,caseykeating83@gmail.com,KEATING CASEY & JULIE,834320.00,65,plumbing,dallas,2025-12-05,Yes
+"6458 ANITA ST, Dallas TX 75214",(214) 394-1265,rwc456@aol.com,WOLFE RYAN DAIVD &,1995120.00,85,pool,dallas,2025-12-04,Yes
+"6468 FISHER RD, Dallas TX 75214",(518) 334-0952,"",SHOOP JONATHAN,460880.00,68,roof,dallas,2025-12-04,Yes
+"648 CLEARWATER DR, Irving TX",(214) 742-1100,sunmin@juno.com,MIN SUN HEE,1010000.00,88,foundation,irving,2025-12-03,Yes
+6500 VIA ITALIA DR,(702) 496-9557,ne2rkid@gmail.com,"KIM, LYAN & JANE",1094642.00,85,other,flower_mound,,Yes
+"6507 NORTH RIDGE DR, Dallas TX 75214",(214) 206-6182,jacobbkring@gmail.com,KRING LEE,954850.00,85,other,dallas,2025-12-04,Yes
+"650 S GRIFFIN ST, Dallas TX, 650","","","YOUNG, TRENTON",688449.00,65,addition,dallas,2025-12-04,No
+"6516 MEADOW HAVEN DR, Fort Worth TX 76132",(202) 588-5778,gjohn.64podgore@earthlink.net,"PODGORE, JOHN K",680810.00,65,remodel,fort_worth,2025-11-30,Yes
+"6521 BOB O LINK DR, Dallas TX 75214",(214) 701-0574,jhwk79@aol.com,YORK JASON M &,1760000.00,85,plumbing,dallas,2025-12-08,Yes
+"6523 STEFANI DR, Dallas TX 75225",(214) 361-0604,burchw06@hotmail.com,CHAUDHARY RAM,1100.00,85,electrical,dallas,2025-12-03,Yes
+"6530 TRAMMEL DR, Dallas TX 75214",(214) 457-9101,"",DONJUAN JOSE V & MARIA,408300.00,65,plumbing,dallas,2025-12-05,Yes
+"6533 ELLSWORTH AVE, Dallas TX 75214",(214) 668-3640,michael.humphries12@gmail.com,HUMPHRIES MICHAEL & ALYSSA,1488840.00,92,outdoor_living,dallas,2025-12-06,Yes
+653 YORK CT,(214) 450-3762,"","VARNON, JUSTIN CHARLES & SUSAN",731051.00,85,hvac,lewisville,,Yes
+"6600 SAHALEE DR, Fort Worth TX 76132",(817) 983-1710,sartain737@gmail.com,"SARTAIN, CHRISTIAAN",1981309.00,65,addition,fort_worth,2025-11-06,Yes
+"6604 CARSTON CT, North Richland Hills TX","","","OWENS, ROGER P",494056.00,65,remodel,north_richland_hills,2025-11-14,No
+6604 PALERMO TRL,(901) 335-4966,jsudepally@gmail.com,"SUDEPALLY, JAIKUMAR & SANKYA, HELEENA",1225347.00,85,other,flower_mound,,Yes
+6609 ESCONDIDO ST,(972) 863-3922,vickielj@hotmail.com,JOHNSON VICKIE LYNN,519810.00,85,hvac,irving,,Yes
+"6611 NORTHWOOD RD, Dallas TX 75225","","",PRIETO ANTONIO JOSE OVIEDO,1144350.00,65,electrical,dallas,2025-12-04,No
+"6614 LEAMEADOW DR, Dallas TX 75248",(214) 729-8612,grheneis@aol.com,SMITH NATHANIEL &,517270.00,65,plumbing,dallas,2025-12-03,Yes
+"6704 BLUE MEADOW DR, Fort Worth TX 76132",(817) 386-4332,"","MURNANE, THOMAS",657000.00,68,windows,fort_worth,2025-11-14,Yes
+"6705 NOB HILL CT, North Richland Hills TX",(817) 577-1545,pfoster1@netzero.net,"FOSTER, PHILIP D",676289.00,65,remodel,north_richland_hills,2025-11-19,Yes
+"6707 MEADOW LAKE AVE, Dallas TX 75214",(214) 649-4075,joshuahnewman@yahoo.com,NEWMAN JOSHUA & ERIN,1514000.00,92,pool,dallas,2025-12-05,Yes
+"6714 LUPTON DR, Dallas TX 75225",(214) 361-1708,"",STEWART JOHN MICHAEL &,2157750.00,85,concrete,dallas,2025-12-08,Yes
+"6715 LUPTON DR, Dallas TX 75225",(404) 805-5166,mattmiller1984@gmail.com,BIG OAK FAMILY TRUST,3794580.00,85,plumbing,dallas,2025-12-05,Yes
+"6717 TALMADGE LN, Dallas TX 75230",(813) 960-8002,shawdvm@gmail.com,SHAW NEIL & PATRICIA,1869000.00,95,roof,dallas,2025-12-05,Yes
+"6722 MIMOSA LN, Dallas TX 75230",(210) 372-1246,"",TUTEN GEORGE ERIC &,2565000.00,85,pool,dallas,2025-12-03,Yes
+"6727 TRAMMEL DR, Dallas TX 75214",(817) 683-1445,"",ESSL EMILY KAYE,848620.00,85,electrical,dallas,2025-12-04,Yes
+"6730 MEADOW RD, Dallas TX 75230",(214) 821-2636,eallen@aim~companies.com,REDEMPTION TRUST THE,3475160.00,85,plumbing,dallas,2025-12-04,Yes
+"6749 PRESTONSHIRE LN, Dallas TX 75225",(972) 322-5671,dustinvolz@gmail.com,VOLZ DUSTIN & NATALIE,2418890.00,85,other,dallas,2025-12-07,Yes
+"6753 PROSPECT WAY, Irving TX",(614) 277-9604,murugesh_cs@yahoo.com,MURUGAPPAN MEYYAPPAN M &,762690.00,85,outdoor_living,irving,2025-12-04,Yes
+"6832 HEATHERKNOLL DR, Dallas TX 75248",(972) 384-1725,yemreb@yahoo.com,SILVER ETHAN  &,638060.00,75,plumbing,dallas,2025-12-03,Yes
+"6840 TOPSFIELD DR, Dallas TX, 6840",(214) 563-9691,jimmx@comcast.net,ALBRIGHT ANDREA G,930000.00,85,other,dallas,2025-12-05,Yes
+"6840 TOPSFIELD DR, Dallas TX 75231",(214) 563-9691,jimmx@comcast.net,ALBRIGHT ANDREA G,930000.00,85,other,dallas,2025-12-08,Yes
+"6853 CORONADO AVE, Dallas TX 75214",(214) 321-2998,thomasheckman@gmail.com,HECKMAN THOMAS L JR TRUST,750040.00,65,plumbing,dallas,2025-12-09,Yes
+"6861 LAKEWOOD BLVD, Dallas TX 75214",(214) 405-7673,zacharypope@yahoo.com,POPE ZACHARY & LINDSAY,1691500.00,85,electrical,dallas,2025-12-08,Yes
+"6905 TALON DR, Fort Worth TX 76179",(419) 615-2630,"","MOROS, MAKENNA R",463782.00,65,outdoor_living,fort_worth,2025-11-17,Yes
+"6908 CLEMSON DR, Dallas TX 75214",(479) 442-7467,"",COOPER DAKOTA LOUIS &,710600.00,85,hvac,dallas,2025-12-03,Yes
+"6909 NORTHWOOD RD, Dallas TX 75225",(214) 599-9279,macvan_vo@yahoo.com,VO LOC,1073110.00,92,roof,dallas,2025-12-08,Yes
+"6909 SHADOW CREEK CT, Fort Worth TX 76132",(817) 292-8641,arthur.dickerson@aol.com,"DICKERSON, ARTHUR J",1400000.00,85,remodel,fort_worth,2025-12-01,Yes
+"6927 FREEMONT ST, Dallas TX 75231",(972) 310-7868,micahcunningham@aol.com,CUNNINGHAM MICAH CALEB &,1152100.00,85,plumbing,dallas,2025-12-08,Yes
+"6927 INVERNESS LN, Dallas TX 75214",(214) 770-3857,craig_jocoy@hotmail.com,PELT REVOCABLE MGMT TRUST,1197160.00,85,pool,dallas,2025-12-09,Yes
+"6927 VIVIAN AVE, Dallas TX 75223",(281) 459-1519,angelcobos1992@hotmail.com,COBOS ANGEL A & ELOISE,662390.00,85,plumbing,dallas,2025-12-09,Yes
+"6945 KINGDOM ESTATES DR, Dallas TX 75236",(432) 943-3777,jonathanbeggs@sbcglobal.net,BEGGS JONATHAN,399940.00,65,roof,dallas,2025-12-08,Yes
+"6958 WALLING LN, Dallas TX 75231",(985) 290-5481,dlmoge@bellsouth.net,OGE DAVID,590000.00,85,foundation,dallas,2025-12-05,Yes
+"7019 WESTLAKE AVE, Dallas TX 75214",(214) 991-0399,jprudes@hotmail.com,PRUDHOMME JEFFREY TODD,1055540.00,85,hvac,dallas,2025-12-03,Yes
+"7029 HEDGEBROOK DR, Dallas TX 75249",(214) 458-5993,ree7029@gmail.com,JOHNSON MARIAN RENEE,339400.00,65,plumbing,dallas,2025-12-09,Yes
+"7033 WAKE FORREST DR, Dallas TX 75214",(214) 460-0208,randytollefsrud@att.net,TOLLEFSRUD RANDY W,571970.00,85,other,dallas,2025-12-05,Yes
+"7044 HILL FOREST DR, Dallas TX 75230",(972) 239-8986,elmo1952@aol.com,LUTTRELL D SCOTT LIVING TRUST,2487090.00,85,plumbing,dallas,2025-12-03,Yes
+"7046 CURRIN DR, Dallas TX 75230",(972) 664-1414,kschott2014@gmail.com,SCHOTTLAENDER KEVIN L P &,1600000.00,85,electrical,dallas,2025-12-03,Yes
+706 IRONWOOD DR ALLEN TX 75002,(972) 390-1897,"",WONDRA BRIAN S & KRISTIN K,321049.00,65,roof,allen,,Yes
+"7104 TALON BLUFF DR, Fort Worth TX 76179",(517) 536-8815,"","LASERRA, TYLER",528548.00,65,pool,fort_worth,2025-11-10,Yes
+"7106 MEADOW LAKE AVE, Dallas TX 75214",(214) 321-2545,"",DRAGOUN AUSTIN SYKES &,1325000.00,85,foundation,dallas,2025-12-05,Yes
+"7108 DESCO DR, Dallas TX 75225",(214) 360-9476,rhobbs_family@msn.com,HOBBS C RANKIN,1500000.00,85,plumbing,dallas,2025-12-09,Yes
+"711 KING AVE, Irving TX","","",SHAKIR MUDAR & TASNEEM,668640.00,85,electrical,irving,2025-12-04,No
+"7127 STONETRAIL DR, Dallas TX 75230",(972) 768-1294,ryan.anderson@trinity.edu,ANDERSON RYAN P &,1192790.00,85,hvac,dallas,2025-12-03,Yes
+"713 S WILLOMET AVE, Dallas TX 75208",(214) 366-7650,svalerie93@yahoo.com,SAUCEDO VALERIE MONIQUE,440080.00,65,plumbing,dallas,2025-12-03,Yes
+714 FEATHERBROOK CT ALLEN TX 75002,(469) 867-2742,softmetal712@hotmail.com,FUKUSHIGE KOTARO & JENNIFER L,483543.00,85,foundation,allen,,Yes
+"7160 MANOR OAKS DR, Dallas TX 75248",(972) 818-5358,kennethgoggin@comcast.net,FIELD DOUGLAS D &,670870.00,85,plumbing,dallas,2025-12-04,Yes
+716 BALDWIN CT ALLEN TX 75013,(281) 772-6549,bchili@hotmail.com,CHILIVETIS MARK WILLIAM & EMILY WEAVER,607386.00,85,concrete,allen,,Yes
+"7205 TOKALON DR, Dallas TX 75214",(214) 212-0477,tacofficer@bellsouth.net,CHAMBERS SUE ELLEN,2707090.00,85,plumbing,dallas,2025-12-04,Yes
+"7210 MARQUETTE ST, Dallas TX 75225",(214) 343-7400,nd3k@sbcglobal.net,ALLEN NATHAN JR,1426550.00,85,electrical,dallas,2025-12-09,Yes
+"7215 CUTTER MILL DR, Dallas TX 75248","","",FRAZIN LORRIE,590000.00,65,plumbing,dallas,2025-12-05,No
+"7220 BRENTFIELD DR, Dallas TX 75248",(972) 467-7732,rebecca.liu@att.net,LIU REBECCA,612060.00,68,pool,dallas,2025-12-04,Yes
+"7222 NORTHAVEN RD, Dallas TX 75230",(972) 290-0326,"",SZCZSPONIK LIIVNG TR,1602000.00,85,roof,dallas,2025-12-09,Yes
+"7229 ELMRIDGE DR, Dallas TX 75240",(469) 251-6055,"",PETTY WILLIAM NATHAN &,1269390.00,85,plumbing,dallas,2025-12-07,Yes
+"7229 LA MANGA DR, Dallas TX 75248",(214) 215-3219,larrymcguffin@aol.com,MCGUFFIN LARRY J &,554110.00,68,plumbing,dallas,2025-12-03,Yes
+"7232 SYRACUSE DR, Dallas TX 75214","","",MYERS HEATHER M &,694410.00,85,outdoor_living,dallas,2025-12-05,No
+"7239 FENTON DR, Dallas TX 75231","","",MEYER MCCOY REVOCABLE TRUST,680560.00,65,electrical,dallas,2025-12-09,No
+"7243 MARQUIS LN, Irving TX",(503) 719-9375,deepak.arora@oracle.com,ARORA DEEPAWK & RUCHIKA,1054000.00,85,outdoor_living,irving,2025-11-26,Yes
+"7248 TANGLEGLEN DR, Dallas TX 75248",(972) 788-4581,dbaugh3254@juno.com,DOBSON SEAN SETH &,982690.00,85,windows,dallas,2025-12-04,Yes
+724 SAM HILL ST,"","",HOYA GUILLERMO PABLO &,433250.00,65,plumbing,irving,,No
+"7256 RIDGEPOINT DR, Irving TX",(571) 205-6314,krisnrk@gmail.com,NARALA RAMA KRISHA &,823620.00,85,outdoor_living,irving,2025-12-04,Yes
+725 BURNWOOD DR,(817) 360-6865,charmedone645@hotmail.com,ROGERS SHAWN,303440.00,65,hvac,irving,,Yes
+"726 N IRVING HEIGHTS DR, Irving TX",(214) 533-4811,lindakingston@aol.com,KINGSTON FAMILY TRUST THE,510240.00,65,concrete,irving,2025-11-10,Yes
+"727 S WINNETKA AVE, Dallas TX 75208",(214) 941-8831,"",HERNANDEZ ABEL &,400370.00,65,electrical,dallas,2025-12-03,Yes
+729 WYCHE DR,(214) 995-4642,yaryazuquita@cox~internet.com,MIESES MARGARITA &,304360.00,65,plumbing,irving,,Yes
+"7301 DEBSHIRE CIR, Dallas TX 75231",(214) 243-4486,pjritter@gmail.com,RITTER PAUL JOHN & JULIA ANN,792000.00,68,hvac,dallas,2025-12-04,Yes
+"7312 MARQUIS LN, Irving TX",(512) 466-9420,priyanka.ime2015@gmail.com,AGRAWAL SANJAY,1059670.00,65,commercial_pool,irving,2025-11-03,Yes
+"7314 CORONADO AVE, Dallas TX 75214",(619) 820-5371,chrisgrohman@yahoo.com,GROHMAN CHRISTOPHER J &,1941000.00,85,windows,dallas,2025-12-05,Yes
+"7320 PARK LAKE DR, Dallas TX 75230",(469) 258-0856,woodmanpointe@yahoo.com,NUG925 LLC,1215780.00,65,other,dallas,2025-12-04,Yes
+"7322 COLGATE AVE, Dallas TX 75225",(214) 886-3428,"",FELTY BRIAN & WENDY,3360760.00,95,pool,dallas,2025-12-08,Yes
+"7325 RUTGERS DR, Dallas TX 75214",(469) 212-2755,tschif@gmail.com,SERENO TRICIA,630000.00,85,roof,dallas,2025-12-04,Yes
+"7331 BRIARNOLL DR, Dallas TX 75252",(972) 267-3090,bsuhasini@gmail.com,BALL JAMA G TERRY &,706524.00,65,plumbing,dallas,2025-12-04,Yes
+"7360 BERANGER DR, Irving TX","","",REDDY DIREESH R &,1097500.00,85,foundation,irving,2025-11-18,No
+"7414 CURRIN DR, Dallas TX 75230",(972) 771-7636,dperky4720@aol.com,DRIBBEN FAMILY TRUST THE,2774790.00,85,plumbing,dallas,2025-12-05,Yes
+7428 PRIMROSE DR,(972) 910-8752,abapatla@yahoo.com,BAPATLA KRISHNA REV TRUST THE,932340.00,85,hvac,irving,,Yes
+"7501 SWITCHWOOD LN, Fort Worth TX 76123",(224) 578-4145,tebonye1@hotmail.com,"THOMPSON, EBONYE",501797.00,65,remodel,fort_worth,2025-11-26,Yes
+"7512 WOODSTONE LN, Dallas TX 75248",(214) 213-3704,"",BACKLUND FAMILY TRUST,699860.00,65,foundation,dallas,2025-12-03,Yes
+"7540 WOODHAVEN DR, North Richland Hills TX",(817) 874-7194,andy@galyen.com,"DEDERICK, KARA",487353.00,68,pool,north_richland_hills,2025-11-21,Yes
+754 YORK CT,(864) 915-6314,"",CAMPBELL FAMILY LIVING TRUST,768536.00,85,pool,lewisville,,Yes
+"754 YORK CT, Lewisville TX",(864) 915-6314,"",CAMPBELL FAMILY LIVING TRUST,768536.00,65,outdoor_living,lewisville,2025-11-10,Yes
+758 SANDY LN,"","","KANNAN, MURALIDHAR",660000.00,65,other,flower_mound,,No
+"7600 IRA DR, North Richland Hills TX",(972) 355-7940,vicky_otero@yahoo.com,"BAKER, GLENN",705133.00,65,outdoor_living,north_richland_hills,2025-10-30,Yes
+"7619 CHADWICK CT, Dallas TX 75248",(972) 447-0878,bkowalke@yahoo.com,KOWALKE BRYAN J,404300.00,65,concrete,dallas,2025-12-03,Yes
+"7630 CHADWICK CT, Dallas TX 75248",(972) 330-9325,"",MARKOV DANNY &,463660.00,65,plumbing,dallas,2025-12-08,Yes
+"7727 HOLLOW WAY DR, Irving TX","","",SUBRAMANIAN SASIKUMAR &,939750.00,65,electrical,irving,2025-11-10,No
+"7731 LA AVENIDA DR, Dallas TX 75248",(972) 788-0260,moj.alexander@aol.com,CZERLINSKY CHRISTOPHER &,469380.00,68,foundation,dallas,2025-12-03,Yes
+773 LIVINGSTON DR ALLEN TX 75002,"","",NAKAD ALEX,503000.00,65,plumbing,allen,,No
+"7740 SMITHFIELD RD, North Richland Hills TX",(817) 577-4954,namercier@comcast.net,THE MARVIN FAMILY TRUST,568444.00,65,remodel,north_richland_hills,2025-11-18,Yes
+"7756 EL PENSADOR DR, Dallas TX 75248",(972) 661-9843,"",MARTINI SHARON D,462360.00,68,foundation,dallas,2025-12-03,Yes
+"7807 HIGH OAKS CIR, Dallas TX 75231",(214) 221-0000,"",MENDOZA MAYRA GISELA,493670.00,68,hvac,dallas,2025-12-04,Yes
+"7945 BRIARIDGE RD, Dallas TX 75248",(214) 734-2660,fernmt@aol.com,RYAN JACK  & ALISHA,561060.00,85,roof,dallas,2025-12-03,Yes
+"7973 GREENGATE DR, Dallas TX 75249",(469) 503-2283,phillip.smith1999@gmail.com,SMITH PHILLIP & LINDA,351590.00,65,concrete,dallas,2025-12-03,Yes
+"8000 HALLMARK DR, North Richland Hills TX",(469) 656-1945,noelweaver@hotmail.com,"WEAVER, DWAYNE",635677.00,65,remodel,north_richland_hills,2025-11-17,Yes
+"8000 LONE OAK DR, North Richland Hills TX",(214) 755-5928,kcawyer@live.com,"CAWYER, JAMES R",724254.00,65,fence,north_richland_hills,2025-11-03,Yes
+"8000 OAK KNOLL DR, North Richland Hills TX",(512) 431-8485,"","WALKER, DANIEL",795177.00,68,hvac,north_richland_hills,2025-11-20,Yes
+8008 LYNORES WAY,(214) 929-6346,aartnak@gmail.com,ARTNAK ANTON JR & MARCIE L,698366.00,65,plumbing,plano,,Yes
+800 THE LAKES BLVD,(940) 206-9058,"","MURPHY, MICHAEL & STACY",690363.00,85,outdoor_living,lewisville,,Yes
+"8016 HALLMARK DR, North Richland Hills TX",(817) 781-5550,tcdevault@worldnet.att.net,"DEVAULT, TRAVIS",652034.00,65,commercial_pool,north_richland_hills,2025-11-12,Yes
+803 KING BAN DR,(801) 404-8433,samcardon@mac.com,"CARDON, SAMUEL T & MARLEE G",1143149.00,85,hvac,lewisville,,Yes
+803 PARKCREST CT,(817) 797-5223,postlawns@hotmail.com,"POST, STEVEN J",1227047.00,85,plumbing,southlake,2025-12-01,Yes
+804 SWORD BRIDGE DR,(972) 679-2734,byronf430@aol.com,"FRAZIER, BYRON K & DEANNA",749772.00,85,plumbing,lewisville,,Yes
+"8055 MOSS MEADOWS DR, Dallas TX 75231",(214) 675-7087,flcl92freak@bellsouth.com,MACEDA FABIAN A &,566440.00,65,plumbing,dallas,2025-12-08,Yes
+"8072 MOSS MEADOWS DR, Dallas TX 75231",(214) 394-7758,mcconkeb@gmail.com,MCCONKEY BRADLEY E & CASSANDRA K,687180.00,65,electrical,dallas,2025-12-09,Yes
+"8083 CLAREMONT DR, Dallas TX 75228",(972) 303-0931,bfdutton@yahoo.com,DUTTON WILLIAM FRANK II,420940.00,65,hvac,dallas,2025-12-03,Yes
+811 FAWN VALLEY DR ALLEN TX 75002,(214) 881-7566,marandaholloway93@gmail.com,MARKLAND MIKAYLA,415765.00,65,plumbing,allen,,Yes
+817 KIPLING DR ALLEN TX 75002,(972) 288-9714,"",MCKISSICK JEAN ANN WADE REVOCABLE TRUST,416382.00,65,concrete,allen,,Yes
+"8201 HORSETAIL CT, Dallas TX 75252",(806) 206-1888,aj_baca@hotmail.com,BACA ADRIAN & ERIN SULLIVANBACA,911890.00,85,pool,dallas,2025-12-08,Yes
+"8212 WESTWIND LN, North Richland Hills TX",(405) 503-6281,mcsooners@msn.com,"MCINTYRE, DAVID",640033.00,65,pool,north_richland_hills,2025-10-31,Yes
+"8232 PAINTED TREE TRL, Fort Worth TX 76131",(817) 723-6382,hhall78@hotmail.com,"HALL, HAROLD E",520177.00,65,remodel,fort_worth,2025-11-24,Yes
+"825 ELWOOD RD, Irving TX",(972) 693-0589,aguilarjhonathan@gmail.com,"SIEGEL, HARRY",334530.00,65,electrical,irving,2025-12-02,Yes
+"8301 BEVERLY DR, North Richland Hills TX",(817) 788-1012,"","KAASE, JUDY A",488688.00,65,remodel,north_richland_hills,2025-11-12,Yes
+"832 PAVILLION ST, Dallas TX 75204",(214) 642-7676,cotton1072@aol.com,MENDENHALL COTTON DAVID,653550.00,85,other,dallas,2025-12-04,Yes
+"836 W 8TH ST, Dallas TX 75208",(860) 301-6429,dimitrihughes@gmail.com,HUGHES DIMITRI O & JOYETTE S,548030.00,65,plumbing,dallas,2025-12-04,Yes
+"8505 DOUGLAS AVE, Dallas TX 75225",(214) 368-6436,dtool@northwestbible.org,GUARNIERI DANIEL PATRICK,342960.00,65,other,dallas,2025-12-04,Yes
+"8505 PINEWOOD DR, Fort Worth TX 76123",(817) 894-0763,tubajosh2000@yahoo.com,"RESCH, JOSHUA",608093.00,65,other,fort_worth,2025-11-13,Yes
+"8523 GROVELAND DR, Dallas TX 75218",(214) 725-6107,brinkerlaw@aol.com,BRINKER D CRAIG &,1200000.00,85,plumbing,dallas,2025-12-05,Yes
+"853 VALENCIA BLVD, Irving TX",(404) 563-1080,"",GRIFFIN TIMOTHY &,806030.00,85,plumbing,irving,2025-12-05,Yes
+"8547 SAN PEDRO PKWY, Dallas TX 75218",(214) 773-1774,kateleigh1217@yahoo.com,LEVY BRADLEY E & KATIE G,2080000.00,85,outdoor_living,dallas,2025-12-03,Yes
+"8601 ASHLEY CT, North Richland Hills TX",(214) 707-9355,segsok123@yahoo.com,"GREEN, SCOTT A",529230.00,68,fence,north_richland_hills,2025-11-14,Yes
+8608 DORAL CT W,(904) 535-4882,"","DRUSCH, PETER & SANDRA M",1757388.00,85,other,flower_mound,,Yes
+"8615 OAK VALLEY CT, Irving TX",(214) 801-2645,"",ARASIN MELISSA,552170.00,78,roof,irving,2025-12-01,Yes
+"8617 FOREST GLENN DR, Irving TX",(916) 716-3827,unionhackett@comcast.net,CHAPMANHACKETT CATHY,540000.00,65,plumbing,irving,2025-12-02,Yes
+"8618 VISTA GRANDE DR, Dallas TX 75249",(214) 789-7905,tramaine_s_2000@yahoo.com,SCOTT RITA Y &,343000.00,65,foundation,dallas,2025-12-04,Yes
+8627 OLD OAK DR,(972) 556-9087,smargie26@aol.com,SMITH BRYAN C &,494420.00,85,hvac,irving,,Yes
+"8631 CHERRY HILL DR, Dallas TX 75243",(316) 217-1004,"",ROBERTS ZACHARY JOSEPH &,835860.00,65,electrical,dallas,2025-12-05,Yes
+8652 WELLINGTON POINT DR,(915) 875-0313,twk123@hotmail.com,KARSTENDIEK TRINA,502520.00,85,plumbing,irving,,Yes
+"8732 IRON HORSE DR, Irving TX",(972) 765-3226,lsong1@gmail.com,SONG JOHN J,401680.00,65,electrical,irving,2025-11-19,Yes
+"8804 CRESCENT CT, Irving TX","","",SAXENA NITIN & ANSHITA,598190.00,68,plumbing,irving,2025-11-25,No
+"8820 KENTON DR, Dallas TX 75231",(817) 673-1233,"",LANE GREGORY & MELANIE,686400.00,72,concrete,dallas,2025-12-03,Yes
+"8917 STRATFORD DR, North Richland Hills TX",(817) 821-4424,kevinbeville@gmail.com,"BEVILLE, KEVIN",643000.00,85,pool,north_richland_hills,2025-11-17,Yes
+"8927 WHITE PINE LN, Dallas TX 75238",(214) 341-0086,maryfally@juno.com,FALLY MARY JANE,691390.00,85,hvac,dallas,2025-12-05,Yes
+"8928 FAIRGLEN DR, Dallas TX 75231",(214) 769-7124,dwighthenneberger@gmail.com,HENNEBERGER LIVING TRUST,740050.00,85,concrete,dallas,2025-12-03,Yes
+"8941 RANDOM RD, Fort Worth TX 76179",(254) 576-2924,"","STEPP, ROBERT LOYD",909848.00,65,other,fort_worth,2025-12-01,Yes
+"9034 FOREST HILLS BLVD, Dallas TX 75218",(469) 371-3447,texaslonghornfan12@gmail.com,DOMINGUEZ ANGEL T JR,534300.00,65,electrical,dallas,2025-12-07,Yes
+910 TWIN CREEKS DR ALLEN TX 75013,(214) 931-3525,jenharvey25@gmail.com,HARVICK JEFFREY LYNN &,887399.00,85,foundation,allen,,Yes
+"915 GRANDVIEW AVE, Dallas TX 75223",(713) 862-4494,"",COCKRELL MARTHA,379270.00,65,outdoor_living,dallas,2025-12-05,Yes
+"920 HAWTHORNE DR, Lewisville TX","","","ABRAHAM, MINI & JOHNS",426589.00,65,electrical,lewisville,2025-12-03,No
+"9215 CLOVER VALLEY DR, Dallas TX 75243",(817) 897-4125,travisandpattie@yahoo.com,KEATH M TRAVIS &,708180.00,85,plumbing,dallas,2025-12-08,Yes
+"925 BLUEBIRD SKY DR, Fort Worth TX 76247","","","ALBRIGHT, SCOTTY ALLEN & ALYSSA LYNNE",521812.00,68,addition,fort_worth,2025-11-17,No
+"9316 FORESTRIDGE DR, Dallas TX 75238",(972) 731-6255,mark.haas@aol.com,COSTELLO MATTHEW & AMANDA,1741790.00,85,plumbing,dallas,2025-12-09,Yes
+"9363 CRIMNSON CT, Dallas TX 75217",(972) 557-0042,davis1987charles@gmail.com,DAVIS ROSE MARY,236140.00,65,other,dallas,2025-12-08,Yes
+"9408 APPLE WAY, Irving TX",(469) 742-3501,"",BARAT PRAGYADITYA & GITANJALI,463010.00,68,outdoor_living,irving,2025-12-02,Yes
+"9409 HERMOSA DR, Dallas TX 75218",(817) 714-9404,klattig@msn.com,LATTIG THOMAS & CARLA BAYONA,951060.00,85,electrical,dallas,2025-12-08,Yes
+"9410 SPRINGWATER DR, Dallas TX 75228",(214) 454-4038,rosalindalander@gmail.com,LANDER ALLISON & BRIAN,652160.00,85,other,dallas,2025-12-08,Yes
+"9509 CLIFFSIDE DR, Irving TX",(814) 384-5839,"",PATEL NIMESHKUMAR &,600000.00,65,roof,irving,2025-11-25,Yes
+"9525 SINCLAIR ST, Fort Worth TX 76244",(318) 747-1486,donnagreengus@yahoo.com,"GREENGUS, RANDALL W",453212.00,65,foundation,fort_worth,2025-11-24,Yes
+"9525 SKILLMAN ST, Dallas TX 75243",(650) 520-3137,cathy.cleaver@gmail.com,CANE PROPERTIES LLC,1447000.00,65,fence,dallas,2025-12-05,Yes
+"9565 DARTRIDGE DR, Dallas TX 75238",(214) 348-6859,criss7@sbcglobal.net,MEYER ADRIANA &,653020.00,65,roof,dallas,2025-12-03,Yes
+"966 KESSLER PKWY, Dallas TX 75208",(214) 546-2146,f0terence.reynolds@cs.com,REYNOLDS TERENCE RAY,898370.00,85,electrical,dallas,2025-12-08,Yes
+"9677 CRESTEDGE DR, Dallas TX 75238",(214) 918-1650,jghedi@aol.com,HARDEE EVAN & ANNE MARIE,1254510.00,85,plumbing,dallas,2025-12-03,Yes
+"9706 MAPLEHILL DR, Dallas TX 75238",(214) 417-6553,mbeard@hcmlp.com,BEARD MATTHEW RYAN &,610970.00,65,electrical,dallas,2025-12-08,Yes
+"9709 FIELDCREST DR, Dallas TX 75238",(214) 212-1574,chrisseher@hotmail.com,SEHER DORIS G,658520.00,65,plumbing,dallas,2025-12-03,Yes
+"970 WOODROW DR, Lewisville TX",(972) 352-8418,rsaranas@yahoo.com,"ARANAS, RENE S & MA JELENA N ARANAS",518408.00,68,electrical,lewisville,2025-11-24,Yes
+"9714 HATHAWAY ST, Dallas TX 75220","","",CHERTKOEV LEVANI G LIFE EST,1793350.00,85,hvac,dallas,2025-12-03,No
+"9732 ARMOUR DR, Fort Worth TX 76244",(706) 218-6467,derek.schreihofer@unthsc.edu,"SCHREIHOFER, DEREK A",631276.00,65,remodel,fort_worth,2025-11-23,Yes
+"9747 QUEENSWOOD LN, Dallas TX 75238",(214) 343-2415,yinkunbun@yahoo.com,ADENIJI ELIZABETH,420000.00,68,foundation,dallas,2025-12-04,Yes
+"9764 WISTERWOOD DR, Dallas TX 75238","","",ENGLISH STACEY ALLISON,450000.00,65,hvac,dallas,2025-12-03,No
+"9818 COUNTY CORK DR, Dallas TX 75218",(214) 327-5982,"",DANIEL FREDERICK R,461750.00,65,electrical,dallas,2025-12-09,Yes
+"9827 LAKEMERE DR, Dallas TX 75238",(214) 537-2016,"",WALTHER DAVID RAY,623200.00,68,addition,dallas,2025-12-08,Yes
+"9847 CRESTWICK DR, Dallas TX 75238",(214) 356-2759,"",SCIALO KRISTEN E &,648240.00,72,other,dallas,2025-12-03,Yes
+"984 LITTLE DEN DR, Lewisville TX",(972) 746-5242,sexualtool@yahoo.com,"VALE, WAYNE",315759.00,65,fence,lewisville,2025-12-04,Yes
+"9979 EDGECLIFF DR, Dallas TX 75238",(214) 205-1252,bfichtenbaum@gte.net,FITZGERALD JAMIE LEE,745530.00,85,other,dallas,2025-12-08,Yes
+"9999 MEADOWBROOK DR, Dallas TX 75220",(214) 696-3060,"",WALNUT & MEADOWBROOK,3869690.00,85,siding,dallas,2025-12-08,Yes

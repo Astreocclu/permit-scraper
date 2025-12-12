@@ -2,6 +2,114 @@
 
 ---
 
+## Session: 2025-12-11 (Late PM) - CSS Scraper Fixes & High-Value Suburbs
+
+### Context
+- User wanted to scrape Westlake, Southlake, and Colleyville (affluent DFW suburbs)
+- CSS (Citizen Self Service / EnerGov) scraper was broken - pagination not working, date filter not applying
+- Goal: Get 1000+ leads from each city, enrich with CAD data, score with AI
+
+### Work Completed
+
+1. **Fixed CSS Scraper Module Selection** (`scrapers/citizen_self_service.py`)
+   - **Problem**: JavaScript DOM manipulation wasn't selecting "Permit" module correctly
+   - **Fix**: Changed to Playwright's native `select_option()` with Angular value `'number:2'` (lines 213-231)
+   - Key selector: `#SearchModule` with value `'number:2'`
+
+2. **Fixed CSS Date Filter** (`scrapers/citizen_self_service.py`)
+   - **Problem**: Date inputs not being found - complex DOM traversal failing
+   - **Fix**: Use direct input IDs `#ApplyDateFrom` and `#ApplyDateTo` (lines 259-281)
+   - Now correctly fills 60-day date range
+
+3. **Fixed Export Modal Handling** (`scrapers/citizen_self_service.py`)
+   - **Problem**: Export button opens modal asking for filename, not direct download
+   - **Fix**: Added modal detection, filename input, and "Ok" button click (lines 130-185)
+   - Modal fields: filename input, "Export first 1000 Results" radio, Ok/Cancel buttons
+
+4. **Fixed CSV/Excel Parsing** (`scrapers/utils.py`)
+   - **Problem**: Export is CSV despite `.xlsx` extension, `pd.read_excel()` failed
+   - **Fix**: Try CSV first, fall back to Excel (lines 576-587)
+   - Added column mappings: `'case number'` → `permit_id`, `'project name'` → `description`
+
+5. **Fixed load_permits.py**
+   - Added `dotenv` loading for DATABASE_URL
+   - Added skip for permits without addresses (NOT NULL constraint)
+
+6. **Scraped 3 Cities:**
+   | City | Permits | Notes |
+   |------|---------|-------|
+   | Westlake | 180 | MyGov platform, all commercial |
+   | Colleyville | 1,000 | CSS platform, mixed residential |
+   | Southlake | 500 | CSS platform, mostly commercial |
+
+7. **Loaded, Enriched, and Scored:**
+   - Loaded 1,138 permits to database
+   - CAD enrichment: 7,050 properties enriched total
+   - Scored permits and exported to CSV
+
+### Current State
+
+**Scraping Results:**
+- Colleyville: 1,000 permits (468 with addresses loaded)
+- Southlake: 500 permits (498 loaded) - BUT mostly commercial electrical/antenna
+- Westlake: 180 permits (172 loaded) - BUT mostly commercial (Solana office campus)
+
+**High-Value Leads Found (Colleyville only - Tier A):**
+| Owner | Property Value | Project | Score |
+|-------|---------------|---------|-------|
+| JACKSON, JAMES L | $970,729 | Patio cover + grill area | 92 |
+| SINUNU, STEPHEN | $961,390 | Masonry fireplace | 88 |
+| SHATTO, BRIAN | $1,375,520 | Custom patio door | 85 |
+| CALVERT, MICHAEL J | $867,105 | Attached patio cover | 85 |
+| LATORRE FAMILY TRUST | $3,920,391 | (enriched, not scored yet) | - |
+
+**Issue Discovered:**
+- Southlake scraped 223 Commercial Electrical + 191 Commercial New Building = almost ALL commercial
+- Westlake scraped mostly Solana Blvd office permits - commercial, not residential
+- Only Colleyville had good residential outdoor living permits
+
+### Next Steps
+
+1. **Re-scrape Southlake with residential filter** - the CSS portal may have a permit type filter, or need to search for specific residential types
+2. **Find Westlake residential portal** - MyGov may have separate residential module, or permits may be filed under different search criteria
+3. **Run more Colleyville scoring** - only scored 37 permits, have 468 loaded
+4. **Consider expanding date range** - 60 days may be too narrow for smaller cities
+
+### Notes
+
+**CSS Portal Structure (EnerGov):**
+- Module dropdown: `#SearchModule` with values like `'number:2'` (Permit), `'number:3'` (Plan)
+- Date inputs: `#ApplyDateFrom`, `#ApplyDateTo`, `#IssueDateFrom`, `#IssueDateTo`
+- Export opens modal with filename input and radio buttons
+- Export is CSV format despite `.xlsx` extension
+- Results limited to 1000 per export
+
+**Westlake/Southlake Issue:**
+The scrapers worked correctly, but the portals returned commercial permits:
+- Southlake: Commercial electrical permits (antenna installations, etc.)
+- Westlake: Solana Blvd office complex permits (Wells Fargo, Glenstar, etc.)
+- These cities may have low residential permit volume, or residential permits are filed differently
+
+**Colleyville Success:**
+- Only city with good residential leads
+- Outdoor living projects: patio covers, fireplaces, door replacements
+- Property values $500K-$3.9M - very affluent
+- 10 Tier A leads found, 6 in luxury outdoor living category
+
+### Key Files
+
+- `scrapers/citizen_self_service.py` - Fixed CSS scraper (lines 213-231, 259-281, 130-185)
+- `scrapers/utils.py` - CSV parsing fix (lines 576-587), column mappings (lines 521-527)
+- `scripts/load_permits.py` - Added dotenv, address validation
+- `scripts/enrich_cad.py` - Added dotenv
+- `scripts/score_leads.py` - Added dotenv
+- `westlake_raw.json` - 180 permits (commercial)
+- `colleyville_raw.json` - 1000 permits (mixed, good residential)
+- `southlake_raw.json` - 500 permits (commercial)
+- `exports/luxury_outdoor/outdoor_living/tier_a.csv` - 6 high-value Colleyville leads
+
+---
+
 ## Session: 2025-12-11 (PM) - Flower Mound & Carrollton Scraper Expansion
 
 ### Context

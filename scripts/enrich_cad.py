@@ -26,6 +26,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple, Generator
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import psycopg2
 
 import requests
