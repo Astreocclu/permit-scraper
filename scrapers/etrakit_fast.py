@@ -57,6 +57,14 @@ ETRAKIT_CITIES = {
         ],
         'permit_regex': r'^[A-Z]{1,4}\d{0,2}-?\d{2}-?\d{4,5}$',  # Flexible: EL-00-0026, BP13-01542, RER-11-3040
     },
+    'denton': {
+        'name': 'Denton',
+        'base_url': 'https://dntn-trk.aspgov.com/eTRAKiT',
+        'search_path': '/Search/permit.aspx',
+        # Denton uses YYMM-#### format: 2501-0001 (2025-Jan), 2412-0001 (2024-Dec)
+        'prefixes': ['2501', '2412', '2411', '2410', '2409', '2408', '2407'],
+        'permit_regex': r'^\d{4}-\d{4}$',
+    },
 }
 
 
