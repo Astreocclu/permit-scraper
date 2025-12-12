@@ -1,5 +1,5 @@
 # Permit Scraper Status Summary
-**Last Updated**: December 11, 2025
+**Last Updated**: December 12, 2025
 **Archive**: See `_archive/` for historical session logs.
 
 ## Working Scrapers
@@ -49,10 +49,10 @@
 | 15 | **Flower Mound** | 80K | eTRAKiT | `etrakit_fast.py` | ✅ Working |
 | 16 | **Cedar Hill** | 50K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
 | 17 | **Mesquite** | 150K | EnerGov CSS | `energov.py` | ❌ Angular timeouts (tested 12/09) |
-| 18 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | ✅ Working (140,390 permits available) |
+| 18 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | ✅ Working (140K permits, residential filter added 12/12) |
 | 19 | **Colleyville** | 27K | EnerGov CSS | `citizen_self_service.py` | ✅ Working (5,817 permits available) |
 | 20 | **Rowlett** | 68K | MyGov | — | ❌ Requires contractor login |
-| 21 | **Westlake** | 4K | MyGov | `mygov_westlake.py` | 🔍 Address-based (requires address list) |
+| 21 | **Westlake** | 4K | MyGov | `mygov_westlake.py` | ✅ Working (367 addresses harvested via API 12/12) |
 | 22 | **Grapevine** | 55K | MyGov (.exe) | — | ❌ Requires desktop client |
 | 23 | **Duncanville** | 40K | MGO Connect | `mgo_connect.py` | ❌ Anti-bot blocked |
 | 24 | **Keller** | 50K | EnerGov CSS | — | 🔍 Migrated from eTRAKiT |
@@ -84,11 +84,11 @@
 | Socrata API | 1 | 0 | 0 | 0 |
 | MGO Connect | 0 | 1 | 4 | 0 |
 | EnerGov CSS | 2 | 0 | 2 | 0 |
-| MyGov | 0 | 0 | 1 | 2 |
+| MyGov | 1 | 0 | 0 | 2 |
 | None | 0 | 0 | 0 | 1 |
 | Unknown | 0 | 0 | 0 | 9 |
 
-**Total: 11 working / 1 partial / 7 blocked / 13 not scrapeable or not researched**
+**Total: 12 working / 1 partial / 6 blocked / 13 not scrapeable or not researched**
 
 ---
 
@@ -113,9 +113,69 @@
 | `scrapers/citizen_self_service.py` | ⚡ Production | EnerGov CSS scraper (Southlake, Colleyville) - Fixed 12/11/25 |
 | `scrapers/energov.py` | ❌ Broken | EnerGov scraper - Angular timeouts (same as citizen_self_service) |
 | `scrapers/mygov.py` | ❌ Broken | MyGov scraper - URLs 404 |
-| `scrapers/mygov_westlake.py` | 🔍 Proof of Concept | Address-based MyGov scraper for Westlake (requires address list) |
+| `scrapers/mygov_westlake.py` | ⚡ Production | Address-based MyGov scraper for Westlake (367 harvested addresses) |
+| `scrapers/westlake_harvester.py` | ⚡ Production | API-based address harvester for Westlake MyGov |
+| `scrapers/filters.py` | Utility | Residential permit post-processing filter |
+| `scrapers/southlake_residential_batch.py` | Production | Batch scraper for Southlake residential permit types |
 | `scrapers/deepseek.py` | Utility | LLM structured extraction helper |
 | `scrapers/mgo_test.py` | Debug | MGO Connect debugging tool |
+
+## Session Notes - December 12, 2025
+
+### Scraper Hardening (Evening Session)
+
+**Branch:** `fix/scraper-hardening`
+
+**MGO Connect Anti-Bot Fix:**
+- Added phased fallback strategy: headless → headed → fail gracefully
+- Integrated `playwright-stealth` (graceful fallback if not installed)
+- New functions: `run_scraper_session()`, `scrape_orchestrator()`, `save_results()`
+- **Status:** Ready for testing against Irving/Denton/Lewisville
+- **Command:** `python3 scrapers/mgo_connect.py Irving 10`
+
+**EnerGov Diagnosis Script:**
+- Created `scripts/diagnose_energov.py` to capture HTML/screenshots from McKinney/Allen
+- Also captures Southlake/Colleyville for comparison
+- Analyzes selectors, detects Cloudflare/anti-bot mechanisms
+- **Status:** Diagnosis needed before implementing fixes (30% confidence)
+- **Command:** `python3 scripts/diagnose_energov.py`
+- **Output:** `debug_html/energov_{city}_diag.{png,html}`
+
+**Westlake Recursive Harvester:**
+- Replaced hardcoded street list with recursive A-Z prefix discovery
+- Added urllib3 Retry with exponential backoff (1s, 2s, 4s, 8s, 16s)
+- Checkpointing for resumability (saves after each top-level prefix)
+- Drills down when results hit 50-limit (up to depth 3)
+- **Status:** Ready for full harvest
+- **Command:** `python3 scrapers/westlake_harvester.py`
+
+**Tests Added:**
+- `tests/test_mgo_connect.py` - 3 tests for phased fallback
+- `tests/test_westlake_harvester.py` - 5 tests for recursive search, retry, checkpointing
+- **All 8 tests passing**
+
+---
+
+### Residential Permit Filtering & Westlake Harvester
+
+**Southlake Residential Filter:**
+- Created `scrapers/filters.py` with `filter_residential_permits()` function (TDD: 4 tests)
+- Added `--permit-type` arg to CSS scraper for portal-level filtering
+- Created `southlake_residential_batch.py` for iterating through 14+ residential permit types
+- **Result:** 90 residential permits from 8 types (pool, remodel, addition, reroof, etc.)
+
+**Westlake Address Harvester:**
+- Discovered MyGov API endpoint: `POST https://public.mygov.us/westlake_tx/getLookupResults`
+- Created `scrapers/westlake_harvester.py` to harvest addresses from API (TDD: 6 tests)
+- **Result:** 367 addresses harvested from 16 residential streets (Cedar Elm, Vaquero, etc.)
+- Updated `mygov_westlake.py` to use harvested addresses instead of guessing
+
+**Lead Scoring Tier U System:**
+- Fixed missing date bug in `score_leads.py` - now uses `days_old = -1` sentinel
+- Added Tier U (Unverified) for leads with unknown freshness
+- **Result:** 1,243 leads now properly marked as Tier U instead of incorrectly scored
+
+---
 
 ## Session Notes - December 11, 2025
 
