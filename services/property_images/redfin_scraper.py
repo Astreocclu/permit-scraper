@@ -17,6 +17,7 @@ from typing import Optional
 
 import httpx
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
+from playwright_stealth import Stealth
 
 logger = logging.getLogger(__name__)
 
@@ -72,14 +73,22 @@ async def fetch_redfin_image(
             context = await browser.new_context(
                 user_agent=random.choice(USER_AGENTS),
                 viewport={"width": 1920, "height": 1080},
+                locale="en-US",
+                timezone_id="America/Chicago",
             )
             page = await context.new_page()
 
-            # Navigate to Redfin
+            # Apply stealth to avoid detection
+            stealth = Stealth()
+            await stealth.apply_stealth_async(page)
+
+            # Navigate to Redfin with faster wait strategy
             logger.info(f"Searching Redfin for: {search_query}")
 
             try:
-                await page.goto(REDFIN_BASE_URL, wait_until="networkidle", timeout=timeout_ms)
+                await page.goto(REDFIN_BASE_URL, wait_until="domcontentloaded", timeout=timeout_ms)
+                # Wait for search box to appear (confirms page is interactive)
+                await page.wait_for_selector('input[placeholder*="Search"]', timeout=10000)
             except PlaywrightTimeout:
                 logger.warning("Timeout loading Redfin homepage")
                 return None
