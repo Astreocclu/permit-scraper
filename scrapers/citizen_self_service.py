@@ -109,7 +109,7 @@ def clean_html(html: str) -> str:
     return html
 
 
-async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Optional[str]:
+async def download_excel_export(page, city: str, timeout_ms: int = 60000, export_current_view: bool = False, permit_type: str = None) -> Optional[str]:
     """
     Click Export button, handle the export modal, and wait for download.
 
@@ -117,6 +117,8 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Opt
         page: Playwright page
         city: City name for filename
         timeout_ms: Max wait time for download (default 60s)
+        export_current_view: If True, export filtered results; if False, export first 500/1000
+        permit_type: Optional permit type for filename
 
     Returns:
         Path to downloaded file, or None if failed
@@ -135,20 +137,31 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Opt
         await asyncio.sleep(1)
 
         # Check for Export Options modal and fill it
-        export_modal = page.locator('text="Export Options", [class*="modal"]:has-text("Export Options")')
-        filename_input = page.locator('input[type="text"]').filter(has=page.locator('xpath=ancestor::*[contains(., "file name")]'))
-
-        # Try to find filename input in the modal
-        modal_input = page.locator('.modal input[type="text"], [role="dialog"] input[type="text"]')
+        # Try specific modal ID first, then fall back to generic selectors
+        modal_input = page.locator('#FilenameModal input[type="text"], .modal input[type="text"], [role="dialog"] input[type="text"]')
         if await modal_input.count() > 0:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            await modal_input.first.fill(f"{city.lower()}_{timestamp}")
+            # Include permit type in filename if specified
+            if permit_type:
+                safe_type = permit_type.replace(' ', '_').replace('(', '').replace(')', '').lower()
+                filename_base = f"{city.lower()}_{timestamp}_{safe_type}"
+            else:
+                filename_base = f"{city.lower()}_{timestamp}"
+            await modal_input.first.fill(filename_base)
             print(f"[{city}] Filled filename in export modal")
 
-            # Ensure "Export first 1000 Results" is selected (should be default)
-            export_1000_radio = page.locator('input[type="radio"]').first
-            if await export_1000_radio.count() > 0:
-                await export_1000_radio.check()
+            # Select export option based on filter
+            if export_current_view:
+                # Click "Export Current View" option
+                current_view_option = page.locator('text="Export Current View"')
+                if await current_view_option.count() > 0:
+                    await current_view_option.click()
+                    print(f"[{city}] Selected 'Export Current View'")
+            else:
+                # Ensure "Export first 500/1000 Results" is selected (should be default)
+                export_default_radio = page.locator('input[type="radio"]').first
+                if await export_default_radio.count() > 0:
+                    await export_default_radio.check()
 
             # Wait for download after clicking Ok
             ok_btn = page.locator('button:has-text("Ok"), button:has-text("OK")')
@@ -159,8 +172,8 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Opt
 
                 download = await download_info.value
 
-                # Save to our download directory
-                filename = f"{city.lower()}_{timestamp}.xlsx"
+                # Save to our download directory (use filename_base which includes permit type if set)
+                filename = f"{filename_base}.xlsx"
                 dest_path = DOWNLOAD_DIR / filename
 
                 await download.save_as(str(dest_path))
@@ -187,8 +200,14 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000) -> Opt
         return None
 
 
-async def scrape(city_key: str, target_count: int = 100):
-    """Scrape permits from Citizen Self Service portal."""
+async def scrape(city_key: str, target_count: int = 100, permit_type: str = None):
+    """Scrape permits from Citizen Self Service portal.
+
+    Args:
+        city_key: City identifier (e.g., 'southlake', 'mckinney')
+        target_count: Target number of permits to scrape
+        permit_type: Optional permit type filter (e.g., 'Residential Remodel')
+    """
     city_key = city_key.lower().replace(' ', '_')
 
     if city_key not in CSS_CITIES:
@@ -203,6 +222,8 @@ async def scrape(city_key: str, target_count: int = 100):
     print(f'{city_name.upper()} PERMIT SCRAPER (Citizen Self Service)')
     print('=' * 60)
     print(f'Target: {target_count} permits')
+    if permit_type:
+        print(f'Filter: {permit_type}')
     print(f'Time: {datetime.now().isoformat()}\n')
 
     if not DEEPSEEK_API_KEY:
@@ -286,6 +307,43 @@ async def scrape(city_key: str, target_count: int = 100):
             }''')
             print(f'    Advanced button: {advanced_clicked}')
             await asyncio.sleep(2)
+
+            # Step 3b: Select permit type if specified
+            if permit_type:
+                print(f'\n[3b] Selecting permit type: {permit_type}...')
+                try:
+                    # Wait for Advanced form to fully load
+                    await asyncio.sleep(2)
+
+                    # Find the permit type dropdown by looking for one with "Select Permit Type" option
+                    selects = page.locator('select')
+                    select_count = await selects.count()
+                    print(f'    Found {select_count} select elements')
+
+                    permit_type_selected = False
+                    for i in range(select_count):
+                        sel = selects.nth(i)
+                        try:
+                            first_opt = await sel.locator('option').first.text_content(timeout=2000)
+                            if first_opt and 'Permit Type' in first_opt:
+                                await sel.select_option(label=permit_type)
+                                permit_type_selected = True
+                                print(f'    Selected: {permit_type}')
+                                break
+                        except:
+                            continue
+
+                    if not permit_type_selected:
+                        print(f'    WARNING: Could not find permit type dropdown')
+                        # Try alternative method - look for select by ng-model
+                        permit_select = page.locator('select[ng-model*="PermitType"], select[data-ng-model*="PermitType"]')
+                        if await permit_select.count() > 0:
+                            await permit_select.select_option(label=permit_type)
+                            print(f'    Selected via ng-model: {permit_type}')
+                            permit_type_selected = True
+                except Exception as e:
+                    print(f'    Error selecting permit type: {e}')
+                await asyncio.sleep(1)
 
             # Fill in date range (last 60 days for more results) using Playwright
             start_date = (datetime.now() - timedelta(days=60)).strftime('%m/%d/%Y')
@@ -482,7 +540,12 @@ async def scrape(city_key: str, target_count: int = 100):
             # Step 4b: Try Excel export first (more reliable than DOM scraping)
             print('\n[4b] Attempting Excel export download...')
 
-            excel_path = await download_excel_export(page, city_name)
+            # If permit_type is set, use "Export Current View" to get filtered results
+            excel_path = await download_excel_export(
+                page, city_name,
+                export_current_view=bool(permit_type),
+                permit_type=permit_type
+            )
 
             if excel_path:
                 # Parse the downloaded Excel file
@@ -844,6 +907,14 @@ async def scrape(city_key: str, target_count: int = 100):
 
 
 if __name__ == '__main__':
-    city_arg = sys.argv[1] if len(sys.argv) > 1 else 'mckinney'
-    count_arg = int(sys.argv[2]) if len(sys.argv) > 2 else 100
-    asyncio.run(scrape(city_arg, count_arg))
+    import argparse
+    parser = argparse.ArgumentParser(description='Scrape permits from Citizen Self Service portals')
+    parser.add_argument('city', nargs='?', default='mckinney',
+                        help='City to scrape (mckinney, southlake, colleyville, allen)')
+    parser.add_argument('count', nargs='?', type=int, default=100,
+                        help='Target number of permits')
+    parser.add_argument('--permit-type', '-t', dest='permit_type',
+                        help='Filter by permit type (e.g., "Residential Remodel")')
+
+    args = parser.parse_args()
+    asyncio.run(scrape(args.city, args.count, args.permit_type))
