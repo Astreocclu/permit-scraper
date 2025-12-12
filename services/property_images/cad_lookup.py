@@ -8,6 +8,12 @@ from typing import Optional
 
 import requests
 
+
+def _escape_arcgis_value(value: str) -> str:
+    """Escape single quotes for ArcGIS REST API WHERE clause."""
+    return value.replace("'", "''")
+
+
 # County API configurations (from scripts/enrich_cad.py)
 COUNTY_CONFIGS = {
     'tarrant': {
@@ -163,15 +169,18 @@ def _query_county(address: str, county: str, timeout: int = 30) -> Optional[dict
     if not house_num or not street_core:
         return None
 
-    # Build WHERE clause
+    # Build WHERE clause with escaped values
+    escaped_house_num = _escape_arcgis_value(house_num)
+    escaped_street_core = _escape_arcgis_value(street_core)
+
     if county == 'tarrant':
-        where = f"Situs_Addr LIKE '{house_num} %{street_core}%'"
+        where = f"Situs_Addr LIKE '{escaped_house_num} %{escaped_street_core}%'"
     elif county == 'dallas':
-        where = f"SITEADDRESS LIKE '{house_num} %{street_core}%'"
+        where = f"SITEADDRESS LIKE '{escaped_house_num} %{escaped_street_core}%'"
     elif county == 'denton':
-        where = f"situs_num = '{house_num}' AND situs_street LIKE '%{street_core}%'"
+        where = f"situs_num = '{escaped_house_num}' AND situs_street LIKE '%{escaped_street_core}%'"
     elif county == 'collin':
-        where = f"GIS_DBO_AD_Entity_situs_num = '{house_num}' AND GIS_DBO_AD_Entity_situs_street LIKE '%{street_core}%'"
+        where = f"GIS_DBO_AD_Entity_situs_num = '{escaped_house_num}' AND GIS_DBO_AD_Entity_situs_street LIKE '%{escaped_street_core}%'"
     else:
         return None
 

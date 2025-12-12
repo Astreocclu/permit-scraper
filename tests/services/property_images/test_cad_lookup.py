@@ -30,3 +30,9 @@ class TestCADLookup:
             assert 'account_num' in result
             assert 'county' in result
             assert 'situs_addr' in result
+
+    def test_lookup_injection_attempt(self):
+        """Test that injection attempts are handled safely."""
+        result = lookup_cad_account("3705' OR '1'='1 DESERT RIDGE DR, Fort Worth TX 76116")
+        # Should return None or valid result, not crash
+        assert result is None or isinstance(result, dict)
