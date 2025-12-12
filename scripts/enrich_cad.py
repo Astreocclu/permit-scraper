@@ -8,6 +8,7 @@ Enriches permit data with property information from County Appraisal Districts:
 - Denton CAD
 - Dallas CAD (DCAD)
 - Collin CAD
+- Kaufman CAD
 
 Usage:
     python3 scripts/enrich_cad.py --limit 10      # Test run
@@ -158,6 +159,26 @@ COUNTY_CONFIGS = {
             'account_num': 'GIS_DBO_Parcel_PROP_ID',
         }
     },
+    'kaufman': {
+        'name': 'Kaufman',
+        'url': 'https://services9.arcgis.com/26s7bQ5Q51Gt4J2Q/arcgis/rest/services/KaufmanCADWebService/FeatureServer/0/query',
+        'address_field': 'situs_num',
+        'fields': [
+            "file_as_name", "situs_num", "situs_street", "situs_city",
+            "market", "land_val", "imprv_val", "legal_acreage", "prop_id"
+        ],
+        'field_map': {
+            'owner_name': 'file_as_name',
+            'situs_num': 'situs_num',
+            'situs_street': 'situs_street',
+            'situs_city': 'situs_city',
+            'market_value': 'market',
+            'land_value': 'land_val',
+            'improvement_value': 'imprv_val',
+            'lot_size': 'legal_acreage',
+            'account_num': 'prop_id',
+        }
+    },
 }
 
 
@@ -239,6 +260,9 @@ ZIP_TO_COUNTY = {
     '75164': 'collin', '75166': 'collin', '75173': 'collin', '75407': 'collin',
     '75409': 'collin', '75424': 'collin', '75442': 'collin', '75454': 'collin',
 
+    # Kaufman County (Forney, Terrell, Kaufman)
+    '75126': 'kaufman', '75142': 'kaufman', '75160': 'kaufman', '75161': 'kaufman',
+
     # Parker County (Aledo, Weatherford) - no API, will be skipped
     '76008': 'parker', '76087': 'parker', '76085': 'parker', '76086': 'parker',
     '76088': 'parker',
@@ -317,6 +341,11 @@ CITY_TO_COUNTY = {
     'cedar hill': 'dallas',
     'lancaster': 'dallas',
     'rowlett': 'dallas',
+
+    # Kaufman County cities
+    'forney': 'kaufman',
+    'terrell': 'kaufman',
+    'kaufman': 'kaufman',
 }
 
 
@@ -584,6 +613,8 @@ def query_county_cad(address: str, county: str, timeout: int = 30) -> Tuple[Opti
         where_clause = f"SITEADDRESS LIKE '{house_num} %{street_core}%'"
     elif county == 'collin':
         where_clause = f"GIS_DBO_AD_Entity_situs_num = '{house_num}' AND GIS_DBO_AD_Entity_situs_street LIKE '%{street_core}%'"
+    elif county == 'kaufman':
+        where_clause = f"situs_num = '{house_num}' AND situs_street LIKE '%{street_core}%'"
     else:
         return None, None
 
@@ -613,6 +644,13 @@ def query_county_cad(address: str, county: str, timeout: int = 30) -> Tuple[Opti
             situs_street = raw_data.get(fm.get('situs_street', ''), '') or ''
             situs_suffix = raw_data.get(fm.get('situs_suffix', ''), '') or ''
             situs_addr = f"{situs_num} {situs_street} {situs_suffix}".strip()
+        elif county == 'kaufman':
+            situs_num = raw_data.get(fm.get('situs_num', ''), '') or ''
+            situs_street = raw_data.get(fm.get('situs_street', ''), '') or ''
+            situs_city = raw_data.get(fm.get('situs_city', ''), '') or ''
+            situs_addr = f"{situs_num} {situs_street}".strip()
+            if situs_city:
+                situs_addr = f"{situs_addr}, {situs_city}".strip(', ')
         elif county == 'collin':
             situs_addr = raw_data.get(fm.get('situs_addr', ''), '') or ''
             if not situs_addr:
@@ -681,7 +719,7 @@ def query_cad_multi_county(address: str, timeout: int = 30) -> Tuple[Optional[di
     Returns (normalized_data, county_name, variant_used) or (None, None, None).
     """
     primary_county = get_county_from_zip(address)
-    supported_counties = ['tarrant', 'denton', 'dallas', 'collin']
+    supported_counties = ['tarrant', 'denton', 'dallas', 'collin', 'kaufman']
 
     # If we know the county and it's supported, try it first
     if primary_county and primary_county in supported_counties:
@@ -730,7 +768,7 @@ def parse_int(val) -> Optional[int]:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Enrich permits with CAD property data (Tarrant, Denton, Dallas, Collin)',
+        description='Enrich permits with CAD property data (Tarrant, Denton, Dallas, Collin, Kaufman)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -754,7 +792,7 @@ Examples:
         return
 
     print("=== MULTI-COUNTY CAD ENRICHMENT ===")
-    print("Supported counties: Tarrant, Denton, Dallas, Collin\n")
+    print("Supported counties: Tarrant, Denton, Dallas, Collin, Kaufman\n")
 
     # Build query based on options
     recent_filter = ""
