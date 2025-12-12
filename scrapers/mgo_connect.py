@@ -26,6 +26,13 @@ from playwright.async_api import async_playwright, TimeoutError as PlaywrightTim
 # Load environment variables
 load_dotenv()
 
+# Try to import stealth, fail gracefully if not installed
+try:
+    from playwright_stealth import stealth_async
+except ImportError:
+    stealth_async = None
+    print("WARN: playwright-stealth not found. Install: pip install playwright-stealth")
+
 # City JID mappings (jurisdiction IDs)
 # To find JID: Go to mgoconnect.org, select state/city, check URL parameter
 MGO_CITIES = {
@@ -284,6 +291,159 @@ async def select_jurisdiction_from_home(page, city_name: str) -> bool:
 
     print(f'    Current URL: {page.url}')
     return True
+
+
+async def run_scraper_session(city_name: str, target_count: int, headless: bool):
+    """Single scraper attempt with specific browser config.
+
+    Returns:
+        List of permits if successful, None if login/detection failed.
+    """
+    print(f"\n--- Starting Session (Headless: {headless}) ---")
+    permits = []
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(
+            headless=headless,
+            slow_mo=50 if not headless else 0
+        )
+        context = await browser.new_context(
+            viewport={'width': 1400, 'height': 900},
+            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+        )
+        page = await context.new_page()
+
+        # Apply stealth if available
+        if stealth_async:
+            print("[INIT] Applying Playwright Stealth...")
+            await stealth_async(page)
+
+        try:
+            # Login
+            if not await login(page):
+                print("[SESSION] Login failed - returning None for retry")
+                await browser.close()
+                return None
+
+            # Setup jurisdiction
+            if not await select_jurisdiction_from_home(page, city_name):
+                await browser.close()
+                raise Exception("Jurisdiction selection failed")
+
+            # Search and extract (reuse existing logic)
+            # Navigate to search
+            print('[SEARCH] Navigating to search...')
+            await page.goto('https://mgoconnect.org/cp/search', wait_until='networkidle', timeout=60000)
+
+            # Set date filter (last 30 days)
+            from datetime import datetime, timedelta
+            created_after = (datetime.now() - timedelta(days=30)).strftime('%m/%d/%Y')
+
+            date_input = page.locator('input[placeholder*="Created"]').first
+            if await date_input.count() > 0:
+                await date_input.fill(created_after)
+
+            search_btn = page.locator('button:has-text("Search")').first
+            if await search_btn.count() > 0:
+                await search_btn.click()
+                await asyncio.sleep(5)
+
+            # Extract table data
+            print('[EXTRACT] Reading table data...')
+            while len(permits) < target_count:
+                rows = await page.evaluate('''() => {
+                    const results = [];
+                    document.querySelectorAll('tbody tr').forEach(row => {
+                        const cells = Array.from(row.querySelectorAll('td')).map(td => td.innerText.trim());
+                        if(cells.length > 4) results.push(cells);
+                    });
+                    return results;
+                }''')
+
+                for row in rows:
+                    if len(row) >= 5:
+                        permits.append({
+                            'permit_id': row[0],
+                            'address': row[1],
+                            'type': row[2],
+                            'status': row[3],
+                            'date': row[4]
+                        })
+
+                print(f"   Collected {len(permits)} permits...")
+
+                # Try next page
+                next_btn = page.locator('.p-paginator-next:not(.p-disabled)')
+                if await next_btn.count() > 0:
+                    await next_btn.click()
+                    await asyncio.sleep(2)
+                else:
+                    break
+
+            await browser.close()
+            return permits
+
+        except Exception as e:
+            print(f"[SESSION] Error: {e}")
+            await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_error.png')
+            await browser.close()
+            raise
+
+
+async def scrape_orchestrator(city_name: str, target_count: int = 1000):
+    """Orchestrates the phased fallback strategy.
+
+    Phase 1: Headless + stealth (fast, low resources)
+    Phase 2: Headed mode (bypasses simple fingerprinting)
+    Phase 3: Fail gracefully with diagnostics
+    """
+    from pathlib import Path
+
+    # PHASE 1: HEADLESS
+    try:
+        print("PHASE 1: Attempting Headless extraction...")
+        results = await run_scraper_session(city_name, target_count, headless=True)
+        if results is not None:
+            return save_results(city_name, results)
+    except Exception as e:
+        print(f"Phase 1 failed: {e}")
+
+    # PHASE 2: HEADED (fallback)
+    try:
+        print("\nPHASE 2: Attempting Headed extraction...")
+        results = await run_scraper_session(city_name, target_count, headless=False)
+        if results is not None:
+            return save_results(city_name, results)
+    except Exception as e:
+        print(f"Phase 2 failed: {e}")
+
+    # PHASE 3: FAIL GRACEFULLY
+    print("\nCRITICAL: All automated phases failed.")
+    print("Next steps: Try residential proxy or manual intervention")
+    import sys
+    sys.exit(1)
+
+
+def save_results(city_name: str, permits: list):
+    """Save scraped permits to JSON."""
+    from pathlib import Path
+    from datetime import datetime
+    import json
+
+    output_dir = Path(__file__).parent.parent / 'data' / 'exports'
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f'{city_name.lower()}_mgo_raw.json'
+
+    output = {
+        'source': city_name,
+        'scraped_at': datetime.now().isoformat(),
+        'count': len(permits),
+        'permits': permits
+    }
+
+    output_file.write_text(json.dumps(output, indent=2))
+    print(f"\nSUCCESS: Saved {len(permits)} permits to {output_file}")
+    return permits
 
 
 async def scrape(city_name: str, target_count: int = 1000):
@@ -712,6 +872,12 @@ async def scrape(city_name: str, target_count: int = 1000):
 
 
 if __name__ == '__main__':
-    city_arg = sys.argv[1] if len(sys.argv) > 1 else 'Irving'
-    count_arg = int(sys.argv[2]) if len(sys.argv) > 2 else 1000
-    asyncio.run(scrape(city_arg, count_arg))
+    import sys
+    city = sys.argv[1] if len(sys.argv) > 1 else 'Irving'
+    count = int(sys.argv[2]) if len(sys.argv) > 2 else 1000
+
+    if not MGO_EMAIL or not MGO_PASSWORD:
+        print("Error: MGO_EMAIL and MGO_PASSWORD required in .env")
+        sys.exit(1)
+
+    asyncio.run(scrape_orchestrator(city, count))
