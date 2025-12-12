@@ -52,3 +52,22 @@ class TestRedfinScraper:
         assert hasattr(redfin_scraper, 'RETRY_BASE_DELAY')
         assert redfin_scraper.MAX_RETRIES >= 2
         assert redfin_scraper.RETRY_BASE_DELAY >= 1.0
+
+    @pytest.mark.asyncio
+    async def test_stealth_is_applied(self, temp_media_dir):
+        """Test that stealth measures are imported and available."""
+        # Verify stealth import works (check for either pattern)
+        try:
+            from playwright_stealth import stealth_async
+            assert callable(stealth_async)
+            stealth_pattern = 'stealth_async'
+        except ImportError:
+            from playwright_stealth import Stealth
+            assert Stealth is not None
+            stealth_pattern = 'Stealth'
+
+        # Verify it's used in our scraper (check import)
+        import services.property_images.redfin_scraper as scraper
+        import inspect
+        source = inspect.getsource(scraper)
+        assert stealth_pattern in source, f"{stealth_pattern} should be used in redfin_scraper"
