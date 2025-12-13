@@ -105,6 +105,11 @@ def filter_permits(permits: list) -> tuple[list, dict]:
     stats = {'bad_type': 0, 'empty': 0, 'total_rejected': 0}
 
     for p in permits:
+        # Allow Irving PDF permits through (they need manual enrichment)
+        if p.get('source') == 'irving_pdf':
+            valid.append(p)
+            continue
+
         permit_type = p.get('type', '')
         permit_id = p.get('permit_id', '')
 
@@ -141,7 +146,7 @@ def parse_irving_pdf(pdf_path: str) -> list[dict] | None:
         reader = PdfReader(pdf_path)
         full_text = ''
         for page in reader.pages:
-            full_text += page.extract_text() + '\n'
+            full_text += (page.extract_text() or '') + '\n'
 
         # Check if PDF is image-only (scanned document)
         if len(full_text.strip()) < 50:
