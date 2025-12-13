@@ -86,6 +86,7 @@ CSS_CITIES = {
         'name': 'Mesquite',
         'base_url': 'https://energov.cityofmesquite.com/EnerGov_Prod/SelfService',
         'default_permit_types': ['Building-Residential Addition/Remodel', 'Building-New Residential Building', 'Building-Residential Accessory Structure'],
+        'skip_permit_type_filter': True,  # Angular dropdown bug - filter in Python instead
     },
 }
 
@@ -154,15 +155,27 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000, export
         Path to downloaded file, or None if failed
     """
     try:
-        # Find and click the Export button
-        export_btn = page.locator("button:has-text('Export'), a:has-text('Export')")
+        # Find and click the Export button - use JavaScript to find visible one
+        clicked = await page.evaluate('''() => {
+            // Find all Export buttons/links
+            const buttons = document.querySelectorAll('button, a');
+            for (const btn of buttons) {
+                const text = btn.textContent || '';
+                if (text.includes('Export') && !btn.classList.contains('ng-hide')) {
+                    // Check if actually visible
+                    const style = window.getComputedStyle(btn);
+                    if (style.display !== 'none' && style.visibility !== 'hidden') {
+                        btn.click();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }''')
 
-        if not await export_btn.count():
-            print(f"[{city}] Export button not found")
+        if not clicked:
+            print(f"[{city}] Export button not found or not visible")
             return None
-
-        # Click export button to open modal
-        await export_btn.first.click()
         print(f"[{city}] Clicked Export, checking for modal...")
         await asyncio.sleep(1)
 
@@ -372,8 +385,8 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             print(f'    Advanced button: {advanced_clicked}')
             await asyncio.sleep(2)
 
-            # Step 3b: Select permit type if specified
-            if permit_type:
+            # Step 3b: Select permit type if specified (skip if city uses post-filter)
+            if permit_type and not city_config.get('skip_permit_type_filter'):
                 print(f'\n[3b] Selecting permit type: {permit_type}...')
                 try:
                     # Wait for Advanced form to fully load
@@ -590,21 +603,31 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
 
             print(f'    Page state: {page_state}')
 
-            # Click Permit filter if available
+            # Click Permit filter if available and has results (skip if count is 0)
             if page_state.get('filters'):
                 permit_filter_clicked = await page.evaluate('''() => {
                     const links = document.querySelectorAll('a');
                     for (const link of links) {
                         const text = link.textContent || '';
-                        if (/^Permit\s*\d*/i.test(text.trim())) {
-                            link.click();
-                            return text.trim();
+                        // Match "Permit X" where X > 0
+                        const match = text.trim().match(/^Permit\s*(\d+)/i);
+                        if (match) {
+                            const count = parseInt(match[1], 10);
+                            if (count > 0) {
+                                link.click();
+                                return text.trim();
+                            } else {
+                                // Skip filters with 0 count
+                                return 'skipped_zero';
+                            }
                         }
                     }
                     return false;
                 }''')
 
-                if permit_filter_clicked:
+                if permit_filter_clicked == 'skipped_zero':
+                    print('    Skipped Permit filter (0 results) - keeping all results')
+                elif permit_filter_clicked:
                     print(f'    Clicked filter: {permit_filter_clicked}')
                     await asyncio.sleep(3)
 
@@ -679,18 +702,7 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                 for d in sort_changed.get('debug', []):
                     print(f'      {d}')
 
-            await asyncio.sleep(2)  # Wait for sort to apply
-
-            # CRITICAL: Click search button again to re-fetch with new sort order
-            # Many EnerGov portals require this after changing sort
-            try:
-                search_btn = page.locator('button:has-text("Search"), input[type="submit"][value*="Search"]')
-                if await search_btn.count() > 0:
-                    await search_btn.first.click()
-                    print('      Re-triggered search after sort change')
-                    await asyncio.sleep(3)  # Wait for re-sorted results
-            except Exception as e:
-                print(f'      Could not re-trigger search: {e}')
+            await asyncio.sleep(3)  # Wait for sort to apply (Angular apps auto-resort)
 
             await page.screenshot(path=f'debug_html/{city_key}_css_sorted.png')
 
@@ -698,18 +710,27 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             print('\n[4c] Maximizing results per page...')
             try:
                 # Look for a "Show X entries" or page size dropdown
+                # IMPORTANT: Avoid the search module dropdown which has "All/Permit/Plan" options
                 page_size_changed = await page.evaluate('''() => {
-                    // Find dropdowns that control page size
+                    // Find dropdowns that control page size (not the module dropdown)
                     const selects = document.querySelectorAll('select');
                     for (const select of selects) {
                         const options = Array.from(select.options);
-                        const hasPageSize = options.some(o =>
-                            /^\d+$/.test(o.value) || /all|500|1000/i.test(o.textContent)
-                        );
-                        if (hasPageSize) {
-                            // Try to select largest option (All, 500, or 1000)
+                        const optTexts = options.map(o => o.textContent.trim().toLowerCase());
+
+                        // Skip the search module dropdown (has Permit/Plan/License options)
+                        if (optTexts.some(t => t === 'permit' || t === 'plan' || t === 'license')) {
+                            continue;
+                        }
+
+                        // Look for page size dropdown (has numeric options like 10, 25, 50, 100)
+                        const hasNumericOptions = options.filter(o => /^\\d+$/.test(o.value.trim())).length >= 2;
+                        if (hasNumericOptions) {
+                            // Try to select largest option (All, 500, 1000, or -1)
                             for (const opt of options) {
-                                if (/all/i.test(opt.textContent) || opt.value === '500' || opt.value === '1000' || opt.value === '-1') {
+                                const val = opt.value.trim();
+                                const text = opt.textContent.trim().toLowerCase();
+                                if (text === 'all' || val === '-1' || val === '500' || val === '1000') {
                                     select.value = opt.value;
                                     select.dispatchEvent(new Event('change', {bubbles: true}));
                                     return opt.textContent.trim();
@@ -726,11 +747,24 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                 }''')
                 if page_size_changed:
                     print(f'    Set page size to: {page_size_changed}')
-                    await asyncio.sleep(3)  # Wait for results to reload
+                    await asyncio.sleep(5)  # Wait for results to reload
                 else:
                     print('    No page size dropdown found')
             except Exception as e:
                 print(f'    Could not change page size: {e}')
+
+            # Wait briefly for Export button to become visible
+            await asyncio.sleep(2)
+
+            # Debug: take screenshot and scroll to results
+            await page.screenshot(path=f'debug_html/{city_key}_css_before_export.png', full_page=True)
+
+            # Try to scroll to results section
+            await page.evaluate('''() => {
+                const results = document.querySelector('.search-results, [class*="result"], table, .grid');
+                if (results) results.scrollIntoView();
+            }''')
+            await asyncio.sleep(1)
 
             # Step 4d: Try Excel export (more reliable than DOM scraping)
             print('\n[4d] Attempting Excel export download...')
@@ -747,6 +781,12 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                 # Parse the downloaded Excel file
                 excel_permits = parse_excel_permits(excel_path, city_name)
                 if excel_permits:
+                    # Apply residential filter for cities that skip UI permit type filtering
+                    if city_config.get('skip_permit_type_filter'):
+                        original_count = len(excel_permits)
+                        excel_permits = filter_residential_permits(excel_permits)
+                        print(f'    Filtered to {len(excel_permits)} residential permits (from {original_count})')
+
                     # Filter out utility/maintenance permits (water meters, irrigation, etc.)
                     # These aren't valuable leads for contractors
                     UTILITY_TYPES = {'water meter', 'irrigation meter', 'gas meter'}
