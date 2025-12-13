@@ -31,6 +31,7 @@ from typing import Optional
 from .models import PropertyImage, ImageSource, ImageType
 from .cad_lookup import lookup_cad_account
 from .tad_scraper import fetch_tad_image
+from .dcad_scraper import fetch_dcad_image
 from .redfin_scraper import fetch_redfin_image
 
 logger = logging.getLogger(__name__)
@@ -66,10 +67,10 @@ async def fetch_property_image(
     Fetch a property image from available sources.
 
     Priority:
-    1. Tarrant CAD (if Tarrant County)
-    2. Dallas CAD (if Dallas County)
-    3. Denton CAD (if Denton County)
-    4. Collin CAD (if Collin County)
+    1. Tarrant CAD (if Tarrant County) - implemented
+    2. Dallas CAD (if Dallas County) - implemented
+    3. Denton CAD (if Denton County) - TODO
+    4. Collin CAD (if Collin County) - TODO
     5. Redfin (backup, unless skip_redfin=True)
     6. Return failed status if all sources fail
 
@@ -129,8 +130,29 @@ async def fetch_property_image(
 
             logger.info("TAD had no image, trying Redfin backup...")
 
-        # TODO: Add DCAD, Denton CAD, Collin CAD image scrapers
-        # For now, fall through to Redfin for non-Tarrant counties
+        elif county == 'Dallas':
+            # DCAD has images on files.dcad.org
+            dcad_result = await fetch_dcad_image(
+                account_num=account_num,
+                output_dir=media_dir,
+                filename_prefix=permit_id
+            )
+
+            if dcad_result:
+                return PropertyImage(
+                    permit_id=permit_id,
+                    address=address,
+                    image_path=dcad_result['image_path'],
+                    source='dcad',
+                    image_type=dcad_result['image_type'],
+                    fetched_at=now,
+                    account_num=account_num,
+                )
+
+            logger.info("DCAD had no image, trying Redfin backup...")
+
+        # TODO: Add Denton CAD, Collin CAD image scrapers
+        # For now, fall through to Redfin for non-Tarrant/Dallas counties
         else:
             logger.info(f"{county} CAD image scraper not implemented, trying Redfin...")
     else:
