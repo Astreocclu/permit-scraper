@@ -142,6 +142,35 @@ async def extract_permits_from_page(page, permit_regex: str = r'^[A-Z]{1,2}\d{2}
             }
 
             if (permit_id) {
+                // Infer type from permit ID prefix if not found in table
+                if (!permit_type) {
+                    const prefixMap = {
+                        'RE': 'Residential', 'RES': 'Residential',
+                        'RO': 'Roofing', 'RF': 'Roofing',
+                        'EL': 'Electrical', 'ELEC': 'Electrical',
+                        'PL': 'Plumbing', 'PLB': 'Plumbing',
+                        'ME': 'Mechanical', 'MECH': 'Mechanical',
+                        'BP': 'Building Permit', 'BLD': 'Building',
+                        'PO': 'Pool', 'SW': 'Swimming Pool',
+                        'FE': 'Fence', 'FEN': 'Fence',
+                        'AC': 'A/C', 'HV': 'HVAC',
+                        'AD': 'Addition', 'ADD': 'Addition',
+                        'CO': 'Certificate of Occupancy',
+                        'DE': 'Demolition', 'DEM': 'Demolition',
+                        'IR': 'Irrigation', 'FR': 'Fire',
+                        'GA': 'Gas', 'GAS': 'Gas',
+                        'SI': 'Sign', 'COM': 'Commercial',
+                        'H': 'HVAC', 'B': 'Building',
+                        'BF': 'Building Final', 'GS': 'Grading/Site',
+                        'RER': 'Residential Remodel', 'NR': 'New Residential',
+                        'NC': 'New Commercial', 'TI': 'Tenant Improvement'
+                    };
+                    const match = permit_id.match(/^([A-Z]+)/i);
+                    if (match) {
+                        permit_type = prefixMap[match[1].toUpperCase()] || match[1];
+                    }
+                }
+
                 permits.push({
                     permit_id: permit_id,
                     address: address || '',
