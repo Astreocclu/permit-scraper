@@ -284,7 +284,14 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             # Step 1: Navigate directly to search via Angular hash route
             print('[1] Navigating directly to search (Angular hash route)...')
             search_url = f'{base_url}#/search'
-            await page.goto(search_url, wait_until='networkidle', timeout=60000)
+            await page.goto(search_url, wait_until='domcontentloaded', timeout=60000)
+            # Wait for Angular app to hydrate - Tyler Portico Identity creates
+            # background traffic that prevents networkidle from ever completing
+            try:
+                await page.wait_for_selector('#SearchModule', timeout=15000)
+            except:
+                # Fallback for legacy WebForms portals
+                await page.wait_for_selector('input[type="text"]', timeout=15000)
             await asyncio.sleep(5)  # Wait for Angular hydration
 
             await page.screenshot(path=f'debug_html/{city_key}_css_step1.png')
