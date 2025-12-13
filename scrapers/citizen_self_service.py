@@ -289,7 +289,7 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             # background traffic that prevents networkidle from ever completing
             try:
                 await page.wait_for_selector('#SearchModule', timeout=15000)
-            except:
+            except Exception:
                 # Fallback for legacy WebForms portals
                 await page.wait_for_selector('input[type="text"]', timeout=15000)
             await asyncio.sleep(5)  # Wait for Angular hydration
