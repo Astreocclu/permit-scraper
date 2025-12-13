@@ -80,9 +80,9 @@ ETRAKIT_CITIES = {
         'name': 'Prosper',
         'base_url': 'http://etrakit.prospertx.gov',
         'search_path': '/eTRAKIT/Search/permit.aspx',
-        # Prosper uses BP-YY-#### format for building permits
-        'prefixes': ['BP-25', 'BP-24', 'BP-23', 'BP-22', 'EL-25', 'EL-24', 'PL-25', 'PL-24', 'ME-25', 'ME-24'],
-        'permit_regex': r'^[A-Z]{2}-\d{2}-\d{4,5}$',
+        # Prosper uses type prefixes like Flower Mound - BP, EL, PL, ME, RO, RE, etc.
+        'prefixes': ['BP', 'RE', 'RO', 'EL', 'PL', 'ME', 'PO', 'FE', 'AC', 'HV', 'AD', 'SW'],
+        'permit_regex': r'^[A-Z]{2,4}[-\d]*\d{4,6}$',
     },
 }
 

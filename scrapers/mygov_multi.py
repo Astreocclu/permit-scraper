@@ -32,7 +32,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 MYGOV_CITIES = {
     'mansfield': {'name': 'Mansfield', 'slug': 'mansfield_tx', 'pop': 75000},
     'rowlett': {'name': 'Rowlett', 'slug': 'rowlett_tx', 'pop': 67000},
-    'grapevine': {'name': 'Grapevine', 'slug': 'grapevine_tx', 'pop': 50000},
+    'grapevine': {'name': 'Grapevine', 'slug': 'tx_grapevine', 'pop': 50000},
     'burleson': {'name': 'Burleson', 'slug': 'burleson_tx', 'pop': 50000},
     'little_elm': {'name': 'Little Elm', 'slug': 'little_elm_tx', 'pop': 50000},
     'lancaster': {'name': 'Lancaster', 'slug': 'lancaster_tx', 'pop': 40000},

@@ -674,10 +674,11 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             # Step 4c: Try Excel export (more reliable than DOM scraping)
             print('\n[4c] Attempting Excel export download...')
 
-            # If permit_type is set, use "Export Current View" to get filtered results
+            # Always try "Export Current View" first to respect date filters
+            # Falls back to regular export if current view option not available
             excel_path = await download_excel_export(
                 page, city_name,
-                export_current_view=bool(permit_type),
+                export_current_view=True,  # Try filtered export first
                 permit_type=permit_type
             )
 
