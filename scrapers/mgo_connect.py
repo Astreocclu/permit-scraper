@@ -15,6 +15,7 @@ Usage:
 import asyncio
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -22,9 +23,13 @@ from pathlib import Path
 import httpx
 from dotenv import load_dotenv
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
+from pypdf import PdfReader
 
 # Load environment variables
 load_dotenv()
+
+# Manual review directory for image-only PDFs
+MANUAL_REVIEW_DIR = Path('data/downloads/manual_review')
 
 # Try to import stealth, fail gracefully if not installed
 try:
@@ -113,6 +118,87 @@ def filter_permits(permits: list) -> tuple[list, dict]:
             valid.append(p)
 
     return valid, stats
+
+
+def parse_irving_pdf(pdf_path: str) -> list[dict] | None:
+    """Parse Irving permit data from PDF export.
+
+    Args:
+        pdf_path: Path to the downloaded PDF file
+
+    Returns:
+        List of permit dictionaries, or None if PDF is image-only (needs manual review)
+    """
+    try:
+        pdf_path_obj = Path(pdf_path)
+        if not pdf_path_obj.exists():
+            print(f'    ERROR: PDF file not found: {pdf_path}')
+            return None
+
+        print(f'    Parsing PDF: {pdf_path_obj.name}')
+
+        # Extract text from PDF
+        reader = PdfReader(pdf_path)
+        full_text = ''
+        for page in reader.pages:
+            full_text += page.extract_text() + '\n'
+
+        # Check if PDF is image-only (scanned document)
+        if len(full_text.strip()) < 50:
+            print('    WARNING: Image-only PDF detected (no extractable text)')
+            print('    Moving to manual review folder...')
+
+            # Create manual review directory
+            MANUAL_REVIEW_DIR.mkdir(parents=True, exist_ok=True)
+
+            # Move PDF to manual review
+            import shutil
+            dest = MANUAL_REVIEW_DIR / pdf_path_obj.name
+            shutil.move(str(pdf_path_obj), str(dest))
+            print(f'    Moved to: {dest}')
+
+            return None
+
+        print(f'    Extracted {len(full_text)} characters of text')
+
+        # Parse permit numbers using Irving's format (BP-YYYY-NNNNN or similar)
+        # Common patterns: BP-2024-12345, BLD-2024-00123, etc.
+        permit_pattern = r'(BP|BLD|BLDG|P)-?(\d{4})-?(\d+)'
+        matches = re.finditer(permit_pattern, full_text, re.IGNORECASE)
+
+        permits = []
+        seen_numbers = set()
+
+        for match in matches:
+            # Reconstruct full permit number
+            prefix = match.group(1).upper()
+            year = match.group(2)
+            number = match.group(3)
+            permit_number = f'{prefix}-{year}-{number}'
+
+            if permit_number not in seen_numbers:
+                seen_numbers.add(permit_number)
+                permits.append({
+                    'permit_id': permit_number,
+                    'address': '',  # PDF may not have structured address data
+                    'type': '',
+                    'status': '',
+                    'date': '',
+                    'source': 'irving_pdf'
+                })
+
+        print(f'    Parsed {len(permits)} permit numbers from PDF')
+
+        if len(permits) > 0:
+            print(f'    Sample: {permits[0]["permit_id"]}')
+
+        return permits
+
+    except Exception as e:
+        print(f'    ERROR parsing PDF: {e}')
+        import traceback
+        traceback.print_exc()
+        return None
 
 
 async def call_deepseek(prompt: str) -> str:
@@ -658,8 +744,38 @@ async def scrape(city_name: str, target_count: int = 1000):
                                 await page.locator(f'.p-datepicker-calendar td span:has-text("{end_date.day}")').first.click()
                                 await asyncio.sleep(1)
 
-                                print('    NOTE: This report exports to PDF. Irving MGO Connect does not provide CSV/Excel export.')
-                                print('    Skipping PDF export - no permit data can be extracted from this portal.')
+                                # Irving-specific PDF handling
+                                if city_name.lower() == 'irving':
+                                    print('    NOTE: Irving exports to PDF. Attempting to download and parse...')
+
+                                    # Set up download listener
+                                    downloads_dir = Path(__file__).parent.parent / 'data' / 'downloads'
+                                    downloads_dir.mkdir(parents=True, exist_ok=True)
+
+                                    # Click the Generate/Export button to trigger PDF download
+                                    export_buttons = page.locator('button:has-text("Generate"), button:has-text("Export"), button:has-text("Download")')
+                                    if await export_buttons.count() > 0:
+                                        print('    Triggering PDF download...')
+                                        async with page.expect_download(timeout=30000) as download_info:
+                                            await export_buttons.first.click()
+
+                                        download = await download_info.value
+                                        pdf_filename = f'irving_permits_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf'
+                                        pdf_path = downloads_dir / pdf_filename
+                                        await download.save_as(pdf_path)
+                                        print(f'    Downloaded PDF to: {pdf_path}')
+
+                                        # Parse the PDF
+                                        pdf_permits = parse_irving_pdf(str(pdf_path))
+                                        if pdf_permits:
+                                            print(f'    Successfully parsed {len(pdf_permits)} permits from PDF')
+                                            api_data.extend(pdf_permits)
+                                        else:
+                                            print('    PDF parsing returned no data (image-only or error)')
+                                    else:
+                                        print('    WARNING: Could not find export button for PDF download')
+                                else:
+                                    print('    NOTE: This report exports to PDF. Skipping PDF export - no permit data can be extracted from this portal.')
 
             # Step 5: Extract data from the results table
             print('\n[5] Extracting permit data from table...')
