@@ -20,7 +20,7 @@ import argparse
 import json
 import os
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import psycopg2
@@ -62,20 +62,23 @@ def sync_permits(sqlite_conn, pg_conn, dry_run=False):
         INSERT INTO leads_permit (
             permit_id, city, property_address, permit_type, description,
             status, issued_date, applicant_name, contractor_name,
-            estimated_value, scraped_at, lead_type
+            estimated_value, scraped_at, lead_type, processing_bin
         ) VALUES %s
         ON CONFLICT ON CONSTRAINT clients_permit_city_permit_id_33861e17_uniq DO UPDATE SET
             property_address = EXCLUDED.property_address,
             description = EXCLUDED.description,
             status = EXCLUDED.status,
-            estimated_value = EXCLUDED.estimated_value
+            estimated_value = EXCLUDED.estimated_value,
+            processing_bin = EXCLUDED.processing_bin
     """
     
     pg_rows = []
+    cutoff_date = (datetime.now() - timedelta(days=60)).date()
+
     for row in rows:
         permit_id, city, prop_addr, permit_type, description, status, \
         issued_date, applicant, contractor, est_value, scraped_at, lead_type = row
-        
+
         # Handle issued_date conversion
         issued = None
         if issued_date:
@@ -83,7 +86,7 @@ def sync_permits(sqlite_conn, pg_conn, dry_run=False):
                 issued = datetime.strptime(issued_date[:10], '%Y-%m-%d').date()
             except (ValueError, TypeError):
                 pass
-        
+
         # Handle scraped_at - ensure it's a datetime
         scraped = datetime.now()
         if scraped_at:
@@ -94,10 +97,17 @@ def sync_permits(sqlite_conn, pg_conn, dry_run=False):
                     scraped = datetime.strptime(scraped_at[:19], '%Y-%m-%d %H:%M:%S')
                 except (ValueError, TypeError):
                     pass
-        
+
+        # Calculate processing bin: active if recent or unknown, archive if old
+        if issued is None or issued >= cutoff_date:
+            processing_bin = 'active'
+        else:
+            processing_bin = 'archive'
+
         pg_rows.append((
             permit_id, city, prop_addr, permit_type, description,
-            status, issued, applicant, contractor, est_value, scraped, lead_type
+            status, issued, applicant, contractor, est_value, scraped, lead_type,
+            processing_bin
         ))
     
     with pg_conn.cursor() as cur:
