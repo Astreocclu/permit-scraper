@@ -725,6 +725,7 @@ def load_permits_for_scoring(conn, options: dict) -> List[PermitData]:
         JOIN leads_property prop ON p.property_address = prop.property_address
         LEFT JOIN clients_scoredlead sl ON p.id = sl.permit_id
         WHERE prop.enrichment_status = 'success'
+          AND p.processing_bin = 'active'
     """
 
     conditions = []
