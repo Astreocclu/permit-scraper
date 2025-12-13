@@ -65,7 +65,7 @@
 
 ### Notes
 - **Gemini CLI quota exhausted** - resets in ~21 hours. Uses Google AI Studio free tier (oauth-personal). Can switch to API key from aistudio.google.com for 1500 req/day.
-- **Google API Key:** `AIzaSyD3JvSTaM5xlx7nMRZwUSOtPiPnwEzqz_0` (rate limit: 30 seconds between requests)
+- **Google API Key:** [REDACTED - leaked, regenerate in GCP console] (rate limit: 30 seconds between requests)
 - **SQL injection fix applied** to CAD lookup WHERE clauses (escaping single quotes)
 - **Rate limiting in place:** TAD 2s delay, Redfin 3-5s random delay
 - All 11 unit tests pass; integration tests pass but slow (~5 min)
