@@ -57,6 +57,53 @@ def is_contractor_entity(name: str | None) -> bool:
     return False
 
 
-def names_match(applicant: str, owner: str) -> tuple[bool, str]:
-    """Placeholder - will implement next."""
-    pass
+def names_match(applicant: str | None, owner: str | None) -> tuple[bool, str]:
+    """
+    Check if applicant name matches owner name (indicating owner-builder/DIY).
+
+    Returns: (is_match, reason)
+    """
+    app_norm = normalize_name(applicant)
+    own_norm = normalize_name(owner)
+
+    if not app_norm:
+        return False, "No applicant name"
+
+    if not own_norm:
+        return False, "No owner name"
+
+    # Exact match after normalization
+    if app_norm == own_norm:
+        return True, "Exact match"
+
+    # Token-based matching
+    app_tokens = set(app_norm.split())
+    own_tokens = set(own_norm.split())
+
+    # Remove common filler words
+    filler = {'and', '&', 'the', 'of', 'a', 'an'}
+    app_tokens -= filler
+    own_tokens -= filler
+
+    if not app_tokens or not own_tokens:
+        return False, "Empty after filtering"
+
+    # All applicant tokens appear in owner (subset match)
+    if app_tokens <= own_tokens:
+        return True, "Applicant subset of owner"
+
+    # All owner tokens appear in applicant
+    if own_tokens <= app_tokens:
+        return True, "Owner subset of applicant"
+
+    # Shared last name heuristic (at least one significant token overlap)
+    # This catches spouse scenarios: "Mary Smith" vs "John Smith"
+    overlap = app_tokens & own_tokens
+    if overlap:
+        # Check if overlap contains a likely last name (3+ chars, not a common first name)
+        common_first_names = {'john', 'mary', 'james', 'michael', 'david', 'robert', 'william'}
+        significant_overlap = {t for t in overlap if len(t) >= 3 and t not in common_first_names}
+        if significant_overlap:
+            return True, f"Family match ({', '.join(significant_overlap)})"
+
+    return False, "No match"
