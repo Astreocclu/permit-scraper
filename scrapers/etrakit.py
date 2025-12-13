@@ -1,234 +1,169 @@
 #!/usr/bin/env python3
 """
-eTRAKiT PERMIT SCRAPER (Playwright Python)
-Portal: eTRAKiT (CentralSquare Technologies)
-Covers: Frisco, Plano (high-income DFW markets)
-
-Tech: ASP.NET WebForms with __doPostBack
-- Similar architecture to Accela
-- No login required for permit search
-- Postback-based pagination
+FAST eTRAKiT PERMIT SCRAPER - DOM extraction (no LLM)
+Extracts directly from page structure, much faster than LLM approach.
 
 Usage:
-  python scrapers/etrakit.py frisco 50
-  python scrapers/etrakit.py plano 25
+  python scrapers/etrakit_fast.py frisco 5000
 """
 
 import asyncio
 import json
-import os
 import re
 import sys
 from datetime import datetime
 from pathlib import Path
 
-import httpx
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 
-# City configurations
-# eTRAKiT portals - CentralSquare (formerly Superion)
 ETRAKIT_CITIES = {
     'frisco': {
         'name': 'Frisco',
         'base_url': 'https://etrakit.friscotexas.gov',
         'search_path': '/etrakit/Search/permit.aspx',
-        'login_required': False,  # Public search available
+        'prefixes': ['B25', 'B24', 'B23', 'B22', 'B21', 'B20', 'B19'],
+        'permit_regex': r'^[A-Z]\d{2}-\d{5}$',  # B25-00001 format
     },
-    'plano': {
-        'name': 'Plano',
-        'base_url': 'https://trakit.plano.gov',
-        'search_path': '/etrakit_prod/Search/permit.aspx',
-        'login_required': True,  # TODO: Requires login - need credentials
+    'flower_mound': {
+        'name': 'Flower Mound',
+        'base_url': 'https://etrakit.flower-mound.com',
+        'search_path': '/etrakit/Search/permit.aspx',
+        # Flower Mound uses type-based prefixes: BP (Building), EL (Electrical), PL (Plumbing), etc.
+        # Format: XX-YY-NNNNN or XXNN-NNNNN (e.g., EL-00-0026, BP13-01542, RER-11-3040)
+        'prefixes': [
+            'BP',   # Building Permits
+            'EL',   # Electrical
+            'PL',   # Plumbing
+            'ME',   # Mechanical
+            'RO',   # Roofing
+            'RF',   # Roofing (alt)
+            'AC',   # A/C
+            'HV',   # HVAC
+            'RE',   # Residential
+            'RER',  # Residential Remodel
+            'CO',   # Certificate of Occupancy
+            'DE',   # Demolition
+            'PO',   # Pool
+            'FE',   # Fence
+            'IR',   # Irrigation
+            'FR',   # Fire
+            'SW',   # Swimming
+            'DR',   # Driveway
+            'GR',   # Grading
+            'SI',   # Sign
+            'PC',   # Plan Check
+            'COM',  # Commercial
+            'AD',   # Addition
+        ],
+        'permit_regex': r'^[A-Z]{1,4}\d{0,2}-?\d{2}-?\d{4,5}$',  # Flexible: EL-00-0026, BP13-01542, RER-11-3040
     },
-    # Keller migrated from eTRAKiT to "Enterprise Permitting & Licensing" (EnerGov CSS)
-    # New URL: https://www.cityofkeller.com/css -> energovweb.cityofkeller.com
-    # Use energov.py instead
-    # Additional eTRAKiT cities can be added here
-    # Pattern: {city}.gov domain with /etrakit/ or /etrakit_prod/ path
+    'denton': {
+        'name': 'Denton',
+        'base_url': 'https://dntn-trk.aspgov.com/eTRAKiT',
+        'search_path': '/Search/permit.aspx',
+        # Denton uses YYMM-#### format: 2501-0001 (2025-Jan), 2412-0001 (2024-Dec)
+        # Need ~20 months to get 1000 permits (~50/month)
+        'prefixes': ['2501', '2412', '2411', '2410', '2409', '2408', '2407', '2406',
+                     '2405', '2404', '2403', '2402', '2401', '2312', '2311', '2310',
+                     '2309', '2308', '2307', '2306'],
+        'permit_regex': r'^\d{4}-\d{4}$',
+    },
 }
 
-DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 
-# Permit types to EXCLUDE (garbage)
-EXCLUDED_PERMIT_TYPES = {
-    'code enforcement', 'complaint', 'rental', 'license', 'garage sale',
-    'pre-development', 'conference', 'sign', 'billboard',
-    'environmental', 'health', 'zoning', 'variance', 'planning', 'subdivision',
-    'right-of-way', 'row', 'encroachment', 'special event', 'food', 'alcohol',
-}
+async def extract_permits_from_page(page, permit_regex: str = r'^[A-Z]{1,2}\d{2}-\d{5}$') -> list:
+    """Extract permits directly from DOM - no LLM needed."""
+    return await page.evaluate('''(regex) => {
+        const permits = [];
+        const rows = document.querySelectorAll('tr.rgRow, tr.rgAltRow');
+        const permitPattern = new RegExp(regex);
 
-# Permit ID prefix mappings (eTRAKiT convention)
-# Note: Frisco search results don't show type column, so we infer from prefix
-PERMIT_PREFIXES = {
-    'B': 'Building',      # High value - includes pools, roofs, additions
-    'R': 'Roofing',       # High value
-    'E': 'Electrical',    # Medium value - includes solar
-    'M': 'Mechanical',    # Medium value - HVAC
-    'P': 'Plumbing',      # LOW value - skip by default (water heaters, not pools)
-    'F': 'Fire',          # Low value
-    'D': 'Demolition',    # Low value
-}
+        for (const row of rows) {
+            const cells = row.querySelectorAll('td');
+            if (cells.length < 3) continue;
 
-# Default prefixes to search (high-value only)
-DEFAULT_PREFIXES = ['B', 'R', 'E', 'M']
+            // Extract text from cells
+            const cellTexts = Array.from(cells).map(c => c.innerText.trim());
 
+            // Find permit ID - ALWAYS try link first (most reliable)
+            let permit_id = null;
+            let address = null;
+            let permit_type = null;
+            let status = null;
+            let date = null;
 
-def infer_type_from_prefix(permit_id: str) -> str:
-    """Infer permit type from ID prefix (e.g., B25-00001 -> Building)."""
-    if not permit_id:
-        return 'Unknown'
-    # Extract first letter(s) before the year digits
-    prefix = permit_id[0].upper() if permit_id else ''
-    return PERMIT_PREFIXES.get(prefix, 'Unknown')
+            // Get permit_id from link (most reliable method)
+            const link = row.querySelector('a');
+            if (link) {
+                const linkText = link.innerText.trim();
+                // Accept any text that looks like a permit ID (has letters and numbers with dashes)
+                if (/^[A-Z]{1,4}[\d-]+/i.test(linkText) && linkText.length < 20) {
+                    permit_id = linkText;
+                }
+            }
 
+            // Fallback: try regex on cell texts
+            if (!permit_id) {
+                for (const text of cellTexts) {
+                    if (permitPattern.test(text)) {
+                        permit_id = text;
+                        break;
+                    }
+                }
+            }
 
-def infer_type_from_contractor(contractor: str) -> str | None:
-    """Infer permit type from contractor name keywords."""
-    if not contractor:
-        return None
-    contractor_lower = contractor.lower()
+            // Extract other fields from cells
+            for (const text of cellTexts) {
+                if (!address && /^\d+\s+[A-Z]/i.test(text) && text.length > 10) {
+                    address = text;
+                } else if (!permit_type && /^(Building|Electrical|Plumbing|Mechanical|Roofing|Pool|Demolition|Fire|HVAC|Gas|Irrigation)/i.test(text)) {
+                    permit_type = text;
+                } else if (!status && /^(Issued|Active|Final|Expired|Closed|Pending|Approved|Void)/i.test(text)) {
+                    status = text;
+                } else if (!date && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(text)) {
+                    date = text;
+                }
+            }
 
-    # High-confidence keyword matches
-    if any(kw in contractor_lower for kw in ['pool', 'swim', 'aqua']):
-        return 'Pool'
-    if any(kw in contractor_lower for kw in ['roof', 'shingle']):
-        return 'Roofing'
-    if any(kw in contractor_lower for kw in ['solar', 'photovoltaic', 'pv ']):
-        return 'Solar'
-    if any(kw in contractor_lower for kw in ['fence', 'fencing']):
-        return 'Fence'
-    if any(kw in contractor_lower for kw in ['hvac', 'air condition', 'heating', 'cooling']):
-        return 'HVAC'
+            if (permit_id) {
+                permits.push({
+                    permit_id: permit_id,
+                    address: address || '',
+                    type: permit_type || '',
+                    status: status || '',
+                    date: date || '',
+                    raw_cells: cellTexts.slice(0, 6)  // Keep raw data for debugging
+                });
+            }
+        }
 
-    return None
-
-
-def is_valid_permit_type(permit_type: str) -> bool:
-    """Check if permit type is one we want (not garbage)."""
-    if not permit_type:
-        return True  # Include if no type specified
-
-    permit_type_lower = permit_type.lower()
-
-    for excluded in EXCLUDED_PERMIT_TYPES:
-        if excluded in permit_type_lower:
-            return False
-
-    return True
-
-
-def filter_permits(permits: list) -> tuple[list, dict]:
-    """Filter out garbage permit types and add inferred types."""
-    valid = []
-    stats = {'bad_type': 0, 'empty': 0, 'total_rejected': 0, 'types_inferred': 0}
-
-    for p in permits:
-        permit_type = p.get('type', '')
-        permit_id = p.get('permit_id', '')
-
-        if not permit_id:
-            stats['empty'] += 1
-            stats['total_rejected'] += 1
-        elif not is_valid_permit_type(permit_type):
-            stats['bad_type'] += 1
-            stats['total_rejected'] += 1
-        else:
-            # Infer type if missing (Frisco doesn't show type in search results)
-            if not permit_type:
-                # First try contractor name (more specific)
-                contractor = p.get('contractor', '')
-                inferred = infer_type_from_contractor(contractor)
-                if inferred:
-                    p['type'] = inferred
-                    p['type_source'] = 'contractor'
-                else:
-                    # Fall back to permit ID prefix
-                    p['type'] = infer_type_from_prefix(permit_id)
-                    p['type_source'] = 'prefix'
-                stats['types_inferred'] += 1
-            valid.append(p)
-
-    return valid, stats
+        return permits;
+    }''', permit_regex)
 
 
-async def call_deepseek(prompt: str) -> str:
-    """Call DeepSeek API for extraction."""
-    async with httpx.AsyncClient() as client:
-        response = await client.post(
-            'https://api.deepseek.com/v1/chat/completions',
-            headers={
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {DEEPSEEK_API_KEY}'
-            },
-            json={
-                'model': 'deepseek-chat',
-                'messages': [{'role': 'user', 'content': prompt}],
-                'temperature': 0.1,
-                'max_tokens': 4000
-            },
-            timeout=60.0
-        )
-        data = response.json()
-        return data.get('choices', [{}])[0].get('message', {}).get('content', '')
-
-
-def parse_json(text: str) -> dict | None:
-    """Parse JSON from text, handling markdown code blocks."""
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-
-    match = re.search(r'```(?:json)?\s*([\s\S]*?)```', text) or re.search(r'(\{[\s\S]*\})', text)
-    if match:
-        try:
-            return json.loads(match.group(1))
-        except json.JSONDecodeError:
-            pass
-    return None
-
-
-def clean_html(html: str) -> str:
-    """Remove scripts, styles, and normalize whitespace."""
-    html = re.sub(r'<style[^>]*>[\s\S]*?</style>', '', html, flags=re.IGNORECASE)
-    html = re.sub(r'<script[^>]*>[\s\S]*?</script>', '', html, flags=re.IGNORECASE)
-    html = re.sub(r'<!--[\s\S]*?-->', '', html)
-    html = re.sub(r'<svg[^>]*>[\s\S]*?</svg>', '', html, flags=re.IGNORECASE)
-    html = re.sub(r'\s+', ' ', html)
-    return html
-
-
-async def scrape(city_key: str, target_count: int = 50, prefix: str = 'B'):
-    """Scrape permits from eTRAKiT portal for a given city.
-
-    Args:
-        city_key: City identifier (e.g., 'frisco', 'plano')
-        target_count: Number of permits to scrape
-        prefix: Permit ID prefix to search (B=Building, R=Roofing, E=Electrical, M=Mechanical)
-    """
-    city_key = city_key.lower().replace(' ', '_')
-
+async def scrape_fast(city_key: str, target_count: int = 1000):
+    """Fast scrape using DOM extraction, multiple year prefixes."""
+    city_key = city_key.lower()
     if city_key not in ETRAKIT_CITIES:
-        print(f'ERROR: Unknown city "{city_key}". Available: {", ".join(ETRAKIT_CITIES.keys())}')
+        print(f'ERROR: Unknown city. Available: {list(ETRAKIT_CITIES.keys())}')
         sys.exit(1)
 
-    city_config = ETRAKIT_CITIES[city_key]
-    city_name = city_config['name']
-    base_url = city_config['base_url']
-    search_path = city_config['search_path']
+    config = ETRAKIT_CITIES[city_key]
+    base_url = config['base_url']
+    search_path = config['search_path']
 
-    print('=' * 50)
-    print(f'{city_name.upper()} PERMIT SCRAPER (eTRAKiT)')
-    print('=' * 50)
+    print('=' * 60)
+    print(f'{config["name"].upper()} FAST PERMIT SCRAPER')
+    print('=' * 60)
     print(f'Target: {target_count} permits')
     print(f'Time: {datetime.now().isoformat()}\n')
 
-    if not DEEPSEEK_API_KEY:
-        print('ERROR: DEEPSEEK_API_KEY not set')
-        sys.exit(1)
-
-    permits = []
+    all_permits = []
     errors = []
+
+    # Use city-specific prefixes, or default to B-prefixed
+    prefixes = config.get('prefixes', ['B25', 'B24', 'B23', 'B22', 'B21', 'B20', 'B19'])
+    permit_regex = config.get('permit_regex', r'^[A-Z]{1,2}\d{2}-\d{5}$')
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -236,381 +171,85 @@ async def scrape(city_key: str, target_count: int = 50, prefix: str = 'B'):
         page = await context.new_page()
 
         try:
-            # Step 1: Load search page
-            print('[1] Loading eTRAKiT search page...')
-            search_url = f'{base_url}{search_path}'
-            await page.goto(search_url, wait_until='networkidle', timeout=60000)
-            await asyncio.sleep(3)
+            for prefix in prefixes:
+                if len(all_permits) >= target_count:
+                    break
 
-            Path('debug_html').mkdir(exist_ok=True)
-            print(f'    OK - Page loaded: {page.url}')
+                print(f'\n[{prefix}] Searching prefix "{prefix}"...')
 
-            # Step 1.5: Login if required (Plano)
-            # Explicitly check if we are on a login page
-            if 'login.aspx' in page.url.lower():
-                print(f'[1.5] Detected Login Page. Dumping inputs...')
-                inputs = await page.evaluate('''() => {
-                    return Array.from(document.querySelectorAll('input')).map(i => ({id: i.id, name: i.name, type: i.type}));
-                }''')
-                print(f'    Found inputs: {json.dumps(inputs, indent=2)}')
-            
-            if city_config.get('login_required'):
-                print('[1.5] Login required - attempting login...')
-                
-                # Verified IDs from Plano dump
-                user_selectors = [
-                    '#ctl00_ucLogin_RadTextBox2', # Verified Primary Username
-                    'input[id*="RadTextBox2"]',
-                    '#cplMain_txtPublicUserName', 
-                    'input[id*="txtUsername"]'
-                ]
-                pass_selectors = [
-                    '#ctl00_ucLogin_txtPassword', # Verified Primary Password
-                    '#cplMain_txtPublicPassword',
-                    'input[id*="txtPassword"]'
-                ]
-                
-                user_input = None
-                pass_input = None
+                # Load search page
+                await page.goto(f'{base_url}{search_path}', wait_until='networkidle', timeout=60000)
+                await asyncio.sleep(2)
 
-                # 1. Try finding fields immediately
-                for sel in user_selectors:
-                    user_input = await page.query_selector(sel)
-                    if user_input: break
-                for sel in pass_selectors:
-                    pass_input = await page.query_selector(sel)
-                    if pass_input: break
-                
-                # 2. If not found, try switching to 'Public' dropdown which might reveal them
-                if not user_input or not pass_input:
-                     dropdown = await page.query_selector('select[id*="ddlSelLogin"]')
-                     if dropdown:
-                         await dropdown.select_option(value='Public')
-                         print('    Selected Public login type - waiting for postback...')
-                         await page.wait_for_load_state('networkidle')
-                         await asyncio.sleep(2)
-                         
-                         # Re-query
-                         for sel in user_selectors:
-                             user_input = await page.query_selector(sel)
-                             if user_input: break
-                         for sel in pass_selectors:
-                             pass_input = await page.query_selector(sel)
-                             if pass_input: break
+                # Fill search
+                await page.fill('#cplMain_txtSearchString', prefix)
+                await asyncio.sleep(0.5)
 
-                if True: # Always try to fill everything to avoid mismatch
-                     print('    filling ALL candidate login fields...')
-                     username = os.getenv('PLANO_USERNAME')
-                     password = os.getenv('PLANO_PASSWORD')
-                     
-                     if not username or not password:
-                         raise Exception("Plano credentials (PLANO_USERNAME/PASSWORD) not found in env")
-                         
-                     # Fill ALL username fields found
-                     inputs = await page.query_selector_all('input[type="text"]:not([type="hidden"])')
-                     for inp in inputs:
-                         id_val = await inp.get_attribute('id') or ''
-                         name_val = await inp.get_attribute('name') or ''
-                         if any(x in id_val.lower() or x in name_val.lower() for x in ['user', 'login', 'radtextbox', 'public', 'contractor']):
-                             try:
-                                 await inp.fill(username)
-                                 print(f'    Filled username into {id_val}')
-                             except:
-                                 pass
-                    
-                     # Fill ALL password fields found
-                     inputs_pw = await page.query_selector_all('input[type="password"]')
-                     for inp in inputs_pw:
-                         id_val = await inp.get_attribute('id') or ''
-                         try:
-                             await inp.fill(password)
-                             print(f'    Filled password into {id_val}')
-                         except:
-                             pass
-
-
-                # Click login
-                clicked = False
-                # Try Public button first if we are in Public mode
-                public_btn = await page.query_selector('#cplMain_btnPublicLogin')
-                if public_btn and await public_btn.is_visible():
-                     await public_btn.click()
-                     clicked = True
-                     print('    Clicked cplMain_btnPublicLogin')
-                
-                if not clicked:
-                    # Try Contractor button
-                    contractor_btn = await page.query_selector('#cplMain_btnContractorLogin')
-                    if contractor_btn and await contractor_btn.is_visible():
-                        await contractor_btn.click()
-                        clicked = True
-                        print('    Clicked cplMain_btnContractorLogin')
-
-                if not clicked:
-                     await page.click('input[id*="btnLogin"], input[type="submit"], button:has-text("Login")')
-                     print('    Clicked generic login button')
-                     
-                await page.wait_for_load_state('networkidle')
-                print('    Login submitted')
+                # Click search
+                await page.click('input[id*="btnSearch"]')
                 await asyncio.sleep(4)
-                
-                # DEBUG: Check if login worked
-                print(f'    Post-login URL: {page.url}')
-                text = await page.inner_text('body')
-                if 'invalid' in text.lower() or 'failed' in text.lower():
-                     print(f'    ERROR: Login failed text detected on page!')
-                
-                await page.screenshot(path=f'debug_html/{city_key}_etrakit_post_login.png')
-                
-                # Check if we need to navigate back to search page
-                if 'search/permit' not in page.url.lower():
-                     print(f'    Redirected to {page.url}, navigating back to search...')
-                     search_url = f'{base_url}{search_path}'
-                     await page.goto(search_url, wait_until='networkidle')
-                     await asyncio.sleep(3)
 
-            # Step 2: Configure search for recent permits
-            print('[2] Configuring search criteria...')
-            Path(f'debug_html/{city_key}_etrakit_search_page.html').write_text(await page.content())
-
-            # eTRAKiT requires a search value - use wildcard or activity number pattern
-            # Search by Activity Number with wildcard pattern for current year
-            search_configured = await page.evaluate('''() => {
-                // Find the "Search By" dropdown and select Activity Number or Permit Number
-                const searchByDropdown = document.getElementById('cplMain_ddSearchBy');
-                if (searchByDropdown) {
-                    // Try to find Activity Number or Permit Number option
-                    for (const opt of searchByDropdown.options) {
-                        const text = opt.textContent.toLowerCase();
-                        if (text.includes('activity') || text.includes('permit no')) {
-                            searchByDropdown.value = opt.value;
-                            searchByDropdown.dispatchEvent(new Event('change', { bubbles: true }));
-                            return 'searchBy: ' + opt.textContent;
-                        }
+                # Get page count
+                page_info = await page.evaluate('''() => {
+                    const span = document.querySelector('span.font12.italic');
+                    if (span) {
+                        const match = span.textContent.match(/page (\d+) of (\d+)/);
+                        if (match) return {current: parseInt(match[1]), total: parseInt(match[2])};
                     }
-                }
-                return null;
-            }''')
-
-            if search_configured:
-                print(f'    {search_configured}')
-
-            await asyncio.sleep(1)
-
-            # Set search operator to "Contains" for broader results
-            operator_set = await page.evaluate('''() => {
-                const operDropdown = document.getElementById('cplMain_ddSearchOper');
-                if (operDropdown) {
-                    for (const opt of operDropdown.options) {
-                        const text = opt.textContent.toLowerCase();
-                        if (text.includes('contain')) {
-                            operDropdown.value = opt.value;
-                            return 'operator: ' + opt.textContent;
-                        }
-                    }
-                }
-                return null;
-            }''')
-
-            if operator_set:
-                print(f'    {operator_set}')
-
-            # Enter search value - use just year "25" to capture B25, R25, etc.
-            current_year = datetime.now().strftime('%y')  # "25"
-            search_value = current_year
-            
-            # If prefix provided and length > 1 (e.g. not default 'B'), use it? 
-            # Actually, let's force a broad search first
-            if prefix and len(prefix) > 1:
-                search_value = prefix
-
-            search_input = await page.query_selector('#cplMain_txtSearchString')
-            if search_input:
-                await search_input.fill(search_value)
-                print(f'    Search value: {search_value} (Contains)')
-
-            else:
-                print('    WARN - Could not find search input')
-
-            await asyncio.sleep(1)
-
-            # Step 3: Submit search
-            print('[3] Submitting search...')
-
-            # eTRAKiT uses ASP.NET postback buttons
-            search_selectors = [
-                'input[id*="btnSearch"]',
-                'input[value*="Search"]',
-                'input[type="submit"]',
-                '#btnSearch',
-                'a[id*="btnSearch"]',
-            ]
-
-            clicked = False
-            for selector in search_selectors:
-                try:
-                    await page.click(selector, timeout=3000)
-                    clicked = True
-                    print(f'    OK - Clicked: {selector}')
-                    break
-                except PlaywrightTimeout:
-                    continue
-
-            if not clicked:
-                # Try JavaScript click
-                clicked_js = await page.evaluate('''() => {
-                    const elements = document.querySelectorAll('input[type="submit"], input[type="button"], a.button');
-                    for (const el of elements) {
-                        const text = (el.value || el.textContent || '').toLowerCase();
-                        if (text.includes('search') && !text.includes('clear')) {
-                            el.click();
-                            return true;
-                        }
-                    }
-                    return false;
-                }''')
-                if clicked_js:
-                    print('    Clicked search via JS')
-                else:
-                    print('    WARN - No search button found')
-
-            await asyncio.sleep(5)
-            await page.screenshot(path=f'debug_html/{city_key}_etrakit_results.png')
-
-            # Step 4: Extract permits from results
-            page_num = 1
-            while len(permits) < target_count:
-                print(f'\n[4.{page_num}] Extracting page {page_num}...')
-
-                html = clean_html(await page.content())
-                Path(f'debug_html/{city_key}_etrakit_p{page_num}.html').write_text(await page.content())
-
-                extract_prompt = f'''Extract ALL permit records from this {city_name} eTRAKiT search results page.
-
-eTRAKiT displays permits in a grid/table format. For each permit row, extract:
-- permit_id: The permit number (e.g., "B24-12345", "BLDG-2024-001234")
-- address: Property address
-- type: Permit type (Building, Electrical, Plumbing, Mechanical, Roofing, Pool, etc.)
-- status: Status (Issued, Active, Final, Expired, etc.)
-- date: Application date, issue date, or finalized date
-- description: Project description or work type
-- contractor: Contractor name if visible
-- owner: Property owner if visible
-
-Return JSON:
-{{"permits": [{{"permit_id": "...", "address": "...", "type": "...", "status": "...", "date": "...", "description": "...", "contractor": "...", "owner": "..."}}], "has_next_page": true/false, "total_results": <number or null>}}
-
-HTML:
-{html[:120000]}'''
-
-                response = await call_deepseek(extract_prompt)
-                data = parse_json(response)
-
-                if data and data.get('permits'):
-                    raw_permits = [p for p in data['permits'] if p.get('permit_id')]
-                    valid_permits, filter_stats = filter_permits(raw_permits)
-                    permits.extend(valid_permits)
-
-                    if filter_stats['total_rejected'] > 0:
-                        print(f'    Filtered out {filter_stats["total_rejected"]}: '
-                              f'{filter_stats["bad_type"]} bad type, '
-                              f'{filter_stats["empty"]} empty')
-                    if filter_stats.get('types_inferred', 0) > 0:
-                        print(f'    Inferred types for {filter_stats["types_inferred"]} permits')
-                    print(f'    OK - Got {len(valid_permits)} valid permits ({len(permits)} cumulative)')
-
-                    if data.get('total_results'):
-                        print(f'    Total available: {data["total_results"]}')
-                else:
-                    print('    WARN - No permits extracted')
-                    print(f'    Response preview: {response[:200]}')
-                    errors.append({'step': f'extract_page_{page_num}', 'error': 'No permits in response'})
-                    break
-
-                if len(permits) >= target_count:
-                    break
-
-                # Try pagination - eTRAKiT uses postback for paging
-                # Capture ViewState before clicking Next (to detect when page updates)
-                old_viewstate = await page.evaluate('''() => {
-                    const vs = document.getElementById("__VIEWSTATE");
-                    return vs ? vs.value.slice(0, 100) : null;
+                    return {current: 1, total: 1};
                 }''')
 
-                # DeepSeek's has_next_page is just a hint - we still need to click!
-                # Always try to click the Next button regardless of DeepSeek's response
-                has_next = await page.evaluate('''() => {
-                    // Method 1: Find Next button by class (preferred)
-                    const nextBtn = document.querySelector('input.NextPage:not(.aspNetDisabled), input.PagerButton.NextPage:not([disabled])');
-                    if (nextBtn) {
-                        nextBtn.click();
-                        return true;
-                    }
+                print(f'    Found {page_info["total"]} pages')
 
-                    // Method 2: Find by ID pattern
-                    const nextById = document.querySelector('input[id*="btnPageNext"]:not([disabled])');
-                    if (nextById) {
-                        nextById.click();
-                        return true;
-                    }
+                # Extract all pages for this prefix
+                page_num = 1
+                prefix_permits = []
 
-                    // Method 3: Call changePage directly if function exists
-                    if (typeof changePage === 'function') {
-                        changePage('next');
-                        return true;
-                    }
+                while page_num <= page_info['total'] and len(all_permits) + len(prefix_permits) < target_count:
+                    permits = await extract_permits_from_page(page, permit_regex)
+                    prefix_permits.extend(permits)
 
-                    // Method 4: Fallback to anchor tags with __doPostBack
-                    const links = document.querySelectorAll('a');
-                    for (const link of links) {
-                        const text = (link.textContent || '').toLowerCase().trim();
-                        const href = link.href || '';
-                        if ((text === 'next' || text === '>') && href.includes('__doPostBack')) {
-                            link.click();
-                            return true;
-                        }
-                    }
-                    return false;
-                }''')
+                    if page_num % 10 == 0 or page_num == 1:
+                        print(f'    Page {page_num}/{page_info["total"]}: +{len(permits)} permits ({len(prefix_permits)} from {prefix})')
 
-                if not has_next:
-                    print('    No more pages available')
-                    break
+                    if page_num >= page_info['total']:
+                        break
 
-                print(f'    Navigating to page {page_num + 1}...')
+                    # Click next
+                    has_next = await page.evaluate('''() => {
+                        const nextBtn = document.querySelector('input.NextPage:not([disabled])');
+                        if (nextBtn) { nextBtn.click(); return true; }
+                        return false;
+                    }''')
 
-                # Wait for ViewState to change (indicates postback completed)
-                if old_viewstate:
-                    try:
-                        await page.wait_for_function(
-                            f'''() => {{
-                                const vs = document.getElementById("__VIEWSTATE");
-                                return vs && vs.value.slice(0, 100) !== "{old_viewstate}";
-                            }}''',
-                            timeout=30000
-                        )
-                        print(f'    ViewState updated - page loaded')
-                    except PlaywrightTimeout:
-                        print(f'    WARN - ViewState unchanged after 30s, continuing anyway')
-                        await asyncio.sleep(5)
-                else:
-                    # Fallback to fixed delay if no ViewState found
-                    await asyncio.sleep(5)
+                    if not has_next:
+                        break
 
-                page_num += 1
+                    await asyncio.sleep(2)
+                    page_num += 1
 
-            # Step 5: Get contractor details from detail pages (optional)
-            print(f'\n[5] Checking for additional contractor details...')
-            # eTRAKiT often shows contractor info in search results
-            # Detail page scraping can be added if needed
+                print(f'    {prefix}: Got {len(prefix_permits)} permits')
+                all_permits.extend(prefix_permits)
 
         except Exception as e:
-            print(f'\nFATAL ERROR: {e}')
-            errors.append({'step': 'main', 'error': str(e)})
-            await page.screenshot(path=f'debug_html/{city_key}_etrakit_error.png')
+            print(f'\nERROR: {e}')
+            errors.append(str(e))
+            await page.screenshot(path='debug_html/frisco_fast_error.png')
 
         finally:
             await browser.close()
+
+    # Deduplicate by permit_id
+    seen = set()
+    unique_permits = []
+    for p in all_permits:
+        if p['permit_id'] not in seen:
+            seen.add(p['permit_id'])
+            unique_permits.append(p)
+
+    print(f'\n{"=" * 60}')
+    print(f'Total collected: {len(all_permits)}')
+    print(f'After dedup: {len(unique_permits)}')
 
     # Save results
     output = {
@@ -618,60 +257,24 @@ HTML:
         'portal_type': 'eTRAKiT',
         'scraped_at': datetime.now().isoformat(),
         'target_count': target_count,
-        'actual_count': len(permits),
-        'with_contractor': len([p for p in permits if p.get('contractor')]),
+        'actual_count': len(unique_permits),
         'errors': errors,
-        'permits': permits[:target_count]
+        'permits': unique_permits[:target_count]
     }
 
     output_file = f'{city_key}_raw.json'
     Path(output_file).write_text(json.dumps(output, indent=2))
+    print(f'Saved to: {output_file}')
 
-    print('\n' + '=' * 50)
-    print('SUMMARY')
-    print('=' * 50)
-    print(f'City: {city_name}')
-    print(f'Permits scraped: {output["actual_count"]}')
-    print(f'With contractor: {output["with_contractor"]}')
-    print(f'Errors: {len(errors)}')
-    print(f'Output: {output_file}')
-
-    if errors:
-        print('\nERRORS:')
-        for e in errors:
-            print(f'  - {e["step"]}: {e["error"]}')
-
-    if permits:
-        print('\nSAMPLE PERMITS:')
-        for p in permits[:5]:
-            print(f'  {p["permit_id"]} | {p.get("type", "unknown")} | {p.get("address", "no address")}')
+    # Sample
+    print('\nSAMPLE:')
+    for p in unique_permits[:5]:
+        print(f'  {p["permit_id"]} | {p.get("type", "?")} | {p.get("address", "?")[:40]}')
 
     return output
 
 
 if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser(description='Scrape permits from eTRAKiT portals')
-    parser.add_argument('city', nargs='?', default='frisco', help='City to scrape (frisco, plano)')
-    parser.add_argument('count', nargs='?', type=int, default=50, help='Number of permits to scrape')
-    parser.add_argument('--prefix', '-p', default='B',
-                        help=f'Permit ID prefix to search. Options: {", ".join(PERMIT_PREFIXES.keys())}. Default: B')
-    parser.add_argument('--all-prefixes', action='store_true',
-                        help=f'Search all default prefixes: {DEFAULT_PREFIXES}')
-
-    args = parser.parse_args()
-
-    if args.all_prefixes:
-        # Run multiple searches for each prefix
-        print(f'Running multi-prefix search: {DEFAULT_PREFIXES}')
-        all_permits = []
-        for pfx in DEFAULT_PREFIXES:
-            print(f'\n{"="*60}')
-            print(f'SEARCHING PREFIX: {pfx} ({PERMIT_PREFIXES.get(pfx, "Unknown")})')
-            print('='*60)
-            result = asyncio.run(scrape(args.city, args.count, pfx))
-            all_permits.extend(result.get('permits', []))
-        print(f'\n\nTOTAL PERMITS ACROSS ALL PREFIXES: {len(all_permits)}')
-    else:
-        asyncio.run(scrape(args.city, args.count, args.prefix))
+    city = sys.argv[1] if len(sys.argv) > 1 else 'frisco'
+    count = int(sys.argv[2]) if len(sys.argv) > 2 else 1000
+    asyncio.run(scrape_fast(city, count))

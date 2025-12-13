@@ -24,9 +24,8 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 - Dallas, Fort Worth, Grand Prairie - `accela_fast.py`
 
 ### eTRAKiT
-- Frisco, Flower Mound - `etrakit_fast.py`
-- Plano - `etrakit.py`
-- Denton - `etrakit_fast.py`
+- Frisco, Flower Mound, Denton - `etrakit.py` (fast DOM)
+- Plano - `etrakit_auth.py` (requires login)
 
 ### EnerGov CSS
 - Southlake, Colleyville, McKinney, Allen, Trophy Club, Waxahachie - `citizen_self_service.py`
@@ -53,9 +52,9 @@ python3 scrapers/accela_fast.py fort_worth 1000
 python3 scrapers/accela_fast.py grand_prairie 1000
 
 # eTRAKiT cities (Fast DOM)
-python3 scrapers/etrakit_fast.py frisco 1000
-python3 scrapers/etrakit_fast.py flower_mound 1000
-python3 scrapers/etrakit.py plano 1000
+python3 scrapers/etrakit.py frisco 1000
+python3 scrapers/etrakit.py flower_mound 1000
+python3 scrapers/etrakit_auth.py plano 1000
 
 # EnerGov CSS cities
 python3 scrapers/citizen_self_service.py southlake 500   # Southlake
