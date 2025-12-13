@@ -268,7 +268,7 @@ ZIP_TO_COUNTY = {
     '75034': 'collin', '75035': 'collin', '75048': 'collin', '75069': 'collin',
     '75070': 'collin', '75071': 'collin', '75072': 'collin', '75074': 'collin',
     '75075': 'collin', '75078': 'collin', '75080': 'collin', '75081': 'collin',
-    '75082': 'collin', '75086': 'collin', '75087': 'collin', '75093': 'collin',
+    '75082': 'collin', '75086': 'collin', '75093': 'collin',
     '75094': 'collin', '75097': 'collin', '75098': 'collin', '75121': 'collin',
     '75164': 'collin', '75166': 'collin', '75173': 'collin', '75407': 'collin',
     '75409': 'collin', '75424': 'collin', '75442': 'collin', '75454': 'collin',
