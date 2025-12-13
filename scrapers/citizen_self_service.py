@@ -85,7 +85,7 @@ CSS_CITIES = {
     'mesquite': {
         'name': 'Mesquite',
         'base_url': 'https://energov.cityofmesquite.com/EnerGov_Prod/SelfService',
-        'default_permit_types': ['Residential Remodel', 'Residential Addition', 'Residential New Construction'],
+        'default_permit_types': ['Building-Residential Addition/Remodel', 'Building-New Residential Building', 'Building-Residential Accessory Structure'],
     },
 }
 
@@ -694,8 +694,46 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
 
             await page.screenshot(path=f'debug_html/{city_key}_css_sorted.png')
 
-            # Step 4c: Try Excel export (more reliable than DOM scraping)
-            print('\n[4c] Attempting Excel export download...')
+            # Step 4c: Maximize page size before export (show all results on one page)
+            print('\n[4c] Maximizing results per page...')
+            try:
+                # Look for a "Show X entries" or page size dropdown
+                page_size_changed = await page.evaluate('''() => {
+                    // Find dropdowns that control page size
+                    const selects = document.querySelectorAll('select');
+                    for (const select of selects) {
+                        const options = Array.from(select.options);
+                        const hasPageSize = options.some(o =>
+                            /^\d+$/.test(o.value) || /all|500|1000/i.test(o.textContent)
+                        );
+                        if (hasPageSize) {
+                            // Try to select largest option (All, 500, or 1000)
+                            for (const opt of options) {
+                                if (/all/i.test(opt.textContent) || opt.value === '500' || opt.value === '1000' || opt.value === '-1') {
+                                    select.value = opt.value;
+                                    select.dispatchEvent(new Event('change', {bubbles: true}));
+                                    return opt.textContent.trim();
+                                }
+                            }
+                            // Fall back to last option (usually largest)
+                            const lastOpt = options[options.length - 1];
+                            select.value = lastOpt.value;
+                            select.dispatchEvent(new Event('change', {bubbles: true}));
+                            return lastOpt.textContent.trim();
+                        }
+                    }
+                    return null;
+                }''')
+                if page_size_changed:
+                    print(f'    Set page size to: {page_size_changed}')
+                    await asyncio.sleep(3)  # Wait for results to reload
+                else:
+                    print('    No page size dropdown found')
+            except Exception as e:
+                print(f'    Could not change page size: {e}')
+
+            # Step 4d: Try Excel export (more reliable than DOM scraping)
+            print('\n[4d] Attempting Excel export download...')
 
             # Always try "Export Current View" first to respect date filters
             # Falls back to regular export if current view option not available
