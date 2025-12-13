@@ -5,7 +5,7 @@ import pytest
 import sys
 sys.path.insert(0, 'scripts')
 
-from analyze_owner_builder import normalize_name, is_contractor_entity, names_match
+from analyze_owner_builder import normalize_name, is_contractor_entity, names_match, categorize_applicant
 
 
 class TestNormalizeName:
@@ -77,3 +77,31 @@ class TestNamesMatch:
     def test_empty_applicant_no_match(self):
         match, reason = names_match("", "John Smith")
         assert match == False
+
+
+class TestCategorizeApplicant:
+    """Test full applicant categorization."""
+
+    def test_owner_builder_exact_match(self):
+        cat, reason = categorize_applicant("John Smith", "JOHN SMITH", None)
+        assert cat == "OWNER_BUILDER"
+
+    def test_contractor_by_keyword(self):
+        cat, reason = categorize_applicant("ABC Roofing LLC", "John Smith", None)
+        assert cat == "CONTRACTOR"
+
+    def test_contractor_matches_contractor_field(self):
+        cat, reason = categorize_applicant("Bob Builder", "John Smith", "Bob Builder")
+        assert cat == "CONTRACTOR"
+
+    def test_possible_contractor_no_match(self):
+        cat, reason = categorize_applicant("Random Person", "John Smith", None)
+        assert cat == "POSSIBLE_CONTRACTOR"
+
+    def test_unknown_no_applicant(self):
+        cat, reason = categorize_applicant(None, "John Smith", None)
+        assert cat == "UNKNOWN"
+
+    def test_unknown_no_owner(self):
+        cat, reason = categorize_applicant("John Smith", None, None)
+        assert cat == "UNKNOWN"

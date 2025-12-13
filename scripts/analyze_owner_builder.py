@@ -107,3 +107,38 @@ def names_match(applicant: str | None, owner: str | None) -> tuple[bool, str]:
             return True, f"Family match ({', '.join(significant_overlap)})"
 
     return False, "No match"
+
+
+def categorize_applicant(
+    applicant: str | None,
+    owner: str | None,
+    contractor_field: str | None
+) -> tuple[str, str]:
+    """
+    Categorize an applicant as OWNER_BUILDER, CONTRACTOR, POSSIBLE_CONTRACTOR, or UNKNOWN.
+
+    Returns: (category, reason)
+    """
+    # Check for missing data
+    if not applicant or not applicant.strip():
+        return "UNKNOWN", "No applicant name"
+
+    if not owner or not owner.strip():
+        return "UNKNOWN", "No owner name (CAD)"
+
+    # Check if applicant is a contractor entity by keywords
+    if is_contractor_entity(applicant):
+        return "CONTRACTOR", "Business entity keywords"
+
+    # Check if applicant matches the contractor field (if populated)
+    if contractor_field and contractor_field.strip():
+        if normalize_name(applicant) == normalize_name(contractor_field):
+            return "CONTRACTOR", "Matches contractor field"
+
+    # Check if applicant matches owner (owner-builder scenario)
+    match, reason = names_match(applicant, owner)
+    if match:
+        return "OWNER_BUILDER", reason
+
+    # No match - likely a contractor or other third party
+    return "POSSIBLE_CONTRACTOR", reason
