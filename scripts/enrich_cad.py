@@ -900,6 +900,7 @@ Examples:
               AND (prop.property_address IS NULL OR prop.enrichment_status != 'success')
               {recent_filter}
               {fresh_filter}
+              {bin_filter}
         """
 
     with conn.cursor() as cur:
