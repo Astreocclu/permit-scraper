@@ -82,6 +82,10 @@ CSS_CITIES = {
         'name': 'DeSoto',
         'base_url': 'https://cityofdesototx-energovweb.tylerhost.net/apps/selfservice',
     },
+    'mesquite': {
+        'name': 'Mesquite',
+        'base_url': 'https://energov.cityofmesquite.com/EnerGov_Prod/SelfService',
+    },
 }
 
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
@@ -387,26 +391,35 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             end_date = datetime.now().strftime('%m/%d/%Y')
 
             # Use the known input IDs from the EnerGov CSS form
-            date_filled = {'start': False, 'end': False}
+            date_filled = {'start': False, 'end': False, 'type': None}
 
             try:
-                # Applied Date inputs have IDs: ApplyDateFrom and ApplyDateTo
-                from_input = page.locator('#ApplyDateFrom')
-                to_input = page.locator('#ApplyDateTo')
+                # Try Issued Date first (more reliable for recent permits)
+                from_input = page.locator('#IssueDateFrom')
+                to_input = page.locator('#IssueDateTo')
+
+                if await from_input.count() > 0 and await to_input.count() > 0:
+                    date_filled['type'] = 'Issued'
+                else:
+                    # Fallback to Applied Date
+                    from_input = page.locator('#ApplyDateFrom')
+                    to_input = page.locator('#ApplyDateTo')
+                    if await from_input.count() > 0:
+                        date_filled['type'] = 'Applied'
 
                 if await from_input.count() > 0:
                     await from_input.click()
                     await from_input.fill(start_date)
                     await from_input.press('Tab')  # Trigger Angular change event
                     date_filled['start'] = start_date
-                    print(f'    Filled start date: {start_date}')
+                    print(f'    Filled {date_filled["type"]} start date: {start_date}')
 
                 if await to_input.count() > 0:
                     await to_input.click()
                     await to_input.fill(end_date)
                     await to_input.press('Tab')  # Trigger Angular change event
                     date_filled['end'] = end_date
-                    print(f'    Filled end date: {end_date}')
+                    print(f'    Filled {date_filled["type"]} end date: {end_date}')
 
             except Exception as e:
                 print(f'    Error filling dates: {e}')
@@ -643,7 +656,19 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                 for d in sort_changed.get('debug', []):
                     print(f'      {d}')
 
-            await asyncio.sleep(3)  # Wait for results to re-sort
+            await asyncio.sleep(2)  # Wait for sort to apply
+
+            # CRITICAL: Click search button again to re-fetch with new sort order
+            # Many EnerGov portals require this after changing sort
+            try:
+                search_btn = page.locator('button:has-text("Search"), input[type="submit"][value*="Search"]')
+                if await search_btn.count() > 0:
+                    await search_btn.first.click()
+                    print('      Re-triggered search after sort change')
+                    await asyncio.sleep(3)  # Wait for re-sorted results
+            except Exception as e:
+                print(f'      Could not re-trigger search: {e}')
+
             await page.screenshot(path=f'debug_html/{city_key}_css_sorted.png')
 
             # Step 4c: Try Excel export (more reliable than DOM scraping)

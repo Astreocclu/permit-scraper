@@ -837,9 +837,13 @@ def save_scored_leads(conn, leads: List[ScoredLead]) -> Dict[str, int]:
                         cad_property_id
                     ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (permit_id) DO UPDATE SET
+                        category = EXCLUDED.category,
+                        trade_group = EXCLUDED.trade_group,
                         score = EXCLUDED.score,
                         tier = EXCLUDED.tier,
                         reasoning = EXCLUDED.reasoning,
+                        ideal_contractor = EXCLUDED.ideal_contractor,
+                        contact_priority = EXCLUDED.contact_priority,
                         scored_at = EXCLUDED.scored_at
                 """, (
                     pg_permit_id,

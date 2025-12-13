@@ -1,0 +1,1122 @@
+[
+  {
+    "city": "Dallas",
+    "counties": ["Dallas", "Collin", "Denton", "Kaufman", "Rockwall"],
+    "tier": "A",
+    "population": 1300000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "Accela",
+    "notes": "Covered by accela_fast.py"
+  },
+  {
+    "city": "Fort Worth",
+    "counties": ["Tarrant", "Denton", "Johnson", "Parker", "Wise"],
+    "tier": "A",
+    "population": 960000,
+    "growth_rate": 0.02,
+    "status": "working",
+    "platform": "Accela",
+    "notes": "Covered by accela_fast.py"
+  },
+  {
+    "city": "Arlington",
+    "counties": ["Tarrant"],
+    "tier": "A",
+    "population": 400000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "Socrata",
+    "notes": "Covered by dfw_big4_socrata.py"
+  },
+  {
+    "city": "Plano",
+    "counties": ["Collin", "Denton"],
+    "tier": "A",
+    "population": 290000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "eTRAKiT",
+    "notes": "Covered by etrakit.py"
+  },
+  {
+    "city": "Frisco",
+    "counties": ["Collin", "Denton"],
+    "tier": "A",
+    "population": 220000,
+    "growth_rate": 0.05,
+    "status": "working",
+    "platform": "eTRAKiT",
+    "notes": "Covered by etrakit_fast.py"
+  },
+  {
+    "city": "McKinney",
+    "counties": ["Collin"],
+    "tier": "A",
+    "population": 210000,
+    "growth_rate": 0.04,
+    "status": "blocked",
+    "platform": "EnerGov CSS",
+    "notes": "Angular timeouts - needs fix"
+  },
+  {
+    "city": "Irving",
+    "counties": ["Dallas"],
+    "tier": "B",
+    "population": 250000,
+    "growth_rate": 0.01,
+    "status": "blocked",
+    "platform": "MGO Connect",
+    "notes": "Anti-bot blocking, PDF-only"
+  },
+  {
+    "city": "Garland",
+    "counties": ["Dallas", "Collin", "Rockwall"],
+    "tier": "B",
+    "population": 240000,
+    "growth_rate": 0.00,
+    "status": "research_needed",
+    "platform": "Custom",
+    "portal_url": "https://www.garlandtx.gov/230/Development-and-Permitting-Center",
+    "notes": "No public search portal found. Uses internal Development & Permitting Center. May require phone/in-person."
+  },
+  {
+    "city": "Grand Prairie",
+    "counties": ["Dallas", "Tarrant", "Ellis"],
+    "tier": "B",
+    "population": 200000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "Accela",
+    "notes": "Covered by accela_fast.py"
+  },
+  {
+    "city": "Mesquite",
+    "counties": ["Dallas", "Kaufman"],
+    "tier": "B",
+    "population": 150000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "portal_url": "https://energov.cityofmesquite.com",
+    "notes": "ADDED Dec 2024 - Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Denton",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 150000,
+    "growth_rate": 0.03,
+    "status": "working",
+    "platform": "eTRAKiT",
+    "notes": "Covered by etrakit_fast.py"
+  },
+  {
+    "city": "Carrollton",
+    "counties": ["Dallas", "Denton", "Collin"],
+    "tier": "B",
+    "population": 133000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "CityView",
+    "notes": "Covered by cityview.py (20-result limit)"
+  },
+  {
+    "city": "Richardson",
+    "counties": ["Dallas", "Collin"],
+    "tier": "B",
+    "population": 120000,
+    "growth_rate": 0.01,
+    "status": "research_needed",
+    "platform": "Custom",
+    "portal_url": "https://www.cor.net/departments/building-inspection/online-permits",
+    "notes": "Custom portal at cor.net. Limited online permits. May need custom scraper or be phone-only for searches."
+  },
+  {
+    "city": "Lewisville",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 110000,
+    "growth_rate": 0.02,
+    "status": "blocked",
+    "platform": "MGO Connect",
+    "notes": "Anti-bot blocking"
+  },
+  {
+    "city": "Allen",
+    "counties": ["Collin"],
+    "tier": "B",
+    "population": 110000,
+    "growth_rate": 0.03,
+    "status": "blocked",
+    "platform": "EnerGov CSS",
+    "notes": "Angular timeouts - needs fix"
+  },
+  {
+    "city": "Flower Mound",
+    "counties": ["Denton", "Tarrant"],
+    "tier": "B",
+    "population": 80000,
+    "growth_rate": 0.02,
+    "status": "working",
+    "platform": "eTRAKiT",
+    "notes": "Covered by etrakit_fast.py"
+  },
+  {
+    "city": "North Richland Hills",
+    "counties": ["Tarrant"],
+    "tier": "B",
+    "population": 70000,
+    "growth_rate": 0.01,
+    "status": "research_needed",
+    "platform": "Enterprise Permitting",
+    "portal_url": "https://www.nrhtx.com/103/Building-Inspections-Permits",
+    "notes": "Uses 'NRH E-Portal' - Enterprise Permitting & Licensing system. Need to investigate platform details."
+  },
+  {
+    "city": "Mansfield",
+    "counties": ["Tarrant", "Johnson", "Ellis"],
+    "tier": "B",
+    "population": 75000,
+    "growth_rate": 0.03,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Rowlett",
+    "counties": ["Dallas", "Rockwall"],
+    "tier": "B",
+    "population": 65000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Euless",
+    "counties": ["Tarrant"],
+    "tier": "B",
+    "population": 60000,
+    "growth_rate": 0.01,
+    "status": "new_platform",
+    "platform": "Cityworks",
+    "portal_url": "https://euless.newedgeservices.com/PermitPortal",
+    "notes": "NEW PLATFORM - Cityworks via NewEdge Services. Would need new scraper development."
+  },
+  {
+    "city": "DeSoto",
+    "counties": ["Dallas"],
+    "tier": "B",
+    "population": 55000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "notes": "Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Grapevine",
+    "counties": ["Tarrant", "Dallas", "Denton"],
+    "tier": "B",
+    "population": 50000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "MyGov",
+    "portal_url": "https://public.mygov.us/grapevine_tx/lookup",
+    "notes": "ADDED Dec 2024 - Covered by mygov_multi.py"
+  },
+  {
+    "city": "Bedford",
+    "counties": ["Tarrant"],
+    "tier": "B",
+    "population": 48000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Cedar Hill",
+    "counties": ["Dallas", "Ellis"],
+    "tier": "B",
+    "population": 48000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "notes": "Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Wylie",
+    "counties": ["Collin", "Dallas", "Rockwall"],
+    "tier": "B",
+    "population": 55000,
+    "growth_rate": 0.03,
+    "status": "new_platform",
+    "platform": "Citizenserve",
+    "portal_url": "https://www4.citizenserve.com/Portal/PortalController?Action=showHomePage&ctzPagePrefix=Portal_&installationID=435",
+    "notes": "NEW PLATFORM - Citizenserve portal. Would need new scraper development."
+  },
+  {
+    "city": "Burleson",
+    "counties": ["Johnson", "Tarrant"],
+    "tier": "B",
+    "population": 48000,
+    "growth_rate": 0.03,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Keller",
+    "counties": ["Tarrant"],
+    "tier": "B",
+    "population": 45000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "eTRAKiT",
+    "portal_url": "https://trakitweb.cityofkeller.com/etrakit/",
+    "notes": "ADDED Dec 2024 - Covered by etrakit.py"
+  },
+  {
+    "city": "The Colony",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 45000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Rockwall",
+    "counties": ["Rockwall"],
+    "tier": "B",
+    "population": 45000,
+    "growth_rate": 0.02,
+    "status": "research_needed",
+    "platform": "Custom/Manual",
+    "portal_url": "https://www.rockwall.com/buildinginspections.asp",
+    "notes": "No public search portal. Uses Google Sites for permit lists + manual reports. May be phone-only."
+  },
+  {
+    "city": "Coppell",
+    "counties": ["Dallas", "Denton"],
+    "tier": "B",
+    "population": 42000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Haltom City",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 45000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Duncanville",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 40000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Lancaster",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 40000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Waxahachie",
+    "counties": ["Ellis"],
+    "tier": "B",
+    "population": 40000,
+    "growth_rate": 0.03,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "notes": "Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Hurst",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 38000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Prosper",
+    "counties": ["Collin", "Denton"],
+    "tier": "A",
+    "population": 35000,
+    "growth_rate": 0.08,
+    "status": "working",
+    "platform": "eTRAKiT",
+    "portal_url": "http://etrakit.prospertx.gov/eTRAKIT/Search/permit.aspx",
+    "notes": "ADDED Dec 2024 - Covered by etrakit.py (legacy portal)"
+  },
+  {
+    "city": "Midlothian",
+    "counties": ["Ellis"],
+    "tier": "B",
+    "population": 35000,
+    "growth_rate": 0.05,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Southlake",
+    "counties": ["Tarrant", "Denton"],
+    "tier": "A",
+    "population": 32000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "notes": "Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Cleburne",
+    "counties": ["Johnson"],
+    "tier": "C",
+    "population": 31000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Weatherford",
+    "counties": ["Parker"],
+    "tier": "C",
+    "population": 30000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Celina",
+    "counties": ["Collin", "Denton"],
+    "tier": "A",
+    "population": 30000,
+    "growth_rate": 0.15,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py - Ultra high growth"
+  },
+  {
+    "city": "Farmers Branch",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 28000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Greenville",
+    "counties": ["Hunt"],
+    "tier": "C",
+    "population": 28000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Sachse",
+    "counties": ["Dallas", "Collin"],
+    "tier": "B",
+    "population": 27000,
+    "growth_rate": 0.03,
+    "status": "working",
+    "platform": "SmartGov",
+    "notes": "Covered by smartgov_sachse.py"
+  },
+  {
+    "city": "Colleyville",
+    "counties": ["Tarrant"],
+    "tier": "A",
+    "population": 26000,
+    "growth_rate": 0.01,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "notes": "Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Forney",
+    "counties": ["Kaufman"],
+    "tier": "B",
+    "population": 25000,
+    "growth_rate": 0.05,
+    "status": "blocked",
+    "platform": "MyGov",
+    "notes": "No public portal access"
+  },
+  {
+    "city": "University Park",
+    "counties": ["Dallas"],
+    "tier": "A",
+    "population": 25000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": "High wealth enclave"
+  },
+  {
+    "city": "Balch Springs",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 25000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Saginaw",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 24000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Watauga",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 24000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Benbrook",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 23000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Corinth",
+    "counties": ["Denton"],
+    "tier": "C",
+    "population": 22000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Murphy",
+    "counties": ["Collin"],
+    "tier": "B",
+    "population": 20000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Ennis",
+    "counties": ["Ellis"],
+    "tier": "C",
+    "population": 20000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Little Elm",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 50000,
+    "growth_rate": 0.05,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Fate",
+    "counties": ["Rockwall"],
+    "tier": "B",
+    "population": 18000,
+    "growth_rate": 0.10,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Terrell",
+    "counties": ["Kaufman"],
+    "tier": "C",
+    "population": 18000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Seagoville",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 18000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "White Settlement",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 17000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Highland Village",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 16000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Addison",
+    "counties": ["Dallas"],
+    "tier": "B",
+    "population": 16000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Glenn Heights",
+    "counties": ["Dallas", "Ellis"],
+    "tier": "C",
+    "population": 15000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Princeton",
+    "counties": ["Collin"],
+    "tier": "C",
+    "population": 15000,
+    "growth_rate": 0.08,
+    "status": "unknown",
+    "platform": null,
+    "notes": "High growth"
+  },
+  {
+    "city": "Anna",
+    "counties": ["Collin"],
+    "tier": "C",
+    "population": 15000,
+    "growth_rate": 0.10,
+    "status": "unknown",
+    "platform": null,
+    "notes": "High growth"
+  },
+  {
+    "city": "Crowley",
+    "counties": ["Tarrant", "Johnson"],
+    "tier": "C",
+    "population": 15000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Red Oak",
+    "counties": ["Ellis"],
+    "tier": "C",
+    "population": 14000,
+    "growth_rate": 0.03,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Trophy Club",
+    "counties": ["Denton", "Tarrant"],
+    "tier": "A",
+    "population": 13000,
+    "growth_rate": 0.02,
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "notes": "Covered by citizen_self_service.py"
+  },
+  {
+    "city": "Royse City",
+    "counties": ["Rockwall", "Collin", "Hunt"],
+    "tier": "C",
+    "population": 13000,
+    "growth_rate": 0.05,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Azle",
+    "counties": ["Tarrant", "Parker"],
+    "tier": "C",
+    "population": 13000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Melissa",
+    "counties": ["Collin"],
+    "tier": "C",
+    "population": 12000,
+    "growth_rate": 0.10,
+    "status": "unknown",
+    "platform": null,
+    "notes": "High growth"
+  },
+  {
+    "city": "Forest Hill",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 12000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Heath",
+    "counties": ["Rockwall", "Kaufman"],
+    "tier": "A",
+    "population": 10000,
+    "growth_rate": 0.03,
+    "status": "unknown",
+    "platform": null,
+    "notes": "High wealth"
+  },
+  {
+    "city": "Fairview",
+    "counties": ["Collin"],
+    "tier": "B",
+    "population": 10000,
+    "growth_rate": 0.03,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Highland Park",
+    "counties": ["Dallas"],
+    "tier": "A",
+    "population": 9000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": "Ultra high wealth enclave"
+  },
+  {
+    "city": "Kennedale",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 8000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Lucas",
+    "counties": ["Collin"],
+    "tier": "B",
+    "population": 8000,
+    "growth_rate": 0.03,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Kaufman",
+    "counties": ["Kaufman"],
+    "tier": "C",
+    "population": 7000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": "MyGov",
+    "notes": "Research in kaufman_endpoint_test.py"
+  },
+  {
+    "city": "Joshua",
+    "counties": ["Johnson"],
+    "tier": "C",
+    "population": 7000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "River Oaks",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 7000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Sunnyvale",
+    "counties": ["Dallas"],
+    "tier": "B",
+    "population": 7000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Venus",
+    "counties": ["Johnson", "Ellis"],
+    "tier": "C",
+    "population": 6000,
+    "growth_rate": 0.02,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_multi.py"
+  },
+  {
+    "city": "Keene",
+    "counties": ["Johnson"],
+    "tier": "C",
+    "population": 6000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Everman",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 6000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Briar",
+    "counties": ["Tarrant", "Wise", "Parker"],
+    "tier": "C",
+    "population": 6000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Hutchins",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 5500,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Parker",
+    "counties": ["Collin"],
+    "tier": "B",
+    "population": 5000,
+    "growth_rate": 0.03,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Sansom Park",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 5000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Lake Worth",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 4800,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Alvarado",
+    "counties": ["Johnson"],
+    "tier": "C",
+    "population": 4000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Wilmer",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 4000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Cockrell Hill",
+    "counties": ["Dallas"],
+    "tier": "C",
+    "population": 4000,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Double Oak",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 3000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "McLendon-Chisholm",
+    "counties": ["Rockwall"],
+    "tier": "C",
+    "population": 3000,
+    "growth_rate": 0.05,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Crandall",
+    "counties": ["Kaufman"],
+    "tier": "C",
+    "population": 3000,
+    "growth_rate": 0.05,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Westworth Village",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 3000,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Reno",
+    "counties": ["Parker"],
+    "tier": "C",
+    "population": 2800,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Edgecliff Village",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 2800,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Blue Mound",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 2500,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Pantego",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 2500,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Dalworthington Gardens",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 2300,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Combine",
+    "counties": ["Kaufman", "Dallas"],
+    "tier": "C",
+    "population": 2000,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Haslet",
+    "counties": ["Tarrant", "Denton"],
+    "tier": "B",
+    "population": 2000,
+    "growth_rate": 0.05,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Pelican Bay",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 1800,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Bartonville",
+    "counties": ["Denton"],
+    "tier": "B",
+    "population": 1700,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Westlake",
+    "counties": ["Denton", "Tarrant"],
+    "tier": "A",
+    "population": 1600,
+    "growth_rate": 0.03,
+    "status": "working",
+    "platform": "MyGov",
+    "notes": "Covered by mygov_westlake.py - Ultra high wealth"
+  },
+  {
+    "city": "Rhome",
+    "counties": ["Wise"],
+    "tier": "C",
+    "population": 1600,
+    "growth_rate": 0.03,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Lakeside",
+    "counties": ["Tarrant"],
+    "tier": "C",
+    "population": 1500,
+    "growth_rate": 0.01,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Boyd",
+    "counties": ["Wise"],
+    "tier": "C",
+    "population": 1500,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Aurora",
+    "counties": ["Wise"],
+    "tier": "C",
+    "population": 1400,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Newark",
+    "counties": ["Wise"],
+    "tier": "C",
+    "population": 1200,
+    "growth_rate": 0.02,
+    "status": "unknown",
+    "platform": null,
+    "notes": ""
+  },
+  {
+    "city": "Westover Hills",
+    "counties": ["Tarrant"],
+    "tier": "A",
+    "population": 700,
+    "growth_rate": 0.00,
+    "status": "unknown",
+    "platform": null,
+    "notes": "Exclusive enclave"
+  }
+]

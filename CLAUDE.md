@@ -25,15 +25,16 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 
 ### eTRAKiT
 - Frisco, Flower Mound, Denton - `etrakit.py` (fast DOM)
+- Keller, Prosper - `etrakit.py` (NEW - Dec 2024)
 - Plano - `etrakit_auth.py` (requires login)
 
 ### EnerGov CSS
 - Southlake, Colleyville, McKinney, Allen, Trophy Club, Waxahachie - `citizen_self_service.py`
-- Cedar Hill, DeSoto - `citizen_self_service.py` (NEW)
+- Cedar Hill, DeSoto, Mesquite - `citizen_self_service.py` (Mesquite NEW - Dec 2024)
 
 ### MyGov
 - Westlake - `mygov_westlake.py` (address-based)
-- Mansfield, Rowlett, Burleson, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py` (NEW)
+- Mansfield, Rowlett, Grapevine, Burleson, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py` (Grapevine NEW - Dec 2024)
 
 ### SmartGov
 - Sachse - `smartgov_sachse.py` (NEW)
@@ -54,16 +55,20 @@ python3 scrapers/accela_fast.py grand_prairie 1000
 # eTRAKiT cities (Fast DOM)
 python3 scrapers/etrakit.py frisco 1000
 python3 scrapers/etrakit.py flower_mound 1000
+python3 scrapers/etrakit.py keller 1000          # Keller (NEW)
+python3 scrapers/etrakit.py prosper 1000         # Prosper (NEW)
 python3 scrapers/etrakit_auth.py plano 1000
 
 # EnerGov CSS cities
 python3 scrapers/citizen_self_service.py southlake 500   # Southlake
-python3 scrapers/citizen_self_service.py cedar_hill 500  # Cedar Hill (NEW)
-python3 scrapers/citizen_self_service.py desoto 500      # DeSoto (NEW)
+python3 scrapers/citizen_self_service.py cedar_hill 500  # Cedar Hill
+python3 scrapers/citizen_self_service.py desoto 500      # DeSoto
+python3 scrapers/citizen_self_service.py mesquite 500    # Mesquite (NEW)
 
-# MyGov cities (9 cities)
-python3 scrapers/mygov_multi.py mansfield 100   # Mansfield (NEW)
-python3 scrapers/mygov_multi.py rowlett 100     # Rowlett (NEW)
+# MyGov cities (10 cities)
+python3 scrapers/mygov_multi.py mansfield 100   # Mansfield
+python3 scrapers/mygov_multi.py rowlett 100     # Rowlett
+python3 scrapers/mygov_multi.py grapevine 100   # Grapevine (NEW)
 python3 scrapers/mygov_multi.py --list          # Show all MyGov cities
 python3 scrapers/mygov_westlake.py              # Westlake (address-based)
 
