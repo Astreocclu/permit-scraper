@@ -4,7 +4,7 @@ FAST eTRAKiT PERMIT SCRAPER - DOM extraction (no LLM)
 Extracts directly from page structure, much faster than LLM approach.
 
 Usage:
-  python scrapers/etrakit_fast.py frisco 5000
+  python scrapers/etrakit.py frisco 5000
 """
 
 import asyncio

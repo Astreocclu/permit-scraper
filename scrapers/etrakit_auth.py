@@ -2,16 +2,15 @@
 """
 eTRAKiT PERMIT SCRAPER (Playwright Python)
 Portal: eTRAKiT (CentralSquare Technologies)
-Covers: Frisco, Plano (high-income DFW markets)
+Covers: Plano (high-income DFW market)
 
 Tech: ASP.NET WebForms with __doPostBack
 - Similar architecture to Accela
-- No login required for permit search
+- Login required for permit search
 - Postback-based pagination
 
 Usage:
-  python scrapers/etrakit.py frisco 50
-  python scrapers/etrakit.py plano 25
+  python scrapers/etrakit_auth.py plano 25
 """
 
 import asyncio
