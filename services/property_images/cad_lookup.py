@@ -44,6 +44,13 @@ COUNTY_CONFIGS = {
         'fields': ["GIS_DBO_AD_Entity_situs_display", "GIS_DBO_Parcel_PROP_ID"],
         'account_field': 'GIS_DBO_Parcel_PROP_ID',
     },
+    'rockwall': {
+        'name': 'Rockwall',
+        'url': 'https://gis.rockwallcad.com/arcgis/rest/services/Parcels/MapServer/0/query',
+        'address_field': 'SITUS_ADDRESS',
+        'fields': ["SITUS_ADDRESS", "ACCOUNT_NUM"],
+        'account_field': 'ACCOUNT_NUM',
+    },
 }
 
 # ZIP to county mapping (subset for common DFW zips)
@@ -95,6 +102,8 @@ ZIP_TO_COUNTY = {
     '75070': 'collin', '75071': 'collin', '75074': 'collin', '75075': 'collin',
     '75078': 'collin', '75080': 'collin', '75082': 'collin', '75093': 'collin',
     '75094': 'collin',
+    # Rockwall County
+    '75032': 'rockwall', '75087': 'rockwall', '75189': 'rockwall',
 }
 
 # City to county mapping (fallback)
@@ -107,6 +116,8 @@ CITY_TO_COUNTY = {
     'denton': 'denton', 'lewisville': 'denton', 'flower mound': 'denton',
     'frisco': 'collin', 'plano': 'collin', 'mckinney': 'collin',
     'allen': 'collin', 'prosper': 'collin',
+    'rockwall': 'rockwall', 'royse city': 'rockwall', 'heath': 'rockwall',
+    'fate': 'rockwall',
 }
 
 
@@ -181,6 +192,8 @@ def _query_county(address: str, county: str, timeout: int = 30) -> Optional[dict
         where = f"situs_num = '{escaped_house_num}' AND situs_street LIKE '%{escaped_street_core}%'"
     elif county == 'collin':
         where = f"GIS_DBO_AD_Entity_situs_num = '{escaped_house_num}' AND GIS_DBO_AD_Entity_situs_street LIKE '%{escaped_street_core}%'"
+    elif county == 'rockwall':
+        where = f"SITUS_ADDRESS LIKE '{escaped_house_num} %{escaped_street_core}%'"
     else:
         return None
 
@@ -215,6 +228,8 @@ def _query_county(address: str, county: str, timeout: int = 30) -> Optional[dict
             situs = f"{attrs.get('situs_num', '')} {attrs.get('situs_street', '')}".strip()
         elif county == 'collin':
             situs = attrs.get('GIS_DBO_AD_Entity_situs_display', '')
+        elif county == 'rockwall':
+            situs = attrs.get('SITUS_ADDRESS', '')
         else:
             situs = ''
 

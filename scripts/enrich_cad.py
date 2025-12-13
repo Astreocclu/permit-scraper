@@ -9,6 +9,7 @@ Enriches permit data with property information from County Appraisal Districts:
 - Dallas CAD (DCAD)
 - Collin CAD
 - Kaufman CAD
+- Rockwall CAD
 
 Usage:
     python3 scripts/enrich_cad.py --limit 10      # Test run
@@ -179,6 +180,18 @@ COUNTY_CONFIGS = {
             'account_num': 'prop_id',
         }
     },
+    'rockwall': {
+        'name': 'Rockwall',
+        'url': 'https://gis.rockwallcad.com/arcgis/rest/services/Parcels/MapServer/0/query',
+        'address_field': 'SITUS_ADDRESS',
+        'fields': [
+            "SITUS_ADDRESS", "ACCOUNT_NUM"
+        ],
+        'field_map': {
+            'situs_addr': 'SITUS_ADDRESS',
+            'account_num': 'ACCOUNT_NUM',
+        }
+    },
 }
 
 
@@ -263,6 +276,9 @@ ZIP_TO_COUNTY = {
     # Kaufman County (Forney, Terrell, Kaufman)
     '75126': 'kaufman', '75142': 'kaufman', '75160': 'kaufman', '75161': 'kaufman',
 
+    # Rockwall County (Rockwall, Royse City, Heath, Fate)
+    '75032': 'rockwall', '75087': 'rockwall', '75189': 'rockwall',
+
     # Parker County (Aledo, Weatherford) - no API, will be skipped
     '76008': 'parker', '76087': 'parker', '76085': 'parker', '76086': 'parker',
     '76088': 'parker',
@@ -346,6 +362,12 @@ CITY_TO_COUNTY = {
     'forney': 'kaufman',
     'terrell': 'kaufman',
     'kaufman': 'kaufman',
+
+    # Rockwall County cities
+    'rockwall': 'rockwall',
+    'royse city': 'rockwall',
+    'heath': 'rockwall',
+    'fate': 'rockwall',
 }
 
 
@@ -418,7 +440,9 @@ def extract_street_address(full_address: str) -> Optional[str]:
         r'Denton|Lewisville|Allen|Carrollton|Richardson|Mesquite|Grand Prairie|'
         r'Keller|Southlake|Grapevine|Flower Mound|Euless|Bedford|Hurst|'
         r'Colleyville|Coppell|Rowlett|Wylie|Murphy|Sachse|Lucas|Prosper|'
-        r'Celina|Anna|Princeton|Melissa|Fairview|Highland Village|The Colony'
+        r'Celina|Anna|Princeton|Melissa|Fairview|Highland Village|The Colony|'
+        r'Trophy Club|Westlake|Roanoke|Northlake|Argyle|Lantana|Corinth|'
+        r'Little Elm|Oak Point|Double Oak|Bartonville|Copper Canyon|Hickory Creek'
     )
     full_address = re.sub(rf'\s+({dfw_cities}|TX|TEXAS|\d{{5}}).*$', '', full_address, flags=re.I)
 
@@ -436,8 +460,9 @@ def parse_address_for_query(address: str) -> Tuple[Optional[str], Optional[str]]
 
     street_addr = street_addr.upper().strip()
 
-    # Remove unit/apt numbers
-    street_addr = re.sub(r'\s+(APT|UNIT|STE|SUITE|#)\s*\S*', '', street_addr)
+    # Remove unit/apt numbers (STE requires period or space+number to avoid matching "STEPHIE", "STERLING", etc.)
+    street_addr = re.sub(r'\s+(APT|UNIT|SUITE|#)\s*\S*', '', street_addr, flags=re.I)
+    street_addr = re.sub(r'\s+STE\.?\s+\S+', '', street_addr, flags=re.I)  # STE must be followed by space then unit
 
     # Extract house number and street
     match = re.match(r'^(\d+)\s+(.+)$', street_addr)
@@ -480,8 +505,9 @@ def generate_address_variants(address: str) -> Generator[str, None, None]:
 
     street_addr = street_addr.upper().strip()
 
-    # Remove unit/apt/suite numbers first
-    street_addr = re.sub(r'\s+(APT|UNIT|STE|SUITE|#)\s*\S*', '', street_addr, flags=re.I)
+    # Remove unit/apt/suite numbers first (STE requires space then unit to avoid matching STENNETT, STERLING, etc.)
+    street_addr = re.sub(r'\s+(APT|UNIT|SUITE|#)\s*\S*', '', street_addr, flags=re.I)
+    street_addr = re.sub(r'\s+STE\.?\s+\S+', '', street_addr, flags=re.I)
     street_addr = street_addr.strip()
 
     # Pattern for street suffixes
@@ -615,6 +641,8 @@ def query_county_cad(address: str, county: str, timeout: int = 30) -> Tuple[Opti
         where_clause = f"GIS_DBO_AD_Entity_situs_num = '{house_num}' AND GIS_DBO_AD_Entity_situs_street LIKE '%{street_core}%'"
     elif county == 'kaufman':
         where_clause = f"situs_num = '{house_num}' AND situs_street LIKE '%{street_core}%'"
+    elif county == 'rockwall':
+        where_clause = f"SITUS_ADDRESS LIKE '{house_num} %{street_core}%'"
     else:
         return None, None
 
@@ -719,7 +747,7 @@ def query_cad_multi_county(address: str, timeout: int = 30) -> Tuple[Optional[di
     Returns (normalized_data, county_name, variant_used) or (None, None, None).
     """
     primary_county = get_county_from_zip(address)
-    supported_counties = ['tarrant', 'denton', 'dallas', 'collin', 'kaufman']
+    supported_counties = ['tarrant', 'denton', 'dallas', 'collin', 'kaufman', 'rockwall']
 
     # If we know the county and it's supported, try it first
     if primary_county and primary_county in supported_counties:
@@ -768,7 +796,7 @@ def parse_int(val) -> Optional[int]:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Enrich permits with CAD property data (Tarrant, Denton, Dallas, Collin, Kaufman)',
+        description='Enrich permits with CAD property data (Tarrant, Denton, Dallas, Collin, Kaufman, Rockwall)',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -782,6 +810,8 @@ Examples:
     parser.add_argument('--retry-failed', action='store_true', help='Retry previously failed enrichments')
     parser.add_argument('--delay', type=float, default=1.0, help='Delay between API requests (default: 1.0s)')
     parser.add_argument('--recent', action='store_true', help='Only process permits from last 90 days')
+    parser.add_argument('--fresh', action='store_true', help='Only process fresh valuable permits (60 days, exclude junk types)')
+    parser.add_argument('--never-tried', action='store_true', help='Only process addresses that have never been tried (no property record)')
     args = parser.parse_args()
 
     # Connect to PostgreSQL
@@ -792,7 +822,7 @@ Examples:
         return
 
     print("=== MULTI-COUNTY CAD ENRICHMENT ===")
-    print("Supported counties: Tarrant, Denton, Dallas, Collin, Kaufman\n")
+    print("Supported counties: Tarrant, Denton, Dallas, Collin, Kaufman, Rockwall\n")
 
     # Build query based on options
     recent_filter = ""
@@ -800,13 +830,58 @@ Examples:
         recent_filter = "AND (p.issued_date IS NULL OR p.issued_date > NOW() - INTERVAL '90 days')"
         print("Filtering to recent permits (last 90 days)\n")
 
+    # Fresh filter: 60 days + exclude junk permit types
+    fresh_filter = ""
+    if args.fresh:
+        fresh_filter = """
+            AND p.issued_date > NOW() - INTERVAL '60 days'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Licensed Professional%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Change of%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Temporary Health%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Certificate of Occupancy%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Extension%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Backflow%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Right of Way%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Investigation%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Discontinued%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Renewal%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Sign %%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Fence%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Demolition%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Sidewalk%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Drive Approach%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Fire Alarm%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Fire Sprinkler%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Fire Prevention%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Irrigation%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Tent%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Liquor%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Pre Development%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Access Control%%'
+            AND COALESCE(p.permit_type, '') NOT ILIKE '%%Address Assignment%%'
+            AND COALESCE(p.permit_type, '') NOT IN ('CO', 'SI')
+        """
+        print("Filtering to fresh valuable permits (60 days, excluding junk types)\n")
+
     if args.force:
-        sql = f"SELECT DISTINCT property_address FROM leads_permit p WHERE property_address IS NOT NULL {recent_filter}"
+        sql = f"SELECT DISTINCT property_address FROM leads_permit p WHERE property_address IS NOT NULL {recent_filter} {fresh_filter}"
     elif args.retry_failed:
         sql = """
             SELECT property_address FROM leads_property
             WHERE enrichment_status = 'failed'
         """
+    elif args.never_tried:
+        # Only addresses with NO record in leads_property (never attempted)
+        sql = f"""
+            SELECT DISTINCT p.property_address
+            FROM leads_permit p
+            LEFT JOIN leads_property prop ON p.property_address = prop.property_address
+            WHERE p.property_address IS NOT NULL
+              AND prop.property_address IS NULL
+              {recent_filter}
+              {fresh_filter}
+        """
+        print("Processing only never-tried addresses\n")
     else:
         sql = f"""
             SELECT DISTINCT p.property_address
@@ -815,6 +890,7 @@ Examples:
             WHERE p.property_address IS NOT NULL
               AND (prop.property_address IS NULL OR prop.enrichment_status != 'success')
               {recent_filter}
+              {fresh_filter}
         """
 
     with conn.cursor() as cur:
@@ -836,6 +912,32 @@ Examples:
     fail_count = 0
     skip_count = 0
     county_counts = {}
+
+    # Pre-filter: skip commercial/multi-unit addresses (unenrichable)
+    def is_commercial_address(addr: str) -> bool:
+        """Check if address is likely commercial/multi-unit (won't have CAD record)."""
+        addr_upper = addr.upper()
+        # Commercial indicators
+        if any(x in addr_upper for x in ['SHELL', 'SUITE ', 'STE ', ' BLDG', 'UNIT:', 'UNIT ',
+                                          'TRLR ', 'TRAILER', 'LOT ', '#']):
+            return True
+        # Suite numbers at end (e.g., "123 MAIN ST 200")
+        if re.search(r'\s+\d{3,4}$', addr_upper):
+            return True
+        # Highway addresses
+        if re.search(r'INTERSTATE|I-\d+|US \d+|HWY|HIGHWAY|EXPRESSWAY|EXPY|PKWY|LOOP \d+', addr_upper):
+            return True
+        return False
+
+    # Filter out commercial addresses
+    original_count = len(addresses)
+    addresses = [a for a in addresses if not is_commercial_address(a)]
+    filtered_count = original_count - len(addresses)
+    if filtered_count > 0:
+        print(f"Filtered out {filtered_count} commercial/multi-unit addresses")
+
+    total = len(addresses)
+    print(f"Processing {total} residential addresses\n")
 
     for i, address in enumerate(addresses, 1):
         # Detect county for display
