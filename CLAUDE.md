@@ -1,5 +1,10 @@
 # Permit Scraper (Signal Engine)
 
+> **FIRST: Read `LEADS_INVENTORY.md` with Gemini** - Contains running account of all leads by tier, city, and category.
+> ```bash
+> cat LEADS_INVENTORY.md | gemini -p "Summarize current lead inventory: totals by tier, which cities need work, what categories are worth selling"
+> ```
+
 ## STARTUP PROTOCOL
 
 **IMPORTANT: Use Gemini to read all documentation - do NOT use Claude's Read tool for startup.**
