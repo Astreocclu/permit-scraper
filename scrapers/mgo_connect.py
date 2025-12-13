@@ -688,22 +688,32 @@ async def scrape(city_name: str, target_count: int = 1000):
             if len(api_data) == 0 and results_info.get('pagination', {}).get('total', '0') == '0':
                 print('    No data from stat click, trying direct search...')
 
-                # Look for search inputs on the current search page
-                search_input = page.locator('input[placeholder*="search"], input[type="search"], input[name*="search"]').first
-                if await search_input.count() > 0:
-                    print('    Found search input, searching for all permits...')
-                    # Clear any existing search and hit Enter to show all
-                    await search_input.clear()
-                    await search_input.press('Enter')
-                    await asyncio.sleep(5)
-
-                    # Check if this loaded data
-                    new_results = await page.evaluate('''() => {
-                        const rows = document.querySelectorAll('.p-datatable-tbody tr, table tbody tr');
-                        return rows.length;
-                    }''')
-                    print(f'    After search: {new_results} rows visible')
+                # For Irving, always use Advanced Reporting (PDF export)
+                # because the standard search doesn't work reliably
+                if city_name.lower() == 'irving':
+                    print('    Irving requires PDF export - going to Advanced Reporting...')
+                    use_advanced_reporting = True
                 else:
+                    # Look for search inputs on the current search page
+                    search_input = page.locator('input[placeholder*="search"], input[type="search"], input[name*="search"]').first
+                    if await search_input.count() > 0:
+                        print('    Found search input, searching for all permits...')
+                        # Clear any existing search and hit Enter to show all
+                        await search_input.clear()
+                        await search_input.press('Enter')
+                        await asyncio.sleep(5)
+
+                        # Check if this loaded data
+                        new_results = await page.evaluate('''() => {
+                            const rows = document.querySelectorAll('.p-datatable-tbody tr, table tbody tr');
+                            return rows.length;
+                        }''')
+                        print(f'    After search: {new_results} rows visible')
+                        use_advanced_reporting = new_results == 0
+                    else:
+                        use_advanced_reporting = True
+
+                if use_advanced_reporting:
                     # Try the advanced reporting approach
                     print('    Trying Advanced Reporting -> Open Records Data Export...')
 

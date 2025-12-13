@@ -812,6 +812,8 @@ Examples:
     parser.add_argument('--recent', action='store_true', help='Only process permits from last 90 days')
     parser.add_argument('--fresh', action='store_true', help='Only process fresh valuable permits (60 days, exclude junk types)')
     parser.add_argument('--never-tried', action='store_true', help='Only process addresses that have never been tried (no property record)')
+    parser.add_argument('--bin', default='active',
+                        help='Processing bin to target (active, archive, all). Default: active')
     args = parser.parse_args()
 
     # Connect to PostgreSQL
@@ -863,8 +865,14 @@ Examples:
         """
         print("Filtering to fresh valuable permits (60 days, excluding junk types)\n")
 
+    # Bin filter: only process active permits by default
+    bin_filter = ""
+    if args.bin != 'all':
+        bin_filter = f"AND p.processing_bin = '{args.bin}'"
+        print(f"Filtering to '{args.bin}' bin\n")
+
     if args.force:
-        sql = f"SELECT DISTINCT property_address FROM leads_permit p WHERE property_address IS NOT NULL {recent_filter} {fresh_filter}"
+        sql = f"SELECT DISTINCT property_address FROM leads_permit p WHERE property_address IS NOT NULL {recent_filter} {fresh_filter} {bin_filter}"
     elif args.retry_failed:
         sql = """
             SELECT property_address FROM leads_property
@@ -880,6 +888,7 @@ Examples:
               AND prop.property_address IS NULL
               {recent_filter}
               {fresh_filter}
+              {bin_filter}
         """
         print("Processing only never-tried addresses\n")
     else:

@@ -85,6 +85,7 @@ CSS_CITIES = {
     'mesquite': {
         'name': 'Mesquite',
         'base_url': 'https://energov.cityofmesquite.com/EnerGov_Prod/SelfService',
+        'default_permit_types': ['Residential Remodel', 'Residential Addition', 'Residential New Construction'],
     },
 }
 
@@ -181,11 +182,29 @@ async def download_excel_export(page, city: str, timeout_ms: int = 60000, export
 
             # Select export option based on filter
             if export_current_view:
-                # Click "Export Current View" option
-                current_view_option = page.locator('text="Export Current View"')
-                if await current_view_option.count() > 0:
-                    await current_view_option.click()
-                    print(f"[{city}] Selected 'Export Current View'")
+                # Click "Export Current View" radio button (last radio = current view)
+                # Try multiple selectors for different EnerGov versions
+                current_view_clicked = False
+
+                # Try clicking the label text first
+                label = page.locator('label:has-text("Export Current View"), label:has-text("Current View")')
+                if await label.count() > 0:
+                    await label.first.click()
+                    current_view_clicked = True
+                    print(f"[{city}] Clicked 'Export Current View' label")
+                else:
+                    # Try the last radio button (usually current view)
+                    radios = page.locator('input[type="radio"]')
+                    radio_count = await radios.count()
+                    if radio_count > 1:
+                        await radios.last.check()
+                        current_view_clicked = True
+                        print(f"[{city}] Checked last radio button (Current View)")
+
+                if not current_view_clicked:
+                    print(f"[{city}] WARNING: Could not find Export Current View option")
+
+                await asyncio.sleep(0.5)
             else:
                 # Ensure "Export first 500/1000 Results" is selected (should be default)
                 export_default_radio = page.locator('input[type="radio"]').first
@@ -246,6 +265,10 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
     city_config = CSS_CITIES[city_key]
     city_name = city_config['name']
     base_url = city_config['base_url']
+
+    # Use city-specific default permit types if none specified
+    if not permit_type and city_config.get('default_permit_types'):
+        permit_type = city_config['default_permit_types'][0]  # Use first as primary filter
 
     print('=' * 60)
     print(f'{city_name.upper()} PERMIT SCRAPER (Citizen Self Service)')
@@ -686,6 +709,17 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                 # Parse the downloaded Excel file
                 excel_permits = parse_excel_permits(excel_path, city_name)
                 if excel_permits:
+                    # Filter out utility/maintenance permits (water meters, irrigation, etc.)
+                    # These aren't valuable leads for contractors
+                    UTILITY_TYPES = {'water meter', 'irrigation meter', 'gas meter'}
+                    original_count = len(excel_permits)
+                    excel_permits = [
+                        p for p in excel_permits
+                        if not any(util in p.get('type', '').lower() for util in UTILITY_TYPES)
+                    ]
+                    if len(excel_permits) < original_count:
+                        print(f'    Filtered out {original_count - len(excel_permits)} utility permits')
+
                     print(f'    SUCCESS: Got {len(excel_permits)} permits from Excel export')
                     permits.extend(excel_permits)
 
