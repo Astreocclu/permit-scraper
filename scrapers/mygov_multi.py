@@ -86,14 +86,18 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
         # Look for address results (accordion items)
         accordions = await page.query_selector_all('a.accordion-toggle, .address-result, .search-result')
 
-        for accordion in accordions[:10]:  # Limit per search
+        for accordion in accordions[:20]:  # Limit per search (increased from 10)
             try:
-                # Click to expand
+                # Scroll into view and click to expand
+                await accordion.scroll_into_view_if_needed()
                 await accordion.click()
                 await asyncio.sleep(0.8)
 
-                # Get parent container
-                parent = await accordion.evaluate_handle('node => node.closest("li") || node.parentElement')
+                # Get parent container (as ElementHandle)
+                parent_handle = await accordion.evaluate_handle('node => node.closest("li") || node.parentElement')
+                if not parent_handle:
+                    continue
+                parent = parent_handle.as_element()
                 if not parent:
                     continue
 
@@ -102,14 +106,16 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
                 # Look for permit indicators
                 permit_match = re.search(r'Permits?\s*\((\d+)\)', text, re.IGNORECASE)
                 if permit_match and int(permit_match.group(1)) > 0:
-                    # Try to click permits section
-                    permit_toggle = await page.query_selector('a.lookup-toggle-button, [data-type="permit"]')
+                    # Try to click permits section - search within parent, not entire page
+                    permit_toggle = await parent.query_selector('a.lookup-toggle-button, [data-type="permit"]')
                     if permit_toggle:
+                        # Scroll into view and click
+                        await permit_toggle.scroll_into_view_if_needed()
                         await permit_toggle.click()
                         await asyncio.sleep(0.5)
 
-                        # Extract permit details
-                        permit_divs = await page.query_selector_all('.lb-right, .permit-item')
+                        # Extract permit details from within parent container
+                        permit_divs = await parent.query_selector_all('.lb-right, .permit-item')
                         for pdiv in permit_divs:
                             title_elem = await pdiv.query_selector('h3, .permit-title, .project-title')
                             if title_elem:
