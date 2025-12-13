@@ -68,14 +68,15 @@ ETRAKIT_CITIES = {
                      '2309', '2308', '2307', '2306'],
         'permit_regex': r'^\d{4}-\d{4}$',
     },
-    'keller': {
-        'name': 'Keller',
-        'base_url': 'https://trakitweb.cityofkeller.com',
-        'search_path': '/etrakit/Search/permit.aspx',
-        # Keller uses BYY-#### format: B25-1234, B24-5678
-        'prefixes': ['B25-', 'B24-', 'B23-', 'B22-', 'B21-', 'B20-'],
-        'permit_regex': r'^[A-Z]\d{2}-\d{4,5}$',
-    },
+    # BLOCKED: Keller's eTRAKiT portal requires contractor login for searches
+    # No public permit search available - only contractor access
+    # 'keller': {
+    #     'name': 'Keller',
+    #     'base_url': 'https://trakitweb.cityofkeller.com',
+    #     'search_path': '/etrakit/Search/permit.aspx',
+    #     'prefixes': ['B25-', 'B24-'],
+    #     'permit_regex': r'^[A-Z]\d{2}-\d{4,5}$',
+    # },
     'prosper': {
         'name': 'Prosper',
         'base_url': 'http://etrakit.prospertx.gov',
