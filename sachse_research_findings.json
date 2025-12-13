@@ -1,0 +1,21 @@
+{
+  "url": "https://pl-sachse-tx.smartgovcommunity.com/Public/Home",
+  "timestamp": "2025-12-12T14:18:00.413142",
+  "public_access": null,
+  "framework": "Unknown/Vanilla JS",
+  "login_required": false,
+  "permit_search_available": false,
+  "api_endpoints": [],
+  "page_structure": {
+    "title": "",
+    "search_inputs": 0,
+    "search_buttons": 0,
+    "permit_mentions": 0,
+    "navigation_items": []
+  },
+  "scrapability": "Blocked",
+  "notes": [
+    "Initial load status: 404"
+  ],
+  "recommendation": "No public data access detected - may not be scrapable"
+}

@@ -44,6 +44,16 @@ async def fetch_dcad_image(
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Check cache first
+    filename = f"{filename_prefix}_dcad.jpg"
+    image_path = output_dir / filename
+    if image_path.exists():
+        logger.info(f"Using cached DCAD image: {image_path}")
+        return {
+            'image_path': str(image_path),
+            'image_type': 'front',
+        }
+
     # DCAD image URL pattern
     url = f'https://files.dcad.org/propertyimages/{account_num}.jpg'
 
@@ -59,9 +69,6 @@ async def fetch_dcad_image(
 
             if response.status_code == 200:
                 # Save image
-                filename = f"{filename_prefix}_dcad.jpg"
-                image_path = output_dir / filename
-
                 image_path.write_bytes(response.content)
                 logger.info(f"Saved DCAD image to {image_path}")
 

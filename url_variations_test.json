@@ -1,0 +1,43 @@
+[
+  {
+    "url": "https://pl-sachse-tx.smartgovcommunity.com",
+    "status": 404,
+    "title": "",
+    "accessible": false
+  },
+  {
+    "url": "https://pl-sachse-tx.smartgovcommunity.com/Public",
+    "status": 404,
+    "title": "",
+    "accessible": false
+  },
+  {
+    "url": "https://pl-sachse-tx.smartgovcommunity.com/Public/Home",
+    "status": 404,
+    "title": "",
+    "accessible": false
+  },
+  {
+    "url": "https://pl-sachse-tx.smartgovcommunity.com/public",
+    "status": 404,
+    "title": "",
+    "accessible": false
+  },
+  {
+    "url": "https://sachse-tx.smartgovcommunity.com",
+    "status": 404,
+    "title": "",
+    "accessible": false
+  },
+  {
+    "url": "https://www.sachse-tx.smartgovcommunity.com",
+    "status": "error",
+    "error": "Page.goto: net::ERR_CERT_COMMON_NAME_INVALID at https://www.sachse-tx.smartgovcommunity.com/\nCall log:\n  - navigating to \"https://www.sachse-tx.smartgovcommunity.com/\", waiting until \"domcontentloaded\"\n"
+  },
+  {
+    "url": "https://sachse.smartgovcommunity.com",
+    "status": 404,
+    "title": "",
+    "accessible": false
+  }
+]

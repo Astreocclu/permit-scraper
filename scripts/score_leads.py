@@ -387,28 +387,47 @@ TRADE_GROUPS = {
     "other": "other",
 }
 
-CATEGORY_KEYWORDS = {
-    "pool": ["pool", "swim", "spa", "hot tub", "gunite", "fiberglass pool"],
-    "outdoor_living": ["patio", "deck", "pergola", "outdoor kitchen", "cabana",
-                       "gazebo", "arbor", "screen enclosure", "covered patio",
-                       "shade structure", "pavilion", "outdoor living"],
-    "fence": ["fence", "fencing", "privacy fence", "iron fence", "wood fence"],
-    "roof": ["roof", "roofing", "re-roof", "reroof", "shingle", "metal roof"],
-    "siding": ["siding", "hardie", "stucco", "exterior finish"],
-    "windows": ["window", "door replacement", "sliding door", "french door"],
-    "concrete": ["driveway", "sidewalk", "concrete", "flatwork", "stamped concrete", "pavers"],
-    "hvac": ["hvac", "air condition", "ac unit", "furnace", "heat pump", "ductwork", "mini split"],
-    "plumbing": ["plumb", "water heater", "tankless", "water line", "gas line", "repipe"],
-    "electrical": ["electric", "panel", "outlet", "circuit", "wire", "ev charger", "generator"],
-    "solar": ["solar", "photovoltaic", "pv system"],
-    "foundation": ["foundation", "pier", "underpinning", "slab repair", "leveling"],
-    "new_construction": ["new home", "new construction", "new sfd", "custom home"],
-    "addition": ["addition", "room addition", "add on", "expansion"],
-    "remodel": ["remodel", "renovation", "kitchen remodel", "bath remodel"],
-    "demolition": ["demo", "demolition", "tear down"],
-    "temporary": ["temporary", "temp permit"],
-    "signage": ["sign permit", "signage", "banner"],
+# Layer 1: permit_type takes priority (most reliable signal from source system)
+PERMIT_TYPE_PRIORITY = {
+    "demolition": ["demolition", "demo"],
+    "solar": ["solar", "photovoltaic", "pv"],
+    "outdoor_living": ["patio", "carport", "pergola", "deck", "porch", "cover"],
+    "roof": ["roof", "roofing", "re-roof", "reroof"],
+    "foundation": ["foundation"],
+    "fence": ["fence"],
+    "pool": ["pool", "swimming"],
+    "electrical": ["electrical"],
+    "plumbing": ["plumbing"],
+    "hvac": ["mechanical", "hvac"],
 }
+
+# Keywords that need word boundary matching to prevent false positives
+# e.g., "deck" should not match "decking" or "redeck" in roof permits
+WORD_BOUNDARY_KEYWORDS = {"deck", "demo"}
+
+# Layer 2: Priority-ordered categories (order matters - check specific first)
+CATEGORY_KEYWORDS = [
+    ("demolition", ["demo", "demolition", "tear down"]),
+    ("new_construction", ["new home", "new construction", "new sfd", "custom home"]),
+    ("solar", ["solar", "photovoltaic", "pv system"]),
+    ("roof", ["roof", "roofing", "re-roof", "reroof", "shingle", "metal roof"]),
+    ("pool", ["pool", "swim", "spa", "hot tub", "gunite", "fiberglass pool"]),
+    ("outdoor_living", ["patio", "deck", "pergola", "outdoor kitchen", "cabana",
+                        "gazebo", "arbor", "screen enclosure", "covered patio",
+                        "shade structure", "pavilion", "outdoor living", "porch"]),
+    ("fence", ["fence", "fencing", "privacy fence", "iron fence", "wood fence"]),
+    ("siding", ["siding", "hardie", "stucco", "exterior finish"]),
+    ("windows", ["window", "door replacement", "sliding door", "french door"]),
+    ("concrete", ["driveway", "sidewalk", "concrete", "flatwork", "stamped concrete", "pavers"]),
+    ("hvac", ["hvac", "air condition", "ac unit", "furnace", "heat pump", "ductwork", "mini split"]),
+    ("plumbing", ["plumb", "water heater", "tankless", "water line", "gas line", "repipe", "sewer"]),
+    ("electrical", ["electric", "panel", "outlet", "circuit", "wire", "ev charger", "generator"]),
+    ("foundation", ["foundation", "pier", "underpinning", "slab repair", "leveling"]),
+    ("addition", ["addition", "room addition", "add on", "expansion"]),
+    ("remodel", ["remodel", "renovation", "kitchen remodel", "bath remodel"]),
+    ("temporary", ["temporary", "temp permit"]),
+    ("signage", ["sign permit", "signage", "banner"]),
+]
 
 COMMERCIAL_INDICATORS = [
     "commercial", "office", "retail", "restaurant", "warehouse", "industrial",
@@ -423,14 +442,33 @@ def is_commercial_property(permit: PermitData) -> bool:
 
 
 def categorize_permit(permit: PermitData) -> str:
+    """Categorize permit using 3-layer approach: permit_type priority, word boundaries, category order."""
     desc = (permit.project_description + " " + permit.permit_type).lower()
+    ptype = permit.permit_type.lower() if permit.permit_type else ""
     is_commercial = is_commercial_property(permit)
 
-    for category, keywords in CATEGORY_KEYWORDS.items():
-        if any(kw in desc for kw in keywords):
+    # Layer 1: Check permit_type first (most reliable signal)
+    for category, type_keywords in PERMIT_TYPE_PRIORITY.items():
+        if any(kw in ptype for kw in type_keywords):
             if is_commercial and category in ["pool", "roof", "hvac", "plumbing", "electrical"]:
                 return f"commercial_{category}"
             return category
+
+    # Layer 2: Keyword matching in priority order
+    for category, keywords in CATEGORY_KEYWORDS:
+        for kw in keywords:
+            # Use word boundary only for problematic keywords
+            if kw in WORD_BOUNDARY_KEYWORDS:
+                pattern = rf'\b{re.escape(kw)}\b'
+                if re.search(pattern, desc):
+                    if is_commercial and category in ["pool", "roof", "hvac", "plumbing", "electrical"]:
+                        return f"commercial_{category}"
+                    return category
+            else:
+                if kw in desc:
+                    if is_commercial and category in ["pool", "roof", "hvac", "plumbing", "electrical"]:
+                        return f"commercial_{category}"
+                    return category
 
     return "other"
 
@@ -442,6 +480,35 @@ def get_trade_group(category: str) -> str:
 # =============================================================================
 # AI SCORING (DeepSeek)
 # =============================================================================
+
+# Median days_old by category (for leads with unknown freshness)
+CATEGORY_MEDIAN_DAYS = {
+    "addition": 21,
+    "commercial_electrical": 4,
+    "commercial_hvac": 4,
+    "commercial_plumbing": 4,
+    "commercial_pool": 5,
+    "commercial_roof": 1,
+    "concrete": 6,
+    "demolition": 2,
+    "electrical": 3,
+    "fence": 14,
+    "foundation": 43,
+    "hvac": 5,
+    "new_construction": 33,
+    "other": 8,
+    "outdoor_living": 22,
+    "plumbing": 4,
+    "pool": 26,
+    "remodel": 18,
+    "roof": 5,
+    "siding": 6,
+    "signage": 1,
+    "solar": 14,
+    "temporary": 1,
+    "windows": 49,
+}
+CATEGORY_MEDIAN_DAYS_DEFAULT = 7
 
 SALES_DIRECTOR_PROMPT = """You are a Sales Director scoring leads for a contractor lead marketplace in DFW (Dallas-Fort Worth).
 
@@ -504,12 +571,20 @@ class DeepSeekScorer:
             return self._mark_for_retry(permit, "No API key")
 
         try:
+            # Get category first to determine median freshness if needed
+            category = categorize_permit(permit)
+
+            # Use median days_old for category if freshness is unknown
+            days_old_for_ai = permit.days_old
+            if permit.days_old == -1:
+                days_old_for_ai = CATEGORY_MEDIAN_DAYS.get(category, CATEGORY_MEDIAN_DAYS_DEFAULT)
+
             lead_data = {
                 "project_description": permit.project_description,
                 "permit_type": permit.permit_type,
                 "owner_name": permit.owner_name,
                 "market_value": permit.market_value,
-                "days_old": permit.days_old,
+                "days_old": days_old_for_ai,
                 "is_absentee": permit.is_absentee,
                 "city": permit.city,
             }
@@ -542,8 +617,6 @@ class DeepSeekScorer:
 
                 content = data["choices"][0]["message"]["content"]
                 result = self._parse_response(content)
-
-                category = categorize_permit(permit)
 
                 # Override tier to "U" (Unverified) if freshness unknown
                 tier = result.get("tier", "B")
