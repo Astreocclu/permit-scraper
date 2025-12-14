@@ -4,7 +4,7 @@ import pytest
 import sys
 sys.path.insert(0, 'scripts')
 
-from score_leads import is_commercial_entity
+from score_leads import is_commercial_entity, should_discard, PermitData
 
 
 class TestIsCommercialEntity:
@@ -65,3 +65,54 @@ class TestIsCommercialEntity:
         assert is_commercial_entity("") is False
         assert is_commercial_entity(None) is False
         assert is_commercial_entity("Unknown") is False
+
+
+class TestShouldDiscardCommercial:
+    """Test that commercial entities get discarded pre-score."""
+
+    def _make_permit(self, owner_name: str, description: str = "Roof repair") -> PermitData:
+        return PermitData(
+            permit_id="TEST-001",
+            city="Dallas",
+            property_address="123 Test St",
+            owner_name=owner_name,
+            project_description=description,
+            days_old=30,
+            market_value=500000,
+        )
+
+    def test_llc_discarded(self):
+        permit = self._make_permit("Smith Properties LLC")
+        discard, reason = should_discard(permit)
+        assert discard is True
+        assert "Commercial entity" in reason
+
+    def test_government_discarded(self):
+        permit = self._make_permit("City of Dallas")
+        discard, reason = should_discard(permit)
+        assert discard is True
+        assert "Commercial entity" in reason
+
+    def test_church_discarded(self):
+        permit = self._make_permit("First Baptist Church")
+        discard, reason = should_discard(permit)
+        assert discard is True
+        assert "Commercial entity" in reason
+
+    def test_apartments_discarded(self):
+        permit = self._make_permit("Oakwood Apartments")
+        discard, reason = should_discard(permit)
+        assert discard is True
+        assert "Commercial entity" in reason
+
+    def test_real_homeowner_kept(self):
+        permit = self._make_permit("John Smith")
+        discard, reason = should_discard(permit)
+        assert discard is False
+
+    def test_production_builder_still_works(self):
+        """Existing production builder detection should still work."""
+        permit = self._make_permit("Lennar Homes")
+        discard, reason = should_discard(permit)
+        assert discard is True
+        # Could be either "Production builder" or "Commercial entity" - both OK

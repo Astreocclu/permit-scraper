@@ -410,9 +410,12 @@ class ScoredLead:
 
 def should_discard(permit: PermitData) -> Tuple[bool, str]:
     """Returns (True, reason) if lead should be thrown out entirely."""
-    if is_production_builder(permit.owner_name):
-        return True, f"Production builder: {permit.owner_name[:50]}"
 
+    # Check for commercial entity FIRST (catches LLCs, govt, churches, apartments, etc.)
+    if is_commercial_entity(permit.owner_name):
+        return True, f"Commercial entity: {permit.owner_name[:50]}"
+
+    # Production builder in description (backup check)
     if is_production_builder(permit.project_description):
         return True, f"Production builder in desc: {permit.project_description[:50]}"
 
