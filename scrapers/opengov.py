@@ -366,3 +366,14 @@ async def scrape_city(city_key: str, target_count: int) -> list:
 
 if __name__ == '__main__':
     asyncio.run(main())
+
+
+# NOTE: OpenGov portals are APPLICATION portals, not permit SEARCH portals.
+# They do not have public search of issued permits.
+# This scraper will NOT find any permits without authentication.
+# 
+# For Highland Park and Bedford permit data, use TPIA email requests instead:
+# - Highland Park: Building.Permits@hptx.org
+# - Bedford: Building.Permits@bedfordtx.gov
+#
+# Status: BLOCKED - No public permit search available
