@@ -444,8 +444,8 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
                     print(f'    Error selecting permit type: {e}')
                 await asyncio.sleep(1)
 
-            # Fill in date range (last 60 days for more results) using Playwright
-            start_date = (datetime.now() - timedelta(days=60)).strftime('%m/%d/%Y')
+            # Fill in date range (last 365 days for more results) using Playwright
+            start_date = (datetime.now() - timedelta(days=365)).strftime('%m/%d/%Y')
             end_date = datetime.now().strftime('%m/%d/%Y')
 
             # Use the known input IDs from the EnerGov CSS form
@@ -791,11 +791,11 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             # Step 4d: Try Excel export (more reliable than DOM scraping)
             print('\n[4d] Attempting Excel export download...')
 
-            # Always try "Export Current View" first to respect date filters
-            # Falls back to regular export if current view option not available
+            # Use "Export first 500/1000 Results" to get more data
+            # (export_current_view=True only gets visible ~100 results)
             excel_path = await download_excel_export(
                 page, city_name,
-                export_current_view=True,  # Try filtered export first
+                export_current_view=False,  # Get up to 500/1000 results
                 permit_type=permit_type
             )
 
