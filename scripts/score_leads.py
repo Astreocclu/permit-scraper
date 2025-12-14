@@ -958,14 +958,19 @@ def save_scored_leads(conn, leads: List[ScoredLead]) -> Dict[str, int]:
 # =============================================================================
 
 def export_leads(leads: List[ScoredLead], output_dir: str = "exports") -> Dict[str, int]:
-    """Export scored leads to CSV files by trade_group/category/tier."""
+    """Export scored leads to CSV files by trade_group/category/tier.
+
+    NOTE: Tier D (AI-confirmed garbage) is excluded from exports.
+    Tier D exists only in database for audit trail.
+    """
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
     buckets: Dict[str, Dict[str, Dict[str, List[ScoredLead]]]] = {}
 
     for lead in leads:
-        if lead.tier == "RETRY":
+        # Skip RETRY and Tier D (garbage - never export)
+        if lead.tier in ("RETRY", "D"):
             continue
 
         trade_group = lead.trade_group
