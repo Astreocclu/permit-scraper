@@ -241,6 +241,68 @@ def is_production_builder(text: str) -> bool:
 
 
 # =============================================================================
+# COMMERCIAL ENTITY DETECTION (Pre-Score Filter)
+# =============================================================================
+
+COMMERCIAL_ENTITY_PATTERNS = [
+    # Business entity suffixes (word boundary required)
+    r'\b(llc|l\.l\.c|inc|incorporated|corp|corporation|ltd|limited|lp|l\.p)\b',
+    r'\b(properties|investments|holdings|partners|enterprises|ventures)\b',
+    r'\b(development|developers|construction\s+co|builders\s+inc|building\s+co)\b',
+    r'\b(real\s+estate|realty|investments)\b',
+
+    # Government/municipal (word boundary required)
+    r'\b(city\s+of|county\s+of|state\s+of)\b',
+    r'\bcounty\b',  # Catches "X County" pattern
+    r'\b(isd|school\s+district|municipality|municipal|government)\b',
+    r'\b(dept\s+of|department\s+of)\b',
+
+    # Institutional (word boundary required)
+    r'\b(church|temple|mosque|synagogue)\b',
+    r'\b(hospital|clinic|medical\s+center)\b',
+    r'\b(university|college|foundation)\b',
+    r'\bnon-?profit\b',
+    r'\b(association|society)\b',
+
+    # Property management / multi-family
+    r'\b(apartments?|apt)\b',
+    r'\b(multifamily|multi-family)\b',
+    r'\b(property\s+management|leasing|residential\s+services)\b',
+]
+
+# Compile patterns for performance
+_COMMERCIAL_PATTERNS_COMPILED = [re.compile(p, re.IGNORECASE) for p in COMMERCIAL_ENTITY_PATTERNS]
+
+
+def is_commercial_entity(name: str) -> bool:
+    """
+    Check if name indicates a commercial entity that should be filtered pre-score.
+
+    This catches:
+    - LLCs, Corps, Inc (business entities)
+    - Government/municipal (City of X, County, ISD)
+    - Institutional (churches, hospitals, universities)
+    - Multi-family/apartments
+    - Production builders (via is_production_builder)
+
+    Returns True if commercial (should filter), False if residential (keep).
+    """
+    if not name or name in ("Unknown", ""):
+        return False
+
+    # Check production builders first (reuse existing function)
+    if is_production_builder(name):
+        return True
+
+    # Check commercial patterns
+    for pattern in _COMMERCIAL_PATTERNS_COMPILED:
+        if pattern.search(name):
+            return True
+
+    return False
+
+
+# =============================================================================
 # JUNK PROJECT DETECTION
 # =============================================================================
 
