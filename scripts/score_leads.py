@@ -1037,6 +1037,7 @@ async def score_leads_async(permits: List[PermitData], max_concurrent: int = 5) 
         'tier_a': 0,
         'tier_b': 0,
         'tier_c': 0,
+        'tier_d': 0,
         'tier_u': 0,
         'retry': 0,
         'discard_reasons': {}
@@ -1071,6 +1072,8 @@ async def score_leads_async(permits: List[PermitData], max_concurrent: int = 5) 
             stats['tier_a'] += 1
         elif lead.tier == "B":
             stats['tier_b'] += 1
+        elif lead.tier == "D":
+            stats['tier_d'] += 1
         elif lead.tier == "U":
             stats['tier_u'] += 1
         else:
@@ -1170,6 +1173,7 @@ def main():
     print(f"\nTier A (80+):   {stats['tier_a']}")
     print(f"Tier B (50-79): {stats['tier_b']}")
     print(f"Tier C (<50):   {stats['tier_c']}")
+    print(f"Tier D (garbage): {stats['tier_d']}")
     print(f"Tier U (unverified): {stats['tier_u']}")
     if stats['retry']:
         print(f"Retry (failed): {stats['retry']}")
