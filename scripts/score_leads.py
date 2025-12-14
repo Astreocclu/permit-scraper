@@ -307,17 +307,25 @@ def is_commercial_entity(name: str) -> bool:
 # =============================================================================
 
 JUNK_PROJECTS = [
+    # Low-value minor structures
     "shed", "storage building", "carport",
+    # Insurance claims (different market/buyer)
     "fire repair", "fire damage",
-    "storm damage", "hail damage", "water damage",
-    "electrical panel", "water heater",
-    "hvac replacement", "ac replacement", "furnace replacement",
-    "sewer repair", "sewer replacement", "sewer line repair",
+    "storm damage", "hail damage",
+    # Demo without rebuild
     "demolition", "demo permit", "tear down house", "tear down building",
+    # Temporary/construction
     "temporary", "temp permit", "construction trailer",
+    # Commercial signage
     "sign permit", "signage", "banner",
+    # Commercial tenant fit-out
     "tenant finish", "tenant improvement", "ti permit",
 ]
+# NOTE: Valuable trade leads REMOVED from junk list - these are what contractors want:
+# - water heater, electrical panel (plumber/electrician leads)
+# - hvac replacement, ac replacement, furnace replacement (HVAC leads)
+# - sewer repair, sewer replacement (plumber leads)
+# - water damage (potential mold remediation/restoration lead)
 
 # Positive indicators that override "demolition" being junk
 REMODEL_INDICATORS = [
