@@ -635,9 +635,10 @@
     "tier": "C",
     "population": 15000,
     "growth_rate": 0.08,
-    "status": "unknown",
-    "platform": null,
-    "notes": "High growth"
+    "status": "working",
+    "platform": "EnerGov CSS",
+    "portal_url": "https://princetontx-energovweb.tylerhost.net/apps/selfservice",
+    "notes": "ADDED Dec 2024 - High growth, covered by citizen_self_service.py"
   },
   {
     "city": "Anna",
@@ -645,9 +646,9 @@
     "tier": "C",
     "population": 15000,
     "growth_rate": 0.10,
-    "status": "unknown",
-    "platform": null,
-    "notes": "High growth"
+    "status": "email_only",
+    "platform": "Email",
+    "notes": "High growth - No online portal, use TPIA email request to Building@annatexas.gov"
   },
   {
     "city": "Crowley",
@@ -685,9 +686,10 @@
     "tier": "C",
     "population": 13000,
     "growth_rate": 0.05,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
+    "status": "working",
+    "platform": "MyGov",
+    "portal_url": "https://public.mygov.us/roysecity_tx/lookup",
+    "notes": "ADDED Dec 2024 - Covered by mygov_multi.py"
   },
   {
     "city": "Azle",
@@ -735,9 +737,9 @@
     "tier": "B",
     "population": 10000,
     "growth_rate": 0.03,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
+    "status": "email_only",
+    "platform": "Email",
+    "notes": "Wealthy suburb - No online portal, use TPIA email request to permits@fairviewtexas.org"
   },
   {
     "city": "Highland Park",
@@ -745,9 +747,10 @@
     "tier": "A",
     "population": 9000,
     "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": "Ultra high wealth enclave"
+    "status": "new_platform",
+    "platform": "OpenGov",
+    "portal_url": "https://highlandparktx.portal.opengov.com/",
+    "notes": "Ultra high wealth enclave - Uses OpenGov (not MyGov), would need new scraper"
   },
   {
     "city": "Kennedale",

@@ -106,6 +106,10 @@ CSS_CITIES = {
         'name': 'North Richland Hills',
         'base_url': 'https://selfservice.nrhtx.com/energov_prod/selfservice',
     },
+    'princeton': {
+        'name': 'Princeton',
+        'base_url': 'https://princetontx-energovweb.tylerhost.net/apps/selfservice',
+    },
 }
 
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
