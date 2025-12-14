@@ -40,6 +40,8 @@ MYGOV_CITIES = {
     'celina': {'name': 'Celina', 'slug': 'celina_tx', 'pop': 20000},
     'fate': {'name': 'Fate', 'slug': 'fate_tx', 'pop': 20000},
     'venus': {'name': 'Venus', 'slug': 'venus_tx', 'pop': 5000},
+    'university_park': {'name': 'University Park', 'slug': 'university_park_tx', 'pop': 25000},
+    'forney': {'name': 'Forney', 'slug': 'forney_tx', 'pop': 25000},
 }
 
 # Common street names/patterns to search
