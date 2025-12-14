@@ -320,12 +320,12 @@ JUNK_PROJECTS = [
     "sign permit", "signage", "banner",
     # Commercial tenant fit-out
     "tenant finish", "tenant improvement", "ti permit",
+    # Contractor-pulled permits - route to adjacent_trades.py instead
+    "electrical panel", "panel upgrade", "service upgrade",
+    "hvac replacement", "ac replacement", "furnace replacement",
+    "water heater",
+    "sewer repair", "sewer replacement", "sewer line repair",
 ]
-# NOTE: Valuable trade leads REMOVED from junk list - these are what contractors want:
-# - water heater, electrical panel (plumber/electrician leads)
-# - hvac replacement, ac replacement, furnace replacement (HVAC leads)
-# - sewer repair, sewer replacement (plumber leads)
-# - water damage (potential mold remediation/restoration lead)
 
 # Positive indicators that override "demolition" being junk
 REMODEL_INDICATORS = [
