@@ -54,6 +54,67 @@ SEARCH_TERMS = [
 ]
 
 
+async def navigate_to_search(page, city_config: dict) -> bool:
+    """
+    Navigate to OpenGov portal and find the search interface.
+
+    OpenGov uses Ember.js SPA - we need to wait for app to bootstrap,
+    then find the search functionality.
+
+    Returns True if search is accessible, False otherwise.
+    """
+    base_url = city_config['base_url']
+    city_name = city_config['name']
+
+    try:
+        logger.info(f"[{city_name}] Navigating to {base_url}")
+        await page.goto(base_url, timeout=30000)
+
+        # Wait for Ember app to load (loading spinner disappears)
+        await page.wait_for_selector('#main-content, .ember-application', timeout=20000)
+        logger.info(f"[{city_name}] App loaded, looking for search...")
+
+        # Give Angular/Ember extra time to render
+        await asyncio.sleep(3)
+
+        # Look for search button/link in header
+        # Common patterns: "Search" link, magnifying glass icon, search input
+        search_selectors = [
+            'a:has-text("Search")',
+            'button:has-text("Search")',
+            '[data-test="search"]',
+            '.search-button',
+            'input[type="search"]',
+            '[placeholder*="Search"]',
+        ]
+
+        for selector in search_selectors:
+            element = page.locator(selector).first
+            if await element.count() > 0:
+                logger.info(f"[{city_name}] Found search element: {selector}")
+                return True
+
+        # If no search found, try clicking "Permits" or "Records" link
+        nav_links = ['Permits', 'Records', 'Applications', 'Public Records']
+        for link_text in nav_links:
+            link = page.locator(f'a:has-text("{link_text}")').first
+            if await link.count() > 0:
+                await link.click()
+                await asyncio.sleep(2)
+                logger.info(f"[{city_name}] Clicked '{link_text}' navigation")
+                return True
+
+        logger.warning(f"[{city_name}] Could not find search interface")
+        return False
+
+    except PlaywrightTimeout:
+        logger.error(f"[{city_name}] Timeout loading portal")
+        return False
+    except Exception as e:
+        logger.error(f"[{city_name}] Error navigating: {e}")
+        return False
+
+
 async def main():
     if len(sys.argv) < 2 or sys.argv[1] == '--list':
         print("OpenGov Multi-City Scraper")
