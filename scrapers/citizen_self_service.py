@@ -88,6 +88,24 @@ CSS_CITIES = {
         'default_permit_types': ['Building-Residential Addition/Remodel', 'Building-New Residential Building', 'Building-Residential Accessory Structure'],
         'skip_permit_type_filter': True,  # Angular dropdown bug - filter in Python instead
     },
+    'hurst': {
+        'name': 'Hurst',
+        'base_url': 'https://energov.hursttx.gov/EnerGov_Prod/SelfService',
+    },
+    'farmers_branch': {
+        'name': 'Farmers Branch',
+        'base_url': 'https://egselfservice.farmersbranchtx.gov/EnerGov_Prod/SelfService',
+    },
+    'coppell': {
+        'name': 'Coppell',
+        'base_url': 'https://muniselfservice.coppelltx.gov/css',
+        # Coppell uses newer Tyler Civic Access - may need skip_permit_type_filter
+        'skip_permit_type_filter': True,
+    },
+    'north_richland_hills': {
+        'name': 'North Richland Hills',
+        'base_url': 'https://selfservice.nrhtx.com/energov_prod/selfservice',
+    },
 }
 
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
