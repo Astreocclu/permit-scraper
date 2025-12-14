@@ -1,6 +1,23 @@
 # Permit Scraper (Signal Engine)
 
-> **FIRST: Read `LEADS_INVENTORY.md` with Gemini** - Contains running account of all leads by tier, city, and category.
+---
+
+## MANDATORY READING BEFORE ANY DATA WORK
+
+**`docs/DATA_ARCHITECTURE.md`** - The authoritative source of truth for:
+- Which columns are EMPTY and must NOT be used
+- Which table to query for which question
+- The "Claude Check" verification protocol
+
+```bash
+cat docs/DATA_ARCHITECTURE.md | gemini -p "What columns are empty/unreliable? What is the Claude Check protocol?"
+```
+
+**If you skip this, you WILL waste hours building on empty fields.**
+
+---
+
+> **THEN: Read `LEADS_INVENTORY.md` with Gemini** - Contains running account of all leads by tier, city, and category.
 > ```bash
 > cat LEADS_INVENTORY.md | gemini -p "Summarize current lead inventory: totals by tier, which cities need work, what categories are worth selling"
 > ```
