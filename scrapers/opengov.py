@@ -283,10 +283,85 @@ async def main():
 
 
 async def scrape_city(city_key: str, target_count: int) -> list:
-    """Scrape permits for a city."""
-    # Placeholder - implemented in Task 2
-    print(f"Scraping {city_key} for {target_count} permits...")
-    return []
+    """Scrape permits for a city using street name searches."""
+    if city_key not in OPENGOV_CITIES:
+        print(f"Unknown city: {city_key}")
+        return []
+
+    city = OPENGOV_CITIES[city_key]
+    all_permits = []
+    seen_ids = set()
+
+    print("=" * 60)
+    print(f"{city['name'].upper()} OPENGOV PERMIT SCRAPER")
+    print("=" * 60)
+    print(f"Target: {target_count} permits")
+    print(f"Time: {datetime.now().isoformat()}")
+    print()
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        context = await browser.new_context(
+            viewport={'width': 1920, 'height': 1080},
+            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        )
+        page = await context.new_page()
+
+        try:
+            # Navigate to portal
+            if not await navigate_to_search(page, city):
+                logger.error(f"Could not access {city['name']} portal")
+                return []
+
+            # Search using street names
+            for term in SEARCH_TERMS:
+                if len(all_permits) >= target_count:
+                    break
+
+                permits = await search_permits(page, city, term)
+
+                # Dedupe
+                new_count = 0
+                for permit in permits:
+                    key = permit.get('permit_id') or permit.get('address', '')
+                    if key and key not in seen_ids:
+                        seen_ids.add(key)
+                        all_permits.append(permit)
+                        new_count += 1
+
+                if new_count > 0:
+                    logger.info(f"  +{new_count} permits (total: {len(all_permits)})")
+
+                await asyncio.sleep(1)  # Rate limit
+
+        finally:
+            await browser.close()
+
+    # Save results
+    output_file = OUTPUT_DIR / f"{city_key}_opengov_raw.json"
+    output_data = {
+        'source': city_key,
+        'scraped_at': datetime.now().isoformat(),
+        'permits': all_permits[:target_count]
+    }
+    with open(output_file, 'w') as f:
+        json.dump(output_data, f, indent=2, default=str)
+
+    print()
+    print("=" * 60)
+    print("SUMMARY")
+    print("=" * 60)
+    print(f"City: {city['name']}")
+    print(f"Permits found: {len(all_permits)}")
+    print(f"Saved to: {output_file}")
+
+    if all_permits:
+        print()
+        print("SAMPLE:")
+        for p in all_permits[:3]:
+            print(f"  {p.get('permit_id', 'N/A')} | {p.get('address', '')[:50]}")
+
+    return all_permits[:target_count]
 
 
 if __name__ == '__main__':
