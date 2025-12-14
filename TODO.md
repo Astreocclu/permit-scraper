@@ -5,7 +5,7 @@
 - [ ] **Southlake Batch Scrape**: Complete execution of `southlake_residential_batch.py` to capture all 14 residential permit types
 - [ ] **Westlake Full Harvest**: Run `mygov_westlake.py` using the 367 addresses in `data/westlake_addresses.json`
 - [ ] **MGO Connect Fixes**: Debug Playwright I/O blocking error for Irving; implement PDF parsing
-- [ ] **EnerGov Expansion**: Apply Southlake/Colleyville fixes (explicit waits) to McKinney and Allen scrapers
+- [x] **EnerGov Expansion**: McKinney and Allen already working (tested Dec 2024)
 - [ ] **Pre-filter Classification**: Implement `scripts/classify_leads.py` to filter permits using DeepSeek *before* expensive CAD enrichment
 
 ## Pending Tasks
@@ -29,6 +29,24 @@ These are B25-* permits that aren't in the residential PDF reports.
 **Permits affected:** ~1,368 (B25-00001 through B25-00820 range, trade permits)
 
 **Why deferred:** Time-intensive; residential permits prioritized for now.
+
+---
+
+## Recently Added (Dec 2024)
+
+### Working
+- **Hurst** (EnerGov CSS) - 100 permits tested
+- **Farmers Branch** (EnerGov CSS) - 100 permits tested
+- **Coppell** (EnerGov CSS) - 57 permits tested
+- **University Park** (MyGov) - Config added, 0 permits found (low activity)
+- **Forney** (MyGov) - Config added, 0 permits found (may need different search)
+
+### Needs Investigation
+- **The Colony** (eTRAKiT) - Config added but portal has different interface (Search By dropdown)
+- **North Richland Hills** (EnerGov CSS) - URL works but different page structure, needs custom selectors
+
+### Blocked
+- **Duncanville** - Accela URL not found, may use different platform or require login
 
 ---
 
