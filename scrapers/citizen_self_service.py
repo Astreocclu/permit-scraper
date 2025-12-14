@@ -90,7 +90,7 @@ CSS_CITIES = {
     },
     'hurst': {
         'name': 'Hurst',
-        'base_url': 'https://energov.hursttx.gov/EnerGov_Prod/SelfService',
+        'base_url': 'https://css.hursttx.gov/EnerGov_Prod/SelfService',
     },
     'farmers_branch': {
         'name': 'Farmers Branch',
@@ -98,7 +98,7 @@ CSS_CITIES = {
     },
     'coppell': {
         'name': 'Coppell',
-        'base_url': 'https://muniselfservice.coppelltx.gov/css',
+        'base_url': 'https://energovcss.coppelltx.gov/EnerGovProd/SelfService',
         # Coppell uses newer Tyler Civic Access - may need skip_permit_type_filter
         'skip_permit_type_filter': True,
     },
