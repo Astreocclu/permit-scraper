@@ -34,6 +34,16 @@ ACCELA_CITIES = {
         'base_url': 'https://aca-prod.accela.com/GPTX',
         'search_path': '/Cap/CapHome.aspx?module=Building&TabName=Building',
     },
+    # BLOCKED: Duncanville Accela portal URL not publicly accessible
+    # City has "Citizen Access Portal" mentioned on duncanvilletx.gov but no working Accela URL found
+    # Tested patterns: aca-prod.accela.com/DVILLE, /DUNCANVILLE, /DUNCANVILLETX - all 404
+    # May require login, use different platform, or self-hosted instance
+    # Research date: 2025-12-13
+    # 'duncanville': {
+    #     'name': 'Duncanville',
+    #     'base_url': 'https://aca-prod.accela.com/DUNCANVILLE',
+    #     'search_path': '/Cap/CapHome.aspx?module=Building&TabName=Building',
+    # },
 }
 
 async def extract_permits_from_page(page) -> list:
