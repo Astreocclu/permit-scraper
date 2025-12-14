@@ -131,9 +131,9 @@ def get_db_connection():
     return psycopg2.connect(url)
 
 
-def get_leads_for_tracing(conn, limit: Optional[int] = None, category: Optional[str] = None) -> List[Dict]:
+def get_leads_for_tracing(conn, limit: Optional[int] = None, category: Optional[str] = None, tier: Optional[str] = None) -> List[Dict]:
     """
-    Fetch Tier A+B leads that haven't been skip-traced yet.
+    Fetch Tier A+B+U leads that haven't been skip-traced yet.
     """
     query = """
         SELECT
@@ -150,7 +150,8 @@ def get_leads_for_tracing(conn, limit: Optional[int] = None, category: Optional[
         FROM clients_scoredlead sl
         JOIN leads_permit p ON sl.permit_id = p.id
         LEFT JOIN leads_property pr ON p.property_address = pr.property_address
-        WHERE sl.score >= 50
+        WHERE (sl.score >= 50 OR sl.tier = 'U')
+          AND sl.tier != 'D'
           AND (sl.phone IS NULL OR sl.phone = '')
           AND pr.owner_name IS NOT NULL
           AND pr.owner_name != ''
@@ -159,6 +160,10 @@ def get_leads_for_tracing(conn, limit: Optional[int] = None, category: Optional[
 
     conditions = []
     params = []
+
+    if tier:
+        conditions.append("sl.tier = %s")
+        params.append(tier.upper())
 
     if category:
         conditions.append("sl.category = %s")
@@ -247,34 +252,55 @@ class TracerfyClient:
             temp_path = f.name
 
         try:
-            # Multipart form upload
-            with open(temp_path, 'rb') as csv_file:
-                files = {'csv_file': ('leads.csv', csv_file, 'text/csv')}
-                data = {
-                    'address_column': 'address',
-                    'city_column': 'city',
-                    'state_column': 'state',
-                    'zip_column': 'zip',
-                    'first_name_column': 'first_name',
-                    'last_name_column': 'last_name',
-                    'mail_address_column': 'mail_address',
-                    'mail_city_column': 'mail_city',
-                    'mail_state_column': 'mail_state',
-                    'mailing_zip_column': 'mail_zip'
-                }
+            for attempt in range(5):
+                try:
+                    # Multipart form upload - need to reopen file each attempt
+                    with open(temp_path, 'rb') as csv_file:
+                        files = {'csv_file': ('leads.csv', csv_file, 'text/csv')}
+                        data = {
+                            'address_column': 'address',
+                            'city_column': 'city',
+                            'state_column': 'state',
+                            'zip_column': 'zip',
+                            'first_name_column': 'first_name',
+                            'last_name_column': 'last_name',
+                            'mail_address_column': 'mail_address',
+                            'mail_city_column': 'mail_city',
+                            'mail_state_column': 'mail_state',
+                            'mailing_zip_column': 'mail_zip'
+                        }
 
-                # Don't include Content-Type header - requests sets it for multipart
-                headers = {"Authorization": f"Bearer {self.api_key}"}
+                        # Don't include Content-Type header - requests sets it for multipart
+                        headers = {"Authorization": f"Bearer {self.api_key}"}
 
-                response = requests.post(
-                    f"{self.BASE_URL}/trace/",
-                    headers=headers,
-                    files=files,
-                    data=data,
-                    timeout=60
-                )
-            response.raise_for_status()
-            return response.json()
+                        response = requests.post(
+                            f"{self.BASE_URL}/trace/",
+                            headers=headers,
+                            files=files,
+                            data=data,
+                            timeout=60
+                        )
+
+                    if response.status_code == 503:
+                        logger.warning(f"Submit got 503, retrying in 10s... (attempt {attempt + 1}/5)")
+                        time.sleep(10)
+                        continue
+
+                    response.raise_for_status()
+                    result = response.json()
+                    if result.get('queue_id'):
+                        return result
+                    else:
+                        logger.warning(f"No queue_id in response: {result}, retrying...")
+                        time.sleep(10)
+                        continue
+
+                except requests.exceptions.RequestException as e:
+                    logger.warning(f"Request error: {e}, retrying in 10s...")
+                    time.sleep(10)
+                    continue
+
+            raise Exception("Failed to submit after 5 attempts")
         finally:
             os.unlink(temp_path)
 
@@ -498,6 +524,7 @@ def export_enriched_packs(conn, output_dir: str = "sales_packs_enriched"):
 def main():
     parser = argparse.ArgumentParser(description='Tracerfy Skip Tracing Integration')
     parser.add_argument('--limit', type=int, help='Limit number of leads to process')
+    parser.add_argument('--tier', type=str, help='Only process specific tier (A, B, U)')
     parser.add_argument('--category', type=str, help='Only process specific category (pool, plumbing, etc.)')
     parser.add_argument('--export', action='store_true', help='Export enriched sales packs')
     parser.add_argument('--dry-run', action='store_true', help='Transform and show CSV without submitting')
@@ -523,7 +550,7 @@ def main():
             return
 
         # Fetch leads
-        leads = get_leads_for_tracing(conn, limit=args.limit, category=args.category)
+        leads = get_leads_for_tracing(conn, limit=args.limit, category=args.category, tier=args.tier)
 
         if not leads:
             logger.info("No leads to process (all already have phone/email or no valid owner name)")

@@ -2,10 +2,11 @@
 """
 OPENGOV PERMIT SCRAPER (Playwright)
 Platform: OpenGov Permitting & Licensing Portal
-Covers: Highland Park, Bedford (wealthy DFW suburbs)
+
+Tested working: Bedford
+Not working: Highland Park (no public search inputs)
 
 Usage:
-  python3 scrapers/opengov.py highland_park 100
   python3 scrapers/opengov.py bedford 100
   python3 scrapers/opengov.py --list
 """
@@ -27,149 +28,66 @@ logger = logging.getLogger(__name__)
 OUTPUT_DIR = Path(__file__).parent.parent / "data" / "raw"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# OpenGov cities with confirmed public access
+# OpenGov cities - only Bedford has working public search
 OPENGOV_CITIES = {
-    'highland_park': {
-        'name': 'Highland Park',
-        'base_url': 'https://highlandparktx.portal.opengov.com',
-        'pop': 9000,
-        'tier': 'A',  # Ultra-wealthy
-    },
     'bedford': {
         'name': 'Bedford',
         'base_url': 'https://bedfordtx.portal.opengov.com',
         'pop': 48000,
         'tier': 'B',
+        'has_public_search': True,
     },
+    # Highland Park has no public search inputs - application-only portal
+    # Use TPIA email request: Building.Permits@hptx.org
 }
 
-# Common street names to search (same as MyGov pattern)
-SEARCH_TERMS = [
-    'Main', 'Oak', 'Park', 'Hill', 'Lake',
-    'Cedar', 'Pine', 'Maple', 'Elm',
-    'First', 'Second', 'Third',
-    'North', 'South', 'East', 'West',
-    'Creek', 'Spring', 'Valley', 'Ridge',
-    'Meadow', 'Forest', 'Highland', 'Sunset',
+# Permit type prefixes to search (Bedford's record numbering)
+PERMIT_PREFIXES = [
+    'BLDG',   # New Construction/Additions
+    'RBLG',   # Remodel Building Permit
+    'ROOF',   # Residential Roofing
+    'MECH',   # Mechanical
+    'PLUM',   # Plumbing
+    'ELEC',   # Electrical
+    'SWM',    # Swimming Pool
+    'FENC',   # Fence/Retaining Wall
+    'ACC',    # Accessory Structure
+    'MISC',   # Miscellaneous (Demolition, etc.)
+    'SIGN',   # Sign Permit
 ]
 
 
-def parse_permit_text(text: str, city: str) -> dict | None:
-    """Parse permit info from result text."""
-    if not text or len(text) < 10:
-        return None
-
-    lines = [l.strip() for l in text.split('\n') if l.strip()]
-
-    permit = {
-        'permit_id': '',
-        'permit_type': '',
-        'address': '',
-        'status': '',
-        'date': '',
-        'city': city,
-        'source': 'opengov',
-    }
-
-    for line in lines:
-        # Look for permit ID patterns (varies by city)
-        # Common: BLD-2025-001234, P25-00123, 2025-BP-0001
-        id_match = re.search(r'([A-Z]{2,4}[-]?\d{4}[-]?\d{3,6})', line)
-        if id_match and not permit['permit_id']:
-            permit['permit_id'] = id_match.group(1)
-
-        # Look for dates
-        date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})', line)
-        if date_match and not permit['date']:
-            permit['date'] = date_match.group(1)
-
-        # Look for addresses (number + street)
-        addr_match = re.search(r'(\d+\s+[A-Z][A-Za-z\s]+(?:St|Ave|Dr|Rd|Ln|Blvd|Ct|Way|Pl))', line, re.IGNORECASE)
-        if addr_match and not permit['address']:
-            permit['address'] = addr_match.group(1).strip()
-
-        # Look for permit types
-        type_keywords = ['residential', 'commercial', 'electrical', 'mechanical',
-                        'plumbing', 'building', 'fence', 'pool', 'roof', 'hvac',
-                        'remodel', 'addition', 'new construction']
-        for kw in type_keywords:
-            if kw in line.lower() and not permit['permit_type']:
-                permit['permit_type'] = line[:50]
-                break
-
-    # Only return if we have at least permit_id or address
-    if permit['permit_id'] or permit['address']:
-        return permit
-    return None
-
-
-def parse_page_content(content: str, city: str) -> list:
-    """Fallback: parse permits from raw page text."""
-    permits = []
-
-    # Split by common separators
-    chunks = re.split(r'\n{2,}|<hr>|───', content)
-
-    for chunk in chunks:
-        permit = parse_permit_text(chunk, city)
-        if permit:
-            permits.append(permit)
-
-    return permits
-
-
-async def navigate_to_search(page, city_config: dict) -> bool:
+async def navigate_to_record_search(page, city_config: dict) -> bool:
     """
-    Navigate to OpenGov portal and find the search interface.
+    Navigate to OpenGov portal's /search page and activate the Records tab.
 
-    OpenGov uses Ember.js SPA - we need to wait for app to bootstrap,
-    then find the search functionality.
-
-    Returns True if search is accessible, False otherwise.
+    Returns True if record search input is accessible, False otherwise.
     """
     base_url = city_config['base_url']
     city_name = city_config['name']
 
     try:
-        logger.info(f"[{city_name}] Navigating to {base_url}")
-        await page.goto(base_url, timeout=30000)
+        logger.info(f"[{city_name}] Navigating to {base_url}/search")
+        await page.goto(f"{base_url}/search", wait_until='domcontentloaded', timeout=60000)
+        await asyncio.sleep(4)  # Wait for Ember app to render
 
-        # Wait for Ember app to load (loading spinner disappears)
-        await page.wait_for_selector('#main-content, .ember-application', timeout=20000)
-        logger.info(f"[{city_name}] App loaded, looking for search...")
+        # Check if the Records tab exists and click it
+        records_tab = page.locator('li:has-text("Records")').first
+        if await records_tab.count() > 0:
+            await records_tab.click()
+            await asyncio.sleep(2)
 
-        # Give Angular/Ember extra time to render
-        await asyncio.sleep(3)
-
-        # Look for search button/link in header
-        # Common patterns: "Search" link, magnifying glass icon, search input
-        search_selectors = [
-            'a:has-text("Search")',
-            'button:has-text("Search")',
-            '[data-test="search"]',
-            '.search-button',
-            'input[type="search"]',
-            '[placeholder*="Search"]',
-        ]
-
-        for selector in search_selectors:
-            element = page.locator(selector).first
-            if await element.count() > 0:
-                logger.info(f"[{city_name}] Found search element: {selector}")
+            # Verify record search input is visible
+            record_input = page.locator('#recordSearchKey')
+            if await record_input.is_visible():
+                logger.info(f"[{city_name}] Record search input is visible")
                 return True
-
-        # If no search found, try clicking "Permits" or "Records" link
-        nav_links = ['Permits', 'Records', 'Applications', 'Public Records']
-        for link_text in nav_links:
-            link = page.locator(f'a:has-text("{link_text}")').first
-            if await link.count() > 0:
-                await link.click()
-                await asyncio.sleep(2)
-                logger.info(f"[{city_name}] Clicked '{link_text}' navigation")
-                return True
-
-        logger.warning(f"[{city_name}] Could not find search interface")
-        return False
+            else:
+                logger.warning(f"[{city_name}] Record search input not visible after clicking Records")
+                return False
+        else:
+            logger.warning(f"[{city_name}] Records tab not found")
+            return False
 
     except PlaywrightTimeout:
         logger.error(f"[{city_name}] Timeout loading portal")
@@ -179,96 +97,195 @@ async def navigate_to_search(page, city_config: dict) -> bool:
         return False
 
 
-@retry(
-    stop=stop_after_attempt(2),
-    wait=wait_exponential(multiplier=1, min=1, max=4),
-    retry=retry_if_exception_type((PlaywrightTimeout,)),
-    reraise=True
-)
-async def search_permits(page, city_config: dict, search_term: str) -> list:
+async def get_record_ids_from_search(page, city_config: dict, prefix: str) -> list:
     """
-    Search for permits using a search term and extract results.
+    Search for records by prefix and return list of record IDs found.
 
     Args:
         page: Playwright page
         city_config: City configuration dict
-        search_term: Street name or keyword to search
+        prefix: Permit prefix to search (e.g., 'BLDG', 'ROOF')
 
     Returns:
-        List of permit dicts
+        List of record IDs (e.g., ['BLDG-23-87', 'BLDG-23-68'])
     """
-    permits = []
+    city_name = city_config['name']
+    record_ids = []
+
+    try:
+        record_input = page.locator('#recordSearchKey')
+        await record_input.clear()
+        await record_input.fill(prefix)
+        await asyncio.sleep(2)  # Wait for autocomplete
+
+        # Get page text and extract record IDs
+        body_text = await page.locator('body').inner_text()
+        lines = body_text.split('\n')
+
+        for line in lines:
+            line = line.strip()
+            # Match patterns like "Record BLDG-23-87 New Construction/Additions"
+            match = re.match(r'Record\s+([A-Z]+-\d+-\d+)', line)
+            if match:
+                record_ids.append(match.group(1))
+
+        logger.info(f"[{city_name}] Search '{prefix}': found {len(record_ids)} record IDs")
+        return record_ids
+
+    except Exception as e:
+        logger.debug(f"[{city_name}] Error searching '{prefix}': {e}")
+        return record_ids
+
+
+async def get_permit_details(page, city_config: dict, record_id: str) -> dict | None:
+    """
+    Navigate to a record detail page and extract permit information.
+
+    Args:
+        page: Playwright page
+        city_config: City configuration dict
+        record_id: Record ID (e.g., 'BLDG-23-87')
+
+    Returns:
+        Permit dict or None
+    """
+    base_url = city_config['base_url']
     city_name = city_config['name']
 
     try:
-        # Find and fill search input
-        search_input = page.locator('input[type="search"], input[placeholder*="Search"], #search-input').first
-        if await search_input.count() == 0:
-            logger.warning(f"[{city_name}] Search input not found")
-            return permits
+        # Search for the record and click on it
+        record_input = page.locator('#recordSearchKey')
 
-        await search_input.clear()
-        await search_input.fill(search_term)
-        await asyncio.sleep(0.5)
+        # First check if input is visible, if not re-navigate
+        if not await record_input.is_visible():
+            await navigate_to_record_search(page, city_config)
 
-        # Submit search (Enter key or click search button)
-        await search_input.press('Enter')
-        await asyncio.sleep(3)  # Wait for results
+        await record_input.clear()
+        await record_input.fill(record_id)
+        await asyncio.sleep(1.5)
 
-        # Extract results from page
-        # OpenGov typically shows results in a table or card layout
-        result_selectors = [
-            '.search-result',
-            '.permit-card',
-            'tr[data-permit]',
-            '.record-item',
-            '[data-record-id]',
-        ]
+        # Click on the result
+        result = page.locator(f'text=Record {record_id}').first
+        if await result.count() > 0:
+            await result.click()
 
-        for selector in result_selectors:
-            results = page.locator(selector)
-            count = await results.count()
-            if count > 0:
-                logger.info(f"[{city_name}] Found {count} results with {selector}")
+            # Wait for detail page to load - look for Applicant section
+            try:
+                await page.wait_for_selector('text=Applicant', timeout=10000)
+            except:
+                await asyncio.sleep(3)  # Fallback wait
 
-                for i in range(min(count, 50)):  # Limit per search
-                    try:
-                        result = results.nth(i)
-                        text = await result.inner_text()
+            # Extract details from page
+            body_text = await page.locator('body').inner_text()
+            lines = [l.strip() for l in body_text.split('\n') if l.strip()]
 
-                        permit = parse_permit_text(text, city_name)
-                        if permit:
-                            permits.append(permit)
-                    except Exception as e:
-                        logger.debug(f"Error parsing result {i}: {e}")
-                        continue
-                break
+            permit = {
+                'permit_id': record_id,
+                'permit_type': '',
+                'address': '',
+                'city': city_name,
+                'status': '',
+                'issued_date': '',
+                'created_date': '',
+                'expires': '',
+                'applicant': '',
+                'description': '',
+                'valuation': '',
+                'sq_ft': '',
+                'source': 'opengov',
+            }
 
-        if not permits:
-            # Fallback: try to parse entire page body
-            body_text = await page.inner_text('body')
-            permits = parse_page_content(body_text, city_name)
+            # Parse the page content
+            # Format is: Label on one line, value on next line
+            for i, line in enumerate(lines):
+                next_line = lines[i + 1] if i + 1 < len(lines) else ''
+                next_next = lines[i + 2] if i + 2 < len(lines) else ''
 
-        logger.info(f"[{city_name}] Search '{search_term}': {len(permits)} permits")
-        return permits
+                # Permit type is usually at the top after navigation
+                if any(kw in line for kw in ['Construction', 'Permit', 'Roofing', 'Mechanical', 'Plumbing']):
+                    if not permit['permit_type'] and len(line) < 100 and 'toggle' not in line.lower():
+                        permit['permit_type'] = line
 
-    except PlaywrightTimeout:
-        logger.warning(f"[{city_name}] Timeout searching '{search_term}'")
-        return permits
+                # Location/Address - value is on next line
+                if line == 'Location' and next_line:
+                    addr_match = re.match(r'(\d+\s+[A-Z][A-Z0-9\s]+)', next_line)
+                    if addr_match:
+                        permit['address'] = addr_match.group(1).strip()
+
+                # Created date - value is on next line
+                if line == 'Created' and next_line:
+                    date_match = re.match(r'([A-Z][a-z]{2}\s+\d{1,2},?\s+\d{4})', next_line)
+                    if date_match:
+                        permit['created_date'] = date_match.group(1)
+
+                # Expires date - value is on next line
+                if line == 'Expires' and next_line:
+                    date_match = re.match(r'([A-Z][a-z]{2}\s+\d{1,2},?\s+\d{4})', next_line)
+                    if date_match:
+                        permit['expires'] = date_match.group(1)
+
+                # Issued date - in Documents section "Issued Aug 1, 2023"
+                if 'Issued' in line:
+                    date_match = re.search(r'Issued\s+([A-Z][a-z]{2}\s+\d{1,2},?\s+\d{4})', line)
+                    if date_match:
+                        permit['issued_date'] = date_match.group(1)
+
+                # Status - value is on next line after "Status"
+                if line == 'Status' and next_line in ['Complete', 'Active', 'Pending', 'Issued', 'Approved', 'Expired']:
+                    permit['status'] = next_line
+
+                # Applicant - value is on next line
+                if line == 'Applicant' and next_line:
+                    permit['applicant'] = next_line
+
+                # Valuation - "Total Value of Work: $ *" then value on next line
+                if 'Value of Work' in line and next_line:
+                    val_match = re.match(r'([\d,]+)', next_line)
+                    if val_match:
+                        permit['valuation'] = val_match.group(1).replace(',', '')
+
+                # Square footage - "Total Sq. Ft. *" then value on next line
+                if 'Sq. Ft' in line and next_line:
+                    sqft_match = re.match(r'([\d,]+)', next_line)
+                    if sqft_match:
+                        permit['sq_ft'] = sqft_match.group(1).replace(',', '')
+
+                # Description - "Description *" then "toggle tooltip" then actual description
+                if line == 'Description *' and next_next and 'toggle' not in next_next.lower():
+                    permit['description'] = next_next[:200]
+                elif line == 'Description *' and next_line and 'toggle' in next_line.lower() and i + 2 < len(lines):
+                    permit['description'] = lines[i + 2][:200]
+
+            # Go back to search
+            await page.goto(f"{base_url}/search", wait_until='domcontentloaded', timeout=30000)
+            await asyncio.sleep(2)
+            records_tab = page.locator('li:has-text("Records")').first
+            if await records_tab.count() > 0:
+                await records_tab.click()
+                await asyncio.sleep(1)
+
+            if permit['permit_id'] and (permit['address'] or permit['permit_type']):
+                return permit
+
+        return None
+
     except Exception as e:
-        logger.debug(f"[{city_name}] Search error: {e}")
-        return permits
+        logger.debug(f"[{city_name}] Error getting details for {record_id}: {e}")
+        return None
 
 
 async def main():
     if len(sys.argv) < 2 or sys.argv[1] == '--list':
-        print("OpenGov Multi-City Scraper")
+        print("OpenGov Permit Scraper")
         print()
         print("Available cities:")
         for key, city in sorted(OPENGOV_CITIES.items(), key=lambda x: -x[1]['pop']):
-            print(f"  {key:15} - {city['name']:15} (pop: {city['pop']:,})")
+            status = "✓ working" if city.get('has_public_search') else "✗ no public search"
+            print(f"  {key:15} - {city['name']:15} (pop: {city['pop']:,}) {status}")
         print()
         print("Usage: python3 opengov.py <city> [count]")
+        print()
+        print("Note: Highland Park has no public search - use TPIA email: Building.Permits@hptx.org")
         return
 
     city_key = sys.argv[1].lower()
@@ -279,11 +296,25 @@ async def main():
         print(f"Available: {', '.join(sorted(OPENGOV_CITIES.keys()))}")
         return
 
+    city = OPENGOV_CITIES[city_key]
+    if not city.get('has_public_search'):
+        print(f"Error: {city['name']} does not have public permit search.")
+        print("Use TPIA email request instead.")
+        return
+
     await scrape_city(city_key, target)
 
 
 async def scrape_city(city_key: str, target_count: int) -> list:
-    """Scrape permits for a city using street name searches."""
+    """
+    Scrape permits for a city using record prefix searches.
+
+    Strategy:
+    1. Navigate to /search page and activate Records tab
+    2. Search each permit prefix (BLDG, ROOF, etc.) to get record IDs
+    3. Click each record to get full details
+    4. Deduplicate and save
+    """
     if city_key not in OPENGOV_CITIES:
         print(f"Unknown city: {city_key}")
         return []
@@ -291,6 +322,7 @@ async def scrape_city(city_key: str, target_count: int) -> list:
     city = OPENGOV_CITIES[city_key]
     all_permits = []
     seen_ids = set()
+    all_record_ids = []
 
     print("=" * 60)
     print(f"{city['name'].upper()} OPENGOV PERMIT SCRAPER")
@@ -308,31 +340,41 @@ async def scrape_city(city_key: str, target_count: int) -> list:
         page = await context.new_page()
 
         try:
-            # Navigate to portal
-            if not await navigate_to_search(page, city):
-                logger.error(f"Could not access {city['name']} portal")
+            # Navigate to record search
+            if not await navigate_to_record_search(page, city):
+                logger.error(f"Could not access {city['name']} record search")
                 return []
 
-            # Search using street names
-            for term in SEARCH_TERMS:
+            # Phase 1: Collect all record IDs by searching prefixes
+            print("Phase 1: Collecting record IDs...")
+            for prefix in PERMIT_PREFIXES:
+                record_ids = await get_record_ids_from_search(page, city, prefix)
+                for rid in record_ids:
+                    if rid not in seen_ids:
+                        seen_ids.add(rid)
+                        all_record_ids.append(rid)
+
+                if len(all_record_ids) >= target_count * 2:  # Get extra in case some fail
+                    break
+
+                await asyncio.sleep(0.5)
+
+            print(f"Found {len(all_record_ids)} unique record IDs")
+            print()
+
+            # Phase 2: Get details for each record
+            print("Phase 2: Fetching permit details...")
+            for i, record_id in enumerate(all_record_ids[:target_count * 2]):
                 if len(all_permits) >= target_count:
                     break
 
-                permits = await search_permits(page, city, term)
+                permit = await get_permit_details(page, city, record_id)
+                if permit:
+                    all_permits.append(permit)
+                    if len(all_permits) % 10 == 0:
+                        print(f"  Progress: {len(all_permits)}/{target_count}")
 
-                # Dedupe
-                new_count = 0
-                for permit in permits:
-                    key = permit.get('permit_id') or permit.get('address', '')
-                    if key and key not in seen_ids:
-                        seen_ids.add(key)
-                        all_permits.append(permit)
-                        new_count += 1
-
-                if new_count > 0:
-                    logger.info(f"  +{new_count} permits (total: {len(all_permits)})")
-
-                await asyncio.sleep(1)  # Rate limit
+                await asyncio.sleep(0.5)  # Rate limit
 
         finally:
             await browser.close()
@@ -352,28 +394,18 @@ async def scrape_city(city_key: str, target_count: int) -> list:
     print("SUMMARY")
     print("=" * 60)
     print(f"City: {city['name']}")
-    print(f"Permits found: {len(all_permits)}")
+    print(f"Record IDs found: {len(all_record_ids)}")
+    print(f"Permits scraped: {len(all_permits)}")
     print(f"Saved to: {output_file}")
 
     if all_permits:
         print()
         print("SAMPLE:")
         for p in all_permits[:3]:
-            print(f"  {p.get('permit_id', 'N/A')} | {p.get('address', '')[:50]}")
+            print(f"  {p.get('permit_id', 'N/A')} | {p.get('address', '')[:40]} | ${p.get('valuation', 'N/A')}")
 
     return all_permits[:target_count]
 
 
 if __name__ == '__main__':
     asyncio.run(main())
-
-
-# NOTE: OpenGov portals are APPLICATION portals, not permit SEARCH portals.
-# They do not have public search of issued permits.
-# This scraper will NOT find any permits without authentication.
-# 
-# For Highland Park and Bedford permit data, use TPIA email requests instead:
-# - Highland Park: Building.Permits@hptx.org
-# - Bedford: Building.Permits@bedfordtx.gov
-#
-# Status: BLOCKED - No public permit search available

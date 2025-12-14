@@ -231,10 +231,10 @@
     "tier": "B",
     "population": 48000,
     "growth_rate": 0.00,
-    "status": "no_public_search",
+    "status": "working",
     "platform": "OpenGov",
     "portal_url": "https://bedfordtx.portal.opengov.com/",
-    "notes": "OpenGov is APPLICATION portal only, no public permit search. Use TPIA email: Building.Permits@bedfordtx.gov"
+    "notes": "ADDED Dec 2024 - Covered by opengov.py. OpenGov has public record search with full permit details."
   },
   {
     "city": "Cedar Hill",

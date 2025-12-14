@@ -7,9 +7,10 @@ For cities without online search portals, Texas Public Information Act (TPIA) re
 | City | Population | Growth | Contact | Notes |
 |------|------------|--------|---------|-------|
 | **Highland Park** | 9,000 | 0% | Building.Permits@hptx.org | Ultra-wealthy (OpenGov - no public search) |
-| **Bedford** | 48,000 | 0% | Building.Permits@bedfordtx.gov | OpenGov - no public search |
 | **Anna** | 15,000 | 10% | Building@annatexas.gov | Ultra-high growth |
 | **Fairview** | 10,000 | 3% | permits@fairviewtexas.org | Wealthy Collin suburb |
+
+Note: Bedford was removed - now scrapable via opengov.py
 
 ## Template Email Request
 
@@ -49,12 +50,6 @@ Thank you for your assistance.
 - **Building Inspections**: 4700 Drexel Dr, Highland Park, TX 75205
 - **Email**: Building.Permits@hptx.org
 - **Phone**: 214-559-9308
-- **Note**: OpenGov portal is application-only, no public permit search
-
-### Bedford, TX
-- **Building Inspections**: 2000 Forest Ridge Dr, Bedford, TX 76021
-- **Email**: Building.Permits@bedfordtx.gov
-- **Phone**: 817-952-2140
 - **Note**: OpenGov portal is application-only, no public permit search
 
 ### Anna, TX

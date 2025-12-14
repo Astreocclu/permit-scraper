@@ -34,16 +34,31 @@ These are B25-* permits that aren't in the residential PDF reports.
 
 ## Recently Added (Dec 2024)
 
-### Working
-- **Hurst** (EnerGov CSS) - 100 permits tested
-- **Farmers Branch** (EnerGov CSS) - 100 permits tested
-- **Coppell** (EnerGov CSS) - 57 permits tested
-- **University Park** (MyGov) - Config added, 0 permits found (low activity)
-- **Forney** (MyGov) - Config added, 0 permits found (may need different search)
+### Working - Full Production Runs (Dec 13, 2024)
+- **McKinney** (EnerGov CSS) - 1,001 permits loaded ✅
+- **Allen** (EnerGov CSS) - 1,070 permits loaded ✅
+- **Hurst** (EnerGov CSS) - 1,000 permits loaded ✅
+- **Coppell** (EnerGov CSS) - 1,096 permits loaded ✅
+- **Farmers Branch** (EnerGov CSS) - 276 permits loaded ✅
+
+**Total loaded this session: 4,443 permits**
+
+### CAD Enrichment Results (Dec 13, 2024)
+- 2,351 properties enriched (52% hit rate)
+- 574 absentee owners identified
+- Top values: $14M, $10.8M, $8M, $7.7M properties
+
+### AI Scoring Results (Dec 13, 2024)
+- 17 Tier A leads (score 80+)
+- 33 Tier B leads (score 50-79)
+- 65 Tier C leads (score <50)
+- Exports generated in `exports/` by category
 
 ### Needs Investigation
 - **The Colony** (eTRAKiT) - Config added but portal has different interface (Search By dropdown)
 - **North Richland Hills** (EnerGov CSS) - URL works but different page structure, needs custom selectors
+- **University Park** (MyGov) - Config added, 0 permits found (low activity)
+- **Forney** (MyGov) - Config added, 0 permits found (may need different search)
 
 ### Blocked
 - **Duncanville** - Accela URL not found, may use different platform or require login

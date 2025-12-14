@@ -425,51 +425,126 @@ async def run_scraper_session(city_name: str, target_count: int, headless: bool)
             # Navigate to search
             print('[SEARCH] Navigating to search...')
             await page.goto('https://mgoconnect.org/cp/search', wait_until='networkidle', timeout=60000)
+            await asyncio.sleep(3)
 
-            # Set date filter (last 30 days)
+            # Clear any existing filters and search with minimal criteria
             from datetime import datetime, timedelta
-            created_after = (datetime.now() - timedelta(days=30)).strftime('%m/%d/%Y')
 
-            date_input = page.locator('input[placeholder*="Created"]').first
-            if await date_input.count() > 0:
-                await date_input.fill(created_after)
+            # Try clicking Reset first to clear filters
+            reset_btn = page.locator('button:has-text("Reset")')
+            if await reset_btn.count() > 0:
+                await reset_btn.first.click()
+                print('    Clicked Reset to clear filters')
+                await asyncio.sleep(2)
 
+            # Click Search without date filter to get all recent results
             search_btn = page.locator('button:has-text("Search")').first
             if await search_btn.count() > 0:
                 await search_btn.click()
+                print('    Clicked Search button')
                 await asyncio.sleep(5)
 
-            # Extract table data
-            print('[EXTRACT] Reading table data...')
-            while len(permits) < target_count:
-                rows = await page.evaluate('''() => {
-                    const results = [];
-                    document.querySelectorAll('tbody tr').forEach(row => {
-                        const cells = Array.from(row.querySelectorAll('td')).map(td => td.innerText.trim());
-                        if(cells.length > 4) results.push(cells);
-                    });
-                    return results;
-                }''')
+            await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_after_search.png')
 
-                for row in rows:
-                    if len(row) >= 5:
-                        permits.append({
-                            'permit_id': row[0],
-                            'address': row[1],
-                            'type': row[2],
-                            'status': row[3],
-                            'date': row[4]
-                        })
+            # Check pagination to see if results loaded
+            pagination_text = await page.evaluate('''() => {
+                const text = document.body.innerText;
+                const match = text.match(/Showing (\d+) to (\d+) of (\d+)/);
+                return match ? match[0] : 'No pagination found';
+            }''')
+            print(f'    Pagination: {pagination_text}')
 
-                print(f"   Collected {len(permits)} permits...")
+            # Try Excel export if there are results
+            print('[EXPORT] Attempting Excel export...')
 
-                # Try next page
-                next_btn = page.locator('.p-paginator-next:not(.p-disabled)')
-                if await next_btn.count() > 0:
-                    await next_btn.click()
-                    await asyncio.sleep(2)
+            # Only try if we have results
+            has_results = 'Showing 0 to 0 of 0' not in pagination_text and pagination_text != 'No pagination found'
+
+            if has_results:
+                # Select EXCEL format
+                excel_radio = page.locator('input[type="radio"][value*="EXCEL"], label:has-text("EXCEL")')
+                if await excel_radio.count() > 0:
+                    try:
+                        await excel_radio.first.click(timeout=5000)
+                        print('    Selected EXCEL format')
+                        await asyncio.sleep(1)
+                    except Exception as e:
+                        print(f'    Could not select EXCEL: {e}')
+
+                # Click Export button
+                export_btn = page.locator('button:has-text("Export"):not([disabled])')
+                if await export_btn.count() > 0:
+                    downloads_dir = Path(__file__).parent.parent / 'data' / 'downloads'
+                    downloads_dir.mkdir(parents=True, exist_ok=True)
+
+                    try:
+                        async with page.expect_download(timeout=60000) as download_info:
+                            await export_btn.first.click()
+                            print('    Clicked Export button, waiting for download...')
+
+                        download = await download_info.value
+                        xlsx_filename = f'{city_name.lower()}_permits_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx'
+                        xlsx_path = downloads_dir / xlsx_filename
+                        await download.save_as(xlsx_path)
+                        print(f'    Downloaded Excel to: {xlsx_path}')
+
+                        # Parse Excel file
+                        import pandas as pd
+                        df = pd.read_excel(xlsx_path)
+                        print(f'    Excel has {len(df)} rows, columns: {list(df.columns)[:5]}...')
+
+                        for _, row in df.iterrows():
+                            permit = {
+                                'permit_id': str(row.get('Project Number', row.get('Permit Number', ''))),
+                                'address': str(row.get('Address', row.get('Project Address', ''))),
+                                'type': str(row.get('Work Type', row.get('Type', row.get('Designation', '')))),
+                                'status': str(row.get('Status', row.get('Project Status', ''))),
+                                'date': str(row.get('Created', row.get('Issued Date', '')))
+                            }
+                            if permit['permit_id']:
+                                permits.append(permit)
+
+                        print(f'    Parsed {len(permits)} permits from Excel')
+
+                    except Exception as e:
+                        print(f'    Excel export failed: {e}')
                 else:
-                    break
+                    print('    Export button not found or disabled')
+            else:
+                print('    No results to export')
+
+            # Fallback: Extract table data if Excel didn't work
+            if len(permits) == 0:
+                print('[EXTRACT] Reading table data...')
+                while len(permits) < target_count:
+                    rows = await page.evaluate('''() => {
+                        const results = [];
+                        document.querySelectorAll('tbody tr').forEach(row => {
+                            const cells = Array.from(row.querySelectorAll('td')).map(td => td.innerText.trim());
+                            if(cells.length > 4) results.push(cells);
+                        });
+                        return results;
+                    }''')
+
+                    for row in rows:
+                        if len(row) >= 5:
+                            permits.append({
+                                'permit_id': row[0],
+                                'address': row[1],
+                                'type': row[2],
+                                'status': row[3],
+                                'date': row[4]
+                            })
+
+                    print(f"   Collected {len(permits)} permits...")
+
+                    # Try next page
+                    next_btn = page.locator('.p-paginator-next:not(.p-disabled)')
+                    if await next_btn.count() > 0:
+                        await next_btn.click()
+                        await asyncio.sleep(2)
+                    else:
+                        break
 
             await browser.close()
             return permits
@@ -487,8 +562,13 @@ async def scrape_orchestrator(city_name: str, target_count: int = 1000):
     Phase 1: Headless + stealth (fast, low resources)
     Phase 2: Headed mode (bypasses simple fingerprinting)
     Phase 3: Fail gracefully with diagnostics
+
+    Special: Irving uses Advanced Reporting -> PDF export path (scrape function)
     """
     from pathlib import Path
+
+    # Irving: Use the standard search flow with EXCEL export
+    # The search page has an EXCEL option (not just PDF)
 
     # PHASE 1: HEADLESS
     try:
@@ -627,40 +707,48 @@ async def scrape(city_name: str, target_count: int = 1000):
             # Step 4: Execute search with date filter and export to Excel
             print('\n[4] Executing search with date filter and Excel export...')
 
-            # Wait for page to stabilize
-            await asyncio.sleep(2)
-
-            # Fill in "Created After" date (30 days ago) to limit search
-            created_after_date = datetime.now() - timedelta(days=30)
-            created_after_str = created_after_date.strftime('%m/%d/%Y')
-            print(f'    Setting Created After date: {created_after_str}')
-
-            # Find the "Created After" date input
-            created_after_input = page.locator('input[placeholder="Created After"], input[name*="createdAfter"]').first
-            if await created_after_input.count() > 0:
-                await created_after_input.fill(created_after_str)
-                print(f'    Filled Created After: {created_after_str}')
-                await asyncio.sleep(1)
-
-            # Check the EXCEL checkbox for export
-            excel_checkbox = page.locator('input[type="checkbox"][id*="excel"], input[type="checkbox"] + label:has-text("EXCEL")').first
-            if await excel_checkbox.count() > 0:
-                print('    Checking EXCEL checkbox...')
-                await excel_checkbox.check()
-                await asyncio.sleep(0.5)
-
-            # Click the Export button (not Search)
-            export_btn = page.locator('button:has-text("Export")').first
-            if await export_btn.count() > 0:
-                print('    Clicking Export button...')
-                await export_btn.click(timeout=10000)
-                await asyncio.sleep(5)  # Wait for export to process
+            # Irving requires Advanced Reporting -> PDF export path
+            # Skip the standard search flow entirely
+            use_advanced_reporting = False
+            if city_name.lower() == 'irving':
+                print('    Irving detected - skipping standard search, going to Advanced Reporting...')
+                use_advanced_reporting = True
             else:
-                # If no Export button, click Search
+                # Wait for page to stabilize
+                await asyncio.sleep(2)
+
+                # Fill in "Created After" date (30 days ago) to limit search
+                created_after_date = datetime.now() - timedelta(days=30)
+                created_after_str = created_after_date.strftime('%m/%d/%Y')
+                print(f'    Setting Created After date: {created_after_str}')
+
+                # Find the "Created After" date input
+                created_after_input = page.locator('input[placeholder="Created After"], input[name*="createdAfter"]').first
+                if await created_after_input.count() > 0:
+                    await created_after_input.fill(created_after_str)
+                    print(f'    Filled Created After: {created_after_str}')
+                    await asyncio.sleep(1)
+
+                # Check the EXCEL checkbox for export
+                excel_checkbox = page.locator('input[type="checkbox"][id*="excel"], input[type="checkbox"] + label:has-text("EXCEL")').first
+                if await excel_checkbox.count() > 0:
+                    print('    Checking EXCEL checkbox...')
+                    await excel_checkbox.check()
+                    await asyncio.sleep(0.5)
+
+                # Click Search first to enable Export button
                 search_btn = page.locator('button:has-text("Search")').first
-                print('    Clicking Search button...')
-                await search_btn.click(timeout=10000)
-                await asyncio.sleep(10)
+                if await search_btn.count() > 0:
+                    print('    Clicking Search button first...')
+                    await search_btn.click(timeout=10000)
+                    await asyncio.sleep(5)
+
+                # Then try to click Export if enabled
+                export_btn = page.locator('button:has-text("Export"):not([disabled])')
+                if await export_btn.count() > 0:
+                    print('    Clicking Export button...')
+                    await export_btn.click(timeout=10000)
+                    await asyncio.sleep(5)  # Wait for export to process
 
             await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_after_search_click.png', full_page=True)
             print(f'    NOTE: MGO Connect search may require manual interaction or downloads may go to browser downloads folder.')
@@ -722,14 +810,19 @@ async def scrape(city_name: str, target_count: int = 1000):
                         await advanced_link.click(timeout=5000)
                         await asyncio.sleep(3)
 
-                        # Look for different report options - try the LAST button (Open Records Data Export)
+                        # Look for different report options
                         view_btns = page.locator('button:has-text("View Report")')
                         btn_count = await view_btns.count()
-                        print(f'    Found {btn_count} View Report buttons, trying the last one...')
+                        print(f'    Found {btn_count} View Report buttons')
 
+                        # Try to find a report with tabular output (not PDF)
+                        # The "Open Records Data Export by Address" (last) is PDF
+                        # Try "Permits Issued" or similar (first few) for tabular data
                         if btn_count > 0:
-                            # Click the LAST one (Open Records Data Export by Address) - more likely to have tabular data
-                            await view_btns.last.click(timeout=10000)
+                            # First, try the second-to-last button (might be tabular)
+                            target_idx = max(0, btn_count - 2)  # Second to last, or first if only 1-2
+                            print(f'    Trying report button index {target_idx}...')
+                            await view_btns.nth(target_idx).click(timeout=10000)
                             await asyncio.sleep(5)
 
                             await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_export_page.png', full_page=True)
@@ -741,56 +834,126 @@ async def scrape(city_name: str, target_count: int = 1000):
                             start_date = end_date - timedelta(days=30)
                             print(f'    Filling dates: {start_date.strftime("%m/%d/%Y")} to {end_date.strftime("%m/%d/%Y")}')
 
-                            # Fill date inputs
-                            date_inputs = await page.locator('.p-calendar input').count()
-                            if date_inputs >= 2:
-                                # Start date
-                                await page.locator('.p-calendar input').first.click()
-                                await asyncio.sleep(0.5)
-                                if start_date.month != end_date.month:
-                                    await page.locator('.p-datepicker-prev').first.click()
-                                    await asyncio.sleep(0.3)
-                                await page.locator(f'.p-datepicker-calendar td span:has-text("{start_date.day}")').first.click()
-                                await asyncio.sleep(0.5)
+                            # Fill date inputs using calendar picker
+                            # The inputs open date picker calendars on focus
+                            print('    Filling dates via calendar picker...')
 
-                                # End date
-                                await page.locator('.p-calendar input').nth(1).click()
-                                await asyncio.sleep(0.5)
-                                await page.locator(f'.p-datepicker-calendar td span:has-text("{end_date.day}")').first.click()
-                                await asyncio.sleep(1)
+                            # Click Start Date input to open calendar
+                            start_input = page.locator('input').first
+                            await start_input.click()
+                            await asyncio.sleep(1)
 
-                                # Irving-specific PDF handling
-                                if city_name.lower() == 'irving':
-                                    print('    NOTE: Irving exports to PDF. Attempting to download and parse...')
+                            # Navigate to correct month for start date (30 days ago)
+                            # May need to go back one month
+                            if start_date.month != end_date.month:
+                                prev_btn = page.locator('.p-datepicker-prev, button[aria-label="Previous Month"]').first
+                                if await prev_btn.count() > 0:
+                                    await prev_btn.click()
+                                    await asyncio.sleep(0.5)
 
-                                    # Set up download listener
-                                    downloads_dir = Path(__file__).parent.parent / 'data' / 'downloads'
-                                    downloads_dir.mkdir(parents=True, exist_ok=True)
+                            # Click on the start date day
+                            start_day_selector = f'td span:has-text("{start_date.day}"):not(.p-datepicker-other-month)'
+                            await page.locator(start_day_selector).first.click()
+                            print(f'    Selected Start Date: {start_date.strftime("%m/%d/%Y")}')
+                            await asyncio.sleep(1)
 
-                                    # Click the Generate/Export button to trigger PDF download
-                                    export_buttons = page.locator('button:has-text("Generate"), button:has-text("Export"), button:has-text("Download")')
-                                    if await export_buttons.count() > 0:
-                                        print('    Triggering PDF download...')
-                                        async with page.expect_download(timeout=30000) as download_info:
-                                            await export_buttons.first.click()
+                            # Click End Date input to open its calendar
+                            end_input = page.locator('input').nth(1)
+                            await end_input.click()
+                            await asyncio.sleep(1)
 
-                                        download = await download_info.value
-                                        pdf_filename = f'irving_permits_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf'
-                                        pdf_path = downloads_dir / pdf_filename
-                                        await download.save_as(pdf_path)
-                                        print(f'    Downloaded PDF to: {pdf_path}')
+                            # Click on the end date day (today)
+                            end_day_selector = f'td span:has-text("{end_date.day}"):not(.p-datepicker-other-month)'
+                            await page.locator(end_day_selector).first.click()
+                            print(f'    Selected End Date: {end_date.strftime("%m/%d/%Y")}')
+                            await asyncio.sleep(1)
 
-                                        # Parse the PDF
-                                        pdf_permits = parse_irving_pdf(str(pdf_path))
-                                        if pdf_permits:
-                                            print(f'    Successfully parsed {len(pdf_permits)} permits from PDF')
-                                            api_data.extend(pdf_permits)
-                                        else:
-                                            print('    PDF parsing returned no data (image-only or error)')
-                                    else:
-                                        print('    WARNING: Could not find export button for PDF download')
+                            # Press Escape to close any open calendars
+                            await page.keyboard.press('Escape')
+                            await asyncio.sleep(0.5)
+
+                            await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_dates_filled.png')
+
+                            # Irving-specific PDF handling
+                            if city_name.lower() == 'irving':
+                                print('    NOTE: Irving exports to PDF. Attempting to download and parse...')
+
+                                # Set up download listener
+                                downloads_dir = Path(__file__).parent.parent / 'data' / 'downloads'
+                                downloads_dir.mkdir(parents=True, exist_ok=True)
+
+                                # Click the View PDF button (actual button text on Irving portal)
+                                export_buttons = page.locator('button:has-text("View PDF"), button:has-text("Generate"), button:has-text("Export"), button:has-text("Download")')
+                                btn_count = await export_buttons.count()
+                                print(f'    Found {btn_count} export/PDF buttons')
+
+                                if btn_count > 0:
+                                    print('    Triggering PDF view...')
+                                    try:
+                                        # The PDF might open in new tab OR trigger download
+                                        # Try to handle both cases
+                                        async with context.expect_page(timeout=30000) as new_page_info:
+                                            await export_buttons.first.click(force=True)
+
+                                        new_page = await new_page_info.value
+                                        print(f'    New tab opened: {new_page.url}')
+
+                                        # Wait for actual content to load (not about:blank)
+                                        for _ in range(10):
+                                            await asyncio.sleep(2)
+                                            current_url = new_page.url
+                                            print(f'    Waiting for PDF... URL: {current_url}')
+                                            if current_url != 'about:blank':
+                                                break
+
+                                        # Try to get the PDF URL and download it
+                                        pdf_url = new_page.url
+                                        if '.pdf' in pdf_url.lower() or 'blob:' in pdf_url:
+                                            print('    Downloading PDF from new tab...')
+                                            # Use the browser to save the PDF
+                                            pdf_filename = f'irving_permits_{datetime.now().strftime("%Y%m%d_%H%M%S")}.pdf'
+                                            pdf_path = downloads_dir / pdf_filename
+
+                                            # Get PDF content via CDP or just note the URL
+                                            # For now, let's try to trigger download from the new tab
+                                            try:
+                                                # Try Ctrl+S to save
+                                                await new_page.keyboard.press('Control+s')
+                                                await asyncio.sleep(2)
+                                            except:
+                                                pass
+
+                                            # If we can access the response, save it
+                                            try:
+                                                response = await new_page.goto(pdf_url, wait_until='load', timeout=30000)
+                                                if response:
+                                                    content = await response.body()
+                                                    with open(pdf_path, 'wb') as f:
+                                                        f.write(content)
+                                                    print(f'    Saved PDF to: {pdf_path}')
+
+                                                    # Parse the PDF
+                                                    pdf_permits = parse_irving_pdf(str(pdf_path))
+                                                    if pdf_permits:
+                                                        print(f'    Successfully parsed {len(pdf_permits)} permits from PDF')
+                                                        api_data.extend(pdf_permits)
+                                                    else:
+                                                        print('    PDF parsing returned no data')
+                                            except Exception as save_err:
+                                                print(f'    Could not save PDF: {save_err}')
+
+                                        await new_page.close()
+
+                                    except Exception as pdf_err:
+                                        print(f'    PDF handling error: {pdf_err}')
+                                        # Maybe it's a download after all, check downloads folder
+                                        await asyncio.sleep(3)
+                                        await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_after_pdf_click.png')
                                 else:
-                                    print('    NOTE: This report exports to PDF. Skipping PDF export - no permit data can be extracted from this portal.')
+                                    print('    WARNING: Could not find export button for PDF download')
+                                    await page.screenshot(path=f'debug_html/mgo_{city_name.lower()}_no_pdf_button.png')
+                            else:
+                                print('    NOTE: This report exports to PDF. Skipping PDF export - no permit data can be extracted from this portal.')
 
             # Step 5: Extract data from the results table
             print('\n[5] Extracting permit data from table...')

@@ -1,6 +1,6 @@
 # DFW Permit Scraper - Status Documentation
 
-**Last Updated:** December 12, 2025
+**Last Updated:** December 13, 2024
 
 ---
 
@@ -9,9 +9,9 @@
 This document tracks the status of all permit scrapers across DFW municipalities, including platform types, scraper implementations, CAD enrichment capabilities, and blocking issues.
 
 **Total Coverage:** 30 municipalities tracked
-**Working Scrapers:** 14
+**Working Scrapers:** 19 (+5 added Dec 13)
 **Partial/In Progress:** 1
-**Blocked/Not Implemented:** 15
+**Blocked/Not Implemented:** 10
 
 ---
 
@@ -27,20 +27,20 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | 6 | **Garland** | 240K | Unknown | — | Dallas | ❌ Not Implemented | Research needed |
 | 7 | **Frisco** | 200K | eTRAKiT | `etrakit_fast.py` | Collin/Denton | ✅ Working | Fast DOM extraction |
 | 8 | **Denton** | 160K | eTRAKiT | `etrakit_fast.py` | Denton | ✅ Working | YYMM-#### format |
-| 9 | **McKinney** | 195K | EnerGov CSS | `citizen_self_service.py` | Collin | ❌ Blocked | Angular timeouts |
+| 9 | **McKinney** | 195K | EnerGov CSS | `citizen_self_service.py` | Collin | ✅ Working | 1,001 permits (Dec 13) |
 | 10 | **Grand Prairie** | 195K | Accela | `accela_fast.py` | Dallas/Tarrant | ✅ Working | Fast DOM extraction |
 | 11 | **Mesquite** | 145K | Accela | `accela_fast.py` | Dallas | ✅ Working | Fast DOM extraction |
 | 12 | **Carrollton** | 135K | CityView | `cityview.py` | Dallas/Denton | ✅ Working | Limited to 20 results/search |
 | 13 | **Richardson** | 120K | Unknown | — | Dallas/Collin | ❌ Not Implemented | Research needed |
 | 14 | **Lewisville** | 110K | Unknown | — | Denton | ❌ Not Implemented | Research needed |
 | 15 | **Flower Mound** | 75K | eTRAKiT | `etrakit_fast.py` | Denton | ✅ Working | Fast DOM extraction |
-| 16 | **Allen** | 105K | EnerGov CSS | `citizen_self_service.py` | Collin | ❌ Blocked | Angular timeouts |
+| 16 | **Allen** | 105K | EnerGov CSS | `citizen_self_service.py` | Collin | ✅ Working | 1,070 permits (Dec 13) |
 | 17 | **Grapevine** | 55K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
 | 18 | **Waxahachie** | 45K | EnerGov CSS | `citizen_self_service.py` | Ellis | ✅ Working | No CAD enrichment (firewalled) |
-| 19 | **Coppell** | 42K | Unknown | — | Dallas | ❌ Not Implemented | Research needed |
+| 19 | **Coppell** | 42K | EnerGov CSS | `citizen_self_service.py` | Dallas | ✅ Working | 1,096 permits (Dec 13) |
 | 20 | **Euless** | 60K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
 | 21 | **Bedford** | 50K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
-| 22 | **Hurst** | 40K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
+| 22 | **Hurst** | 40K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | 1,000 permits (Dec 13) |
 | 23 | **Forney** | 35K | MyGov | — | Kaufman | ❌ Blocked | No public MyGov access |
 | 24 | **Weatherford** | 35K | GovBuilt | — | Parker | 🔬 Scrapable | No CAD API (Parker County) |
 | 25 | **Sachse** | 30K | SmartGov | — | Dallas/Collin | 🔬 Scrapable | Needs new scraper (Angular SPA) |
@@ -58,7 +58,7 @@ This document tracks the status of all permit scrapers across DFW municipalities
 |----------|----------|---------|---------|-------|
 | **Accela** | 5 | 5 | 0 | Dallas, Fort Worth, Grand Prairie, Mesquite (+ others) |
 | **eTRAKiT** | 4 | 4 | 0 | Frisco, Flower Mound, Plano, Denton |
-| **EnerGov CSS** | 6 | 3 | 3 | Southlake, Colleyville, Trophy Club, Waxahachie (McKinney/Allen blocked) |
+| **EnerGov CSS** | 10 | 8 | 2 | Southlake, Colleyville, Trophy Club, Waxahachie, McKinney, Allen, Hurst, Coppell, Farmers Branch (NRH needs work) |
 | **MyGov** | 2 | 1 | 1 | Westlake works, Forney blocked |
 | **CityView** | 1 | 1 | 0 | Carrollton |
 | **Socrata API** | 1 | 1 | 0 | Arlington |
@@ -84,7 +84,43 @@ This document tracks the status of all permit scrapers across DFW municipalities
 
 ---
 
-## Session Notes - December 12, 2025
+## Session Notes - December 13, 2024
+
+### Production Run Results
+
+**Permits Loaded to Database:**
+| City | Platform | Permits |
+|------|----------|---------|
+| McKinney | EnerGov CSS | 1,001 |
+| Allen | EnerGov CSS | 1,070 |
+| Hurst | EnerGov CSS | 1,000 |
+| Coppell | EnerGov CSS | 1,096 |
+| Farmers Branch | EnerGov CSS | 276 |
+| **Total** | | **4,443** |
+
+**CAD Enrichment Results:**
+- Properties enriched: 2,351 (52% hit rate)
+- Absentee owners identified: 574
+- By county: Collin 1,124, Dallas 795, Tarrant 383, Denton 47, Kaufman 2
+- Top property values: $14M, $10.8M, $8M, $7.7M
+
+**AI Scoring Results:**
+- Tier A (80+): 17 leads
+- Tier B (50-79): 33 leads
+- Tier C (<50): 65 leads
+- Tier U (unverified): 238 leads
+- Exports: `exports/{category}/tier_{a,b,c}.csv`
+
+**Key Fixes Applied:**
+- Fixed McKinney/Allen Angular timeout issues
+- Updated Hurst URL: `css.hursttx.gov`
+- Updated Coppell URL: `energovcss.coppelltx.gov`
+- Changed date range from 60 to 365 days for more results
+- Changed export mode from "current view" to bulk export
+
+---
+
+## Session Notes - December 12, 2024
 
 ### New Municipalities Expansion (Tasks 1-11 Complete)
 
@@ -204,18 +240,22 @@ python3 scrapers/etrakit_fast.py denton 1000
 python3 scrapers/etrakit.py plano 1000  # Login required
 ```
 
-### EnerGov CSS Platform (3 working, 3 blocked)
+### EnerGov CSS Platform (8 working, 2 in progress)
 **Scraper:** `scrapers/citizen_self_service.py`
-**Method:** Playwright browser automation
+**Method:** Playwright browser automation with Excel export
 **Working Cities:**
+- McKinney (195K) - Collin County CAD - 1,001 permits (Dec 13)
+- Allen (105K) - Collin County CAD - 1,070 permits (Dec 13)
+- Hurst (40K) - Tarrant County CAD - 1,000 permits (Dec 13)
+- Coppell (42K) - Dallas County CAD - 1,096 permits (Dec 13)
+- Farmers Branch (30K) - Dallas County CAD - 276 permits (Dec 13)
 - Southlake (32K) - Tarrant County CAD - Residential filtering available
 - Colleyville (27K) - Tarrant County CAD - Residential filtering available
 - Trophy Club (12K) - Denton County CAD
 - Waxahachie (45K) - NO CAD (Ellis County firewalled)
 
-**Blocked Cities:**
-- McKinney (195K) - Angular timeouts
-- Allen (105K) - Angular timeouts
+**In Progress:**
+- North Richland Hills - Different page structure, needs custom selectors
 
 **Usage:**
 ```bash
@@ -253,11 +293,11 @@ python3 scrapers/mgo_connect.py irving 100  # Login works, PDF extraction in pro
 
 ### Technical Blocks
 
-**McKinney & Allen (EnerGov CSS Angular Timeouts):**
-- Platform: Tyler EnerGov Citizen Self Service
-- Issue: Angular app loading timeouts, inconsistent page rendering
-- Status: Under investigation
-- Potential Solution: Increase wait times, use different Playwright configuration
+**McKinney & Allen (EnerGov CSS):** ✅ RESOLVED (Dec 13, 2024)
+- Issue was Angular loading timeouts
+- Solution: Increased wait times, changed to bulk Excel export mode
+- McKinney: 1,001 permits loaded
+- Allen: 1,070 permits loaded
 
 **Irving (MGO Connect Anti-Bot):**
 - Platform: MGO Connect
@@ -292,10 +332,10 @@ The following cities require platform research:
 - Richardson (120K)
 - Lewisville (110K)
 - Grapevine (55K)
-- Coppell (42K)
 - Euless (60K)
 - Bedford (50K)
-- Hurst (40K)
+
+**Resolved (Dec 13):** Coppell (42K) and Hurst (40K) - now working with EnerGov CSS
 
 ---
 
@@ -314,10 +354,9 @@ The following cities require platform research:
    - Richardson (120K) - Unknown platform
    - Lewisville (110K) - Unknown platform
 
-3. **Fix McKinney & Allen EnerGov timeouts** (300K+ combined pop)
-   - Debug Angular loading issues
-   - Increase wait times or adjust Playwright settings
-   - High value if solvable (195K + 105K population)
+3. ~~**Fix McKinney & Allen EnerGov timeouts**~~ ✅ DONE (Dec 13)
+   - Both cities now working with 2,071 combined permits loaded
+   - Solution: Bulk Excel export + increased wait times
 
 ### Medium Priorities
 
@@ -358,10 +397,11 @@ The following cities require platform research:
 ## Success Metrics
 
 ### Current Coverage
-- **Working Scrapers:** 14 municipalities
-- **Combined Population:** ~4.2M (approx 60% of DFW metro)
+- **Working Scrapers:** 19 municipalities (+5 added Dec 13)
+- **Combined Population:** ~4.5M (approx 65% of DFW metro)
 - **Working CAD Counties:** 4 (Dallas, Tarrant, Collin, Denton)
 - **Partial CAD Counties:** 1 (Kaufman - missing building details)
+- **Latest Run (Dec 13):** 4,443 permits loaded, 2,351 enriched, 50 quality leads
 
 ### Target Coverage (If All Implemented)
 - **Total Municipalities:** 30
@@ -371,12 +411,12 @@ The following cities require platform research:
 ### High-Value Targets Still Blocked
 - Garland (240K) - Not researched
 - Irving (240K) - Partial (anti-bot)
-- McKinney (195K) - Angular timeout
-- Allen (105K) - Angular timeout
 - Richardson (120K) - Not researched
 - Lewisville (110K) - Not researched
 
-**Combined blocked high-value population:** ~1M+
+**Combined blocked high-value population:** ~670K
+
+**Resolved Dec 13:** McKinney (195K) and Allen (105K) - now working!
 
 ---
 
