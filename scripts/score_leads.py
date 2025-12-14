@@ -683,16 +683,30 @@ class DeepSeekScorer:
                 content = data["choices"][0]["message"]["content"]
                 result = self._parse_response(content)
 
-                # Override tier to "U" (Unverified) if freshness unknown
+                # Override tier based on priority: D (score=0) > U (no date) > A/B/C (normal)
+                score = result.get("score", 50)
                 tier = result.get("tier", "B")
                 flags = result.get("flags", [])
-                if permit.days_old == -1:
+
+                # Tier D: AI gave score 0 (confirmed garbage)
+                if score == 0:
+                    tier = "D"
+                    flags = flags + ["ai_confirmed_garbage"]
+                # Tier U: Can't verify freshness (no date)
+                elif permit.days_old == -1:
                     tier = "U"
                     flags = flags + ["unverified_freshness"]
+                # Normal tier assignment based on score
+                elif score >= 80:
+                    tier = "A"
+                elif score >= 50:
+                    tier = "B"
+                else:
+                    tier = "C"
 
                 return ScoredLead(
                     permit=permit,
-                    score=result.get("score", 50),
+                    score=score,
                     tier=tier,
                     reasoning=result.get("reasoning", ""),
                     flags=flags,

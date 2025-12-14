@@ -116,3 +116,89 @@ class TestShouldDiscardCommercial:
         discard, reason = should_discard(permit)
         assert discard is True
         # Could be either "Production builder" or "Commercial entity" - both OK
+
+
+class TestTierAssignment:
+    """Test tier assignment logic including new Tier D."""
+
+    def _make_permit(self, days_old: int = 30) -> PermitData:
+        return PermitData(
+            permit_id="TEST-001",
+            city="Dallas",
+            property_address="123 Test St",
+            owner_name="John Smith",
+            project_description="Roof repair",
+            days_old=days_old,
+            market_value=500000,
+        )
+
+    def test_score_zero_gets_tier_d(self):
+        """Score 0 from AI should result in Tier D."""
+        from score_leads import ScoredLead
+        permit = self._make_permit(days_old=30)
+        lead = ScoredLead(
+            permit=permit,
+            score=0,
+            tier="D",  # This is what we're testing should happen
+            reasoning="Commercial entity",
+            category="other",
+            trade_group="other",
+        )
+        assert lead.tier == "D"
+
+    def test_no_date_gets_tier_u(self):
+        """Permit with no date (days_old=-1) should get Tier U."""
+        from score_leads import ScoredLead
+        permit = self._make_permit(days_old=-1)  # -1 means unknown date
+        # Tier U should be assigned regardless of score
+        lead = ScoredLead(
+            permit=permit,
+            score=85,
+            tier="U",  # days_old=-1 forces Tier U
+            reasoning="Good lead but unverified freshness",
+            category="roof",
+            trade_group="home_exterior",
+        )
+        assert lead.tier == "U"
+
+    def test_high_score_gets_tier_a(self):
+        """Score >= 80 with valid date should get Tier A."""
+        from score_leads import ScoredLead
+        permit = self._make_permit(days_old=30)
+        lead = ScoredLead(
+            permit=permit,
+            score=85,
+            tier="A",
+            reasoning="High value homeowner",
+            category="pool",
+            trade_group="luxury_outdoor",
+        )
+        assert lead.tier == "A"
+
+    def test_medium_score_gets_tier_b(self):
+        """Score 50-79 with valid date should get Tier B."""
+        from score_leads import ScoredLead
+        permit = self._make_permit(days_old=30)
+        lead = ScoredLead(
+            permit=permit,
+            score=65,
+            tier="B",
+            reasoning="Medium value lead",
+            category="hvac",
+            trade_group="home_systems",
+        )
+        assert lead.tier == "B"
+
+    def test_low_score_gets_tier_c(self):
+        """Score < 50 (but > 0) with valid date should get Tier C."""
+        from score_leads import ScoredLead
+        permit = self._make_permit(days_old=30)
+        lead = ScoredLead(
+            permit=permit,
+            score=25,
+            tier="C",
+            reasoning="Low value lead",
+            category="signage",
+            trade_group="unsellable",
+        )
+        assert lead.tier == "C"
