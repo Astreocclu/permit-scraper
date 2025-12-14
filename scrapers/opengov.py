@@ -54,6 +54,70 @@ SEARCH_TERMS = [
 ]
 
 
+def parse_permit_text(text: str, city: str) -> dict | None:
+    """Parse permit info from result text."""
+    if not text or len(text) < 10:
+        return None
+
+    lines = [l.strip() for l in text.split('\n') if l.strip()]
+
+    permit = {
+        'permit_id': '',
+        'permit_type': '',
+        'address': '',
+        'status': '',
+        'date': '',
+        'city': city,
+        'source': 'opengov',
+    }
+
+    for line in lines:
+        # Look for permit ID patterns (varies by city)
+        # Common: BLD-2025-001234, P25-00123, 2025-BP-0001
+        id_match = re.search(r'([A-Z]{2,4}[-]?\d{4}[-]?\d{3,6})', line)
+        if id_match and not permit['permit_id']:
+            permit['permit_id'] = id_match.group(1)
+
+        # Look for dates
+        date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})', line)
+        if date_match and not permit['date']:
+            permit['date'] = date_match.group(1)
+
+        # Look for addresses (number + street)
+        addr_match = re.search(r'(\d+\s+[A-Z][A-Za-z\s]+(?:St|Ave|Dr|Rd|Ln|Blvd|Ct|Way|Pl))', line, re.IGNORECASE)
+        if addr_match and not permit['address']:
+            permit['address'] = addr_match.group(1).strip()
+
+        # Look for permit types
+        type_keywords = ['residential', 'commercial', 'electrical', 'mechanical',
+                        'plumbing', 'building', 'fence', 'pool', 'roof', 'hvac',
+                        'remodel', 'addition', 'new construction']
+        for kw in type_keywords:
+            if kw in line.lower() and not permit['permit_type']:
+                permit['permit_type'] = line[:50]
+                break
+
+    # Only return if we have at least permit_id or address
+    if permit['permit_id'] or permit['address']:
+        return permit
+    return None
+
+
+def parse_page_content(content: str, city: str) -> list:
+    """Fallback: parse permits from raw page text."""
+    permits = []
+
+    # Split by common separators
+    chunks = re.split(r'\n{2,}|<hr>|───', content)
+
+    for chunk in chunks:
+        permit = parse_permit_text(chunk, city)
+        if permit:
+            permits.append(permit)
+
+    return permits
+
+
 async def navigate_to_search(page, city_config: dict) -> bool:
     """
     Navigate to OpenGov portal and find the search interface.
@@ -113,6 +177,87 @@ async def navigate_to_search(page, city_config: dict) -> bool:
     except Exception as e:
         logger.error(f"[{city_name}] Error navigating: {e}")
         return False
+
+
+@retry(
+    stop=stop_after_attempt(2),
+    wait=wait_exponential(multiplier=1, min=1, max=4),
+    retry=retry_if_exception_type((PlaywrightTimeout,)),
+    reraise=True
+)
+async def search_permits(page, city_config: dict, search_term: str) -> list:
+    """
+    Search for permits using a search term and extract results.
+
+    Args:
+        page: Playwright page
+        city_config: City configuration dict
+        search_term: Street name or keyword to search
+
+    Returns:
+        List of permit dicts
+    """
+    permits = []
+    city_name = city_config['name']
+
+    try:
+        # Find and fill search input
+        search_input = page.locator('input[type="search"], input[placeholder*="Search"], #search-input').first
+        if await search_input.count() == 0:
+            logger.warning(f"[{city_name}] Search input not found")
+            return permits
+
+        await search_input.clear()
+        await search_input.fill(search_term)
+        await asyncio.sleep(0.5)
+
+        # Submit search (Enter key or click search button)
+        await search_input.press('Enter')
+        await asyncio.sleep(3)  # Wait for results
+
+        # Extract results from page
+        # OpenGov typically shows results in a table or card layout
+        result_selectors = [
+            '.search-result',
+            '.permit-card',
+            'tr[data-permit]',
+            '.record-item',
+            '[data-record-id]',
+        ]
+
+        for selector in result_selectors:
+            results = page.locator(selector)
+            count = await results.count()
+            if count > 0:
+                logger.info(f"[{city_name}] Found {count} results with {selector}")
+
+                for i in range(min(count, 50)):  # Limit per search
+                    try:
+                        result = results.nth(i)
+                        text = await result.inner_text()
+
+                        permit = parse_permit_text(text, city_name)
+                        if permit:
+                            permits.append(permit)
+                    except Exception as e:
+                        logger.debug(f"Error parsing result {i}: {e}")
+                        continue
+                break
+
+        if not permits:
+            # Fallback: try to parse entire page body
+            body_text = await page.inner_text('body')
+            permits = parse_page_content(body_text, city_name)
+
+        logger.info(f"[{city_name}] Search '{search_term}': {len(permits)} permits")
+        return permits
+
+    except PlaywrightTimeout:
+        logger.warning(f"[{city_name}] Timeout searching '{search_term}'")
+        return permits
+    except Exception as e:
+        logger.debug(f"[{city_name}] Search error: {e}")
+        return permits
 
 
 async def main():
