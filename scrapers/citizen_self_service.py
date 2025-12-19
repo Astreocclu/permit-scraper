@@ -37,6 +37,10 @@ except ImportError:
     STEALTH = None
     print("WARN: playwright-stealth not found. Install: pip install playwright-stealth")
 
+# Output directory for raw JSON
+OUTPUT_DIR = Path(__file__).parent.parent / "data" / "raw"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 try:
     from scrapers.utils import parse_excel_permits
     from scrapers.filters import filter_residential_permits
@@ -109,6 +113,21 @@ CSS_CITIES = {
     'princeton': {
         'name': 'Princeton',
         'base_url': 'https://princetontx-energovweb.tylerhost.net/apps/selfservice',
+    },
+    'addison': {
+        'name': 'Addison',
+        'base_url': 'https://addisontxcss.tylerhost.net/Apps/SelfService',
+        # Addison uses newer Tyler Civic Access portal
+    },
+    'keller': {
+        'name': 'Keller',
+        'base_url': 'https://www.cityofkeller.com/css',
+        # Keller migrated from eTRAKiT to EnerGov CSS (Dec 2024)
+    },
+    'duncanville': {
+        'name': 'Duncanville',
+        'base_url': 'https://selfservice.duncanville.com/energov_prod/selfservice',
+        # Duncanville uses EnerGov CSS (Dallas County)
     },
 }
 
@@ -1112,8 +1131,8 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
         'permits': permits[:target_count]
     }
 
-    output_file = f'{city_key}_raw.json'
-    Path(output_file).write_text(json.dumps(output, indent=2))
+    output_file = OUTPUT_DIR / f'{city_key}_raw.json'
+    output_file.write_text(json.dumps(output, indent=2))
 
     print('\n' + '=' * 60)
     print('SUMMARY')

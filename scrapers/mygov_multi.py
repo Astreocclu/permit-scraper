@@ -43,6 +43,7 @@ MYGOV_CITIES = {
     'university_park': {'name': 'University Park', 'slug': 'university_park_tx', 'pop': 25000},
     'forney': {'name': 'Forney', 'slug': 'forney_tx', 'pop': 25000},
     'royse_city': {'name': 'Royse City', 'slug': 'roysecity_tx', 'pop': 13000},
+    'crowley': {'name': 'Crowley', 'slug': 'crowley_tx', 'pop': 18000},
 }
 
 # Common street names/patterns to search
