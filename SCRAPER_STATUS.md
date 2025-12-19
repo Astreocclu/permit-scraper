@@ -1,6 +1,6 @@
 # DFW Permit Scraper - Status Documentation
 
-**Last Updated:** December 13, 2024
+**Last Updated:** December 19, 2024
 
 ---
 
@@ -9,9 +9,9 @@
 This document tracks the status of all permit scrapers across DFW municipalities, including platform types, scraper implementations, CAD enrichment capabilities, and blocking issues.
 
 **Total Coverage:** 30 municipalities tracked
-**Working Scrapers:** 19 (+5 added Dec 13)
-**Partial/In Progress:** 1
-**Blocked/Not Implemented:** 10
+**Working Scrapers:** 20 (+1 Grapevine Dec 17)
+**Partial/In Progress:** 2 (Bedford, Weatherford)
+**Blocked/Not Implemented:** 8
 
 ---
 
@@ -35,13 +35,13 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | 14 | **Lewisville** | 110K | Unknown | — | Denton | ❌ Not Implemented | Research needed |
 | 15 | **Flower Mound** | 75K | eTRAKiT | `etrakit_fast.py` | Denton | ✅ Working | Fast DOM extraction |
 | 16 | **Allen** | 105K | EnerGov CSS | `citizen_self_service.py` | Collin | ✅ Working | 1,070 permits (Dec 13) |
-| 17 | **Grapevine** | 55K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
+| 17 | **Grapevine** | 55K | MyGov | `parse_grapevine_pdf.py` | Tarrant | ✅ Working | PDF export + manual parse |
 | 18 | **Waxahachie** | 45K | EnerGov CSS | `citizen_self_service.py` | Ellis | ✅ Working | No CAD enrichment (firewalled) |
 | 19 | **Coppell** | 42K | EnerGov CSS | `citizen_self_service.py` | Dallas | ✅ Working | 1,096 permits (Dec 13) |
 | 20 | **Euless** | 60K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
 | 21 | **Bedford** | 50K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
 | 22 | **Hurst** | 40K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | 1,000 permits (Dec 13) |
-| 23 | **Forney** | 35K | MyGov | — | Kaufman | ❌ Blocked | No public MyGov access |
+| 23 | **Forney** | 35K | MyGov | — | Kaufman | ❌ Blocked | Login required (confirmed Dec 17) |
 | 24 | **Weatherford** | 35K | GovBuilt | — | Parker | 🔬 Scrapable | No CAD API (Parker County) |
 | 25 | **Sachse** | 30K | SmartGov | — | Dallas/Collin | 🔬 Scrapable | Needs new scraper (Angular SPA) |
 | 26 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | Residential filtering |
@@ -81,6 +81,101 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | **Ellis** | ❌ Blocked | Waxahachie | GIS server firewalled (internal access only) |
 | **Parker** | ❌ No API | Weatherford, Aledo | No public CAD API available |
 | **Johnson** | ❌ Not Used | — | No cities in current scope |
+
+---
+
+## Session Notes - December 17, 2024
+
+### Browser-Use Scraper Testing
+
+Tested 4 cities using browser-use LLM agent for portal exploration.
+
+**Weatherford (GovBuilt):** ✅ SUCCESS
+- Portal: https://permits.weatherfordtx.gov/
+- Access: PUBLIC (no login)
+- Results: 203 permits found (samples extracted)
+- Issue: No valuation field in public view
+- CAD: Parker County has NO public API
+
+**Grapevine (MyGov):** ✅ SUCCESS
+- Portal: MyGov with PDF export capability
+- Access: PUBLIC
+- Method: Downloaded "All Permits - last month (PP).pdf" (50 pages)
+- Results: **126 permits loaded to database**
+- Data quality: Excellent - includes contractor names, phones, emails
+- Scraper: `scripts/parse_grapevine_pdf.py` (manual PDF parse)
+- Categories: 40 plumbing, 27 roofing, 12 electrical, 12 addition/remodel, 9 HVAC, etc.
+
+**Forney (MyGov):** ❌ BLOCKED
+- Portal: MyGov Collaborator Portal
+- **Login URL:** `https://mygov.us/collaborator/forneytx`
+- Access: **LOGIN REQUIRED** (confirmed via browser-use)
+- Issue: All public URLs redirect to marketing page (empower.tylertech.com/mygov)
+- Tested URLs: `mygov.us/collaborator/forneytx`, `web.mygov.us/collaborator/forneytx`, `public.mygov.us/forney` - all failed
+- Status: Cannot scrape without credentials
+
+**Bedford (OpenGov):** ⚠️ LIMITED
+- Portal: OpenGov with keyword search only
+- Access: PUBLIC but limited
+- Issue: No date filtering, keyword-only search
+- Results: Few matches for general permit searches
+- Status: Scrapable but low value without better filtering
+
+**Garland:** ❌ NOT AVAILABLE
+- Attempted to access citizen portal
+- Issue: Jurisdiction not found in dropdown
+- Status: Requires further research
+
+---
+
+## Session Notes - December 18, 2024
+
+### MyGov Cities Testing (All Failed)
+
+Tested all 4 MyGov cities with `public.mygov.us/{city}_tx/module?module=pi` URL pattern.
+
+| City | Population | Result | Notes |
+|------|-----------|--------|-------|
+| Mansfield | 75K | ❌ BLOCKED | Search returns 0 results, no Reports module |
+| Little Elm | 55K | ✅ WORKING | 2,729 permits via Excel export - `parse_littleelm_excel.py` |
+| Celina | 30K | ❌ BLOCKED | module=pi redirects to homepage |
+| Fate | 25K | ❌ BLOCKED | Reports only shows contractor registration |
+
+**Conclusion:** MyGov `module?module=pi` URL pattern does NOT work for permit search.
+
+### Additional Cities Tested
+
+| City | Platform | Result | Notes |
+|------|----------|--------|-------|
+| Lewisville | MGO Connect | ⚠️ 0 PERMITS | Login works, searched Nov-Dec 2025, returned empty |
+| Euless | Unknown | ❌ ACCESS DENIED | All URLs blocked, CAPTCHA on search engines |
+
+### Summary of Dec 17-18 Testing
+
+**Working (added to DB):**
+- Grapevine: 126 permits via PDF parse
+
+**Confirmed Scrapable:**
+- Weatherford: 203 permits, PUBLIC access (no CAD)
+
+**Blocked:**
+- Forney: LOGIN REQUIRED
+- Mansfield, Celina, Fate: MyGov module disabled
+- Euless: Access Denied + CAPTCHA
+
+**Limited/Partial:**
+- Little Elm: Has PDF report (like Grapevine)
+- Bedford: OpenGov keyword-only search
+- Lewisville: MGO Connect works but 0 permits returned
+
+**Resolved Dec 19:**
+- ✅ Little Elm: 2,729 permits loaded via Excel export from MyGov Reports
+  - Created `scripts/parse_littleelm_excel.py` for automated parsing
+  - Parser extracts 82.4% contractor names (vs 4.8% ad-hoc)
+  - Finds latest Excel in `/tmp/browser-use-downloads-*/`
+  - Manual workflow: Download Excel from MyGov Reports → Run parser
+- ❌ Richardson: cor.net blocked (Access Denied), Citizenserve portal at `https://www.citizenserve.com/Portal/PortalController?Action=showPermit&ctzPagePrefix=Portal_&installationID=343`
+- ❌ Garland: No public permit portal found (PDF forms + email only)
 
 ---
 
