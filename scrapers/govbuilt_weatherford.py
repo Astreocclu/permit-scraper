@@ -9,6 +9,18 @@ Usage:
   python3 scrapers/govbuilt_weatherford.py 500
 
 Note: Parker County has no public CAD API, so these permits cannot be enriched with property data.
+
+FIELD AVAILABILITY (from public portal):
+  ✓ permit_id         - #Reference column (always present)
+  ✓ permit_type       - Type column (always present)
+  ✓ contractor_name   - Name column (usually present)
+  ✓ contractor_phone  - Phone Number column (usually present)
+  ✓ address           - Address column (usually present)
+  ✓ issued_date       - Created Date column (always present)
+  ✓ status            - Status column (always present)
+  ~ description       - Sub-Type column (RARELY populated - portal column exists but is empty)
+  ✗ value             - NOT available in public portal (no valuation field visible)
+  ✗ contractor_email  - NOT available in public portal (phone only)
 """
 
 import asyncio
@@ -35,27 +47,8 @@ GOVBUILT_CONFIG = {
 }
 
 
-def parse_permit_row(row_text: str) -> dict:
-    """Parse a single permit row from the search results."""
-    permit = {
-        'permit_id': '',
-        'permit_type': '',
-        'description': '',
-        'address': '',
-        'city': 'Weatherford',
-        'issued_date': '',
-        'value': '',
-        'contractor_name': '',
-        'contractor_phone': '',
-        'contractor_email': '',
-        'status': '',
-        'source': 'govbuilt',
-    }
-
-    # This is a placeholder - will need to be adjusted based on actual HTML structure
-    # GovBuilt portals typically use DataTables or similar grid structures
-
-    return permit
+# Dead code removed - parse_permit_row() was never called.
+# All parsing is done inline in scrape_weatherford_permits()
 
 
 @retry(
@@ -209,8 +202,19 @@ async def scrape_weatherford_permits(limit: int = 100) -> list:
                             cell_texts.append(text.strip())
 
                         # Map cells to permit fields based on headers
+                        # Initialize all expected fields (even if portal doesn't provide them)
                         permit = {
+                            'permit_id': '',
+                            'permit_type': '',
+                            'description': '',  # Sub-Type column - rarely populated
+                            'address': '',
                             'city': 'Weatherford',
+                            'issued_date': '',
+                            'value': '',  # NOT available in public portal
+                            'contractor_name': '',
+                            'contractor_phone': '',
+                            'contractor_email': '',  # NOT available in public portal
+                            'status': '',
                             'source': 'govbuilt',
                         }
 
