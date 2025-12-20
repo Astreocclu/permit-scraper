@@ -9,9 +9,9 @@
 This document tracks the status of all permit scrapers across DFW municipalities, including platform types, scraper implementations, CAD enrichment capabilities, and blocking issues.
 
 **Total Coverage:** 30 municipalities tracked
-**Working Scrapers:** 20
+**Working Scrapers:** 21 (Sachse added Dec 19)
 **Partial/In Progress:** 1 (Weatherford)
-**Blocked/Not Implemented:** 9 (+Irving, +Lewisville confirmed blocked)
+**Blocked/Not Implemented:** 8
 
 ---
 
@@ -43,7 +43,7 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | 22 | **Hurst** | 40K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | 1,000 permits (Dec 13) |
 | 23 | **Forney** | 35K | MyGov | — | Kaufman | ❌ Blocked | Login required (confirmed Dec 17) |
 | 24 | **Weatherford** | 35K | GovBuilt | — | Parker | 🔬 Scrapable | No CAD API (Parker County) |
-| 25 | **Sachse** | 30K | SmartGov | — | Dallas/Collin | 🔬 Scrapable | Needs new scraper (Angular SPA) |
+| 25 | **Sachse** | 30K | SmartGov | `smartgov_sachse.py` | Dallas/Collin | ✅ Working | 500 permits (Dec 19) |
 | 26 | **Southlake** | 32K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | Residential filtering |
 | 27 | **Colleyville** | 27K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | Residential filtering |
 | 28 | **Trophy Club** | 12K | EnerGov CSS | `citizen_self_service.py` | Denton | ✅ Working | Fast DOM extraction |
@@ -63,7 +63,7 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | **CityView** | 1 | 1 | 0 | Carrollton |
 | **Socrata API** | 1 | 1 | 0 | Arlington |
 | **MGO Connect** | 1 | 0 | 1 | Irving - PDF export broken (about:blank) |
-| **SmartGov** | 1 | 0 | 1 | Sachse (scrapable but needs implementation) |
+| **SmartGov** | 1 | 1 | 0 | Sachse - working (500 permits Dec 19) |
 | **GovBuilt** | 1 | 0 | 1 | Weatherford (scrapable but no CAD) |
 | **Tyler eSuite** | 1 | 0 | 1 | Lewisville - requires authentication |
 | **Cityworks PLL** | 1 | 0 | 1 | Euless - Login + reCAPTCHA required |
