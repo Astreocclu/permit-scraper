@@ -1,6 +1,6 @@
 # DFW Permit Scraper - Status Documentation
 
-**Last Updated:** December 19, 2024
+**Last Updated:** December 20, 2024 (afternoon)
 
 ---
 
@@ -9,9 +9,9 @@
 This document tracks the status of all permit scrapers across DFW municipalities, including platform types, scraper implementations, CAD enrichment capabilities, and blocking issues.
 
 **Total Coverage:** 30 municipalities tracked
-**Working Scrapers:** 20 (+1 Grapevine Dec 17)
-**Partial/In Progress:** 2 (Bedford, Weatherford)
-**Blocked/Not Implemented:** 8
+**Working Scrapers:** 20
+**Partial/In Progress:** 1 (Weatherford)
+**Blocked/Not Implemented:** 9 (+Irving, +Lewisville confirmed blocked)
 
 ---
 
@@ -23,22 +23,22 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | 2 | **Fort Worth** | 950K | Accela | `accela_fast.py` | Tarrant | ✅ Working | Fast DOM extraction |
 | 3 | **Arlington** | 400K | Socrata API | `dfw_big4_socrata.py` | Tarrant | ✅ Working | API-based bulk CSV |
 | 4 | **Plano** | 285K | eTRAKiT | `etrakit.py` | Collin | ✅ Working | Public login required |
-| 5 | **Irving** | 240K | MGO Connect | `mgo_connect.py` | Dallas | ⚠️ Partial | Login works, PDF extraction needed |
-| 6 | **Garland** | 240K | Unknown | — | Dallas | ❌ Not Implemented | Research needed |
+| 5 | **Irving** | 240K | MGO Connect | `mgo_connect.py` | Dallas | ❌ Blocked | PDF export opens about:blank, never loads |
+| 6 | **Garland** | 240K | None (311 only) | — | Dallas | ❌ Blocked | No public permit portal exists |
 | 7 | **Frisco** | 200K | eTRAKiT | `etrakit_fast.py` | Collin/Denton | ✅ Working | Fast DOM extraction |
 | 8 | **Denton** | 160K | eTRAKiT | `etrakit_fast.py` | Denton | ✅ Working | YYMM-#### format |
 | 9 | **McKinney** | 195K | EnerGov CSS | `citizen_self_service.py` | Collin | ✅ Working | 1,001 permits (Dec 13) |
 | 10 | **Grand Prairie** | 195K | Accela | `accela_fast.py` | Dallas/Tarrant | ✅ Working | Fast DOM extraction |
 | 11 | **Mesquite** | 145K | Accela | `accela_fast.py` | Dallas | ✅ Working | Fast DOM extraction |
 | 12 | **Carrollton** | 135K | CityView | `cityview.py` | Dallas/Denton | ✅ Working | Limited to 20 results/search |
-| 13 | **Richardson** | 120K | Unknown | — | Dallas/Collin | ❌ Not Implemented | Research needed |
-| 14 | **Lewisville** | 110K | Unknown | — | Denton | ❌ Not Implemented | Research needed |
+| 13 | **Richardson** | 120K | Unknown | — | Dallas/Collin | ❌ Blocked | cor.net returns 403, needs proxy |
+| 14 | **Lewisville** | 110K | Tyler eSuite | `tyler_esuite_parcel.py` | Denton | ❌ Blocked | Portal requires authentication, no public search |
 | 15 | **Flower Mound** | 75K | eTRAKiT | `etrakit_fast.py` | Denton | ✅ Working | Fast DOM extraction |
 | 16 | **Allen** | 105K | EnerGov CSS | `citizen_self_service.py` | Collin | ✅ Working | 1,070 permits (Dec 13) |
 | 17 | **Grapevine** | 55K | MyGov | `parse_grapevine_pdf.py` | Tarrant | ✅ Working | PDF export + manual parse |
 | 18 | **Waxahachie** | 45K | EnerGov CSS | `citizen_self_service.py` | Ellis | ✅ Working | No CAD enrichment (firewalled) |
 | 19 | **Coppell** | 42K | EnerGov CSS | `citizen_self_service.py` | Dallas | ✅ Working | 1,096 permits (Dec 13) |
-| 20 | **Euless** | 60K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
+| 20 | **Euless** | 60K | Cityworks PLL | — | Tarrant | ❌ Blocked | Login + reCAPTCHA required |
 | 21 | **Bedford** | 50K | Unknown | — | Tarrant | ❌ Not Implemented | Research needed |
 | 22 | **Hurst** | 40K | EnerGov CSS | `citizen_self_service.py` | Tarrant | ✅ Working | 1,000 permits (Dec 13) |
 | 23 | **Forney** | 35K | MyGov | — | Kaufman | ❌ Blocked | Login required (confirmed Dec 17) |
@@ -62,10 +62,13 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | **MyGov** | 2 | 1 | 1 | Westlake works, Forney blocked |
 | **CityView** | 1 | 1 | 0 | Carrollton |
 | **Socrata API** | 1 | 1 | 0 | Arlington |
-| **MGO Connect** | 1 | 0 | 1 | Irving partial (anti-bot issues) |
+| **MGO Connect** | 1 | 0 | 1 | Irving - PDF export broken (about:blank) |
 | **SmartGov** | 1 | 0 | 1 | Sachse (scrapable but needs implementation) |
 | **GovBuilt** | 1 | 0 | 1 | Weatherford (scrapable but no CAD) |
-| **Unknown** | 8 | 0 | 8 | Requires research |
+| **Tyler eSuite** | 1 | 0 | 1 | Lewisville - requires authentication |
+| **Cityworks PLL** | 1 | 0 | 1 | Euless - Login + reCAPTCHA required |
+| **No Portal** | 1 | 0 | 1 | Garland - Uses 311 only, no public permit search |
+| **Unknown** | 4 | 0 | 4 | Richardson (403 blocked), Bedford, + 2 others |
 
 ---
 
@@ -81,6 +84,83 @@ This document tracks the status of all permit scrapers across DFW municipalities
 | **Ellis** | ❌ Blocked | Waxahachie | GIS server firewalled (internal access only) |
 | **Parker** | ❌ No API | Weatherford, Aledo | No public CAD API available |
 | **Johnson** | ❌ Not Used | — | No cities in current scope |
+
+---
+
+## Session Notes - December 20, 2024 (Afternoon)
+
+### Irving & Lewisville Deep Investigation
+
+**Attempted to implement scrapers for both cities. Both are now confirmed BLOCKED.**
+
+#### Irving MGO Connect - BLOCKED
+- Tested existing Advanced Reporting code path
+- **Finding:** PDF export opens new browser tab but stays at `about:blank`
+- PDF never loads, 20-second timeout expires
+- Root cause: Unknown - possibly anti-bot, possibly broken PDF endpoint
+- **Status:** ❌ BLOCKED - would need city contact or API access
+
+#### Lewisville Tyler eSuite - BLOCKED
+- Created infrastructure: `scrapers/cad_parcel_fetcher.py`, `scripts/extract_parcel_ids.py`
+- Fetched all 24,755 Lewisville parcels from Denton CAD
+- Created `scrapers/tyler_esuite_parcel.py` for parcel-based lookup
+- **Finding:** Portal has NO public search interface
+  - Home page: No visible search inputs
+  - All search endpoints (Search.aspx, PermitSearch.aspx, PublicSearch.aspx) return auth errors
+- **Status:** ❌ BLOCKED - requires login credentials or different access method
+
+#### New Infrastructure Created (Useful for Other Cities)
+- `scrapers/cad_parcel_fetcher.py` - Bulk parcel download from Denton/Tarrant/Dallas CAD
+- `scripts/extract_parcel_ids.py` - Format parcel IDs for Tyler eSuite
+- `data/parcels/lewisville_denton_parcels.json` - 24,755 parcels (example dataset)
+
+**Commits:**
+- `694fad7` feat: add CAD parcel fetcher with Denton/Tarrant/Dallas support
+- `29d50da` feat: add parcel ID extractor for Tyler eSuite format
+- `2a8647f` feat: add Tyler eSuite parcel-based scraper for Lewisville
+
+---
+
+## Session Notes - December 20, 2024 (Morning)
+
+### City Research Results
+
+Researched 4 unknown cities using parallel subagents. All research complete.
+
+| City | Population | Platform | Status | Notes |
+|------|-----------|----------|--------|-------|
+| **Garland** | 240K | None | ❌ Blocked | No public permit portal. Uses Accela CRM (E-Assist) for 311 only. Open data portal exists but no permit dataset. |
+| **Richardson** | 120K | Unknown | ❌ Blocked | cor.net returns 403 Access Denied. Has Citizenserve portal but blocked. Needs residential proxy. |
+| **Lewisville** | 110K | Tyler eSuite | 🔬 Scrapable | **NOT MGO Connect!** Uses Tyler eSuite (NewWorld) at https://etools.cityoflewisville.com/esuite.permits/ - PUBLIC access. Needs new scraper. |
+| **Euless** | 60K | Cityworks PLL | ❌ Blocked | Trimble Cityworks via NewEdge Services. Login + reCAPTCHA required. LOW priority. |
+
+### Irving MGO Connect Investigation
+
+Investigated why Irving MGO Connect returns 0 permits despite login working.
+
+**Root Cause Found:**
+- `scrape_orchestrator()` only calls `run_scraper_session()`
+- Irving requires "Advanced Reporting → PDF export" workflow
+- This logic exists in unused `scrape()` function (lines 700+)
+- Standard search returns 0 results; sidebar shows "New in 30d: 761"
+
+**Fix Required:**
+- Architectural refactor needed to call `scrape()` for Irving instead of `run_scraper_session()`
+- Blocked until MGO Connect redesign
+
+### Key Discoveries
+
+1. **Lewisville Misidentified:** Was listed as "MGO Connect" in previous notes but uses completely different Tyler eSuite platform
+2. **Garland Has No Portal:** Despite 240K population, no public online permit search exists
+3. **Richardson Actively Blocked:** Server returns 403, likely IP-based blocking
+4. **Euless Has CAPTCHA:** reCAPTCHA on login makes automated scraping impractical
+
+### Action Items
+
+1. **HIGH VALUE:** Create Tyler eSuite scraper for Lewisville (110K pop, public access)
+2. **MEDIUM:** Refactor MGO Connect to use Advanced Reporting for Irving (240K pop)
+3. **LOW:** Try Richardson with residential proxy
+4. **SKIP:** Euless (CAPTCHA), Garland (no portal)
 
 ---
 
@@ -423,13 +503,15 @@ python3 scrapers/mgo_connect.py irving 100  # Login works, PDF extraction in pro
 ### Not Yet Researched
 
 The following cities require platform research:
-- Garland (240K)
-- Richardson (120K)
-- Lewisville (110K)
-- Grapevine (55K)
-- Euless (60K)
-- Bedford (50K)
+- Bedford (50K) - Unknown platform
 
+**Resolved (Dec 20):**
+- Garland (240K) - No public permit portal (311/E-Assist only)
+- Richardson (120K) - cor.net blocked with 403, needs residential proxy
+- Lewisville (110K) - Tyler eSuite platform at etools.cityoflewisville.com
+- Euless (60K) - Cityworks PLL, requires login + reCAPTCHA
+
+**Resolved (Dec 17):** Grapevine (55K) - MyGov with PDF export
 **Resolved (Dec 13):** Coppell (42K) and Hurst (40K) - now working with EnerGov CSS
 
 ---
@@ -443,32 +525,38 @@ The following cities require platform research:
    - Use correct URL: https://ci-sachse-tx.smartgovcommunity.com
    - Handle Angular SPA rendering
    - Target: ApplicationPublic/ApplicationSearch endpoint
+   - **STATUS:** Ready to implement - PUBLIC access confirmed
 
-2. **Research remaining high-population cities**
-   - Garland (240K) - Likely Accela or similar platform
-   - Richardson (120K) - Unknown platform
-   - Lewisville (110K) - Unknown platform
+2. **Check other Denton County cities** for public parcel-based portals
+   - CAD infrastructure ready (`cad_parcel_fetcher.py`)
+   - Flower Mound, Highland Village, The Colony, etc.
+   - Look for cities with public Tyler eSuite or similar
 
-3. ~~**Fix McKinney & Allen EnerGov timeouts**~~ ✅ DONE (Dec 13)
-   - Both cities now working with 2,071 combined permits loaded
-   - Solution: Bulk Excel export + increased wait times
+### Blocked (Require External Action)
+
+3. ~~**Irving MGO Connect**~~ ❌ BLOCKED (240K pop)
+   - PDF export opens about:blank, never loads
+   - Would need city API access or different approach
+
+4. ~~**Lewisville Tyler eSuite**~~ ❌ BLOCKED (110K pop)
+   - Portal requires authentication
+   - Scraper framework ready but useless without access
+
+5. ~~**Richardson**~~ ❌ BLOCKED (120K pop)
+   - cor.net returns 403
+   - Residential proxy might work but unconfirmed
 
 ### Medium Priorities
 
-4. **Complete Irving MGO Connect** (240K pop)
-   - Finish PDF extraction logic
-   - Handle anti-bot detection
-   - Implement stealth mode or human-like behavior
-
-5. **Research Forney alternatives** (35K pop)
+6. **Research Forney alternatives** (35K pop)
    - Check cityofforney.com for permit portal
    - Contact building department for public records access
    - Note: Kaufman County CAD ready (partial fields)
 
-6. **Evaluate Weatherford** (35K pop)
-   - GovBuilt portal is scrapable
-   - Decide if permit data alone (no CAD) is valuable
-   - Consider commercial CAD provider for Parker County
+7. **Try Richardson with residential proxy** (120K pop)
+   - cor.net returns 403 from datacenter IPs
+   - May work with residential proxy
+   - Has Citizenserve portal if accessible
 
 ### Long-term Considerations
 
@@ -482,10 +570,9 @@ The following cities require platform research:
    - Evaluate commercial providers
    - Determine if non-enriched permits are valuable
 
-9. **Expand to remaining cities** (Grapevine, Coppell, Euless, Bedford, Hurst)
+9. **Research Bedford** (50K pop) - Only remaining unknown city
    - Platform research required
-   - Total population: ~250K combined
-   - Likely mix of existing platforms
+   - Tarrant County CAD (already working)
 
 ---
 
@@ -504,13 +591,14 @@ The following cities require platform research:
 - **Total CAD Counties:** 7 (+ Ellis, Parker, Kaufman with limitations)
 
 ### High-Value Targets Still Blocked
-- Garland (240K) - Not researched
-- Irving (240K) - Partial (anti-bot)
-- Richardson (120K) - Not researched
-- Lewisville (110K) - Not researched
+- Garland (240K) - ❌ No public permit portal exists
+- Irving (240K) - ❌ PDF export broken (about:blank)
+- Richardson (120K) - ❌ 403 Blocked (needs residential proxy)
+- Lewisville (110K) - ❌ Tyler eSuite requires authentication
 
-**Combined blocked high-value population:** ~670K
+**Combined blocked high-value population:** ~670K (all confirmed blocked Dec 20)
 
+**Resolved Dec 20:** All 4 cities researched (Garland, Richardson, Lewisville, Euless)
 **Resolved Dec 13:** McKinney (195K) and Allen (105K) - now working!
 
 ---
