@@ -92,8 +92,8 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
 
         for accordion in accordions[:20]:  # Limit per search (increased from 10)
             try:
-                # Wrap accordion expansion in timeout (5 seconds)
-                async with asyncio.timeout(5):
+                # Define accordion expansion coroutine for timeout handling
+                async def expand_accordion():
                     # Scroll into view and click to expand
                     await accordion.scroll_into_view_if_needed()
                     await accordion.click()
@@ -102,10 +102,10 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
                     # Get parent container (as ElementHandle)
                     parent_handle = await accordion.evaluate_handle('node => node.closest("li") || node.parentElement')
                     if not parent_handle:
-                        continue
+                        return None
                     parent = parent_handle.as_element()
                     if not parent:
-                        continue
+                        return None
 
                     text = await parent.inner_text()
 
@@ -145,6 +145,10 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
                     # Collapse accordion
                     await accordion.click()
                     await asyncio.sleep(0.3)
+                    return True
+
+                # Wrap accordion expansion in timeout (5 seconds) - Python 3.10 compatible
+                await asyncio.wait_for(expand_accordion(), timeout=5.0)
 
             except asyncio.TimeoutError:
                 logger.warning(f"Accordion expansion timeout for '{search_term}'")
