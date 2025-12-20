@@ -11,6 +11,26 @@
 
 ---
 
+## ⛔⛔⛔ AUTHENTICATION WARNING ⛔⛔⛔
+
+**BEFORE working on ANY city scraper, CHECK `AUTH_REQUIRED.md`**
+
+Some cities require login credentials stored in `.env`. If you work on a city without checking:
+- You'll waste hours discovering it needs auth
+- You might not know credentials already exist
+
+```bash
+cat AUTH_REQUIRED.md  # Check if city needs auth and if we have credentials
+```
+
+| Quick Reference | Cities |
+|-----------------|--------|
+| **Have credentials** | Irving (MGO), Denton (MGO), Plano (eTRAKiT) |
+| **Need credentials** | Lewisville, Forney, Richardson, Highland Village, Corinth |
+| **Blocked (technical)** | Euless (CAPTCHA), Garland (no portal) |
+
+---
+
 ## MANDATORY READING BEFORE ANY DATA WORK
 
 **`docs/DATA_ARCHITECTURE.md`** - The authoritative source of truth for:
