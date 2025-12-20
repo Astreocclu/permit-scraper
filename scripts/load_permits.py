@@ -70,10 +70,17 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
         logger.error(f"Failed to parse {filepath}: {e}")
         return 0, 0
 
-    # Extract metadata
-    source = data.get('source', filepath.stem.replace('_raw', ''))
-    scraped_at = data.get('scraped_at', datetime.now().isoformat())
-    permits = data.get('permits', [])
+    # Handle both dict format (standard) and list format (some mygov scrapers)
+    if isinstance(data, list):
+        # List format: permits directly in the file
+        permits = data
+        source = filepath.stem.replace('_raw', '').replace('_mygov', '').replace('_opengov', '')
+        scraped_at = datetime.now().isoformat()
+    else:
+        # Dict format: standard scraper output
+        source = data.get('source', filepath.stem.replace('_raw', ''))
+        scraped_at = data.get('scraped_at', datetime.now().isoformat())
+        permits = data.get('permits', [])
 
     if not permits:
         logger.warning(f"{filepath.name}: No permits found")

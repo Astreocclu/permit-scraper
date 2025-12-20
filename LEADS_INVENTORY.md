@@ -1,5 +1,24 @@
 # Leads Inventory (Audited)
 
+## ⛔⛔⛔ CRITICAL: TABLE CONFUSION WARNING ⛔⛔⛔
+
+| Table | What It Is | FOR SELLING? |
+|-------|------------|--------------|
+| `clients_scoredlead` | SCORED, SELLABLE leads | ✅ YES - USE THIS |
+| `leads_permit` | RAW scraped permits (34k+ including JUNK) | ❌ NO - NEVER USE FOR SALES |
+
+**`leads_permit` contains:**
+- Certificate of Occupancy (worthless)
+- Sign permits (worthless)
+- Permit extensions (worthless)
+- Commercial permits mixed in
+- Duplicates
+- Garbage data
+
+**ALL NUMBERS IN THIS DOC ARE FROM `clients_scoredlead` ONLY.**
+
+---
+
 **Last Updated:** 2024-12-13 by Claude
 **Last Scrape:** 2024-12-12 - Dallas, Fort Worth, Sachse
 **Last Audit:** 2024-12-13 - 7,420 leads scored

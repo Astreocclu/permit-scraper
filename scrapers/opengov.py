@@ -37,6 +37,13 @@ OPENGOV_CITIES = {
         'tier': 'B',
         'has_public_search': True,
     },
+    'seagoville': {
+        'name': 'Seagoville',
+        'base_url': 'https://seagovilletx.portal.opengov.com',
+        'pop': 18000,
+        'tier': 'C',
+        'has_public_search': True,
+    },
     # Highland Park has no public search inputs - application-only portal
     # Use TPIA email request: Building.Permits@hptx.org
 }

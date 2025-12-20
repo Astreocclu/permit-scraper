@@ -1,6 +1,26 @@
 # scrapers/filters.py
 """Post-processing filters for permit data."""
 
+# Southlake-specific residential permit types for batch scraping
+# (Migrated from southlake_residential_batch.py)
+SOUTHLAKE_RESIDENTIAL_TYPES = [
+    "Residential New Building (Single Family Home)",
+    "Residential New Building (Duplex)",
+    "Residential New Building (Townhome)",
+    "Residential Remodel",
+    "Residential Addition Conditioned Space",
+    "Residential Addition Conditioned & Uncond",
+    "Pool & Spa (Residential)",
+    "Pool (Residential)",
+    "Electrical Permit (Residential)",
+    "Mechanical Permit (Residential)",
+    "Plumbing Permit (Residential)",
+    "Residential Reroof",
+    "Fence (Residential)",
+    "Solar Panel - Residential",
+]
+
+
 def filter_residential_permits(permits: list[dict]) -> list[dict]:
     """
     Filter permits to keep only residential-related types.

@@ -1,1126 +1,461 @@
 [
   {
-    "city": "Dallas",
-    "counties": ["Dallas", "Collin", "Denton", "Kaufman", "Rockwall"],
-    "tier": "A",
-    "population": 1300000,
-    "growth_rate": 0.01,
+    "city": "Celina",
+    "rank": 1,
+    "software": "MGO Connect (MyGov)",
+    "scrapability_score": 9.5,
+    "volume_2024": 4357,
+    "notes": "Fastest growing. Paperless submittals. Parameter-based search without login for general data.",
+    "strategy": "Iterate permit numbers/dates. Target 'New Residential' vs 'Commercial Finish-out'.",
     "status": "working",
-    "platform": "Accela",
-    "notes": "Covered by accela_fast.py"
+    "platform": "MGO Connect"
   },
   {
     "city": "Fort Worth",
-    "counties": ["Tarrant", "Denton", "Johnson", "Parker", "Wise"],
-    "tier": "A",
-    "population": 960000,
-    "growth_rate": 0.02,
+    "rank": 2,
+    "software": "Accela Citizen Access",
+    "scrapability_score": 6.5,
+    "volume_2024": 13148,
+    "notes": "Massive volume. CFW Permit Assist Tool integrated. Records separated by module (Building, Planning, etc.).",
+    "strategy": "Traverse specific modules. Use 'Advanced Search' with date ranges. Session cookies required for deep detail.",
     "status": "working",
-    "platform": "Accela",
-    "notes": "Covered by accela_fast.py"
-  },
-  {
-    "city": "Arlington",
-    "counties": ["Tarrant"],
-    "tier": "A",
-    "population": 400000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "Socrata",
-    "notes": "Covered by dfw_big4_socrata.py"
-  },
-  {
-    "city": "Plano",
-    "counties": ["Collin", "Denton"],
-    "tier": "A",
-    "population": 290000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "eTRAKiT",
-    "notes": "Covered by etrakit.py"
-  },
-  {
-    "city": "Frisco",
-    "counties": ["Collin", "Denton"],
-    "tier": "A",
-    "population": 220000,
-    "growth_rate": 0.05,
-    "status": "working",
-    "platform": "eTRAKiT",
-    "notes": "Covered by etrakit_fast.py"
-  },
-  {
-    "city": "McKinney",
-    "counties": ["Collin"],
-    "tier": "A",
-    "population": 210000,
-    "growth_rate": 0.04,
-    "status": "blocked",
-    "platform": "EnerGov CSS",
-    "notes": "Angular timeouts - needs fix"
-  },
-  {
-    "city": "Irving",
-    "counties": ["Dallas"],
-    "tier": "B",
-    "population": 250000,
-    "growth_rate": 0.01,
-    "status": "blocked",
-    "platform": "MGO Connect",
-    "notes": "Anti-bot blocking, PDF-only"
-  },
-  {
-    "city": "Garland",
-    "counties": ["Dallas", "Collin", "Rockwall"],
-    "tier": "B",
-    "population": 240000,
-    "growth_rate": 0.00,
-    "status": "research_needed",
-    "platform": "Custom",
-    "portal_url": "https://www.garlandtx.gov/230/Development-and-Permitting-Center",
-    "notes": "No public search portal found. Uses internal Development & Permitting Center. May require phone/in-person."
-  },
-  {
-    "city": "Grand Prairie",
-    "counties": ["Dallas", "Tarrant", "Ellis"],
-    "tier": "B",
-    "population": 200000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "Accela",
-    "notes": "Covered by accela_fast.py"
-  },
-  {
-    "city": "Mesquite",
-    "counties": ["Dallas", "Kaufman"],
-    "tier": "B",
-    "population": 150000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "EnerGov CSS",
-    "portal_url": "https://energov.cityofmesquite.com",
-    "notes": "ADDED Dec 2024 - Covered by citizen_self_service.py"
-  },
-  {
-    "city": "Denton",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 150000,
-    "growth_rate": 0.03,
-    "status": "working",
-    "platform": "eTRAKiT",
-    "notes": "Covered by etrakit_fast.py"
-  },
-  {
-    "city": "Carrollton",
-    "counties": ["Dallas", "Denton", "Collin"],
-    "tier": "B",
-    "population": 133000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "CityView",
-    "notes": "Covered by cityview.py (20-result limit)"
-  },
-  {
-    "city": "Richardson",
-    "counties": ["Dallas", "Collin"],
-    "tier": "B",
-    "population": 120000,
-    "growth_rate": 0.01,
-    "status": "research_needed",
-    "platform": "Custom",
-    "portal_url": "https://www.cor.net/departments/building-inspection/online-permits",
-    "notes": "Custom portal at cor.net. Limited online permits. May need custom scraper or be phone-only for searches."
-  },
-  {
-    "city": "Lewisville",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 110000,
-    "growth_rate": 0.02,
-    "status": "blocked",
-    "platform": "MGO Connect",
-    "notes": "Anti-bot blocking"
-  },
-  {
-    "city": "Allen",
-    "counties": ["Collin"],
-    "tier": "B",
-    "population": 110000,
-    "growth_rate": 0.03,
-    "status": "blocked",
-    "platform": "EnerGov CSS",
-    "notes": "Angular timeouts - needs fix"
-  },
-  {
-    "city": "Flower Mound",
-    "counties": ["Denton", "Tarrant"],
-    "tier": "B",
-    "population": 80000,
-    "growth_rate": 0.02,
-    "status": "working",
-    "platform": "eTRAKiT",
-    "notes": "Covered by etrakit_fast.py"
-  },
-  {
-    "city": "North Richland Hills",
-    "counties": ["Tarrant"],
-    "tier": "B",
-    "population": 70000,
-    "growth_rate": 0.01,
-    "status": "research_needed",
-    "platform": "Enterprise Permitting",
-    "portal_url": "https://www.nrhtx.com/103/Building-Inspections-Permits",
-    "notes": "Uses 'NRH E-Portal' - Enterprise Permitting & Licensing system. Need to investigate platform details."
-  },
-  {
-    "city": "Mansfield",
-    "counties": ["Tarrant", "Johnson", "Ellis"],
-    "tier": "B",
-    "population": 75000,
-    "growth_rate": 0.03,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Rowlett",
-    "counties": ["Dallas", "Rockwall"],
-    "tier": "B",
-    "population": 65000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Euless",
-    "counties": ["Tarrant"],
-    "tier": "B",
-    "population": 60000,
-    "growth_rate": 0.01,
-    "status": "new_platform",
-    "platform": "Cityworks",
-    "portal_url": "https://euless.newedgeservices.com/PermitPortal",
-    "notes": "NEW PLATFORM - Cityworks via NewEdge Services. Would need new scraper development."
-  },
-  {
-    "city": "DeSoto",
-    "counties": ["Dallas"],
-    "tier": "B",
-    "population": 55000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "EnerGov CSS",
-    "notes": "Covered by citizen_self_service.py"
-  },
-  {
-    "city": "Grapevine",
-    "counties": ["Tarrant", "Dallas", "Denton"],
-    "tier": "B",
-    "population": 50000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "MyGov",
-    "portal_url": "https://public.mygov.us/grapevine_tx/lookup",
-    "notes": "ADDED Dec 2024 - Covered by mygov_multi.py"
-  },
-  {
-    "city": "Bedford",
-    "counties": ["Tarrant"],
-    "tier": "B",
-    "population": 48000,
-    "growth_rate": 0.00,
-    "status": "working",
-    "platform": "OpenGov",
-    "portal_url": "https://bedfordtx.portal.opengov.com/",
-    "notes": "ADDED Dec 2024 - Covered by opengov.py. OpenGov has public record search with full permit details."
-  },
-  {
-    "city": "Cedar Hill",
-    "counties": ["Dallas", "Ellis"],
-    "tier": "B",
-    "population": 48000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "EnerGov CSS",
-    "notes": "Covered by citizen_self_service.py"
-  },
-  {
-    "city": "Wylie",
-    "counties": ["Collin", "Dallas", "Rockwall"],
-    "tier": "B",
-    "population": 55000,
-    "growth_rate": 0.03,
-    "status": "new_platform",
-    "platform": "Citizenserve",
-    "portal_url": "https://www4.citizenserve.com/Portal/PortalController?Action=showHomePage&ctzPagePrefix=Portal_&installationID=435",
-    "notes": "NEW PLATFORM - Citizenserve portal. Would need new scraper development."
-  },
-  {
-    "city": "Burleson",
-    "counties": ["Johnson", "Tarrant"],
-    "tier": "B",
-    "population": 48000,
-    "growth_rate": 0.03,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Keller",
-    "counties": ["Tarrant"],
-    "tier": "B",
-    "population": 45000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "eTRAKiT",
-    "portal_url": "https://trakitweb.cityofkeller.com/etrakit/",
-    "notes": "ADDED Dec 2024 - Covered by etrakit.py"
-  },
-  {
-    "city": "The Colony",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 45000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Rockwall",
-    "counties": ["Rockwall"],
-    "tier": "B",
-    "population": 45000,
-    "growth_rate": 0.02,
-    "status": "research_needed",
-    "platform": "Custom/Manual",
-    "portal_url": "https://www.rockwall.com/buildinginspections.asp",
-    "notes": "No public search portal. Uses Google Sites for permit lists + manual reports. May be phone-only."
-  },
-  {
-    "city": "Coppell",
-    "counties": ["Dallas", "Denton"],
-    "tier": "B",
-    "population": 42000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Haltom City",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 45000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Duncanville",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 40000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Lancaster",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 40000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Waxahachie",
-    "counties": ["Ellis"],
-    "tier": "B",
-    "population": 40000,
-    "growth_rate": 0.03,
-    "status": "working",
-    "platform": "EnerGov CSS",
-    "notes": "Covered by citizen_self_service.py"
-  },
-  {
-    "city": "Hurst",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 38000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Prosper",
-    "counties": ["Collin", "Denton"],
-    "tier": "A",
-    "population": 35000,
-    "growth_rate": 0.08,
-    "status": "working",
-    "platform": "eTRAKiT",
-    "portal_url": "http://etrakit.prospertx.gov/eTRAKIT/Search/permit.aspx",
-    "notes": "ADDED Dec 2024 - Covered by etrakit.py (legacy portal)"
-  },
-  {
-    "city": "Midlothian",
-    "counties": ["Ellis"],
-    "tier": "B",
-    "population": 35000,
-    "growth_rate": 0.05,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Southlake",
-    "counties": ["Tarrant", "Denton"],
-    "tier": "A",
-    "population": 32000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "EnerGov CSS",
-    "notes": "Covered by citizen_self_service.py"
-  },
-  {
-    "city": "Cleburne",
-    "counties": ["Johnson"],
-    "tier": "C",
-    "population": 31000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Weatherford",
-    "counties": ["Parker"],
-    "tier": "C",
-    "population": 30000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Celina",
-    "counties": ["Collin", "Denton"],
-    "tier": "A",
-    "population": 30000,
-    "growth_rate": 0.15,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py - Ultra high growth"
-  },
-  {
-    "city": "Farmers Branch",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 28000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Greenville",
-    "counties": ["Hunt"],
-    "tier": "C",
-    "population": 28000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Sachse",
-    "counties": ["Dallas", "Collin"],
-    "tier": "B",
-    "population": 27000,
-    "growth_rate": 0.03,
-    "status": "working",
-    "platform": "SmartGov",
-    "notes": "Covered by smartgov_sachse.py"
-  },
-  {
-    "city": "Colleyville",
-    "counties": ["Tarrant"],
-    "tier": "A",
-    "population": 26000,
-    "growth_rate": 0.01,
-    "status": "working",
-    "platform": "EnerGov CSS",
-    "notes": "Covered by citizen_self_service.py"
-  },
-  {
-    "city": "Forney",
-    "counties": ["Kaufman"],
-    "tier": "B",
-    "population": 25000,
-    "growth_rate": 0.05,
-    "status": "blocked",
-    "platform": "MyGov",
-    "notes": "No public portal access"
-  },
-  {
-    "city": "University Park",
-    "counties": ["Dallas"],
-    "tier": "A",
-    "population": 25000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": "High wealth enclave"
-  },
-  {
-    "city": "Balch Springs",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 25000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Saginaw",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 24000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Watauga",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 24000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Benbrook",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 23000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Corinth",
-    "counties": ["Denton"],
-    "tier": "C",
-    "population": 22000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Murphy",
-    "counties": ["Collin"],
-    "tier": "B",
-    "population": 20000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Ennis",
-    "counties": ["Ellis"],
-    "tier": "C",
-    "population": 20000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Little Elm",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 50000,
-    "growth_rate": 0.05,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Fate",
-    "counties": ["Rockwall"],
-    "tier": "B",
-    "population": 18000,
-    "growth_rate": 0.10,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Terrell",
-    "counties": ["Kaufman"],
-    "tier": "C",
-    "population": 18000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Seagoville",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 18000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "White Settlement",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 17000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Highland Village",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 16000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Addison",
-    "counties": ["Dallas"],
-    "tier": "B",
-    "population": 16000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Glenn Heights",
-    "counties": ["Dallas", "Ellis"],
-    "tier": "C",
-    "population": 15000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
+    "platform": "Accela"
   },
   {
     "city": "Princeton",
-    "counties": ["Collin"],
-    "tier": "C",
-    "population": 15000,
-    "growth_rate": 0.08,
+    "rank": 3,
+    "software": "EnerGov (Self-Service Portal)",
+    "scrapability_score": 8.5,
+    "growth_context": "30.6% Pop Increase",
+    "notes": "High volume of 'Moratorium Exemptions' and 'New Residential'.",
+    "strategy": "Focus on 'Global Search' API endpoints returning JSON. Track project statuses.",
     "status": "working",
-    "platform": "EnerGov CSS",
-    "portal_url": "https://princetontx-energovweb.tylerhost.net/apps/selfservice",
-    "notes": "ADDED Dec 2024 - High growth, covered by citizen_self_service.py"
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Forney",
+    "rank": 4,
+    "software": "MyGov",
+    "scrapability_score": 9.0,
+    "notes": "Kaufman County leader. Straightforward HTML structure. 'Collaborator' interface.",
+    "strategy": "Public search via GET requests with date parameters. Reliable contractor fields.",
+    "status": "blocked",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Prosper",
+    "rank": 5,
+    "software": "EnerGov (Customer Self Service)",
+    "scrapability_score": 8.0,
+    "market_segment": "Luxury Residential",
+    "notes": "Migrated Dec 2022. High valuation per permit.",
+    "strategy": "Target 'Reviews' tab for timestamps. Guest access for contractor search.",
+    "status": "working",
+    "platform": "eTRAKiT"
+  },
+  {
+    "city": "McKinney",
+    "rank": 6,
+    "software": "EnerGov (Citizen Self Service)",
+    "scrapability_score": 8.0,
+    "notes": "Distinguishes between CSS and eReview. High Single-Family volume.",
+    "strategy": "Target CSS for metadata. Distinguish 'Permit' vs 'Plan' records.",
+    "status": "blocked",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Mansfield",
+    "rank": 7,
+    "software": "MyGov",
+    "scrapability_score": 9.0,
+    "notes": "Growth engine for southern sector. Uses MyGov for trade permits, Avolve for plans.",
+    "strategy": "Target MyGov for metadata (dates, fees, valuations).",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Denton",
+    "rank": 8,
+    "software": "eTRAKiT",
+    "scrapability_score": 5.0,
+    "notes": "Legacy system, prone to timeouts/CAPTCHAs. Deep historical archive.",
+    "strategy": "Handle ASP.NET VIEWSTATE and session cookies. Scrape off-peak.",
+    "status": "working",
+    "platform": "eTRAKiT"
+  },
+  {
+    "city": "Little Elm",
+    "rank": 9,
+    "software": "MyGov",
+    "scrapability_score": 9.0,
+    "notes": "All permits/contractor registrations via MyGov. Includes ROW permits.",
+    "strategy": "Standard MyGov scraping.",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Fate",
+    "rank": 10,
+    "software": "MGO Connect (MyGov)",
+    "scrapability_score": 9.5,
+    "notes": "Mobile-responsive, API-centric. Real-time inspection results.",
+    "strategy": "Leverage MGO Connect API.",
+    "status": "working",
+    "platform": "MGO Connect"
+  },
+  {
+    "city": "Dallas",
+    "rank": 11,
+    "software": "Migrating to DallasNow (May 2025)",
+    "scrapability_score": 0.0,
+    "notes": "CRITICAL WARNING: Migrating May 5, 2025. Blackout period April 25-May 4.",
+    "strategy": "Full historical scrape before April 25. Re-engineer post-migration.",
+    "status": "working",
+    "platform": "Accela"
+  },
+  {
+    "city": "Plano",
+    "rank": 12,
+    "software": "eTRAKiT",
+    "scrapability_score": 6.0,
+    "market_segment": "Commercial Redevelopment",
+    "notes": "Mature market. Public search of registered contractors.",
+    "strategy": "eTRAKiT scraper. Identify active commercial GCs.",
+    "status": "working",
+    "platform": "eTRAKiT"
+  },
+  {
+    "city": "Frisco",
+    "rank": 13,
+    "software": "eTRAKiT (Transitioning to Avolve)",
+    "scrapability_score": 5.0,
+    "market_segment": "Corporate HQ",
+    "notes": "Transitioning plan management. Aggressive IP blocking.",
+    "strategy": "Monitor for IP blocking. Watch for Avolve transition.",
+    "status": "working",
+    "platform": "eTRAKiT"
+  },
+  {
+    "city": "Grand Prairie",
+    "rank": 14,
+    "software": "EnerGov (CSS)",
+    "scrapability_score": 7.0,
+    "market_segment": "Industrial / Logistics",
+    "notes": "Allows fee estimation. Industrial focus.",
+    "strategy": "EnerGov scraper. Reverse-engineer valuations from fees if redacted.",
+    "status": "working",
+    "platform": "Accela"
+  },
+  {
+    "city": "Lewisville",
+    "rank": 15,
+    "software": "MGO Connect",
+    "scrapability_score": 9.0,
+    "notes": "Recently migrated to MGO. Download access to permit certificates.",
+    "strategy": "MGO Connect scraper. Download certificates for structured data.",
+    "status": "blocked",
+    "platform": "MGO Connect"
+  },
+  {
+    "city": "North Richland Hills",
+    "rank": 16,
+    "software": "EnerGov (NRH E-Portal)",
+    "scrapability_score": 6.0,
+    "notes": "Branded EnerGov. Contractor registration required for full details.",
+    "strategy": "Maintain 'dummy' contractor account.",
+    "status": "research_needed",
+    "platform": "Enterprise Permitting"
   },
   {
     "city": "Anna",
-    "counties": ["Collin"],
-    "tier": "C",
-    "population": 15000,
-    "growth_rate": 0.10,
+    "rank": 17,
+    "software": "SmartGov",
+    "scrapability_score": 9.0,
+    "notes": "Granicus product. Highly scrapable. Parcel Search feature.",
+    "strategy": "SmartGov scraper. Link to GIS data.",
     "status": "email_only",
-    "platform": "Email",
-    "notes": "High growth - No online portal, use TPIA email request to Building@annatexas.gov"
+    "platform": "Email"
   },
   {
-    "city": "Crowley",
-    "counties": ["Tarrant", "Johnson"],
-    "tier": "C",
-    "population": 15000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Red Oak",
-    "counties": ["Ellis"],
-    "tier": "C",
-    "population": 14000,
-    "growth_rate": 0.03,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Trophy Club",
-    "counties": ["Denton", "Tarrant"],
-    "tier": "A",
-    "population": 13000,
-    "growth_rate": 0.02,
+    "city": "Carrollton",
+    "rank": 18,
+    "software": "CityView (CityServe)",
+    "scrapability_score": 5.0,
+    "notes": "Less common vendor. Anonymous complaint/permit tracking.",
+    "strategy": "Custom parser for CityView.",
     "status": "working",
-    "platform": "EnerGov CSS",
-    "notes": "Covered by citizen_self_service.py"
+    "platform": "CityView"
+  },
+  {
+    "city": "Rockwall",
+    "rank": 19,
+    "software": "Cityworks",
+    "scrapability_score": 6.0,
+    "notes": "Map-centric. Public Access.",
+    "strategy": "Intercept GeoJSON traffic.",
+    "status": "research_needed",
+    "platform": "Custom/Manual"
+  },
+  {
+    "city": "Allen",
+    "rank": 20,
+    "software": "EnerGov (CSS)",
+    "scrapability_score": 8.0,
+    "notes": "Standard EnerGov. 'Public Access' mode available.",
+    "strategy": "Use Public Access mode to avoid login.",
+    "status": "blocked",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Mesquite",
+    "rank": 21,
+    "software": "EnerGov (CSS)",
+    "scrapability_score": 7.0,
+    "notes": "Requires contractor re-registration. Database purge likely.",
+    "strategy": "Treat pre-migration data as fragmented.",
+    "status": "working",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "DeSoto",
+    "rank": 22,
+    "software": "EnerGov (My DeSoto eServices)",
+    "scrapability_score": 8.0,
+    "notes": "Centralized platform. Handles ROW permits.",
+    "strategy": "EnerGov scraper. High value single source.",
+    "status": "working",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Cedar Hill",
+    "rank": 23,
+    "software": "EnerGov (CSS)",
+    "scrapability_score": 8.0,
+    "notes": "Stable since 2018. Deep historical dataset.",
+    "strategy": "Good for training ML models.",
+    "status": "working",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Rowlett",
+    "rank": 24,
+    "software": "MyGov",
+    "scrapability_score": 9.0,
+    "notes": "Directs to web.mygov.us. Requires 'Collaborator' sign up for some features.",
+    "strategy": "Code reuse with Fate/Forney.",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Burleson",
+    "rank": 25,
+    "software": "eTRAKiT",
+    "scrapability_score": 5.0,
+    "notes": "Contractor login portal. Publishes static monthly reports.",
+    "strategy": "Fallback to PDF reports if eTRAKiT fails.",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Southlake",
+    "rank": 26,
+    "software": "EnerGov (CSS)",
+    "scrapability_score": 7.0,
+    "market_segment": "Luxury / High Value",
+    "notes": "Allows photo documentation for inspections.",
+    "strategy": "Potential for computer vision on image data.",
+    "status": "working",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Grapevine",
+    "rank": 27,
+    "software": "MyGov",
+    "scrapability_score": 8.0,
+    "market_segment": "Hospitality / Commercial",
+    "notes": "MyGov for trade permits. Plans may be physical.",
+    "strategy": "Hybrid approach.",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Richardson",
+    "rank": 28,
+    "software": "Custom / Basic Online Account",
+    "scrapability_score": 4.0,
+    "notes": "Light-weight. Trade permit focus. Monthly Reports.",
+    "strategy": "Scrape Monthly Reports for new construction.",
+    "status": "research_needed",
+    "platform": "Custom"
+  },
+  {
+    "city": "Arlington",
+    "rank": 29,
+    "software": "ArlingtonPermits.com (Custom/Accela)",
+    "scrapability_score": 5.0,
+    "notes": "Unique domain wrapper. Accela-based logic. 'Save for Later' feature.",
+    "strategy": "Custom navigation logic. Session persistence.",
+    "status": "working",
+    "platform": "Socrata"
+  },
+  {
+    "city": "Wylie",
+    "rank": 30,
+    "software": "Citizenserve",
+    "scrapability_score": 7.0,
+    "notes": "Uncommon vendor. URL structure is parameter-based (installationID=435).",
+    "strategy": "Easy to scrape once ID identified.",
+    "status": "new_platform",
+    "platform": "Citizenserve"
+  },
+  {
+    "city": "Sachse",
+    "rank": 31,
+    "software": "SmartGov",
+    "notes": "Clean UI.",
+    "status": "working",
+    "platform": "SmartGov"
+  },
+  {
+    "city": "The Colony",
+    "rank": 32,
+    "software": "eTRAKiT",
+    "notes": "High commercial value.",
+    "status": "unknown",
+    "platform": "eTRAKiT"
+  },
+  {
+    "city": "Coppell",
+    "rank": 33,
+    "software": "EnerGov (Civic Access)",
+    "notes": "Commercial logistics focus.",
+    "status": "unknown",
+    "platform": "EnerGov"
+  },
+  {
+    "city": "Bedford",
+    "rank": 34,
+    "software": "OpenGov",
+    "notes": "Modern, API-driven.",
+    "status": "working",
+    "platform": "OpenGov"
+  },
+  {
+    "city": "Euless",
+    "rank": 35,
+    "software": "Cityworks",
+    "notes": "Transitioning. Account required.",
+    "status": "new_platform",
+    "platform": "Cityworks"
+  },
+  {
+    "city": "Midlothian",
+    "rank": 36,
+    "software": "MyGov",
+    "notes": "Publishes monthly reports as audit trail.",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Garland",
+    "rank": 37,
+    "software": "MyGov / Online Portal",
+    "notes": "High volume infill. Online application.",
+    "status": "research_needed",
+    "platform": "MGO Connect"
   },
   {
     "city": "Royse City",
-    "counties": ["Rockwall", "Collin", "Hunt"],
-    "tier": "C",
-    "population": 13000,
-    "growth_rate": 0.05,
+    "rank": 38,
+    "software": "MyGov",
+    "notes": "'Collaborator' access required.",
     "status": "working",
-    "platform": "MyGov",
-    "portal_url": "https://public.mygov.us/roysecity_tx/lookup",
-    "notes": "ADDED Dec 2024 - Covered by mygov_multi.py"
+    "platform": "MyGov"
+  },
+  {
+    "city": "Weatherford",
+    "rank": 39,
+    "software": "MyGov",
+    "notes": "Western edge anchor.",
+    "status": "unknown",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Cleburne",
+    "rank": 40,
+    "software": "Cityworks Public Access",
+    "platform": "Cityworks"
+  },
+  {
+    "city": "Hurst",
+    "rank": 41,
+    "software": "EnerGov",
+    "notes": "Mandatory online usage since 2021.",
+    "platform": "EnerGov"
+  },
+  {
+    "city": "Saginaw",
+    "rank": 42,
+    "software": "Online Portal",
+    "notes": "Transitioning Oct 2024.",
+    "platform": "Unknown"
+  },
+  {
+    "city": "Keller",
+    "rank": 43,
+    "software": "eTRAKiT",
+    "notes": "Payments and tracking.",
+    "status": "working",
+    "platform": "eTRAKiT"
+  },
+  {
+    "city": "Colleyville",
+    "rank": 44,
+    "software": "eTRAKiT",
+    "notes": "High value residential.",
+    "status": "working",
+    "platform": "EnerGov CSS"
+  },
+  {
+    "city": "Trophy Club",
+    "rank": 45,
+    "software": "EnerGov",
+    "notes": "Luxury market.",
+    "status": "working",
+    "platform": "EnerGov CSS"
   },
   {
     "city": "Azle",
-    "counties": ["Tarrant", "Parker"],
-    "tier": "C",
-    "population": 13000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
+    "rank": 46,
+    "software": "SAFEbuilt / Portal",
+    "notes": "Hybrid system.",
+    "platform": "SAFEbuilt"
+  },
+  {
+    "city": "Lancaster",
+    "rank": 47,
+    "software": "Online Permit and Inspection Portal",
+    "notes": "Industrial focus.",
+    "status": "working",
+    "platform": "MyGov"
+  },
+  {
+    "city": "Haltom City",
+    "rank": 48,
+    "software": "Online Action Center",
+    "platform": "Unknown"
+  },
+  {
+    "city": "Duncanville",
+    "rank": 49,
+    "software": "EnerGov (Citizen Access Portal)",
+    "platform": "EnerGov"
   },
   {
     "city": "Melissa",
-    "counties": ["Collin"],
-    "tier": "C",
-    "population": 12000,
-    "growth_rate": 0.10,
-    "status": "unknown",
-    "platform": null,
-    "notes": "High growth"
-  },
-  {
-    "city": "Forest Hill",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 12000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Heath",
-    "counties": ["Rockwall", "Kaufman"],
-    "tier": "A",
-    "population": 10000,
-    "growth_rate": 0.03,
-    "status": "unknown",
-    "platform": null,
-    "notes": "High wealth"
-  },
-  {
-    "city": "Fairview",
-    "counties": ["Collin"],
-    "tier": "B",
-    "population": 10000,
-    "growth_rate": 0.03,
-    "status": "email_only",
-    "platform": "Email",
-    "notes": "Wealthy suburb - No online portal, use TPIA email request to permits@fairviewtexas.org"
-  },
-  {
-    "city": "Highland Park",
-    "counties": ["Dallas"],
-    "tier": "A",
-    "population": 9000,
-    "growth_rate": 0.00,
-    "status": "no_public_search",
-    "platform": "OpenGov",
-    "portal_url": "https://highlandparktx.portal.opengov.com/",
-    "notes": "Ultra high wealth enclave - OpenGov is APPLICATION portal only, no public permit search. Use TPIA email: Building.Permits@hptx.org"
-  },
-  {
-    "city": "Kennedale",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 8000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Lucas",
-    "counties": ["Collin"],
-    "tier": "B",
-    "population": 8000,
-    "growth_rate": 0.03,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Kaufman",
-    "counties": ["Kaufman"],
-    "tier": "C",
-    "population": 7000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": "MyGov",
-    "notes": "Research in kaufman_endpoint_test.py"
-  },
-  {
-    "city": "Joshua",
-    "counties": ["Johnson"],
-    "tier": "C",
-    "population": 7000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "River Oaks",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 7000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Sunnyvale",
-    "counties": ["Dallas"],
-    "tier": "B",
-    "population": 7000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Venus",
-    "counties": ["Johnson", "Ellis"],
-    "tier": "C",
-    "population": 6000,
-    "growth_rate": 0.02,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_multi.py"
-  },
-  {
-    "city": "Keene",
-    "counties": ["Johnson"],
-    "tier": "C",
-    "population": 6000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Everman",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 6000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Briar",
-    "counties": ["Tarrant", "Wise", "Parker"],
-    "tier": "C",
-    "population": 6000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Hutchins",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 5500,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Parker",
-    "counties": ["Collin"],
-    "tier": "B",
-    "population": 5000,
-    "growth_rate": 0.03,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Sansom Park",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 5000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Lake Worth",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 4800,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Alvarado",
-    "counties": ["Johnson"],
-    "tier": "C",
-    "population": 4000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Wilmer",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 4000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Cockrell Hill",
-    "counties": ["Dallas"],
-    "tier": "C",
-    "population": 4000,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Double Oak",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 3000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "McLendon-Chisholm",
-    "counties": ["Rockwall"],
-    "tier": "C",
-    "population": 3000,
-    "growth_rate": 0.05,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Crandall",
-    "counties": ["Kaufman"],
-    "tier": "C",
-    "population": 3000,
-    "growth_rate": 0.05,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Westworth Village",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 3000,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Reno",
-    "counties": ["Parker"],
-    "tier": "C",
-    "population": 2800,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Edgecliff Village",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 2800,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Blue Mound",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 2500,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Pantego",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 2500,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Dalworthington Gardens",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 2300,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Combine",
-    "counties": ["Kaufman", "Dallas"],
-    "tier": "C",
-    "population": 2000,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Haslet",
-    "counties": ["Tarrant", "Denton"],
-    "tier": "B",
-    "population": 2000,
-    "growth_rate": 0.05,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Pelican Bay",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 1800,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Bartonville",
-    "counties": ["Denton"],
-    "tier": "B",
-    "population": 1700,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Westlake",
-    "counties": ["Denton", "Tarrant"],
-    "tier": "A",
-    "population": 1600,
-    "growth_rate": 0.03,
-    "status": "working",
-    "platform": "MyGov",
-    "notes": "Covered by mygov_westlake.py - Ultra high wealth"
-  },
-  {
-    "city": "Rhome",
-    "counties": ["Wise"],
-    "tier": "C",
-    "population": 1600,
-    "growth_rate": 0.03,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Lakeside",
-    "counties": ["Tarrant"],
-    "tier": "C",
-    "population": 1500,
-    "growth_rate": 0.01,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Boyd",
-    "counties": ["Wise"],
-    "tier": "C",
-    "population": 1500,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Aurora",
-    "counties": ["Wise"],
-    "tier": "C",
-    "population": 1400,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Newark",
-    "counties": ["Wise"],
-    "tier": "C",
-    "population": 1200,
-    "growth_rate": 0.02,
-    "status": "unknown",
-    "platform": null,
-    "notes": ""
-  },
-  {
-    "city": "Westover Hills",
-    "counties": ["Tarrant"],
-    "tier": "A",
-    "population": 700,
-    "growth_rate": 0.00,
-    "status": "unknown",
-    "platform": null,
-    "notes": "Exclusive enclave"
+    "rank": 50,
+    "software": "Manual / Email",
+    "notes": "Tier 4 Dark Data.",
+    "platform": "Manual"
   }
 ]

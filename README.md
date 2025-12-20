@@ -155,7 +155,8 @@ python3 scripts/score_leads.py
 
 | File | Description |
 |------|-------------|
-| `{city}_raw.json` | Raw scraped permits |
+| `data/raw/{city}_raw.json` | Raw scraped permits |
+| `data/exports/` | Processed data exports |
 | `exports/{trade_group}/{category}/tier_{a,b,c}.csv` | Scored leads by category |
 | Database: `leads_permit` | All scraped permits |
 | Database: `leads_property` | CAD enrichment data |
@@ -166,8 +167,10 @@ python3 scripts/score_leads.py
 ```
 scrapers/           # City-specific scrapers
 scripts/            # Pipeline processing (load, enrich, score)
-data/               # Database and exports
-debug_html/         # Screenshots for debugging
+data/raw/           # Raw scraped JSON files
+data/exports/       # Processed exports
+data/downloads/     # Downloaded Excel files from scrapers
+_archive/           # Archived logs and screenshots
 tests/              # Pytest test suite
 ```
 

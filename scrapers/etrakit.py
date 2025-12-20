@@ -16,6 +16,10 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 
+# Output directory for raw JSON
+OUTPUT_DIR = Path(__file__).parent.parent / "data" / "raw"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 ETRAKIT_CITIES = {
     'frisco': {
         'name': 'Frisco',
@@ -316,8 +320,8 @@ async def scrape_fast(city_key: str, target_count: int = 1000):
         'permits': unique_permits[:target_count]
     }
 
-    output_file = f'{city_key}_raw.json'
-    Path(output_file).write_text(json.dumps(output, indent=2))
+    output_file = OUTPUT_DIR / f'{city_key}_raw.json'
+    output_file.write_text(json.dumps(output, indent=2))
     print(f'Saved to: {output_file}')
 
     # Sample

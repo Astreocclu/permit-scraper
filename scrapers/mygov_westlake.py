@@ -19,6 +19,10 @@ logger = logging.getLogger(__name__)
 # Path to harvested addresses file
 ADDRESSES_FILE = Path(__file__).parent.parent / "data" / "westlake_addresses.json"
 
+# Output directory for raw JSON
+OUTPUT_DIR = Path(__file__).parent.parent / "data" / "raw"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 
 def load_harvested_addresses() -> list[str]:
     """
@@ -350,8 +354,9 @@ async def scrape_westlake(target_count=100):
         'permits': all_permits
     }
 
-    Path('westlake_raw.json').write_text(json.dumps(output, indent=2))
-    print(f"\nSaved to: {Path('westlake_raw.json').absolute()}")
+    output_file = OUTPUT_DIR / 'westlake_raw.json'
+    output_file.write_text(json.dumps(output, indent=2))
+    print(f"\nSaved to: {output_file.absolute()}")
 
     return output
 

@@ -1,5 +1,14 @@
 # Permit Scraper (Signal Engine)
 
+## ⛔⛔⛔ DATABASE TABLE WARNING ⛔⛔⛔
+
+| Table | Purpose | USE FOR SELLING? |
+|-------|---------|------------------|
+| `clients_scoredlead` | SCORED, SELLABLE leads (~4,600) | ✅ YES |
+| `leads_permit` | RAW scraped permits (~34,000 with junk) | ❌ NEVER |
+
+**NEVER query `leads_permit` for sales, inventory counts, or customer conversations.**
+
 ---
 
 ## MANDATORY READING BEFORE ANY DATA WORK

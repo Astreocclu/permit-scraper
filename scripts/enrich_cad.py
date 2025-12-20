@@ -426,6 +426,11 @@ def extract_street_address(full_address: str) -> Optional[str]:
     Extract just the street address from a full address.
     Input: "5429 HUNTLY DR, Fort Worth TX 76109"
     Output: "5429 HUNTLY DR"
+
+    Also handles addresses with prefixes like:
+    - "Iron Plow Restaurant 105 W Main St" -> "105 W Main St"
+    - "Creekside Ph 1B 2805 Spring Side Dr" -> "2805 Spring Side Dr"
+    - "Twin Pines 4609 Pine Ridge Lane" -> "4609 Pine Ridge Lane"
     """
     if not full_address:
         return None
@@ -442,11 +447,35 @@ def extract_street_address(full_address: str) -> Optional[str]:
         r'Colleyville|Coppell|Rowlett|Wylie|Murphy|Sachse|Lucas|Prosper|'
         r'Celina|Anna|Princeton|Melissa|Fairview|Highland Village|The Colony|'
         r'Trophy Club|Westlake|Roanoke|Northlake|Argyle|Lantana|Corinth|'
-        r'Little Elm|Oak Point|Double Oak|Bartonville|Copper Canyon|Hickory Creek'
+        r'Little Elm|Oak Point|Double Oak|Bartonville|Copper Canyon|Hickory Creek|'
+        r'Royse City|Fate|Rockwall|Heath|Rowlett|Forney|Terrell|Kaufman'
     )
     full_address = re.sub(rf'\s+({dfw_cities}|TX|TEXAS|\d{{5}}).*$', '', full_address, flags=re.I)
 
-    return full_address.strip()
+    addr = full_address.strip()
+
+    # If address doesn't start with a number, try to find where the house number starts
+    # This handles prefixes like business names, subdivision names, etc.
+    # Examples: "Iron Plow Restaurant 105 W Main St" -> "105 W Main St"
+    #           "Creekside Ph 1B 2805 Spring Side Dr" -> "2805 Spring Side Dr"
+    if not re.match(r'^\d', addr):
+        # Find a house number pattern (3-5 digit number followed by space and letters)
+        # Use the LAST occurrence of a house number pattern to handle "Ph 1B 2805" cases
+        matches = list(re.finditer(r'(\d{2,5})\s+([A-Za-z])', addr))
+        if matches:
+            # Take the last match that looks like a real house number (3+ digits preferred)
+            for match in reversed(matches):
+                potential_num = match.group(1)
+                # Skip if it looks like a phase number (1-2 digits right after "Ph")
+                start_pos = match.start()
+                prefix = addr[:start_pos].strip().upper()
+                if prefix.endswith('PH') or prefix.endswith('PHASE'):
+                    continue
+                # Found a good house number
+                addr = addr[start_pos:]
+                break
+
+    return addr.strip()
 
 
 def parse_address_for_query(address: str) -> Tuple[Optional[str], Optional[str]]:

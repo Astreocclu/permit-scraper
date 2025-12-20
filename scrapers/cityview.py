@@ -16,6 +16,10 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 
+# Output directory for raw JSON
+OUTPUT_DIR = Path(__file__).parent.parent / "data" / "raw"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 CITYVIEW_CITIES = {
     'carrollton': {
         'name': 'Carrollton',
@@ -226,7 +230,7 @@ async def scrape(city_key: str, target_count: int = 100):
                         'errors': errors,
                         'permits': all_permits
                     }
-                    Path(f'{city_key}_raw.json').write_text(json.dumps(temp_output, indent=2))
+                    (OUTPUT_DIR / f'{city_key}_raw.json').write_text(json.dumps(temp_output, indent=2))
 
                 # Brief pause between searches
                 await asyncio.sleep(0.5)
@@ -253,7 +257,7 @@ async def scrape(city_key: str, target_count: int = 100):
                     'errors': errors,
                     'permits': all_permits
                 }
-                Path(f'{city_key}_raw.json').write_text(json.dumps(crash_output, indent=2))
+                (OUTPUT_DIR / f'{city_key}_raw.json').write_text(json.dumps(crash_output, indent=2))
                 print(f'    Saved {len(all_permits)} permits before crash')
 
         finally:
@@ -270,8 +274,8 @@ async def scrape(city_key: str, target_count: int = 100):
         'permits': all_permits[:target_count]
     }
 
-    output_file = f'{city_key}_raw.json'
-    Path(output_file).write_text(json.dumps(output, indent=2))
+    output_file = OUTPUT_DIR / f'{city_key}_raw.json'
+    output_file.write_text(json.dumps(output, indent=2))
 
     print('\n' + '=' * 60)
     print('SUMMARY')
