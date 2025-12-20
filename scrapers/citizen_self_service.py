@@ -121,8 +121,9 @@ CSS_CITIES = {
     },
     'keller': {
         'name': 'Keller',
-        'base_url': 'https://www.cityofkeller.com/css',
+        'base_url': 'https://cityofkellertx-energovweb.tylerhost.net/apps/selfservice',
         # Keller migrated from eTRAKiT to EnerGov CSS (Dec 2024)
+        # www.cityofkeller.com/css redirects to this Tyler-hosted portal
     },
     'duncanville': {
         'name': 'Duncanville',
