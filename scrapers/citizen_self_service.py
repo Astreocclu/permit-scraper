@@ -109,6 +109,8 @@ CSS_CITIES = {
     'north_richland_hills': {
         'name': 'North Richland Hills',
         'base_url': 'https://selfservice.nrhtx.com/energov_prod/selfservice',
+        'requires_sso_bypass': True,  # BROKEN: Tyler SSO required, no anonymous access
+        'status': 'broken',  # Portal shows "internal error" when SSO is cancelled
     },
     'princeton': {
         'name': 'Princeton',
@@ -321,6 +323,19 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
     city_name = city_config['name']
     base_url = city_config['base_url']
 
+    # Check if portal is marked as broken
+    if city_config.get('status') == 'broken':
+        print('=' * 60)
+        print(f'{city_name.upper()} PERMIT SCRAPER (Citizen Self Service)')
+        print('=' * 60)
+        print(f'ERROR: Portal is marked as BROKEN')
+        print(f'URL: {base_url}')
+        if city_config.get('requires_sso_bypass'):
+            print(f'Issue: Requires Tyler SSO authentication - no anonymous access')
+        print(f'\nThis portal cannot be scraped without authentication credentials.')
+        print('=' * 60)
+        sys.exit(1)
+
     # Use city-specific default permit types if none specified
     if not permit_type and city_config.get('default_permit_types'):
         permit_type = city_config['default_permit_types'][0]  # Use first as primary filter
@@ -367,13 +382,45 @@ async def scrape(city_key: str, target_count: int = 100, permit_type: str = None
             print('[1] Navigating directly to search (Angular hash route)...')
             search_url = f'{base_url}#/search'
             await page.goto(search_url, wait_until='domcontentloaded', timeout=60000)
+
+            # Handle SSO redirect bypass for portals that require it
+            if city_config.get('requires_sso_bypass'):
+                print('    Checking for SSO redirect dialog...')
+                await asyncio.sleep(3)  # Wait for dialog to appear
+                try:
+                    cancel_btn = page.locator('button:has-text("Cancel")')
+                    if await cancel_btn.count() > 0:
+                        print('    Found SSO redirect - clicking Cancel...')
+                        await cancel_btn.click()
+                        await asyncio.sleep(3)
+
+                        # Check for internal error after canceling SSO
+                        error_dialog = page.locator('text=An internal error occurred')
+                        if await error_dialog.count() > 0:
+                            print('    ERROR: Portal requires authentication (internal error after SSO cancel)')
+                            print('    This portal does not support anonymous access.')
+                            # Close the error dialog
+                            close_btn = page.locator('button:has-text("Close")')
+                            if await close_btn.count() > 0:
+                                await close_btn.click()
+                            # Raise error to stop scraping
+                            raise Exception('Portal requires authentication - anonymous access not supported')
+                except Exception as e:
+                    if 'requires authentication' in str(e):
+                        raise  # Re-raise authentication error
+                    print(f'    SSO bypass error: {e}')
+
             # Wait for Angular app to hydrate - Tyler Portico Identity creates
             # background traffic that prevents networkidle from ever completing
             try:
                 await page.wait_for_selector('#SearchModule', timeout=15000)
             except Exception:
-                # Fallback for legacy WebForms portals
-                await page.wait_for_selector('input[type="text"]', timeout=15000)
+                # Fallback for legacy WebForms portals or portals with different selectors
+                try:
+                    await page.wait_for_selector('input[type="text"]', timeout=15000)
+                except Exception:
+                    # Last fallback - wait for any select element (some portals load differently)
+                    await page.wait_for_selector('select', timeout=15000)
             await asyncio.sleep(5)  # Wait for Angular hydration
 
             await page.screenshot(path=f'debug_html/{city_key}_css_step1.png')
