@@ -38,6 +38,15 @@ PLANO_USERNAME=TrustedHearthandHome
 PLANO_PASSWORD=SleepyPanda123!
 ```
 
+## Which Scrapers Use Which Credentials
+
+| Scraper | Env Vars Used | Cities |
+|---------|---------------|--------|
+| `mgo_connect.py` | `MGO_EMAIL`, `MGO_PASSWORD` | Irving, Denton |
+| `irving_pdf_sampler.py` | `MGO_EMAIL`, `MGO_PASSWORD` | Irving |
+| `etrakit_auth.py` | `PLANO_USERNAME`, `PLANO_PASSWORD` | Plano |
+| `dfw_big4_socrata.py` | `SOCRATA_APP_TOKEN` (optional) | Arlington |
+
 ---
 
 ## How to Add New Credentials
