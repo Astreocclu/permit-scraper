@@ -92,58 +92,63 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
 
         for accordion in accordions[:20]:  # Limit per search (increased from 10)
             try:
-                # Scroll into view and click to expand
-                await accordion.scroll_into_view_if_needed()
-                await accordion.click()
-                await asyncio.sleep(0.8)
+                # Wrap accordion expansion in timeout (5 seconds)
+                async with asyncio.timeout(5):
+                    # Scroll into view and click to expand
+                    await accordion.scroll_into_view_if_needed()
+                    await accordion.click()
+                    await asyncio.sleep(0.8)
 
-                # Get parent container (as ElementHandle)
-                parent_handle = await accordion.evaluate_handle('node => node.closest("li") || node.parentElement')
-                if not parent_handle:
-                    continue
-                parent = parent_handle.as_element()
-                if not parent:
-                    continue
+                    # Get parent container (as ElementHandle)
+                    parent_handle = await accordion.evaluate_handle('node => node.closest("li") || node.parentElement')
+                    if not parent_handle:
+                        continue
+                    parent = parent_handle.as_element()
+                    if not parent:
+                        continue
 
-                text = await parent.inner_text()
+                    text = await parent.inner_text()
 
-                # Look for permit indicators
-                permit_match = re.search(r'Permits?\s*\((\d+)\)', text, re.IGNORECASE)
-                if permit_match and int(permit_match.group(1)) > 0:
-                    # Try to click permits section - search within parent, not entire page
-                    permit_toggle = await parent.query_selector('a.lookup-toggle-button, [data-type="permit"]')
-                    if permit_toggle:
-                        # Scroll into view and click
-                        await permit_toggle.scroll_into_view_if_needed()
-                        await permit_toggle.click()
-                        await asyncio.sleep(0.5)
+                    # Look for permit indicators
+                    permit_match = re.search(r'Permits?\s*\((\d+)\)', text, re.IGNORECASE)
+                    if permit_match and int(permit_match.group(1)) > 0:
+                        # Try to click permits section - search within parent, not entire page
+                        permit_toggle = await parent.query_selector('a.lookup-toggle-button, [data-type="permit"]')
+                        if permit_toggle:
+                            # Scroll into view and click
+                            await permit_toggle.scroll_into_view_if_needed()
+                            await permit_toggle.click()
+                            await asyncio.sleep(0.5)
 
-                        # Extract permit details from within parent container
-                        permit_divs = await parent.query_selector_all('.lb-right, .permit-item')
-                        for pdiv in permit_divs:
-                            title_elem = await pdiv.query_selector('h3, .permit-title, .project-title')
-                            if title_elem:
-                                title = await title_elem.inner_text()
+                            # Extract permit details from within parent container
+                            permit_divs = await parent.query_selector_all('.lb-right, .permit-item')
+                            for pdiv in permit_divs:
+                                title_elem = await pdiv.query_selector('h3, .permit-title, .project-title')
+                                if title_elem:
+                                    title = await title_elem.inner_text()
 
-                                # Extract address from accordion
-                                addr_text = await accordion.inner_text()
+                                    # Extract address from accordion
+                                    addr_text = await accordion.inner_text()
 
-                                # Parse permit ID
-                                pid_match = re.search(r'Project\s+([\d-]+)|#([\d-]+)|(P\d+)', title)
-                                permit_id = pid_match.group(1) or pid_match.group(2) or pid_match.group(3) if pid_match else ''
+                                    # Parse permit ID
+                                    pid_match = re.search(r'Project\s+([\d-]+)|#([\d-]+)|(P\d+)', title)
+                                    permit_id = pid_match.group(1) or pid_match.group(2) or pid_match.group(3) if pid_match else ''
 
-                                permits.append({
-                                    'permit_id': permit_id,
-                                    'title': title.strip()[:100],
-                                    'address': addr_text.strip()[:100],
-                                    'raw_text': text[:300],
-                                    'source': 'mygov',
-                                })
+                                    permits.append({
+                                        'permit_id': permit_id,
+                                        'title': title.strip()[:100],
+                                        'address': addr_text.strip()[:100],
+                                        'raw_text': text[:300],
+                                        'source': 'mygov',
+                                    })
 
-                # Collapse accordion
-                await accordion.click()
-                await asyncio.sleep(0.3)
+                    # Collapse accordion
+                    await accordion.click()
+                    await asyncio.sleep(0.3)
 
+            except asyncio.TimeoutError:
+                logger.warning(f"Accordion expansion timeout for '{search_term}'")
+                continue
             except Exception as e:
                 logger.debug(f"Error processing accordion: {e}")
                 continue
@@ -156,8 +161,14 @@ async def search_address(page, city_slug: str, search_term: str) -> list:
     return permits
 
 
-async def scrape_city(city_key: str, target_count: int) -> list:
-    """Scrape permits for a city using street name searches."""
+async def scrape_city(city_key: str, target_count: int, max_runtime: int = 300) -> list:
+    """Scrape permits for a city using street name searches.
+
+    Args:
+        city_key: City identifier from MYGOV_CITIES
+        target_count: Number of permits to collect
+        max_runtime: Maximum runtime in seconds (default: 300s / 5 minutes)
+    """
     if city_key not in MYGOV_CITIES:
         print(f"Unknown city: {city_key}")
         print(f"Available: {', '.join(sorted(MYGOV_CITIES.keys()))}")
@@ -166,12 +177,14 @@ async def scrape_city(city_key: str, target_count: int) -> list:
     city = MYGOV_CITIES[city_key]
     all_permits = []
     seen_ids = set()
+    start_time = datetime.now()
 
     print("=" * 60)
     print(f"{city['name'].upper()} MYGOV PERMIT SCRAPER")
     print("=" * 60)
     print(f"Target: {target_count} permits")
-    print(f"Time: {datetime.now().isoformat()}")
+    print(f"Max runtime: {max_runtime}s")
+    print(f"Time: {start_time.isoformat()}")
     print()
 
     async with async_playwright() as p:
@@ -184,10 +197,16 @@ async def scrape_city(city_key: str, target_count: int) -> list:
 
         try:
             for term in SEARCH_TERMS:
+                # Check runtime limit
+                elapsed = (datetime.now() - start_time).total_seconds()
+                if elapsed > max_runtime:
+                    logger.warning(f"Max runtime ({max_runtime}s) exceeded - stopping scraper")
+                    break
+
                 if len(all_permits) >= target_count:
                     break
 
-                logger.info(f"Searching '{term}'...")
+                logger.info(f"Searching '{term}'... (elapsed: {elapsed:.1f}s)")
                 permits = await search_address(page, city['slug'], term)
 
                 # Dedupe
@@ -202,7 +221,8 @@ async def scrape_city(city_key: str, target_count: int) -> list:
                 if new_count > 0:
                     logger.info(f"  +{new_count} permits (total: {len(all_permits)})")
 
-                await asyncio.sleep(0.5)  # Rate limit
+                # Rate limit between searches (2 seconds)
+                await asyncio.sleep(2)
 
         finally:
             await browser.close()
