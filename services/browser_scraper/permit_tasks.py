@@ -352,7 +352,7 @@ CITY_TASKS = {
     # eTRAKiT
     "plano": ETRAKIT_TEMPLATE.format(city_name="Plano", url="https://ecop.plano.gov/eTRAKiT"),
     "frisco": ETRAKIT_TEMPLATE.format(city_name="Frisco", url="https://etrakit.friscotexas.gov/eTRAKiT"),
-    "burleson": ETRAKIT_TEMPLATE.format(city_name="Burleson", url="https://etrakit.burlesontx.com/eTRAKiT"),
+    "burleson": MYGOV_TEMPLATE.format(city_name="Burleson", url="https://public.mygov.us/burleson_tx"),
     "the_colony": ETRAKIT_TEMPLATE.format(city_name="The Colony", url="https://tcol-trk.aspgov.com/eTrakit/"),
     "keller": ETRAKIT_TEMPLATE.format(city_name="Keller", url="https://etrakit.cityofkeller.com/eTRAKiT"),
     "flower_mound": ETRAKIT_TEMPLATE.format(city_name="Flower Mound", url="https://etrakit.flower-mound.com/etrakit"),
