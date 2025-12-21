@@ -111,6 +111,39 @@ If there are multiple pages, go to the next page and continue scraping until you
 Return the data as a valid JSON list of objects.
 """
 
+SOUTHLAKE_BULK_TASK = EFFICIENCY_DIRECTIVE + """
+Go to the Southlake EnerGov portal at https://energov.cityofsouthlake.com/EnerGov_Prod/SelfService#/search
+
+1. Select "Permit" from the Module dropdown.
+
+2. Click "Advanced" to open advanced search.
+
+3. Set date filters:
+   - Find "Issued Date" fields
+   - Set start date: {start_date}
+   - Set end date: {end_date}
+
+4. Click "Search" button.
+
+5. CRITICAL: After results load, the portal may show old permits despite date filter.
+   - Find the "Issued Date" column header in the results table
+   - Click it TWICE to sort DESCENDING (newest first)
+   - Verify the top results show dates within your search range
+
+6. If "Export" button is available, click it to download Excel file.
+   Otherwise, scrape the first page of results.
+
+7. Extract up to 50 permits with these fields:
+   - permit_number (Case Number column)
+   - issue_date (Issued Date column)
+   - permit_type (Type column)
+   - status (Status column)
+   - address (Address column)
+   - description (Description column if available)
+
+Return the data as a valid JSON list of objects.
+"""
+
 BULK_ETRAKIT_TEMPLATE = EFFICIENCY_DIRECTIVE + """
 Go to the {city_name} eTRAKiT portal at {url}
 Select "Public Search" or "Search Permits".
@@ -587,6 +620,10 @@ def get_task_for_city(city: str, address: str = "", permit_type: str = "Building
 
     # Dynamic Template Swapping for Bulk
     if mode == "bulk":
+        # Special handling for Southlake (portal ignores date filters)
+        if normalized_city == "southlake":
+            return SOUTHLAKE_BULK_TASK.format(start_date=start_date, end_date=end_date)
+
         # CityView (Carrollton) - special handling
         if normalized_city == "carrollton" or "cityview" in template.lower():
             return BULK_CITYVIEW_TEMPLATE.format(start_date=start_date, end_date=end_date)
