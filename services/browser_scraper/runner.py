@@ -8,78 +8,92 @@ import os
 from .agent import PermitScraperAgent
 from .permit_tasks import get_task_for_city
 from .utils import log_scrape_attempt, estimate_cost, logger
+from .models import ScrapeContext
 
 class PermitScraperRunner:
     def __init__(self):
         self.agent = None
 
+    def _create_agent(self) -> PermitScraperAgent:
+        """Factory method for creating agent (allows mocking in tests)."""
+        return PermitScraperAgent()
+
     async def scrape_permit(self, city: str, address: str = "", permit_type: str = "Building", mode: str = "single", start_date: str = "", end_date: str = "") -> Dict[str, Any]:
         """
         Main entry point to scrape a permit.
+
+        Returns dict with:
+            success: bool
+            data: parsed JSON or raw output
+            error: error message if any
+            context: ScrapeContext dict for review/handoff
         """
         success = False
         error_msg = None
         result_data = {}
-        tokens_used = 0 # Placeholder if we can't get actual tokens
-        
+        context: Optional[ScrapeContext] = None
+
         try:
             # Get task description
-            import os
             mgo_email = os.getenv("MGO_EMAIL", "")
             mgo_password = os.getenv("MGO_PASSWORD", "")
-            
+
             task_desc = get_task_for_city(
-                city=city, 
-                address=address, 
-                permit_type=permit_type, 
-                mgo_email=mgo_email, 
+                city=city,
+                address=address,
+                permit_type=permit_type,
+                mgo_email=mgo_email,
                 mgo_password=mgo_password,
                 mode=mode,
                 start_date=start_date,
                 end_date=end_date
             )
-            
-            # Initialize agent (lazy init or per request)
-            # Creating new agent per request to ensure clean browser state
-            self.agent = PermitScraperAgent()
-            
-            # Execute
-            raw_result = await self.agent.run_task(task_desc)
-            
-            # Parse JSON
-            # The agent is instructed to return ONLY JSON, but might have markdown blocks
-            clean_result = raw_result.strip()
-            if clean_result.startswith("```json"):
-                clean_result = clean_result.replace("```json", "").replace("```", "")
-            elif clean_result.startswith("```"):
-                clean_result = clean_result.replace("```", "")
-                
-            try:
-                result_data = json.loads(clean_result)
-                success = True
-            except json.JSONDecodeError:
-                # Retry logic could go here: ask LLM to fix JSON
-                # For now just fail
-                error_msg = "Failed to parse JSON response"
-                result_data = {"raw_output": raw_result}
-                
+
+            # Initialize agent using factory method
+            self.agent = self._create_agent()
+
+            # Execute and get rich context
+            context = await self.agent.run_task(task_desc, city=city)
+
+            # Try to parse JSON from final_result
+            if context.final_result and context.is_successful:
+                clean_result = context.final_result.strip()
+                # Strip markdown code blocks
+                if clean_result.startswith("```json"):
+                    clean_result = clean_result.replace("```json", "").replace("```", "")
+                elif clean_result.startswith("```"):
+                    clean_result = clean_result.replace("```", "")
+
+                try:
+                    result_data = json.loads(clean_result)
+                    success = True
+                except json.JSONDecodeError:
+                    error_msg = "Failed to parse JSON response"
+                    result_data = {"raw_output": context.final_result}
+            else:
+                error_msg = "Scrape incomplete or unsuccessful"
+                result_data = {"raw_output": context.final_result}
+
         except Exception as e:
             error_msg = str(e)
             logger.error(f"Scrape failed: {e}")
         finally:
             if self.agent:
                 await self.agent.close()
-            
-            log_scrape_attempt(city, address if mode == 'single' else f"{start_date}-{end_date}", success, tokens_used, error_msg)
-            
-        if not success:
-             # Basic retry logic could be implemented here if needed
-             pass
+
+            log_scrape_attempt(
+                city,
+                address if mode == 'single' else f"{start_date}-{end_date}",
+                success,
+                0,  # tokens placeholder
+                error_msg
+            )
 
         return {
             "success": success,
             "data": result_data,
-            "error": error_msg
+            "error": error_msg,
+            "context": context.to_dict() if context else None
         }
 
 
