@@ -4,6 +4,7 @@ import argparse
 from typing import Dict, Optional, Any, List
 import datetime
 import os
+from pathlib import Path
 
 from .agent import PermitScraperAgent
 from .permit_tasks import get_task_for_city
@@ -146,6 +147,10 @@ class BatchRunner:
                     "timestamp": datetime.datetime.now().isoformat()
                 }
 
+                # Save city_raw.json on success for pipeline compatibility
+                if result["success"] and result.get("data"):
+                    self._save_city_raw_json(city, result["data"])
+
                 # Queue failures for review
                 if not result["success"] and result.get("context"):
                     context = ScrapeContext.from_dict(result["context"])
@@ -181,6 +186,40 @@ class BatchRunner:
             f.write(json.dumps(result) + "\n")
 
         logger.info(f"Saved result for {result['city']} to {jsonl_filename}")
+
+    def _get_raw_dir(self) -> Path:
+        """Get the raw data output directory."""
+        raw_dir = Path("data/raw")
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        return raw_dir
+
+    def _save_city_raw_json(self, city: str, data: Any):
+        """Save permits to {city}_raw.json for pipeline compatibility."""
+        if not data:
+            return
+
+        raw_dir = self._get_raw_dir()
+        normalized_city = city.lower().replace(" ", "_")
+        output_file = raw_dir / f"{normalized_city}_raw.json"
+
+        # Wrap in standard format if it's a list
+        if isinstance(data, list):
+            output = {
+                "source": normalized_city,
+                "portal_type": "browser_use",
+                "scraped_at": datetime.datetime.now().isoformat(),
+                "target_count": len(data),
+                "actual_count": len(data),
+                "errors": [],
+                "permits": data
+            }
+        else:
+            output = data
+
+        with open(output_file, 'w') as f:
+            json.dump(output, f, indent=2)
+
+        logger.info(f"Saved {len(data) if isinstance(data, list) else 1} permits to {output_file}")
 
     async def _save_results(self):
         """
