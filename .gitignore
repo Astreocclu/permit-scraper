@@ -20,6 +20,10 @@ data/raw/*.json
 data/*.jsonl
 data/*.db
 
+# Browser-Use review queue (contains screenshots and debug data)
+data/review_queue/
+data/screenshots/
+
 # Exports (regenerated)
 exports/
 
