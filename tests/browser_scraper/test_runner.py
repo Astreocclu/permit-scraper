@@ -80,3 +80,28 @@ async def test_scrape_permit_failure_includes_context(failed_context):
         assert result["context"]["is_successful"] == False
         assert "Date picker blocked" in result["context"]["errors"]
         assert len(result["context"]["screenshots"]) == 1
+
+
+@pytest.mark.asyncio
+async def test_batch_runner_queues_failures(failed_context, tmp_path):
+    """BatchRunner adds failed scrapes to review queue."""
+    from services.browser_scraper.runner import BatchRunner
+    from services.browser_scraper.review_queue import ReviewQueue
+
+    queue = ReviewQueue(tmp_path / "queue")
+    batch_runner = BatchRunner(concurrency=1, review_queue=queue)
+
+    with patch('services.browser_scraper.runner.PermitScraperRunner') as MockRunner:
+        mock_instance = MagicMock()
+        mock_instance.scrape_permit = AsyncMock(return_value={
+            "success": False,
+            "data": {"raw_output": "Task incomplete..."},
+            "error": "Date picker blocked",
+            "context": failed_context.to_dict()
+        })
+        MockRunner.return_value = mock_instance
+
+        await batch_runner.run_batch(["Prosper"], mode="bulk")
+
+        # Queue should have one item
+        assert queue.pending_count() == 1

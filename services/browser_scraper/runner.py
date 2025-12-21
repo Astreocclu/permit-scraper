@@ -9,6 +9,7 @@ from .agent import PermitScraperAgent
 from .permit_tasks import get_task_for_city
 from .utils import log_scrape_attempt, estimate_cost, logger
 from .models import ScrapeContext
+from .review_queue import ReviewQueue
 
 class PermitScraperRunner:
     def __init__(self):
@@ -98,10 +99,15 @@ class PermitScraperRunner:
 
 
 class BatchRunner:
-    def __init__(self, concurrency: int = 5):
+    def __init__(
+        self,
+        concurrency: int = 5,
+        review_queue: Optional[ReviewQueue] = None
+    ):
         self.concurrency = concurrency
         self.semaphore = asyncio.Semaphore(concurrency)
         self.results = []
+        self.review_queue = review_queue or ReviewQueue()
 
     async def run_batch(self, cities: List[str], address: str = "", permit_type: str = "Building", mode: str = "single", start_date: str = "", end_date: str = ""):
         """
@@ -128,7 +134,7 @@ class BatchRunner:
             runner = PermitScraperRunner()
             result_payload = {}
             try:
-                # Add a small random delay to avoid thundering herd if needed, 
+                # Add a small random delay to avoid thundering herd if needed,
                 # but semaphore handles the bulk of it.
                 result = await runner.scrape_permit(city, address, permit_type, mode, start_date, end_date)
                 result_payload = {
@@ -136,8 +142,16 @@ class BatchRunner:
                     "status": "success" if result["success"] else "failed",
                     "data": result.get("data"),
                     "error": result.get("error"),
+                    "context": result.get("context"),
                     "timestamp": datetime.datetime.now().isoformat()
                 }
+
+                # Queue failures for review
+                if not result["success"] and result.get("context"):
+                    context = ScrapeContext.from_dict(result["context"])
+                    self.review_queue.add(context)
+                    logger.info(f"Added {city} to review queue")
+
             except Exception as e:
                 logger.error(f"Critical failure for {city}: {e}")
                 result_payload = {
@@ -146,7 +160,7 @@ class BatchRunner:
                     "error": str(e),
                     "timestamp": datetime.datetime.now().isoformat()
                 }
-            
+
             # Incremental Save
             self._append_result(result_payload)
             return result_payload
@@ -156,17 +170,24 @@ class BatchRunner:
         Append a single result to the incremental JSON file.
         """
         filename = "data/incremental_batch_results.json"
-        
+
         # Lock handling (simplified for single process, but good practice)
-        # We'll read, append, write. 
+        # We'll read, append, write.
         # CAUTION: In high concurrency this is racy, but with low concurrency (e.g. 1-2) it's okay for now.
         # A better approach is appending to a JSONL file (one line per record).
-        
+
         jsonl_filename = "data/incremental_batch_results.jsonl"
         with open(jsonl_filename, "a") as f:
             f.write(json.dumps(result) + "\n")
-            
+
         logger.info(f"Saved result for {result['city']} to {jsonl_filename}")
+
+    async def _save_results(self):
+        """
+        Placeholder for final batch results save.
+        Results are already saved incrementally via _append_result.
+        """
+        pass
 
 async def run_cli():
     parser = argparse.ArgumentParser(description="Run Browser-Use Permit Scraper")
