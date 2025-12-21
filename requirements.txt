@@ -1,0 +1,29 @@
+# Core dependencies for permit-scraper
+# Install: pip install -r requirements.txt
+
+# HTTP clients
+aiohttp>=3.9.0
+httpx>=0.25.0
+requests>=2.31.0
+
+# HTML parsing
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Browser automation
+playwright>=1.40.0
+
+# Database
+psycopg2-binary>=2.9.0
+
+# Data processing
+pandas>=2.0.0
+
+# PDF handling
+pypdf>=3.0.0
+
+# Environment
+python-dotenv>=1.0.0
+
+# Socrata API (Arlington)
+sodapy>=2.2.0
