@@ -17,6 +17,8 @@ data/downloads/
 data/parcels/
 data/raw/*.json
 !data/raw/.gitkeep
+data/*.jsonl
+data/*.db
 
 # Exports (regenerated)
 exports/
