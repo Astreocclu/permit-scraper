@@ -19,10 +19,12 @@ All credentials stored in `.env` file. Copy from `.env.example` if missing.
 | **Plano** | eTRAKiT | ✅ HAVE | ✅ Working | `PLANO_USERNAME`, `PLANO_PASSWORD` |
 | **Lewisville** | Tyler eSuite | ❌ NEED | ❌ Blocked - no public search | Need Tyler eSuite login |
 | **Richardson** | Citizenserve | ❌ NEED | ❌ 403 blocked | May need proxy + login |
-| **Euless** | Cityworks PLL | ❌ NEED | ❌ reCAPTCHA | Likely not scriptable |
+| **Euless** | NewEdge Portal | ❌ TRY | ⚠️ Login required, has PDF reports | https://euless.newedgeservices.com/PermitPortal |
 | **Forney** | MyGov | ❌ NEED | ❌ Login required | Need MyGov Collaborator login |
 | **Highland Village** | Custom | ❌ NEED | ❌ Contractor registration | Need contractor account |
 | **Corinth** | Civic Access | ❌ NEED | ❌ Registration required | Need Civic Access account |
+| **Carrollton** | CityView | ❌ TRY | ⚠️ Public data stale (July 2025) | May need login for fresh data |
+| **Burleson** | MyGov | ❌ NEED? | ❌ No public permit search | Portal lacks permit module entirely |
 
 ---
 
@@ -69,12 +71,14 @@ PLANO_PASSWORD=SleepyPanda123!
 - [ ] **Forney MyGov** - https://mygov.us/collaborator/forneytx
 - [ ] **Highland Village** - Contractor registration required
 - [ ] **Corinth Civic Access** - https://corinth.mycivicaccess.com/
+- [ ] **Carrollton CityView** - https://cityserve.cityofcarrollton.com/CityViewPortal/Account/Register - Public data stops at July 2025, try registering to see if login reveals fresher data
+- [ ] **Euless NewEdge** - https://euless.newedgeservices.com/PermitPortal - New portal requires login, city also publishes annual PDF reports
+- [ ] **Burleson MyGov** - https://public.mygov.us/burleson_tx - Public portal only has Address Lookup, GIS Map, Knowledge Base, Code Violations. NO permit search module visible. May need Collaborator login or contact city directly.
 
 ### Need Technical Fix (Have Credentials):
 - [ ] **Irving** - PDF export opens about:blank, needs debugging
 
 ### Likely Unsolvable:
-- **Euless** - reCAPTCHA on login
 - **Richardson** - 403 IP block + may need proxy
 
 ---
@@ -85,10 +89,10 @@ These work without any login - 21 cities total:
 - Dallas, Fort Worth, Arlington, Grand Prairie, Mesquite (Accela)
 - Frisco, Flower Mound, Denton (eTRAKiT - public mode)
 - McKinney, Allen, Southlake, Colleyville, Trophy Club, Hurst, Coppell, Waxahachie, Cedar Hill, DeSoto (EnerGov CSS)
-- Carrollton (CityView)
+- ~~Carrollton (CityView)~~ - **STALE DATA** - see above
 - Westlake, Little Elm, Grapevine (MyGov)
 - Sachse (SmartGov)
 
 ---
 
-**Last Updated:** 2024-12-20
+**Last Updated:** 2025-12-21
