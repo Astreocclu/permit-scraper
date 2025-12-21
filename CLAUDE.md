@@ -157,11 +157,81 @@ scripts/score_leads.py    -> clients_scoredlead table  (Scoring)
 - Tables: `leads_permit`, `leads_property`, `clients_scoredlead`
 - Connection: `DATABASE_URL` in `.env`
 
+## Browser-Use AI Scraping (Experimental)
+
+For complex portals that resist traditional scraping, we use **Browser-Use** with DeepSeek LLM to navigate dynamically.
+
+### How It Works
+
+```
+Browser-Use Agent → ScrapeContext → Review Queue → Claude Code Review
+```
+
+1. **Agent runs** - DeepSeek navigates the portal using natural language instructions
+2. **Context captured** - Screenshots, URLs, actions, errors all saved
+3. **Failures queued** - Failed scrapes go to `data/review_queue/pending/`
+4. **Claude reviews** - Use CLI to see what failed and why, then fix
+
+### Commands
+
+```bash
+# Run Browser-Use scraper (uses DeepSeek API)
+python3 -m services.browser_scraper.runner --city dallas --mode bulk
+
+# Review failed scrapes
+python3 -m services.browser_scraper.review_cli --list          # See pending failures
+python3 -m services.browser_scraper.review_cli --show dallas   # Detail for a city
+python3 -m services.browser_scraper.review_cli --review        # Interactive review
+
+# Screenshots saved to data/screenshots/{city}/
+```
+
+### When to Use Browser-Use
+
+| Situation | Use Browser-Use? |
+|-----------|------------------|
+| Simple DOM scraping (Accela, eTRAKiT) | No - use fast scrapers |
+| Portal with dynamic JS, date pickers | Yes |
+| Portal requires complex navigation | Yes |
+| Need to debug why scraper fails | Yes - captures full context |
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `services/browser_scraper/agent.py` | Browser-Use agent wrapper |
+| `services/browser_scraper/runner.py` | Scraping orchestrator |
+| `services/browser_scraper/review_queue.py` | Queue for failed scrapes |
+| `services/browser_scraper/review_cli.py` | CLI for reviewing failures |
+| `services/browser_scraper/models.py` | ScrapeContext dataclass |
+
+### Environment Variables
+
+```bash
+DEEPSEEK_API_KEY=your_key_here  # Required for Browser-Use
+BROWSER_USE_HEADLESS=true       # Set to false to see browser
+```
+
+### Review Workflow
+
+When a Browser-Use scrape fails:
+
+1. Full context saved: screenshots, URLs visited, actions taken, errors
+2. `python3 -m services.browser_scraper.review_cli --list` shows pending
+3. `--show <city>` reveals exactly what happened
+4. Fix the scraper or portal-specific logic
+5. Mark as reviewed with resolution (fixed, skip, permanent_block)
+
+This creates a feedback loop: Browser-Use gathers data → Claude Code analyzes failures → improves scraper.
+
+---
+
 ## Guidelines
 
 - **Isolation:** Do NOT import anything from contractor-auditor
 - **Database:** Uses `leads_property` table for CAD data
 - **Scrapers:** Prefer `_fast.py` (DOM) over legacy LLM versions
+- **Browser-Use:** Use for complex portals, review failures with CLI
 - **Testing:** Run `pytest` before committing scraper changes
 
 ## DO NOT
