@@ -1,53 +1,48 @@
-# Environment files
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv/
+
+# Data (large/temp files)
+data/downloads/
+data/parcels/
+data/raw/*.json
+!data/raw/.gitkeep
+
+# Exports (regenerated)
+exports/
+
+# Environment
 .env
 .env.local
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-
-# Dependencies
-node_modules/
-
-# Data outputs
-data/permits.db
-data/exports/
-data/raw/
-exports/
-
-# Raw scraped data (JSON)
-*_raw.json
-*_enriched.json
-*_residential.json
-*_filtered.csv
-*_leads.csv
-dfw_big4_contractor_leads.csv
-scrapers/*.csv
-
-# Debug files
-debug_html/
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
 
 # Logs
 *.log
-npm-debug.log*
-enrich_log.txt
-score_log.txt
-score_full_log.txt
+*.tmp
 
-# Session notes (personal)
-*.txt
-!requirements.txt
+# Debug
+debug_html/
+screenshots/
 
-# Archive/legacy
-_archive/
-_legacy-decommissioned/
-
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Plan files (session-specific)
-PLAN_IN_PROGRESS.md
-IMPLEMENTATION_PLAN_*.md
-SESSION-NOTES.md
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Session transcripts (junk)
+*.transcript.txt

@@ -97,6 +97,27 @@ python3 scrapers/mygov_multi.py rowlett 500
 
 **New total:** 29 cities (~5M population, ~72% of DFW metro)
 
+## Scraper Fixes (Completed 2025-12-19)
+
+### Keller EnerGov CSS
+**Issue:** Akamai WAF blocking direct city URL `https://www.cityofkeller.com/css` (403 error)
+**Solution:** Use Tyler-hosted direct instance: `https://cityofkellertx-energovweb.tylerhost.net/apps/selfservice`
+**Result:** 1,000 permits scraped successfully, added to config
+
+### North Richland Hills (Broken)
+**Issue:** Timeout waiting for portal selectors after load
+**Root cause:** Tyler SSO authentication required, no anonymous access available
+**Solution:** Mark as broken with graceful error handling and clear messaging
+**Result:** Fails cleanly with actionable error instead of hanging indefinitely
+
+### Rowlett MyGov
+**Issue:** Scraper stalled indefinitely on accordion expansion during pagination
+**Solution:**
+- Added `asyncio.wait_for()` timeout (5s per accordion operation)
+- Added 2s rate limiting between accordion clicks
+- Set 5min global timeout to prevent infinite loops
+**Result:** 114 permits scraped in ~84 seconds without stalling
+
 ## Session Summary
 
 **Completed Tasks:**
@@ -105,8 +126,12 @@ python3 scrapers/mygov_multi.py rowlett 500
 3. Lewisville Debug - Portal returns 0 results (data availability issue)
 4. Little Elm Excel Parser - Formalized with 16x better contractor extraction
 5-15. Municipality Research - 11 cities researched, 7 actionable
+16-18. Scraper Fixes - Keller, North Richland Hills, Rowlett debugged and fixed
+
+**Plan Status:** COMPLETE
 
 **Commits:**
 - `dd3f09e` - feat: add Weatherford GovBuilt scraper
 - `c4a8d13` - fix(weatherford): document field availability
 - `98c1043` - feat: add Little Elm Excel parser
+- (Scraper fixes) - TBD

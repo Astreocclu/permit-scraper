@@ -175,6 +175,32 @@ Extract the results table (limit 50 items) as a JSON list:
 Return ONLY the JSON list.
 """
 
+BULK_CITYVIEW_TEMPLATE = EFFICIENCY_DIRECTIVE + """
+Go to the Carrollton CityView Portal at https://cityserve.cityofcarrollton.com/CityViewPortal/Permit/Locator
+
+1. Explore the portal to find a search interface:
+   - Look for "Search", "Permit Search", "Permit Locator", or similar
+   - Note what search options are available (address, permit number, date range, etc.)
+
+2. Try to filter for recent permits:
+   - If there is a date range filter, use: {start_date} to {end_date}
+   - If no date filter, search for permit numbers starting with "PR2512" (Dec 2025) or "PR2511" (Nov 2025)
+   - Alternatively, search for common 2025 permit prefixes: "PRBD2025", "PRPL2025", "PREL2025"
+
+3. From the results, extract permits as JSON:
+   - permit_number (e.g., "PRBD202512001")
+   - address
+   - permit_type (Building, Plumbing, Electrical, etc.)
+   - status
+   - issue_date (if visible, otherwise leave empty and we'll parse from permit_number)
+   - valuation (if visible)
+
+4. Click on individual permit links if needed to get more details.
+
+Return a JSON list of all permits found (aim for 50+ if available).
+Important: Focus on permits from the last 30-60 days.
+"""
+
 # ... (Specific tasks preserved)
 
 # ... (Lower down)
@@ -275,7 +301,7 @@ CITY_TASKS = {
     "garland": MGO_TEMPLATE.format(jurisdiction="Garland"),
     "irving": MGO_TEMPLATE.format(jurisdiction="Irving"),
     "lewisville": MGO_TEMPLATE.format(jurisdiction="Lewisville"),
-    "denton": MGO_TEMPLATE.format(jurisdiction="Denton"),
+    "denton": ETRAKIT_TEMPLATE.format(city_name="Denton", url="https://dntn-trk.aspgov.com/eTRAKiT"),
     "celina": MYGOV_TEMPLATE.format(city_name="Celina", url="https://public.mygov.us/celina_tx/module?module=pi"),
     "fate": MYGOV_TEMPLATE.format(city_name="Fate", url="https://public.mygov.us/fate_tx/module?module=pi"),
     
@@ -329,6 +355,7 @@ CITY_TASKS = {
     "burleson": ETRAKIT_TEMPLATE.format(city_name="Burleson", url="https://etrakit.burlesontx.com/eTRAKiT"),
     "the_colony": ETRAKIT_TEMPLATE.format(city_name="The Colony", url="https://tcol-trk.aspgov.com/eTrakit/"),
     "keller": ETRAKIT_TEMPLATE.format(city_name="Keller", url="https://etrakit.cityofkeller.com/eTRAKiT"),
+    "flower_mound": ETRAKIT_TEMPLATE.format(city_name="Flower Mound", url="https://etrakit.flower-mound.com/etrakit"),
     
     # Others
     "bedford": """
@@ -496,7 +523,7 @@ CITY_TASKS = {
     Return ONLY the JSON object.
     """,
     # Added missing cities
-    "prosper": ENERGOV_TEMPLATE.format(city_name="Prosper", url="https://prospertx.gov/285/Citizen-Self-Service"),
+    "prosper": ETRAKIT_TEMPLATE.format(city_name="Prosper", url="http://etrakit.prospertx.gov/eTRAKIT"),
     "dallas": """
     Go to the Dallas Accela portal (Build) at https://developdallas.dallascityhall.com/
     Note: This system is migrating soon.
@@ -560,6 +587,10 @@ def get_task_for_city(city: str, address: str = "", permit_type: str = "Building
 
     # Dynamic Template Swapping for Bulk
     if mode == "bulk":
+        # CityView (Carrollton) - special handling
+        if normalized_city == "carrollton" or "cityview" in template.lower():
+            return BULK_CITYVIEW_TEMPLATE.format(start_date=start_date, end_date=end_date)
+
         if "energov" in template.lower() or "energov_prod" in template.lower() or "mgoconnect" in template.lower() or "mgo" in normalized_city or "etrakit" in template.lower() or "mygov" in template.lower():
             import re
             url_match = re.search(r'https?://[^\s]+', template)

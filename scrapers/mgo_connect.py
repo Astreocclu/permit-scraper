@@ -430,14 +430,11 @@ async def run_scraper_session(city_name: str, target_count: int, headless: bool)
             # Clear any existing filters and search with minimal criteria
             from datetime import datetime, timedelta
 
-            # Try clicking Reset first to clear filters
-            reset_btn = page.locator('button:has-text("Reset")')
-            if await reset_btn.count() > 0:
-                await reset_btn.first.click()
-                print('    Clicked Reset to clear filters')
-                await asyncio.sleep(2)
+            # NOTE: Don't click Reset - it might clear to empty/restrictive filters
+            # Just search with whatever defaults the page has
+            print('    Searching with page defaults (no reset, no date filter)...')
 
-            # Click Search without date filter to get all recent results
+            # Click Search button
             search_btn = page.locator('button:has-text("Search")').first
             if await search_btn.count() > 0:
                 await search_btn.click()
@@ -567,8 +564,19 @@ async def scrape_orchestrator(city_name: str, target_count: int = 1000):
     """
     from pathlib import Path
 
-    # Irving: Use the standard search flow with EXCEL export
-    # The search page has an EXCEL option (not just PDF)
+    # Irving: Use the Advanced Reporting path (scrape function)
+    # because the standard search returns 0 results
+    if city_name.lower() == 'irving':
+        print("IRVING DETECTED: Using Advanced Reporting path...")
+        try:
+            results = await scrape(city_name, target_count)
+            if results and isinstance(results, dict) and results.get('permits'):
+                return results
+            elif results and isinstance(results, list):
+                return save_results(city_name, results)
+        except Exception as e:
+            print(f"Irving Advanced Reporting failed: {e}")
+            print("Falling back to standard session...")
 
     # PHASE 1: HEADLESS
     try:
