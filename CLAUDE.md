@@ -80,12 +80,14 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 - Plano - `etrakit_auth.py` (requires login)
 
 ### EnerGov CSS
-- Southlake, Colleyville, McKinney, Allen, Trophy Club, Waxahachie - `citizen_self_service.py`
+- Colleyville, McKinney, Allen, Trophy Club, Waxahachie - `citizen_self_service.py`
 - Cedar Hill, DeSoto, Mesquite - `citizen_self_service.py` (Mesquite NEW - Dec 2024)
+- **Southlake** - Uses Browser-Use (portal ignores date filters, requires AI sorting)
 
 ### MyGov
 - Westlake - `mygov_westlake.py` (address-based)
-- Mansfield, Rowlett, Grapevine, Burleson, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py` (Grapevine NEW - Dec 2024)
+- Mansfield, Rowlett, Grapevine, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py` (Grapevine NEW - Dec 2024)
+- ~~Burleson~~ - BLOCKED (portal has no public permit search module)
 
 ### SmartGov
 - Sachse - `smartgov_sachse.py` (NEW)
@@ -194,6 +196,16 @@ python3 -m services.browser_scraper.review_cli --review        # Interactive rev
 | Portal with dynamic JS, date pickers | Yes |
 | Portal requires complex navigation | Yes |
 | Need to debug why scraper fails | Yes - captures full context |
+| **Southlake** (EnerGov ignores date filters) | Yes - requires date sorting workaround |
+
+### City-Specific Issues
+
+| City | Portal | Issue | Status |
+|------|--------|-------|--------|
+| **Southlake** | EnerGov CSS | Portal ignores date filters, returns 20yr old permits | ✅ FIXED - BrowserUse sorts by date desc |
+| **Burleson** | MyGov | No public permit search module visible | ❌ BLOCKED - portal lacks functionality |
+
+**Burleson Note:** Despite having a MyGov portal at `public.mygov.us/burleson_tx`, it only exposes Address Lookup, Knowledge Base, Code Violations, and GIS Map - no permit search. May need to contact city or find alternate data source.
 
 ### Key Files
 
