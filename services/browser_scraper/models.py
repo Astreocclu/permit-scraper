@@ -19,6 +19,7 @@ class ScrapeContext:
     urls: list[str]  # All URLs visited
     actions: list[str]  # Action names taken (click, input_text, etc.)
     screenshots: list[str] = field(default_factory=list)  # Base64 encoded, last N
+    screenshot_paths: list[str] = field(default_factory=list)  # Paths to saved PNG files
     task_description: str = ""  # Original task given to agent
     raw_history: Optional[str] = None  # Full history JSON for deep debugging
 
