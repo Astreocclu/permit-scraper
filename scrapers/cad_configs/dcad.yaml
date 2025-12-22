@@ -1,0 +1,34 @@
+# Dallas Central Appraisal District configuration
+name: dcad
+display_name: Dallas Central Appraisal District
+county: Dallas
+
+download:
+  base_url: https://www.dallascad.org/DataDownload.aspx
+  format: csv
+
+columns:
+  account_number: ACCT
+  owner_name: OWNER_NAME
+  property_address: SITUS_ADDR
+  city: SITUS_CITY
+  zip: SITUS_ZIP
+  year_built: YR_BUILT
+  improvement_value: IMPR_VAL
+  land_value: LAND_VAL
+  total_value: TOT_VAL
+  new_construction_flag: NEW_CONST
+  property_type: PROP_TYPE_CD
+
+filters:
+  property_types:
+    - A1
+    - A2
+    - A3
+    - A4
+  min_improvement_value: 50000
+  year_built_window: 2
+
+processing:
+  chunk_size: 100000
+  encoding: latin1

@@ -1,0 +1,29 @@
+# Tarrant Appraisal District configuration
+name: tad
+display_name: Tarrant Appraisal District
+county: Tarrant
+
+download:
+  base_url: https://gis-tad.opendata.arcgis.com
+  format: csv
+
+columns:
+  account_number: ACCOUNT_NUM
+  owner_name: OWNER_NAME
+  property_address: PROPERTY_ADDR
+  city: CITY
+  zip: ZIP
+  year_built: YEAR_BUILT
+  improvement_value: IMPROVEMENT_VAL
+  sptb_code: SPTB_CODE
+
+filters:
+  sptb_codes:
+    - A1
+    - A2
+  min_improvement_value: 50000
+  year_built_window: 2
+
+processing:
+  chunk_size: 100000
+  encoding: utf-8

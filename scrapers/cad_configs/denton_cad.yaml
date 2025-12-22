@@ -1,0 +1,25 @@
+# Denton Central Appraisal District configuration
+name: denton_cad
+display_name: Denton Central Appraisal District
+county: Denton
+
+download:
+  base_url: https://www.dentoncad.com
+  format: csv
+
+columns:
+  account_number: PROP_ID
+  owner_name: OWNER_NAME
+  property_address: SITUS_ADDR
+  city: SITUS_CITY
+  zip: SITUS_ZIP
+  year_built: YR_BUILT
+  improvement_value: IMPR_VAL
+
+filters:
+  min_improvement_value: 50000
+  year_built_window: 2
+
+processing:
+  chunk_size: 100000
+  encoding: utf-8
