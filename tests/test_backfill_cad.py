@@ -130,3 +130,23 @@ class TestFetchUnenrichedPermits:
 
         query = build_unenriched_permits_query(limit=100)
         assert "LIMIT 100" in query
+
+
+class TestUpsertLeadsProperty:
+    """Test the leads_property upsert SQL generation."""
+
+    def test_upsert_sql_structure(self):
+        from scripts.backfill_cad_enrichment import build_upsert_property_sql
+
+        sql = build_upsert_property_sql()
+
+        # Must be an upsert (INSERT ... ON CONFLICT)
+        assert "INSERT INTO leads_property" in sql
+        assert "ON CONFLICT (property_address)" in sql
+        assert "DO UPDATE SET" in sql
+
+        # Must include key CAD fields
+        assert "market_value" in sql
+        assert "owner_name" in sql
+        assert "year_built" in sql
+        assert "enrichment_status" in sql

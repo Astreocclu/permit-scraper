@@ -209,3 +209,52 @@ def build_unenriched_permits_query(city: Optional[str] = None, limit: Optional[i
         query += f"\n        LIMIT {limit}"
 
     return query
+
+
+def build_upsert_property_sql() -> str:
+    """
+    Build SQL for upserting CAD data into leads_property.
+
+    Uses the ORIGINAL permit address as the key (not CAD canonical address)
+    so that JOINs in score_leads.py work correctly.
+
+    Returns:
+        SQL query with placeholders for psycopg2
+    """
+    return """
+        INSERT INTO leads_property (
+            property_address,
+            property_address_normalized,
+            cad_account_id,
+            county,
+            owner_name,
+            mailing_address,
+            market_value,
+            land_value,
+            improvement_value,
+            year_built,
+            square_feet,
+            lot_size,
+            is_absentee,
+            homestead_exempt,
+            enrichment_status,
+            enriched_at
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, false, 'success', %s
+        )
+        ON CONFLICT (property_address) DO UPDATE SET
+            property_address_normalized = EXCLUDED.property_address_normalized,
+            cad_account_id = EXCLUDED.cad_account_id,
+            county = EXCLUDED.county,
+            owner_name = EXCLUDED.owner_name,
+            mailing_address = EXCLUDED.mailing_address,
+            market_value = EXCLUDED.market_value,
+            land_value = EXCLUDED.land_value,
+            improvement_value = EXCLUDED.improvement_value,
+            year_built = EXCLUDED.year_built,
+            square_feet = EXCLUDED.square_feet,
+            lot_size = EXCLUDED.lot_size,
+            is_absentee = EXCLUDED.is_absentee,
+            enrichment_status = 'success',
+            enriched_at = EXCLUDED.enriched_at
+    """
