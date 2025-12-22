@@ -450,7 +450,10 @@ def extract_street_address(full_address: str) -> Optional[str]:
         r'Celina|Anna|Princeton|Melissa|Fairview|Highland Village|The Colony|'
         r'Trophy Club|Westlake|Roanoke|Northlake|Argyle|Lantana|Corinth|'
         r'Little Elm|Oak Point|Double Oak|Bartonville|Copper Canyon|Hickory Creek|'
-        r'Royse City|Fate|Rockwall|Heath|Rowlett|Forney|Terrell|Kaufman'
+        r'Royse City|Fate|Rockwall|Heath|Rowlett|Forney|Terrell|Kaufman|'
+        r'Cedar Hill|DeSoto|Duncanville|Lancaster|Farmers Branch|Crowley|Haltom City|'
+        r'North Richland Hills|Watauga|Mansfield|Burleson|Midlothian|Venus|'
+        r'Red Oak|Waxahachie|Ennis|Glenn Heights'
     )
     full_address = re.sub(rf'\s+({dfw_cities}|TX|TEXAS|\d{{5}}).*$', '', full_address, flags=re.I)
 
