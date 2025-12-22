@@ -1,0 +1,48 @@
+"""Tests for CAD enrichment backfill."""
+import pytest
+
+
+class TestBuildFullAddress:
+    """Test address construction from permit data."""
+
+    def test_basic_address(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        result = build_full_address("14108 SANTA ANN ST", "frisco")
+        assert result == "14108 SANTA ANN ST, Frisco, TX"
+
+    def test_uppercase_city(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        result = build_full_address("123 MAIN DR", "MCKINNEY")
+        assert result == "123 MAIN DR, Mckinney, TX"
+
+    def test_lowercase_city(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        result = build_full_address("456 OAK LN", "allen")
+        assert result == "456 OAK LN, Allen, TX"
+
+    def test_multi_word_city(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        result = build_full_address("789 ELM ST", "fort worth")
+        assert result == "789 ELM ST, Fort Worth, TX"
+
+    def test_empty_address_returns_none(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        assert build_full_address("", "frisco") is None
+        assert build_full_address(None, "frisco") is None
+
+    def test_empty_city_returns_none(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        assert build_full_address("123 MAIN ST", "") is None
+        assert build_full_address("123 MAIN ST", None) is None
+
+    def test_strips_whitespace(self):
+        from scripts.backfill_cad_enrichment import build_full_address
+
+        result = build_full_address("  123 MAIN ST  ", "  frisco  ")
+        assert result == "123 MAIN ST, Frisco, TX"
