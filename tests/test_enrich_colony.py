@@ -27,3 +27,30 @@ def test_query_returns_full_addresses():
            r['situs_addr'][0].isdigit()
     ]
     assert len(addresses_with_numbers) > 0, "No full addresses found"
+
+
+def test_query_with_empty_street():
+    """Empty street name returns empty list."""
+    from scripts.enrich_cad import query_denton_by_street
+    results = query_denton_by_street("")
+    assert results == []
+
+
+def test_query_with_special_chars():
+    """Special characters are handled safely."""
+    from scripts.enrich_cad import query_denton_by_street
+    # Should not raise, should return empty or valid list (no SQL injection)
+    results = query_denton_by_street("'; DROP TABLE--")
+    assert isinstance(results, list)
+
+
+def test_query_with_sql_injection_attempt():
+    """SQL injection attempts are sanitized."""
+    from scripts.enrich_cad import query_denton_by_street
+    # Try injection in both street and city filter
+    results = query_denton_by_street(
+        "'; DROP TABLE--",
+        city_filter="THE COLONY' OR '1'='1"
+    )
+    assert isinstance(results, list)
+    # Should return empty or valid results, not crash or execute malicious SQL

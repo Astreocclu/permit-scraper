@@ -744,6 +744,14 @@ def query_county_cad(address: str, county: str, timeout: int = 30) -> Tuple[Opti
         return None, None
 
 
+def _escape_sql_like(s: str) -> str:
+    """Escape special characters for SQL LIKE clause in ArcGIS queries."""
+    if not s:
+        return ''
+    # Escape SQL special chars and LIKE wildcards
+    return s.replace("'", "''").replace('%', '[%]').replace('_', '[_]')
+
+
 def query_denton_by_street(street_name: str, city_filter: str = None, limit: int = 100) -> list:
     """
     Query Denton CAD for all properties on a street.
@@ -757,6 +765,13 @@ def query_denton_by_street(street_name: str, city_filter: str = None, limit: int
     Returns:
         List of property records with full addresses
     """
+    # Input validation
+    if not street_name or not street_name.strip():
+        return []
+    if len(street_name) > 100:
+        logger.warning(f"Street name too long: {len(street_name)} chars")
+        return []
+
     config = COUNTY_CONFIGS['denton']
 
     # Strip any trailing suffix for broader match
@@ -765,10 +780,14 @@ def query_denton_by_street(street_name: str, city_filter: str = None, limit: int
         '', street_name.upper(), flags=re.I
     ).strip()
 
+    # SANITIZE inputs for SQL
+    street_core = _escape_sql_like(street_core)
+
     # Build query - search by street name only
     where_clause = f"situs_street LIKE '%{street_core}%'"
     if city_filter:
-        where_clause += f" AND situs_city LIKE '%{city_filter.upper()}%'"
+        safe_city = _escape_sql_like(city_filter.upper())
+        where_clause += f" AND situs_city LIKE '%{safe_city}%'"
 
     params = {
         "where": where_clause,
@@ -808,8 +827,11 @@ def query_denton_by_street(street_name: str, city_filter: str = None, limit: int
 
         return results
 
-    except Exception as e:
-        logger.warning(f"Denton CAD query failed: {e}")
+    except requests.RequestException as e:
+        logger.warning(f"Denton CAD API request failed: {e}")
+        return []
+    except (KeyError, ValueError) as e:
+        logger.warning(f"Failed to parse Denton CAD response: {e}")
         return []
 
 
