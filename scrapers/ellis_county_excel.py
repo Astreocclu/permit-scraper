@@ -89,7 +89,11 @@ def parse_excel_permits(file_path: Path) -> List[dict]:
 
     Handles dynamic column positions and header row detection.
     """
-    workbook = openpyxl.load_workbook(file_path, data_only=True)
+    try:
+        workbook = openpyxl.load_workbook(file_path, data_only=True)
+    except Exception as e:
+        print(f"ERROR: Failed to load Excel file: {e}")
+        return []
     sheet = workbook.active
 
     header_row_idx, headers = find_header_row(sheet)
@@ -143,13 +147,17 @@ def parse_excel_permits(file_path: Path) -> List[dict]:
 
 def download_file(url: str, dest: Path) -> bool:
     """Download file from URL."""
-    response = requests.get(url, timeout=60)
-    response.raise_for_status()
-    dest.write_bytes(response.content)
-    return True
+    try:
+        response = requests.get(url, timeout=60)
+        response.raise_for_status()
+        dest.write_bytes(response.content)
+        return True
+    except requests.RequestException as e:
+        print(f"ERROR: Download failed: {e}")
+        return False
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser(description='Scrape Ellis County permits from Excel files')
     parser.add_argument('--url', help='URL of Excel file to download')
     parser.add_argument('--file', '-f', help='Local Excel file to parse')
@@ -165,7 +173,7 @@ def main():
         print("\nUsage:")
         print("  python3 scrapers/ellis_county_excel.py --file permits.xlsx")
         print("  python3 scrapers/ellis_county_excel.py --url https://...")
-        return
+        return 0
 
     print('=' * 60)
     print('ELLIS COUNTY PERMIT SCRAPER (Excel)')
@@ -174,10 +182,14 @@ def main():
 
     if args.file:
         input_file = Path(args.file)
+        if not input_file.exists():
+            print(f"ERROR: File not found: {input_file}")
+            return 1
     elif args.url:
         input_file = OUTPUT_DIR / 'ellis_county_temp.xlsx'
         print(f'[1] Downloading from {args.url}...')
-        download_file(args.url, input_file)
+        if not download_file(args.url, input_file):
+            return 1
 
     print(f'[2] Parsing {input_file.name}...')
     permits = parse_excel_permits(input_file)
@@ -221,6 +233,8 @@ def main():
         for p in permits[:3]:
             addr = p["address"][:40] if p["address"] else "N/A"
             print(f'  {p["date"]} | {p["permit_id"]} | {p["type"]} | {addr}')
+
+    return 0
 
 
 if __name__ == '__main__':
