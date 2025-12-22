@@ -86,7 +86,7 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
         logger.warning(f"{filepath.name}: No permits found")
         return 0, 0
 
-    city = source.replace('_', ' ').lower()
+    default_city = source.replace('_', ' ').lower()
 
     # Transform to PostgreSQL rows
     pg_rows = []
@@ -95,6 +95,10 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
     for permit in permits:
         permit_id = permit.get('permit_id', permit.get('id', ''))
         address = permit.get('address', permit.get('property_address', ''))
+        # Use permit's own city if available, otherwise fall back to source-derived city
+        city = permit.get('city', default_city)
+        if city:
+            city = city.lower().strip()
 
         if not permit_id or not address:
             skipped += 1
@@ -134,9 +138,9 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
             permit.get('description'),
             permit.get('status'),
             issued,
-            permit.get('applicant', permit.get('applicant_name')),
+            permit.get('applicant', permit.get('applicant_name', permit.get('owner_name'))),
             permit.get('contractor', permit.get('contractor_name')),
-            permit.get('value', permit.get('estimated_value')),
+            permit.get('value', permit.get('estimated_value')) or None,  # Empty string -> None
             scraped,
             None  # lead_type
         ))
@@ -160,7 +164,8 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
                 description = EXCLUDED.description,
                 status = EXCLUDED.status,
                 issued_date = EXCLUDED.issued_date,
-                estimated_value = EXCLUDED.estimated_value
+                estimated_value = EXCLUDED.estimated_value,
+                applicant_name = EXCLUDED.applicant_name
         """
         with conn.cursor() as cur:
             execute_values(cur, insert_sql, pg_rows, page_size=500)
