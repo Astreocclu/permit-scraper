@@ -92,6 +92,42 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 ### SmartGov
 - Sachse - `smartgov_sachse.py` (NEW)
 
+### Collin CAD (Socrata API)
+- **18 Collin County cities** - `collin_cad_socrata.py` (NEW)
+- McKinney, Allen, Frisco, Celina, Princeton, Wylie, Prosper, Plano, Anna, Melissa, Murphy, Richardson, Sachse, Lucas, Lavon, Farmersville, Fairview, Parker
+- Includes owner names, builder names, permit values - richer data than city portals
+
+## Dual-Source Strategy
+
+Cities in Collin County have TWO data sources:
+1. **City Portal** (eTRAKiT, EnerGov, MyGov) - Most current data
+2. **Collin CAD** (Texas Open Data) - Richer data (owner names, builders, values)
+
+**ALWAYS scrape both** for maximum coverage:
+
+```bash
+# Scrape single city from both sources
+python3 scripts/scrape_dual_source.py frisco 1000
+
+# Scrape all dual-source cities
+python3 scripts/scrape_dual_source.py --all 500
+
+# List available cities
+python3 scripts/scrape_dual_source.py --list
+```
+
+The loader (`load_permits.py`) deduplicates by `permit_id + city` and merges data from both sources using COALESCE to preserve non-null values.
+
+### Dual-Source Cities
+| City | City Portal | CAD |
+|------|-------------|-----|
+| Frisco | eTRAKiT | ✅ |
+| Plano | eTRAKiT (auth) | ✅ |
+| Allen | EnerGov CSS | ✅ |
+| McKinney | EnerGov CSS | ✅ |
+| Prosper | eTRAKiT | ✅ |
+| Celina | MyGov | ✅ |
+
 ### Other
 - Arlington (Socrata API) - `dfw_big4_socrata.py`
 - Carrollton (CityView) - `cityview.py`
@@ -127,6 +163,13 @@ python3 scrapers/mygov_westlake.py              # Westlake (address-based)
 
 # SmartGov
 python3 scrapers/smartgov_sachse.py 500         # Sachse (NEW)
+
+# Collin CAD (18 cities via Texas Open Data)
+python3 scrapers/collin_cad_socrata.py                     # All cities, 1000 permits
+python3 scrapers/collin_cad_socrata.py --city mckinney     # Specific city
+python3 scrapers/collin_cad_socrata.py --limit 5000        # More permits
+python3 scrapers/collin_cad_socrata.py --days 30           # Last 30 days only
+python3 scrapers/collin_cad_socrata.py --list-cities       # Show all 18 cities
 
 # Other platforms
 python3 scrapers/dfw_big4_socrata.py            # Arlington (API)
