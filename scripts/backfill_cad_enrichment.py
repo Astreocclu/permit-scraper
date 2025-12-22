@@ -133,3 +133,42 @@ def build_full_address(street_address: Optional[str], city: Optional[str]) -> Op
         return None
 
     return f"{street}, {city_clean}, TX"
+
+
+def build_unenriched_permits_query(city: Optional[str] = None, limit: Optional[int] = None) -> str:
+    """
+    Build SQL query to fetch permits needing CAD enrichment.
+
+    A permit needs enrichment if:
+    - No matching leads_property record exists, OR
+    - The leads_property record has enrichment_status != 'success'
+
+    Args:
+        city: Optional city filter (case-insensitive)
+        limit: Optional limit on results
+
+    Returns:
+        SQL query string
+    """
+    query = """
+        SELECT DISTINCT
+            p.id,
+            p.property_address,
+            p.city
+        FROM leads_permit p
+        LEFT JOIN leads_property prop ON p.property_address = prop.property_address
+        WHERE p.property_address IS NOT NULL
+          AND p.city IS NOT NULL
+          AND p.processing_bin = 'active'
+          AND (prop.property_address IS NULL OR prop.enrichment_status != 'success')
+    """
+
+    if city:
+        query += f"\n          AND LOWER(p.city) = LOWER('{city}')"
+
+    query += "\n        ORDER BY p.id"
+
+    if limit:
+        query += f"\n        LIMIT {limit}"
+
+    return query

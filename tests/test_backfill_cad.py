@@ -96,3 +96,37 @@ class TestGetCountyForCity:
         assert get_county_for_city("unknown_city") is None
         assert get_county_for_city("") is None
         assert get_county_for_city(None) is None
+
+
+class TestFetchUnenrichedPermits:
+    """Test fetching permits that need enrichment."""
+
+    def test_query_structure(self):
+        """Verify the SQL query selects correct columns and filters."""
+        from scripts.backfill_cad_enrichment import build_unenriched_permits_query
+
+        query = build_unenriched_permits_query()
+
+        # Must select these columns
+        assert "p.id" in query
+        assert "p.property_address" in query
+        assert "p.city" in query
+
+        # Must filter for unenriched (no successful leads_property match)
+        assert "LEFT JOIN leads_property" in query
+        assert "enrichment_status" in query
+
+        # Must only get active permits
+        assert "processing_bin = 'active'" in query
+
+    def test_query_with_city_filter(self):
+        from scripts.backfill_cad_enrichment import build_unenriched_permits_query
+
+        query = build_unenriched_permits_query(city="frisco")
+        assert "LOWER(p.city) = LOWER" in query
+
+    def test_query_with_limit(self):
+        from scripts.backfill_cad_enrichment import build_unenriched_permits_query
+
+        query = build_unenriched_permits_query(limit=100)
+        assert "LIMIT 100" in query
