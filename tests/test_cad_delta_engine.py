@@ -8,30 +8,46 @@ from scrapers.cad_delta_engine import is_new_construction, CADConfig
 class TestNewConstructionDetection:
     """Test new construction detection logic."""
 
-    def test_dcad_flag(self):
-        """DCAD NEW_CONSTRUCTION flag should be authoritative."""
-        record = {'new_construction': 'Y', 'year_built': 2010}
-        assert is_new_construction(record, 2024) is True
+    @pytest.fixture
+    def config(self):
+        """Create a test config."""
+        return CADConfig(
+            name='dcad',
+            display_name='Dallas CAD',
+            county='Dallas',
+            download_url=None,
+            format='csv',
+            columns={},
+            filters={
+                'min_improvement_value': 50000,
+                'year_built_window': 2
+            }
+        )
 
-    def test_recent_year_built(self):
+    def test_dcad_flag(self, config):
+        """DCAD NEW_CONSTRUCTION flag should be authoritative."""
+        record = {'new_construction_flag': 'Y', 'year_built': 2010}
+        assert is_new_construction(record, 2024, config) is True
+
+    def test_recent_year_built(self, config):
         """Year built in last 2 years should count."""
         record = {'year_built': 2024}
-        assert is_new_construction(record, 2024) is True
+        assert is_new_construction(record, 2024, config) is True
 
         record = {'year_built': 2023}
-        assert is_new_construction(record, 2024) is True
+        assert is_new_construction(record, 2024, config) is True
 
-    def test_old_year_built(self):
+    def test_old_year_built(self, config):
         """Old year built without flag should not count."""
         record = {'year_built': 2010}
-        assert is_new_construction(record, 2024) is False
+        assert is_new_construction(record, 2024, config) is False
 
-    def test_improvement_value_increase(self):
+    def test_improvement_value_increase(self, config):
         """Large improvement value increase suggests new construction."""
         record = {'improvement_value': 250000, 'prior_improvement_value': 0}
-        assert is_new_construction(record, 2024) is True
+        assert is_new_construction(record, 2024, config) is True
 
-    def test_no_indicators(self):
+    def test_no_indicators(self, config):
         """Record with no new construction indicators should return False."""
         record = {'year_built': 2010, 'improvement_value': 100000, 'prior_improvement_value': 100000}
-        assert is_new_construction(record, 2024) is False
+        assert is_new_construction(record, 2024, config) is False

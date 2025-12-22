@@ -90,7 +90,7 @@ def get_file_hash(file_path: Path) -> str:
     return sha256.hexdigest()
 
 
-def is_new_construction(record: dict, current_year: int) -> bool:
+def is_new_construction(record: dict, current_year: int, config: CADConfig = None) -> bool:
     """
     Determine if a record represents new construction.
 
@@ -100,7 +100,7 @@ def is_new_construction(record: dict, current_year: int) -> bool:
     3. If improvement value increased from 0 to significant value, return True
     """
     # Check DCAD-specific flag
-    new_const_flag = record.get('new_construction')
+    new_const_flag = record.get('new_construction_flag')
     if new_const_flag and str(new_const_flag).upper() == 'Y':
         return True
 
@@ -109,7 +109,8 @@ def is_new_construction(record: dict, current_year: int) -> bool:
     if year_built:
         try:
             year = int(year_built)
-            if year >= current_year - 1:
+            year_window = config.filters.get('year_built_window', 2) if config else 2
+            if year >= current_year - year_window + 1:
                 return True
         except (ValueError, TypeError):
             pass
@@ -122,7 +123,8 @@ def is_new_construction(record: dict, current_year: int) -> bool:
         current_val = float(improvement) if improvement else 0
         prior_val = float(prior_improvement) if prior_improvement else 0
 
-        if prior_val == 0 and current_val >= 50000:
+        min_value = config.filters.get('min_improvement_value', 50000) if config else 50000
+        if prior_val == 0 and current_val >= min_value:
             return True
     except (ValueError, TypeError):
         pass
@@ -142,28 +144,35 @@ def stream_csv_records(
     """
     col_mapping = {v: k for k, v in config.columns.items()}
 
-    for chunk in pd.read_csv(
-        file_path,
-        chunksize=config.chunk_size,
-        encoding=config.encoding,
-        low_memory=False,
-        dtype=str
-    ):
-        chunk = chunk.rename(columns=col_mapping)
+    try:
+        for chunk in pd.read_csv(
+            file_path,
+            chunksize=config.chunk_size,
+            encoding=config.encoding,
+            low_memory=False,
+            dtype=str
+        ):
+            chunk = chunk.rename(columns=col_mapping)
 
-        for _, row in chunk.iterrows():
-            record = row.to_dict()
+            for _, row in chunk.iterrows():
+                record = row.to_dict()
 
-            if 'property_type' in record and 'property_types' in config.filters:
-                if record['property_type'] not in config.filters['property_types']:
-                    continue
+                if 'property_type' in record and 'property_types' in config.filters:
+                    if record['property_type'] not in config.filters['property_types']:
+                        continue
 
-            if 'sptb_code' in record and 'sptb_codes' in config.filters:
-                if record['sptb_code'] not in config.filters['sptb_codes']:
-                    continue
+                if 'sptb_code' in record and 'sptb_codes' in config.filters:
+                    if record['sptb_code'] not in config.filters['sptb_codes']:
+                        continue
 
-            if is_new_construction(record, current_year):
-                yield record
+                if is_new_construction(record, current_year, config):
+                    yield record
+    except pd.errors.ParserError as e:
+        print(f"ERROR: CSV parsing failed: {e}")
+        return
+    except UnicodeDecodeError as e:
+        print(f"ERROR: Encoding issue: {e}")
+        return
 
 
 def transform_to_permit(record: dict, config: CADConfig) -> dict:
