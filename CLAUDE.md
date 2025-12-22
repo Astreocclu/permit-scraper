@@ -77,6 +77,7 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 ### eTRAKiT
 - Frisco, Flower Mound, Denton - `etrakit.py` (fast DOM)
 - Keller, Prosper - `etrakit.py` (NEW - Dec 2024)
+- The Colony - `etrakit.py` + `enrich_colony_addresses.py` (street names only, CAD lookup)
 - Plano - `etrakit_auth.py` (requires login)
 
 ### EnerGov CSS
