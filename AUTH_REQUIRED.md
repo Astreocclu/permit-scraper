@@ -20,11 +20,12 @@ All credentials stored in `.env` file. Copy from `.env.example` if missing.
 | **Lewisville** | Tyler eSuite | ❌ NEED | ❌ Blocked - no public search | Need Tyler eSuite login |
 | **Richardson** | Citizenserve | ❌ NEED | ❌ 403 blocked | May need proxy + login |
 | **Euless** | NewEdge Portal | ❌ TRY | ⚠️ Login required, has PDF reports | https://euless.newedgeservices.com/PermitPortal |
-| **Forney** | MyGov | ❌ NEED | ❌ Login required | Need MyGov Collaborator login |
+| **Forney** | MyGov Collaborator | ❌ NEED | ❌ No public portal | Need Collaborator login (no public access) |
 | **Highland Village** | Custom | ❌ NEED | ❌ Contractor registration | Need contractor account |
 | **Corinth** | Civic Access | ❌ NEED | ❌ Registration required | Need Civic Access account |
 | **Carrollton** | CityView | ❌ TRY | ⚠️ Public data stale (July 2025) | May need login for fresh data |
 | **Burleson** | MyGov | ❌ NEED? | ❌ No public permit search | Portal lacks permit module entirely |
+| **North Richland Hills** | EnerGov CSS + Tyler SSO | ❌ NEED | ❌ Tyler Identity required | No anonymous access, internal error on SSO cancel |
 
 ---
 
@@ -68,12 +69,17 @@ PLANO_PASSWORD=SleepyPanda123!
 
 ### Need Credentials From Reid:
 - [ ] **Lewisville Tyler eSuite** - https://etools.cityoflewisville.com/esuite.permits/
-- [ ] **Forney MyGov** - https://mygov.us/collaborator/forneytx
+- [ ] **Forney MyGov Collaborator** - https://mygov.us/collaborator/forneytx
+  - **Type:** MyGov Collaborator (requires contractor/city official login)
+  - **Status:** BLOCKED - no public portal exists (public.mygov.us/forney_tx returns 404)
+  - **Alternative:** Contact city directly for data access or look for permit reports published elsewhere
+  - **Note:** Unlike Burleson/Westlake, Forney has NO public MyGov portal at all - only Collaborator
 - [ ] **Highland Village** - Contractor registration required
 - [ ] **Corinth Civic Access** - https://corinth.mycivicaccess.com/
 - [ ] **Carrollton CityView** - https://cityserve.cityofcarrollton.com/CityViewPortal/Account/Register - Public data stops at July 2025, try registering to see if login reveals fresher data
 - [ ] **Euless NewEdge** - https://euless.newedgeservices.com/PermitPortal - New portal requires login, city also publishes annual PDF reports
 - [ ] **Burleson MyGov** - https://public.mygov.us/burleson_tx - Public portal only has Address Lookup, GIS Map, Knowledge Base, Code Violations. NO permit search module visible. May need Collaborator login or contact city directly.
+- [ ] **North Richland Hills EnerGov** - https://selfservice.nrhtx.com/energov_prod/selfservice - Tyler Identity SSO enforced. Canceling SSO shows "internal error" and empty page. NO guest/public search option. See `docs/portal-analysis/north_richland_hills.md` for full analysis.
 
 ### Need Technical Fix (Have Credentials):
 - [ ] **Irving** - PDF export opens about:blank, needs debugging
@@ -95,4 +101,4 @@ These work without any login - 21 cities total:
 
 ---
 
-**Last Updated:** 2025-12-21
+**Last Updated:** 2025-12-22
