@@ -27,6 +27,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple, Generator
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -742,6 +744,75 @@ def query_county_cad(address: str, county: str, timeout: int = 30) -> Tuple[Opti
         return None, None
 
 
+def query_denton_by_street(street_name: str, city_filter: str = None, limit: int = 100) -> list:
+    """
+    Query Denton CAD for all properties on a street.
+    Used for The Colony permits which only have street names.
+
+    Args:
+        street_name: Street name without number (e.g., "BAKER" or "BAKER DR")
+        city_filter: Optional city name to filter (e.g., "THE COLONY")
+        limit: Max results to return
+
+    Returns:
+        List of property records with full addresses
+    """
+    config = COUNTY_CONFIGS['denton']
+
+    # Strip any trailing suffix for broader match
+    street_core = re.sub(
+        r'\s+(DR|DRIVE|ST|STREET|AVE|AVENUE|BLVD|LN|LANE|CT|COURT|CIR|RD|ROAD|WAY|PL)\.?$',
+        '', street_name.upper(), flags=re.I
+    ).strip()
+
+    # Build query - search by street name only
+    where_clause = f"situs_street LIKE '%{street_core}%'"
+    if city_filter:
+        where_clause += f" AND situs_city LIKE '%{city_filter.upper()}%'"
+
+    params = {
+        "where": where_clause,
+        "outFields": ",".join(config['fields']),
+        "f": "json",
+        "resultRecordCount": limit
+    }
+
+    try:
+        response = requests.get(config['url'], params=params, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+        features = data.get("features", [])
+
+        results = []
+        fm = config['field_map']
+
+        for feature in features:
+            raw = feature.get("attributes", {})
+
+            # Build full situs address
+            situs_num = str(raw.get(fm.get('situs_num', ''), '') or '').strip()
+            situs_street = str(raw.get(fm.get('situs_street', ''), '') or '').strip()
+            situs_suffix = str(raw.get(fm.get('situs_suffix', ''), '') or '').strip()
+            situs_city = str(raw.get(fm.get('situs_city', ''), '') or '').strip()
+
+            full_addr = f"{situs_num} {situs_street} {situs_suffix}".strip()
+
+            results.append({
+                'situs_addr': full_addr,
+                'situs_city': situs_city,
+                'owner_name': raw.get(fm.get('owner_name', ''), ''),
+                'market_value': raw.get(fm.get('market_value', '')),
+                'year_built': raw.get(fm.get('year_built', '')),
+                'account_num': raw.get(fm.get('account_num', '')),
+            })
+
+        return results
+
+    except Exception as e:
+        logger.warning(f"Denton CAD query failed: {e}")
+        return []
+
+
 def query_cad_with_retry(address: str, county: str, timeout: int = 30) -> Tuple[Optional[dict], Optional[str], Optional[str]]:
     """
     Try progressively simpler address variants until one succeeds.
@@ -769,11 +840,15 @@ def query_cad_with_retry(address: str, county: str, timeout: int = 30) -> Tuple[
     return None, None, None
 
 
-def query_cad_multi_county(address: str, timeout: int = 30) -> Tuple[Optional[dict], Optional[str], Optional[str]]:
+def query_cad_multi_county(address: str, timeout: int = 15, skip_fallback: bool = True) -> Tuple[Optional[dict], Optional[str], Optional[str]]:
     """
     Try to find property in multiple counties.
     First tries the county based on zip code, then falls back to others.
     Returns (normalized_data, county_name, variant_used) or (None, None, None).
+
+    Args:
+        skip_fallback: If True and we know the county from zip, don't try other counties.
+                       This is much faster but may miss some edge cases.
     """
     primary_county = get_county_from_zip(address)
     supported_counties = ['tarrant', 'denton', 'dallas', 'collin', 'kaufman', 'rockwall']
@@ -783,6 +858,9 @@ def query_cad_multi_county(address: str, timeout: int = 30) -> Tuple[Optional[di
         result, county_name, variant = query_cad_with_retry(address, primary_county, timeout)
         if result:
             return result, county_name, variant
+        # If skip_fallback is True and we knew the county, don't try others
+        if skip_fallback:
+            return None, None, None
 
     # If primary county failed or isn't supported, try others
     for county in supported_counties:
@@ -793,6 +871,58 @@ def query_cad_multi_county(address: str, timeout: int = 30) -> Tuple[Optional[di
             return result, county_name, variant
 
     return None, None, None
+
+
+def process_single_address(address: str, delay: float = 0.1) -> dict:
+    """
+    Process a single address for CAD enrichment.
+    Returns a dict with result info for the main thread to handle DB writes.
+    """
+    result = {
+        'address': address,
+        'status': None,  # 'success', 'failed', 'skip'
+        'data': None,
+        'county': None,
+        'variant': None,
+        'error': None
+    }
+
+    # Detect county for display
+    detected_county = get_county_from_zip(address)
+
+    # Check if county is unsupported
+    if detected_county and detected_county not in COUNTY_CONFIGS:
+        result['status'] = 'skip'
+        result['error'] = f'No API for {detected_county.title()} County'
+        return result
+
+    # Parse address
+    house_num, street_core = parse_address_for_query(address)
+    if not house_num:
+        result['status'] = 'skip'
+        result['error'] = 'Cannot parse address'
+        return result
+
+    try:
+        # Query CAD with multi-county support (skip fallback for speed)
+        cad_data, county_name, variant_used = query_cad_multi_county(address, timeout=15, skip_fallback=True)
+
+        if not cad_data:
+            result['status'] = 'failed'
+            result['error'] = 'Not found in CAD'
+            return result
+
+        result['status'] = 'success'
+        result['data'] = cad_data
+        result['county'] = county_name
+        result['variant'] = variant_used
+
+    except Exception as e:
+        result['status'] = 'failed'
+        result['error'] = str(e)
+
+    time.sleep(delay)  # Rate limit
+    return result
 
 
 # =============================================================================
@@ -838,6 +968,7 @@ Examples:
     parser.add_argument('--force', action='store_true', help='Re-enrich even if already enriched')
     parser.add_argument('--retry-failed', action='store_true', help='Retry previously failed enrichments')
     parser.add_argument('--delay', type=float, default=1.0, help='Delay between API requests (default: 1.0s)')
+    parser.add_argument('--workers', type=int, default=10, help='Number of parallel workers (default: 10)')
     parser.add_argument('--recent', action='store_true', help='Only process permits from last 90 days')
     parser.add_argument('--fresh', action='store_true', help='Only process fresh valuable permits (60 days, exclude junk types)')
     parser.add_argument('--never-tried', action='store_true', help='Only process addresses that have never been tried (no property record)')
@@ -978,123 +1109,17 @@ Examples:
     total = len(addresses)
     print(f"Processing {total} residential addresses\n")
 
-    for i, address in enumerate(addresses, 1):
-        # Detect county for display
-        detected_county = get_county_from_zip(address)
-        county_display = detected_county.upper() if detected_county else '???'
+    # Process addresses in parallel
+    print(f"Using {args.workers} parallel workers with {args.delay}s delay\n")
 
-        print(f"\n[{i}/{total}] [{county_display}] {address}")
+    def save_result_to_db(result: dict, conn) -> str:
+        """Save a single result to database. Returns status for counting."""
+        address = result['address']
 
-        # Check if county is unsupported
-        if detected_county and detected_county not in COUNTY_CONFIGS:
-            print(f"  -> No API for {detected_county.title()} County, skipping")
-            skip_count += 1
-            continue
+        if result['status'] == 'skip':
+            return 'skip'
 
-        # Parse address
-        house_num, street_core = parse_address_for_query(address)
-        if not house_num:
-            print("  -> Cannot parse address, skipping")
-            skip_count += 1
-            continue
-
-        try:
-            # Query CAD with multi-county support
-            cad_data, county_name, variant_used = query_cad_multi_county(address)
-
-            if not cad_data:
-                variants = list(generate_address_variants(address))
-                print("  -> Not found in any CAD")
-                if len(variants) > 1:
-                    print(f"     Tried variants: {variants}")
-
-                # Save failure
-                with conn.cursor() as cur:
-                    cur.execute("""
-                        INSERT INTO leads_property (property_address, homestead_exempt, enrichment_status, enriched_at)
-                        VALUES (%s, false, 'failed', %s)
-                        ON CONFLICT (property_address) DO UPDATE SET
-                            enrichment_status = 'failed',
-                            enriched_at = EXCLUDED.enriched_at
-                    """, (address, datetime.now()))
-                conn.commit()
-                fail_count += 1
-                time.sleep(args.delay)
-                continue
-
-            # Log match info
-            original_clean = extract_street_address(address)
-            if original_clean and variant_used and variant_used.upper() != original_clean.upper():
-                print(f'     (matched via variant: "{variant_used}")')
-
-            # Extract normalized data
-            owner_name = (cad_data.get('owner_name') or '').strip()
-            market_value = parse_float(cad_data.get('market_value'))
-            land_value = parse_float(cad_data.get('land_value'))
-            improvement_value = parse_float(cad_data.get('improvement_value'))
-            year_built = parse_int(cad_data.get('year_built'))
-            square_feet = parse_int(cad_data.get('square_feet'))
-            lot_size = parse_float(cad_data.get('lot_size'))
-            situs_addr = cad_data.get('situs_addr', '')
-            account_num = cad_data.get('account_num')
-
-            # Build mailing address
-            owner_addr = (cad_data.get('owner_addr') or '').strip()
-            owner_city = (cad_data.get('owner_city') or '').strip()
-            owner_zip = (cad_data.get('owner_zip') or '').strip()
-            mailing_address = f"{owner_addr}, {owner_city} {owner_zip}".strip(", ")
-
-            # Detect absentee owner
-            if owner_addr:
-                absentee = is_absentee_owner(situs_addr, mailing_address)
-            else:
-                absentee = None
-
-            # Save to database
-            with conn.cursor() as cur:
-                cur.execute("""
-                    INSERT INTO leads_property (
-                        property_address, cad_account_id, county, owner_name,
-                        mailing_address, market_value, land_value, improvement_value,
-                        year_built, square_feet, lot_size, is_absentee, homestead_exempt,
-                        enrichment_status, enriched_at
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, false, 'success', %s)
-                    ON CONFLICT (property_address) DO UPDATE SET
-                        cad_account_id = EXCLUDED.cad_account_id,
-                        county = EXCLUDED.county,
-                        owner_name = EXCLUDED.owner_name,
-                        mailing_address = EXCLUDED.mailing_address,
-                        market_value = EXCLUDED.market_value,
-                        land_value = EXCLUDED.land_value,
-                        improvement_value = EXCLUDED.improvement_value,
-                        year_built = EXCLUDED.year_built,
-                        square_feet = EXCLUDED.square_feet,
-                        lot_size = EXCLUDED.lot_size,
-                        is_absentee = EXCLUDED.is_absentee,
-                        enrichment_status = 'success',
-                        enriched_at = EXCLUDED.enriched_at
-                """, (
-                    address, account_num, county_name.lower(), owner_name,
-                    mailing_address if mailing_address else None,
-                    market_value, land_value, improvement_value,
-                    year_built, square_feet, lot_size,
-                    absentee,
-                    datetime.now()
-                ))
-            conn.commit()
-
-            # Track county stats
-            county_counts[county_name] = county_counts.get(county_name, 0) + 1
-
-            # Format output
-            value_str = f"${market_value:,.0f}" if market_value else "N/A"
-            absentee_str = " [ABSENTEE]" if absentee else ""
-            print(f"  -> [{county_name}] Owner: {owner_name} | Value: {value_str}{absentee_str}")
-
-            success_count += 1
-
-        except Exception as e:
-            print(f"  -> Error: {e}")
+        if result['status'] == 'failed':
             with conn.cursor() as cur:
                 cur.execute("""
                     INSERT INTO leads_property (property_address, homestead_exempt, enrichment_status, enriched_at)
@@ -1104,10 +1129,95 @@ Examples:
                         enriched_at = EXCLUDED.enriched_at
                 """, (address, datetime.now()))
             conn.commit()
-            fail_count += 1
+            return 'failed'
 
-        # Rate limit
-        time.sleep(args.delay)
+        # Success - extract and save data
+        cad_data = result['data']
+        county_name = result['county']
+
+        owner_name = (cad_data.get('owner_name') or '').strip()
+        market_value = parse_float(cad_data.get('market_value'))
+        land_value = parse_float(cad_data.get('land_value'))
+        improvement_value = parse_float(cad_data.get('improvement_value'))
+        year_built = parse_int(cad_data.get('year_built'))
+        square_feet = parse_int(cad_data.get('square_feet'))
+        lot_size = parse_float(cad_data.get('lot_size'))
+        situs_addr = cad_data.get('situs_addr', '')
+        account_num = cad_data.get('account_num')
+
+        owner_addr = (cad_data.get('owner_addr') or '').strip()
+        owner_city = (cad_data.get('owner_city') or '').strip()
+        owner_zip = (cad_data.get('owner_zip') or '').strip()
+        mailing_address = f"{owner_addr}, {owner_city} {owner_zip}".strip(", ")
+
+        absentee = is_absentee_owner(situs_addr, mailing_address) if owner_addr else None
+
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO leads_property (
+                    property_address, cad_account_id, county, owner_name,
+                    mailing_address, market_value, land_value, improvement_value,
+                    year_built, square_feet, lot_size, is_absentee, homestead_exempt,
+                    enrichment_status, enriched_at
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, false, 'success', %s)
+                ON CONFLICT (property_address) DO UPDATE SET
+                    cad_account_id = EXCLUDED.cad_account_id,
+                    county = EXCLUDED.county,
+                    owner_name = EXCLUDED.owner_name,
+                    mailing_address = EXCLUDED.mailing_address,
+                    market_value = EXCLUDED.market_value,
+                    land_value = EXCLUDED.land_value,
+                    improvement_value = EXCLUDED.improvement_value,
+                    year_built = EXCLUDED.year_built,
+                    square_feet = EXCLUDED.square_feet,
+                    lot_size = EXCLUDED.lot_size,
+                    is_absentee = EXCLUDED.is_absentee,
+                    enrichment_status = 'success',
+                    enriched_at = EXCLUDED.enriched_at
+            """, (
+                address, account_num, county_name.lower(), owner_name,
+                mailing_address if mailing_address else None,
+                market_value, land_value, improvement_value,
+                year_built, square_feet, lot_size,
+                absentee,
+                datetime.now()
+            ))
+        conn.commit()
+        return 'success', county_name, market_value, owner_name, absentee
+
+    # Run parallel processing
+    processed = 0
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        # Submit all tasks
+        future_to_addr = {
+            executor.submit(process_single_address, addr, args.delay): addr
+            for addr in addresses
+        }
+
+        # Process results as they complete
+        for future in as_completed(future_to_addr):
+            processed += 1
+            result = future.result()
+            address = result['address']
+            detected_county = get_county_from_zip(address)
+            county_display = detected_county.upper() if detected_county else '???'
+
+            # Save to DB (single-threaded to avoid connection issues)
+            db_result = save_result_to_db(result, conn)
+
+            if result['status'] == 'skip':
+                print(f"[{processed}/{total}] [{county_display}] {address[:50]}... -> SKIP: {result['error']}")
+                skip_count += 1
+            elif result['status'] == 'failed':
+                print(f"[{processed}/{total}] [{county_display}] {address[:50]}... -> NOT FOUND")
+                fail_count += 1
+            else:
+                _, county_name, market_value, owner_name, absentee = db_result
+                county_counts[county_name] = county_counts.get(county_name, 0) + 1
+                value_str = f"${market_value:,.0f}" if market_value else "N/A"
+                absentee_str = " [ABSENTEE]" if absentee else ""
+                print(f"[{processed}/{total}] [{county_name}] {address[:50]}... -> {owner_name[:30]} | {value_str}{absentee_str}")
+                success_count += 1
 
     # Summary
     print('\n' + '=' * 50)
