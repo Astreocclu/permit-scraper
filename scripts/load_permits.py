@@ -93,7 +93,7 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
     skipped = 0
 
     for permit in permits:
-        permit_id = permit.get('permit_id', permit.get('id', ''))
+        permit_id = permit.get('permit_id', permit.get('id', permit.get('permit_number', '')))
         address = permit.get('address', permit.get('property_address', ''))
         # Use permit's own city if available, otherwise fall back to source-derived city
         city = permit.get('city', default_city)

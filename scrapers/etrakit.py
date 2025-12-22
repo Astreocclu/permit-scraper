@@ -93,9 +93,10 @@ ETRAKIT_CITIES = {
         'name': 'The Colony',
         'base_url': 'https://tcol-trk.aspgov.com',
         'search_path': '/etrakit/Search/permit.aspx',
-        # The Colony uses AEC format: AEC10007, AEC11108, etc.
-        'prefixes': ['AEC'],
-        'permit_regex': r'^AEC\d{4,6}$',
+        # The Colony uses letter prefixes: B, P, E (Building, Plumbing, Electrical)
+        # Format: MMYY-NNNN (0701-4211) - month/year prefix
+        'prefixes': ['B', 'P', 'E', 'M', 'R', 'H', 'F'],
+        'permit_regex': r'^\d{4}-\d{4}$',
     },
 }
 

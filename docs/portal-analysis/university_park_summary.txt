@@ -1,0 +1,21 @@
+UNIVERSITY PARK INVESTIGATION SUMMARY
+=====================================
+
+STATUS: Portal does not exist - SKIP CITY
+
+KEY FINDINGS:
+- URL returns 302 → /notfound/
+- Other MyGov cities (Mansfield, Rowlett, Forney, Royse City, Crowley) all return 200 OK
+- University Park never configured a MyGov public portal
+
+RECOMMENDED ACTIONS:
+1. Remove 'university_park' from scrapers/mygov_multi.py MYGOV_CITIES dict
+2. Update plan to mark Task 4 as "portal does not exist - removed from config"
+3. No further investigation needed
+
+FILES CREATED:
+- /home/reid/testhome/permit-scraper/docs/portal-analysis/university_park.md (full analysis)
+
+NEXT STEPS:
+- Remove university_park from config
+- Move to other tasks in 5-city plan
