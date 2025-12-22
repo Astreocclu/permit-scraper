@@ -15,7 +15,9 @@ Usage:
 
 import argparse
 import json
+import logging
 import os
+import subprocess
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -29,7 +31,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scripts.enrich_cad import query_denton_by_street
 
-DATA_DIR = Path(__file__).parent.parent / "data" / "raw"
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%H:%M:%S'
+)
+logger = logging.getLogger(__name__)
+
+# Use absolute paths
+BASE_DIR = Path(__file__).parent.parent.resolve()
+DATA_DIR = BASE_DIR / "data" / "raw"
 
 
 def extract_street_from_permit(permit: dict) -> Optional[str]:
@@ -121,7 +133,7 @@ def enrich_colony_permits(dry_run: bool = False) -> dict:
     """
     raw_file = DATA_DIR / 'the_colony_raw.json'
     if not raw_file.exists():
-        print(f"ERROR: {raw_file} not found")
+        logger.error(f"File not found: {raw_file}")
         return {'error': 'file not found'}
 
     with open(raw_file) as f:
@@ -200,8 +212,23 @@ def main():
 
     if args.reload and not args.dry_run:
         print("\nReloading to database...")
-        import subprocess
-        subprocess.run(['python3', 'scripts/load_permits.py', '--file', 'data/raw/the_colony_enriched.json'])
+        output_file = DATA_DIR / 'the_colony_enriched.json'
+        try:
+            result = subprocess.run(
+                ['python3', str(BASE_DIR / 'scripts' / 'load_permits.py'),
+                 '--file', str(output_file)],
+                check=True,
+                capture_output=True,
+                text=True,
+                cwd=str(BASE_DIR)
+            )
+            print(result.stdout)
+            if result.stderr:
+                print(result.stderr)
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Database reload failed with exit code {e.returncode}")
+            if e.stderr:
+                logger.error(e.stderr)
 
 
 if __name__ == '__main__':
