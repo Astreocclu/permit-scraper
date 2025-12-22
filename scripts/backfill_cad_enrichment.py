@@ -15,7 +15,44 @@ Usage:
     python3 scripts/backfill_cad_enrichment.py --dry-run        # Preview without DB writes
 """
 
-from typing import Optional
+import argparse
+import logging
+import os
+import sys
+import time
+from datetime import datetime
+from typing import Optional, Tuple
+
+from dotenv import load_dotenv
+load_dotenv()
+
+import psycopg2
+
+# Import CAD query functions from existing enrich_cad.py
+# These handle the actual API calls to county CAD systems
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from enrich_cad import (
+    query_cad_with_retry,
+    parse_float,
+    parse_int,
+    is_absentee_owner,
+    COUNTY_CONFIGS,
+)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%H:%M:%S'
+)
+logger = logging.getLogger(__name__)
+
+
+def get_db_connection():
+    """Get PostgreSQL connection from DATABASE_URL."""
+    url = os.environ.get('DATABASE_URL')
+    if not url:
+        raise ValueError("DATABASE_URL environment variable not set")
+    return psycopg2.connect(url)
 
 
 # City to county mapping for DFW area
