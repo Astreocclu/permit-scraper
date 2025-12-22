@@ -97,6 +97,15 @@ Scrapes building permits, enriches with CAD data, scores leads for contractor ma
 - McKinney, Allen, Frisco, Celina, Princeton, Wylie, Prosper, Plano, Anna, Melissa, Murphy, Richardson, Sachse, Lucas, Lavon, Farmersville, Fairview, Parker
 - Includes owner names, builder names, permit values - richer data than city portals
 
+### CAD Tax Rolls (New Construction Detection)
+- **DCAD** (Dallas County) - `cad_delta_engine.py dcad --file <csv>`
+- **TAD** (Tarrant County) - `cad_delta_engine.py tad --file <csv>`
+- **Denton CAD** (Denton County) - `cad_delta_engine.py denton_cad --file <csv>`
+
+### City Open Data Portals
+- **Denton City** (Socrata) - `denton_socrata.py`
+- **Ellis County** (Excel) - `ellis_county_excel.py --file <xlsx>`
+
 ## Dual-Source Strategy
 
 Cities in Collin County have TWO data sources:
@@ -174,6 +183,26 @@ python3 scrapers/collin_cad_socrata.py --list-cities       # Show all 18 cities
 # Other platforms
 python3 scrapers/dfw_big4_socrata.py            # Arlington (API)
 python3 scrapers/cityview.py carrollton 500     # Carrollton
+```
+
+### CAD Delta Engine
+```bash
+# Process CAD tax rolls for new construction
+python3 scrapers/cad_delta_engine.py --list              # List available CADs
+python3 scrapers/cad_delta_engine.py dcad --file data.csv  # Process Dallas CAD
+python3 scrapers/cad_delta_engine.py tad --file data.csv   # Process Tarrant CAD
+python3 scrapers/cad_delta_engine.py --dry-run dcad --file data.csv  # Test run
+```
+
+### New City Scrapers
+```bash
+# Denton City (Socrata API)
+python3 scrapers/denton_socrata.py --discover           # Find dataset ID
+python3 scrapers/denton_socrata.py --limit 1000         # Scrape permits
+
+# Ellis County (Excel)
+python3 scrapers/ellis_county_excel.py --discover       # Portal info
+python3 scrapers/ellis_county_excel.py --file permits.xlsx  # Parse local file
 ```
 
 ### Pipeline
