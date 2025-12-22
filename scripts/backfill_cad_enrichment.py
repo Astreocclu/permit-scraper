@@ -258,3 +258,94 @@ def build_upsert_property_sql() -> str:
             enrichment_status = 'success',
             enriched_at = EXCLUDED.enriched_at
     """
+
+
+def process_permit(
+    permit_id: int,
+    property_address: str,
+    city: str,
+    conn,
+    dry_run: bool = False
+) -> Tuple[str, Optional[str]]:
+    """
+    Process a single permit for CAD enrichment.
+
+    Args:
+        permit_id: Database ID of the permit
+        property_address: Original permit address (will be used as key)
+        city: City from permit
+        conn: Database connection
+        dry_run: If True, don't write to database
+
+    Returns:
+        Tuple of (status, detail) where status is 'success', 'not_found', 'skip', or 'error'
+    """
+    # Get county for this city
+    county = get_county_for_city(city)
+    if not county:
+        return ('skip', f'No CAD API for city: {city}')
+
+    if county not in COUNTY_CONFIGS:
+        return ('skip', f'No CAD config for county: {county}')
+
+    # Build full address for CAD query
+    full_address = build_full_address(property_address, city)
+    if not full_address:
+        return ('skip', 'Could not build full address')
+
+    # Query CAD API
+    try:
+        cad_data, county_name, variant_used = query_cad_with_retry(full_address, county, timeout=30)
+    except Exception as e:
+        return ('error', str(e))
+
+    if not cad_data:
+        return ('not_found', f'No CAD match for: {full_address}')
+
+    if dry_run:
+        market_value = parse_float(cad_data.get('market_value'))
+        return ('success', f'DRY RUN: Would save ${market_value:,.0f}' if market_value else 'DRY RUN: Would save (no value)')
+
+    # Extract CAD data
+    owner_name = (cad_data.get('owner_name') or '').strip()
+    market_value = parse_float(cad_data.get('market_value'))
+    land_value = parse_float(cad_data.get('land_value'))
+    improvement_value = parse_float(cad_data.get('improvement_value'))
+    year_built = parse_int(cad_data.get('year_built'))
+    square_feet = parse_int(cad_data.get('square_feet'))
+    lot_size = parse_float(cad_data.get('lot_size'))
+    situs_addr = cad_data.get('situs_addr', '')
+    account_num = cad_data.get('account_num')
+
+    # Build mailing address
+    owner_addr = (cad_data.get('owner_addr') or '').strip()
+    owner_city = (cad_data.get('owner_city') or '').strip()
+    owner_zip = (cad_data.get('owner_zip') or '').strip()
+    mailing_address = f"{owner_addr}, {owner_city} {owner_zip}".strip(", ")
+
+    # Detect absentee owner
+    absentee = is_absentee_owner(situs_addr, mailing_address) if owner_addr else None
+
+    # Upsert into leads_property using ORIGINAL permit address as key
+    sql = build_upsert_property_sql()
+    with conn.cursor() as cur:
+        cur.execute(sql, (
+            property_address,           # Original permit address (KEY)
+            situs_addr,                 # CAD canonical address (for reference)
+            account_num,
+            county_name.lower() if county_name else county,
+            owner_name,
+            mailing_address if mailing_address else None,
+            market_value,
+            land_value,
+            improvement_value,
+            year_built,
+            square_feet,
+            lot_size,
+            absentee,
+            datetime.now()
+        ))
+    conn.commit()
+
+    value_str = f'${market_value:,.0f}' if market_value else 'N/A'
+    return ('success', f'{owner_name[:30]} | {value_str}')
