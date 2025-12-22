@@ -115,10 +115,16 @@ def enrich_permit(permit: dict, lookup: dict = None) -> dict:
         lookup_core = lookup_street.replace(' DR', '').replace(' ST', '').replace(' LN', '').replace(' AVE', '').strip()
         if street_core in lookup_core or lookup_core in street_core:
             if addresses:
-                # Use first matching address
-                permit['address'] = addresses[0]
-                permit['address_source'] = 'DENTON_CAD'
-                permit['address_candidates'] = len(addresses)
+                if len(addresses) == 1:
+                    # Exact match - safe to assign
+                    permit['address'] = addresses[0]
+                    permit['address_source'] = 'DENTON_CAD_EXACT'
+                else:
+                    # Multiple candidates - store for review, don't guess
+                    permit['address'] = ''  # Leave blank - can't determine exact address
+                    permit['street_name'] = street  # Store what we know
+                    permit['address_candidates'] = addresses[:10]  # Store top candidates (list)
+                    permit['address_source'] = 'DENTON_CAD_AMBIGUOUS'
                 break
 
     return permit
@@ -157,12 +163,15 @@ def enrich_colony_permits(dry_run: bool = False) -> dict:
 
     print(f"\n[2/3] Enriching {len(permits)} permits...")
     enriched_count = 0
+    ambiguous_count = 0
     for permit in permits:
         original_addr = permit.get('address')
         permit = enrich_permit(permit, lookup)
         if permit.get('address') and not original_addr:
             enriched_count += 1
             print(f"  {permit['permit_id']}: {permit['address']}")
+        if permit.get('address_source') == 'DENTON_CAD_AMBIGUOUS':
+            ambiguous_count += 1
 
     # Save enriched data
     output_file = DATA_DIR / 'the_colony_enriched.json'
@@ -183,6 +192,7 @@ def enrich_colony_permits(dry_run: bool = False) -> dict:
     return {
         'total': len(permits),
         'enriched': enriched_count,
+        'ambiguous': ambiguous_count,
         'streets_found': len([s for s in street_names if s in lookup]),
         'streets_missing': len([s for s in street_names if s not in lookup]),
     }
@@ -207,6 +217,7 @@ def main():
     print("=" * 60)
     print(f"Total permits: {result.get('total', 0)}")
     print(f"Enriched: {result.get('enriched', 0)}")
+    print(f"Ambiguous (multiple candidates): {result.get('ambiguous', 0)}")
     print(f"Streets found in CAD: {result.get('streets_found', 0)}")
     print(f"Streets not found: {result.get('streets_missing', 0)}")
 

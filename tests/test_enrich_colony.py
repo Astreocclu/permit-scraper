@@ -57,7 +57,7 @@ def test_query_with_sql_injection_attempt():
 
 
 def test_enrich_colony_permit():
-    """Can enrich a Colony permit with partial address."""
+    """Can enrich a Colony permit with partial address - integration test."""
     from scripts.enrich_colony_addresses import enrich_permit
 
     permit = {
@@ -68,7 +68,63 @@ def test_enrich_colony_permit():
 
     enriched = enrich_permit(permit)
 
-    # Should have found a full address
-    assert enriched['address'], "Address should be enriched"
-    assert enriched['address'][0].isdigit(), "Should start with house number"
-    assert 'BAKER' in enriched['address'].upper()
+    # BAKER DR has multiple addresses in The Colony, so should be marked ambiguous
+    # This test now validates that we DON'T guess when multiple candidates exist
+    if enriched.get('address_source') == 'DENTON_CAD_AMBIGUOUS':
+        # Multiple addresses found - should NOT assign a specific one
+        assert enriched['address'] == '', "Should not guess when multiple candidates"
+        assert isinstance(enriched.get('address_candidates'), list)
+        assert len(enriched['address_candidates']) > 1
+    elif enriched.get('address_source') == 'DENTON_CAD_EXACT':
+        # Only one address found - safe to assign
+        assert enriched['address'], "Address should be enriched"
+        assert enriched['address'][0].isdigit(), "Should start with house number"
+        assert 'BAKER' in enriched['address'].upper()
+    else:
+        # No addresses found
+        assert enriched['address'] == ''
+
+
+def test_enrich_handles_multiple_candidates():
+    """Should not assign address when multiple candidates exist."""
+    from scripts.enrich_colony_addresses import enrich_permit
+
+    permit = {
+        'permit_id': '0701-4211',
+        'address': '',
+        'raw_cells': ['0701-4211', 'BAKER DR', 'DKB_00558883']
+    }
+
+    # Mock lookup with multiple addresses
+    mock_lookup = {
+        'BAKER': ['100 BAKER DR', '200 BAKER DR', '300 BAKER DR']
+    }
+
+    enriched = enrich_permit(permit, lookup=mock_lookup)
+
+    # Should NOT assign a specific address (too ambiguous)
+    assert enriched['address'] == '', "Should not guess when multiple candidates"
+    assert enriched.get('address_source') == 'DENTON_CAD_AMBIGUOUS'
+    assert len(enriched.get('address_candidates', [])) == 3
+
+
+def test_enrich_assigns_single_candidate():
+    """Should assign address when only one candidate exists."""
+    from scripts.enrich_colony_addresses import enrich_permit
+
+    permit = {
+        'permit_id': '0701-4211',
+        'address': '',
+        'raw_cells': ['0701-4211', 'UNIQUE ST', 'DKB_00558883']
+    }
+
+    # Mock lookup with single address
+    mock_lookup = {
+        'UNIQUE': ['123 UNIQUE ST']
+    }
+
+    enriched = enrich_permit(permit, lookup=mock_lookup)
+
+    # Should assign the single candidate
+    assert enriched['address'] == '123 UNIQUE ST'
+    assert enriched.get('address_source') == 'DENTON_CAD_EXACT'
