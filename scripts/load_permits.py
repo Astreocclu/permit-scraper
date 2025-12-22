@@ -130,6 +130,22 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
             except (ValueError, TypeError):
                 pass
 
+        # Parse year_built (convert to int)
+        year_built = permit.get('year_built')
+        if year_built:
+            try:
+                year_built = int(year_built)
+            except (ValueError, TypeError):
+                year_built = None
+
+        # Parse property_value (convert to float)
+        property_value = permit.get('property_value') or permit.get('value')
+        if property_value:
+            try:
+                property_value = float(str(property_value).replace(',', '').replace('$', ''))
+            except (ValueError, TypeError):
+                property_value = None
+
         pg_rows.append((
             permit_id,
             city,
@@ -142,7 +158,12 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
             permit.get('contractor', permit.get('contractor_name')),
             permit.get('value', permit.get('estimated_value')) or None,  # Empty string -> None
             scraped,
-            None  # lead_type
+            None,  # lead_type
+            # NEW COLUMNS
+            permit.get('data_source') or source,  # data_source - use source as fallback
+            permit.get('cad_account_number'),     # cad_account_number
+            year_built,                            # year_built (converted to int)
+            property_value,                        # property_value (converted to float)
         ))
 
     if pg_rows:
@@ -157,7 +178,8 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
             INSERT INTO leads_permit (
                 permit_id, city, property_address, permit_type, description,
                 status, issued_date, applicant_name, contractor_name,
-                estimated_value, scraped_at, lead_type
+                estimated_value, scraped_at, lead_type,
+                data_source, cad_account_number, year_built, property_value
             ) VALUES %s
             ON CONFLICT ON CONSTRAINT clients_permit_city_permit_id_33861e17_uniq DO UPDATE SET
                 property_address = COALESCE(EXCLUDED.property_address, leads_permit.property_address),
@@ -169,7 +191,11 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
                 applicant_name = COALESCE(EXCLUDED.applicant_name, leads_permit.applicant_name),
                 contractor_name = COALESCE(EXCLUDED.contractor_name, leads_permit.contractor_name),
                 scraped_at = EXCLUDED.scraped_at,
-                lead_type = COALESCE(EXCLUDED.lead_type, leads_permit.lead_type)
+                lead_type = COALESCE(EXCLUDED.lead_type, leads_permit.lead_type),
+                data_source = COALESCE(EXCLUDED.data_source, leads_permit.data_source),
+                cad_account_number = COALESCE(EXCLUDED.cad_account_number, leads_permit.cad_account_number),
+                year_built = COALESCE(EXCLUDED.year_built, leads_permit.year_built),
+                property_value = COALESCE(EXCLUDED.property_value, leads_permit.property_value)
         """
         with conn.cursor() as cur:
             execute_values(cur, insert_sql, pg_rows, page_size=500)
