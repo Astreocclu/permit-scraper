@@ -54,3 +54,21 @@ def test_query_with_sql_injection_attempt():
     )
     assert isinstance(results, list)
     # Should return empty or valid results, not crash or execute malicious SQL
+
+
+def test_enrich_colony_permit():
+    """Can enrich a Colony permit with partial address."""
+    from scripts.enrich_colony_addresses import enrich_permit
+
+    permit = {
+        'permit_id': '0701-4211',
+        'address': '',
+        'raw_cells': ['0701-4211', 'BAKER DR', 'DKB_00558883']
+    }
+
+    enriched = enrich_permit(permit)
+
+    # Should have found a full address
+    assert enriched['address'], "Address should be enriched"
+    assert enriched['address'][0].isdigit(), "Should start with house number"
+    assert 'BAKER' in enriched['address'].upper()
