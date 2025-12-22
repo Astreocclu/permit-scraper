@@ -139,14 +139,16 @@ def get_county_for_city(city: Optional[str]) -> Optional[str]:
     Get the county for a city.
 
     Args:
-        city: City name (case-insensitive)
+        city: City name (case-insensitive, handles underscores)
 
     Returns:
         County name (lowercase) or None if not found
     """
     if not city:
         return None
-    return CITY_TO_COUNTY.get(city.lower().strip())
+    # Normalize: lowercase, strip whitespace, replace underscores with spaces
+    normalized = city.lower().strip().replace('_', ' ')
+    return CITY_TO_COUNTY.get(normalized)
 
 
 def build_full_address(street_address: Optional[str], city: Optional[str]) -> Optional[str]:
