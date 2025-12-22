@@ -18,6 +18,100 @@ Usage:
 from typing import Optional
 
 
+# City to county mapping for DFW area
+# Only includes cities in counties with FREE CAD APIs
+CITY_TO_COUNTY = {
+    # Collin County (free API)
+    'frisco': 'collin',
+    'mckinney': 'collin',
+    'allen': 'collin',
+    'plano': 'collin',
+    'prosper': 'collin',
+    'celina': 'collin',
+    'anna': 'collin',
+    'princeton': 'collin',
+    'melissa': 'collin',
+    'fairview': 'collin',
+    'lucas': 'collin',
+    'murphy': 'collin',
+    'wylie': 'collin',
+    'sachse': 'collin',
+
+    # Tarrant County (free API)
+    'fort worth': 'tarrant',
+    'arlington': 'tarrant',
+    'north richland hills': 'tarrant',
+    'hurst': 'tarrant',
+    'bedford': 'tarrant',
+    'euless': 'tarrant',
+    'grapevine': 'tarrant',
+    'colleyville': 'tarrant',
+    'southlake': 'tarrant',
+    'keller': 'tarrant',
+    'watauga': 'tarrant',
+    'haltom city': 'tarrant',
+    'richland hills': 'tarrant',
+    'mansfield': 'tarrant',
+
+    # Dallas County (free API)
+    'dallas': 'dallas',
+    'irving': 'dallas',
+    'grand prairie': 'dallas',
+    'mesquite': 'dallas',
+    'garland': 'dallas',
+    'richardson': 'dallas',
+    'carrollton': 'dallas',
+    'farmers branch': 'dallas',
+    'coppell': 'dallas',
+    'desoto': 'dallas',
+    'duncanville': 'dallas',
+    'cedar hill': 'dallas',
+    'lancaster': 'dallas',
+    'rowlett': 'dallas',
+
+    # Denton County (free API)
+    'denton': 'denton',
+    'lewisville': 'denton',
+    'flower mound': 'denton',
+    'highland village': 'denton',
+    'the colony': 'denton',
+    'little elm': 'denton',
+    'corinth': 'denton',
+    'aubrey': 'denton',
+    'pilot point': 'denton',
+    'sanger': 'denton',
+    'argyle': 'denton',
+    'bartonville': 'denton',
+    'trophy club': 'denton',
+
+    # Kaufman County (free API)
+    'forney': 'kaufman',
+    'terrell': 'kaufman',
+    'kaufman': 'kaufman',
+
+    # Rockwall County (free API)
+    'rockwall': 'rockwall',
+    'royse city': 'rockwall',
+    'heath': 'rockwall',
+    'fate': 'rockwall',
+}
+
+
+def get_county_for_city(city: Optional[str]) -> Optional[str]:
+    """
+    Get the county for a city.
+
+    Args:
+        city: City name (case-insensitive)
+
+    Returns:
+        County name (lowercase) or None if not found
+    """
+    if not city:
+        return None
+    return CITY_TO_COUNTY.get(city.lower().strip())
+
+
 def build_full_address(street_address: Optional[str], city: Optional[str]) -> Optional[str]:
     """
     Build a full queryable address from permit data.

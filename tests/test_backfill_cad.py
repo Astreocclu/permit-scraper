@@ -46,3 +46,53 @@ class TestBuildFullAddress:
 
         result = build_full_address("  123 MAIN ST  ", "  frisco  ")
         assert result == "123 MAIN ST, Frisco, TX"
+
+
+class TestGetCountyForCity:
+    """Test city to county mapping."""
+
+    def test_collin_cities(self):
+        from scripts.backfill_cad_enrichment import get_county_for_city
+
+        assert get_county_for_city("frisco") == "collin"
+        assert get_county_for_city("mckinney") == "collin"
+        assert get_county_for_city("allen") == "collin"
+        assert get_county_for_city("plano") == "collin"
+        assert get_county_for_city("prosper") == "collin"
+
+    def test_tarrant_cities(self):
+        from scripts.backfill_cad_enrichment import get_county_for_city
+
+        assert get_county_for_city("fort worth") == "tarrant"
+        assert get_county_for_city("arlington") == "tarrant"
+        assert get_county_for_city("southlake") == "tarrant"
+        assert get_county_for_city("keller") == "tarrant"
+
+    def test_dallas_cities(self):
+        from scripts.backfill_cad_enrichment import get_county_for_city
+
+        assert get_county_for_city("dallas") == "dallas"
+        assert get_county_for_city("irving") == "dallas"
+        assert get_county_for_city("grand prairie") == "dallas"
+        assert get_county_for_city("mesquite") == "dallas"
+
+    def test_denton_cities(self):
+        from scripts.backfill_cad_enrichment import get_county_for_city
+
+        assert get_county_for_city("denton") == "denton"
+        assert get_county_for_city("flower mound") == "denton"
+        assert get_county_for_city("lewisville") == "denton"
+
+    def test_case_insensitive(self):
+        from scripts.backfill_cad_enrichment import get_county_for_city
+
+        assert get_county_for_city("FRISCO") == "collin"
+        assert get_county_for_city("Frisco") == "collin"
+        assert get_county_for_city("FrIsCo") == "collin"
+
+    def test_unknown_city_returns_none(self):
+        from scripts.backfill_cad_enrichment import get_county_for_city
+
+        assert get_county_for_city("unknown_city") is None
+        assert get_county_for_city("") is None
+        assert get_county_for_city(None) is None
