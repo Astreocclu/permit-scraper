@@ -160,12 +160,16 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
                 estimated_value, scraped_at, lead_type
             ) VALUES %s
             ON CONFLICT ON CONSTRAINT clients_permit_city_permit_id_33861e17_uniq DO UPDATE SET
-                property_address = EXCLUDED.property_address,
-                description = EXCLUDED.description,
-                status = EXCLUDED.status,
-                issued_date = EXCLUDED.issued_date,
-                estimated_value = EXCLUDED.estimated_value,
-                applicant_name = EXCLUDED.applicant_name
+                property_address = COALESCE(EXCLUDED.property_address, leads_permit.property_address),
+                permit_type = COALESCE(EXCLUDED.permit_type, leads_permit.permit_type),
+                description = COALESCE(EXCLUDED.description, leads_permit.description),
+                status = COALESCE(EXCLUDED.status, leads_permit.status),
+                issued_date = COALESCE(EXCLUDED.issued_date, leads_permit.issued_date),
+                estimated_value = COALESCE(EXCLUDED.estimated_value, leads_permit.estimated_value),
+                applicant_name = COALESCE(EXCLUDED.applicant_name, leads_permit.applicant_name),
+                contractor_name = COALESCE(EXCLUDED.contractor_name, leads_permit.contractor_name),
+                scraped_at = EXCLUDED.scraped_at,
+                lead_type = COALESCE(EXCLUDED.lead_type, leads_permit.lead_type)
         """
         with conn.cursor() as cur:
             execute_values(cur, insert_sql, pg_rows, page_size=500)
