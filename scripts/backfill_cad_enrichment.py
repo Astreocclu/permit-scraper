@@ -349,3 +349,110 @@ def process_permit(
 
     value_str = f'${market_value:,.0f}' if market_value else 'N/A'
     return ('success', f'{owner_name[:30]} | {value_str}')
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Backfill CAD enrichment for permits with missing property data',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    python3 scripts/backfill_cad_enrichment.py --limit 10      # Test with 10 permits
+    python3 scripts/backfill_cad_enrichment.py --dry-run       # Preview without DB writes
+    python3 scripts/backfill_cad_enrichment.py --city frisco   # Single city
+    python3 scripts/backfill_cad_enrichment.py                 # Full backfill (~9 hours)
+        """
+    )
+    parser.add_argument('--limit', type=int, help='Limit number of permits to process')
+    parser.add_argument('--city', type=str, help='Filter to specific city')
+    parser.add_argument('--dry-run', action='store_true', help='Preview without writing to database')
+    parser.add_argument('--delay', type=float, default=1.0, help='Delay between API calls (default: 1.0s)')
+    args = parser.parse_args()
+
+    print("=" * 60)
+    print("CAD ENRICHMENT BACKFILL")
+    print("=" * 60)
+    print(f"Mode: {'DRY RUN' if args.dry_run else 'LIVE'}")
+    print(f"Rate limit: {args.delay}s between requests")
+    if args.city:
+        print(f"City filter: {args.city}")
+    if args.limit:
+        print(f"Limit: {args.limit} permits")
+    print()
+
+    # Connect to database
+    try:
+        conn = get_db_connection()
+    except ValueError as e:
+        print(f"ERROR: {e}")
+        return 1
+
+    # Fetch permits needing enrichment
+    query = build_unenriched_permits_query(city=args.city, limit=args.limit)
+    with conn.cursor() as cur:
+        cur.execute(query)
+        permits = cur.fetchall()
+
+    total = len(permits)
+    print(f"Found {total} permits needing enrichment")
+
+    if total == 0:
+        print("Nothing to do!")
+        conn.close()
+        return 0
+
+    # Process permits
+    success = 0
+    not_found = 0
+    skipped = 0
+    errors = 0
+
+    for i, (permit_id, property_address, city) in enumerate(permits, 1):
+        county = get_county_for_city(city) or '???'
+
+        status, detail = process_permit(
+            permit_id, property_address, city, conn, dry_run=args.dry_run
+        )
+
+        # Log result
+        prefix = f"[{i}/{total}] [{county.upper()[:6]:6}]"
+        addr_short = property_address[:40] if property_address else 'N/A'
+
+        if status == 'success':
+            print(f"{prefix} {addr_short}... -> {detail}")
+            success += 1
+        elif status == 'not_found':
+            print(f"{prefix} {addr_short}... -> NOT FOUND")
+            not_found += 1
+        elif status == 'skip':
+            print(f"{prefix} {addr_short}... -> SKIP: {detail}")
+            skipped += 1
+        else:
+            print(f"{prefix} {addr_short}... -> ERROR: {detail}")
+            errors += 1
+
+        # Rate limiting
+        time.sleep(args.delay)
+
+    # Summary
+    print()
+    print("=" * 60)
+    print("SUMMARY")
+    print("=" * 60)
+    print(f"Success:   {success:,}")
+    print(f"Not found: {not_found:,}")
+    print(f"Skipped:   {skipped:,}")
+    print(f"Errors:    {errors:,}")
+    print(f"Total:     {total:,}")
+
+    if success > 0 and not args.dry_run:
+        print()
+        print("Next step: Run scoring to update lead scores:")
+        print("  python3 scripts/score_leads.py --rescore")
+
+    conn.close()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
