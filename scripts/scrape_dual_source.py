@@ -68,6 +68,10 @@ def run_city_scraper(city: str, limit: int) -> bool:
         return False
 
     scraper = SCRAPERS_DIR / config['city_scraper']
+    if not scraper.exists():
+        print(f"  [ERROR] Scraper not found: {scraper}")
+        return False
+
     args = ['python3', str(scraper)] + config['city_args'] + [str(limit)]
 
     print(f"  [CITY] Running {config['city_scraper']} {city} {limit}...")
@@ -78,6 +82,10 @@ def run_city_scraper(city: str, limit: int) -> bool:
 def run_cad_scraper(city: str, limit: int, days: int = 90) -> bool:
     """Run the Collin CAD Socrata scraper."""
     scraper = SCRAPERS_DIR / 'collin_cad_socrata.py'
+    if not scraper.exists():
+        print(f"  [ERROR] CAD scraper not found: {scraper}")
+        return False
+
     args = ['python3', str(scraper), '--city', city, '--limit', str(limit), '--days', str(days)]
 
     print(f"  [CAD] Running collin_cad_socrata.py --city {city} --limit {limit} --days {days}...")
@@ -85,23 +93,29 @@ def run_cad_scraper(city: str, limit: int, days: int = 90) -> bool:
     return result.returncode == 0
 
 
-def scrape_city(city: str, limit: int):
-    """Scrape a city from all available sources."""
+def scrape_city(city: str, limit: int) -> dict:
+    """Scrape a city from all available sources. Returns success status."""
     print(f"\n{'='*60}")
     print(f"SCRAPING: {city.upper()}")
     print(f"{'='*60}")
 
     city_lower = city.lower()
+    results = {'city': None, 'cad': None}
 
     # Run city portal scraper if available
     if city_lower in DUAL_SOURCE_CITIES:
-        run_city_scraper(city_lower, limit)
+        results['city'] = run_city_scraper(city_lower, limit)
+        if results['city'] is False:
+            print(f"  [ERROR] City portal scraper failed")
 
     # Run Collin CAD scraper
     cad_city = DUAL_SOURCE_CITIES.get(city_lower, {}).get('cad_city', city_lower)
-    run_cad_scraper(cad_city, limit, days=90)
+    results['cad'] = run_cad_scraper(cad_city, limit, days=90)
+    if results['cad'] is False:
+        print(f"  [ERROR] CAD scraper failed")
 
     print(f"  [DONE] {city} complete")
+    return results
 
 
 def main():
@@ -122,16 +136,29 @@ def main():
             print(f"  {city}")
         return
 
+    failures = []
+
     if args.all:
         for city in DUAL_SOURCE_CITIES:
-            scrape_city(city, args.limit)
+            results = scrape_city(city, args.limit)
+            if results['cad'] is False:
+                failures.append(city)
         if args.cad_only:
             for city in CAD_ONLY_CITIES:
-                scrape_city(city, args.limit)
+                results = scrape_city(city, args.limit)
+                if results['cad'] is False:
+                    failures.append(city)
     elif args.city:
-        scrape_city(args.city, args.limit)
+        results = scrape_city(args.city, args.limit)
+        if results['cad'] is False:
+            failures.append(args.city)
     else:
         parser.print_help()
+        return
+
+    if failures:
+        print(f"\n[WARNING] Failed cities: {', '.join(failures)}")
+        sys.exit(1)
 
 
 if __name__ == '__main__':
