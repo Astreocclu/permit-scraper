@@ -219,7 +219,7 @@ def load_permits(filepaths: list) -> list:
         path = Path(fp)
         if not path.exists():
             # Try in permit-scraper directory
-            path = Path('/home/reid/testhome/permit-scraper') / fp
+            path = Path('/home/astre/command-center/testhome/permit-scraper') / fp
 
         if path.exists():
             with open(path) as f:
@@ -311,7 +311,7 @@ def main():
 
     # Export
     print("\n[4] Exporting results...")
-    output_path = Path('/home/reid/testhome/permit-scraper') / args.output
+    output_path = Path('/home/astre/command-center/testhome/permit-scraper') / args.output
     export_csv(permits, str(output_path))
 
     # Also save enriched JSON
