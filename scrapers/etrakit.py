@@ -97,6 +97,9 @@ ETRAKIT_CITIES = {
         # Format: MMYY-NNNN (0701-4211) - month/year prefix
         'prefixes': ['B', 'P', 'E', 'M', 'R', 'H', 'F'],
         'permit_regex': r'^\d{4}-\d{4}$',
+        # The Colony search results only show street names (no numbers)
+        # Must click into detail page to get full address
+        'needs_detail_extraction': True,
     },
 }
 
@@ -200,6 +203,79 @@ async def extract_permits_from_page(page, permit_regex: str = r'^[A-Z]{1,2}\d{2}
     }''', permit_regex)
 
 
+async def extract_detail_address(page, permit_id: str) -> str:
+    """
+    Click into permit detail page and extract full address.
+    Used for The Colony where search results only show street names.
+    """
+    try:
+        # Find and click the permit link
+        link = await page.query_selector(f'a:has-text("{permit_id}")')
+        if not link:
+            return ''
+
+        await link.click()
+        await asyncio.sleep(2)  # Wait for detail page to load
+
+        # Try to extract address from detail page
+        # Common eTRAKiT patterns: "Site Address", "Property Address", "Address", "Location"
+        address = await page.evaluate('''() => {
+            // Look for address in table rows
+            const rows = document.querySelectorAll('tr');
+            for (const row of rows) {
+                const cells = row.querySelectorAll('td, th');
+                for (let i = 0; i < cells.length - 1; i++) {
+                    const label = cells[i].innerText.toLowerCase().trim();
+                    if (label.includes('site address') || label.includes('property address') ||
+                        label.includes('location') || label === 'address') {
+                        const value = cells[i + 1]?.innerText?.trim();
+                        if (value && /^\\d+\\s+[A-Za-z]/.test(value)) {
+                            return value;
+                        }
+                    }
+                }
+            }
+
+            // Try span/label patterns
+            const spans = document.querySelectorAll('span, label');
+            for (const span of spans) {
+                if (span.innerText.toLowerCase().includes('address')) {
+                    const next = span.nextElementSibling;
+                    if (next) {
+                        const value = next.innerText?.trim();
+                        if (value && /^\\d+\\s+[A-Za-z]/.test(value)) {
+                            return value;
+                        }
+                    }
+                }
+            }
+
+            // Look for any text that looks like an address (number + street)
+            const allText = document.body.innerText;
+            const addressMatch = allText.match(/\\b(\\d{1,5}\\s+[A-Z][A-Za-z]+(?:\\s+[A-Za-z]+)*(?:\\s+(?:ST|DR|AVE|BLVD|CT|CIR|LN|RD|WAY|PL|TRL|PKWY|HWY))?)\\b/);
+            if (addressMatch) {
+                return addressMatch[1];
+            }
+
+            return '';
+        }''')
+
+        # Go back to search results
+        await page.go_back()
+        await asyncio.sleep(1)
+
+        return address or ''
+
+    except Exception as e:
+        print(f'      Warning: Could not extract detail for {permit_id}: {e}')
+        try:
+            await page.go_back()
+            await asyncio.sleep(1)
+        except:
+            pass
+        return ''
+
+
 async def scrape_fast(city_key: str, target_count: int = 1000):
     """Fast scrape using DOM extraction, multiple year prefixes."""
     city_key = city_key.lower()
@@ -264,8 +340,22 @@ async def scrape_fast(city_key: str, target_count: int = 1000):
                 page_num = 1
                 prefix_permits = []
 
+                needs_detail = config.get('needs_detail_extraction', False)
+
                 while page_num <= page_info['total'] and len(all_permits) + len(prefix_permits) < target_count:
                     permits = await extract_permits_from_page(page, permit_regex)
+
+                    # For cities like The Colony that need detail extraction
+                    if needs_detail:
+                        print(f'    Page {page_num}: Extracting details for {len(permits)} permits...')
+                        for i, permit in enumerate(permits):
+                            if not permit.get('address'):  # Only if address is empty
+                                full_addr = await extract_detail_address(page, permit['permit_id'])
+                                if full_addr:
+                                    permit['address'] = full_addr
+                                    if (i + 1) % 5 == 0:
+                                        print(f'      Detail {i+1}/{len(permits)}: {full_addr[:40]}...')
+
                     prefix_permits.extend(permits)
 
                     if page_num % 10 == 0 or page_num == 1:

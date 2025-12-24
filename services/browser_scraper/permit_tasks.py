@@ -144,6 +144,85 @@ Go to the Southlake EnerGov portal at https://energov.cityofsouthlake.com/EnerGo
 Return the data as a valid JSON list of objects.
 """
 
+THE_COLONY_DETAIL_TASK = EFFICIENCY_DIRECTIVE + """
+Go to The Colony eTRAKiT portal at https://tcol-trk.aspgov.com/etrakit/Search/permit.aspx
+
+1. SEARCH FOR PERMITS:
+   - In the "Search By" dropdown, select "Permit Number"
+   - In the search field, enter "{prefix}" (just the letter prefix)
+   - Click "Search" button
+   - Wait for results to load
+
+2. FOR EACH PERMIT IN RESULTS (up to 50):
+   - Note the permit number from the table (format: MMYY-NNNN like 0701-4211)
+   - Click on the permit number link to open detail page
+
+3. ON DETAIL PAGE - Extract these fields:
+   - permit_number: The permit ID (e.g., "0701-4211")
+   - full_address: Look for "Site Address", "Property Address", or "Location" field
+     - MUST include street NUMBER and street NAME (e.g., "123 BAKER DR")
+   - permit_type: Type/Category of permit
+   - status: Current status (Issued, Closed, etc.)
+   - issue_date: Date permit was issued
+   - description: Work description if available
+   - valuation: Dollar value if shown
+
+4. NAVIGATE BACK:
+   - Click browser Back button or "Return to Search" link
+   - Continue to next permit
+
+5. RETURN FORMAT:
+Return a JSON array of permit objects:
+```json
+[
+  {{
+    "permit_number": "0701-4211",
+    "address": "123 BAKER DR",
+    "permit_type": "Building",
+    "status": "Closed",
+    "issue_date": "07/01/2007",
+    "description": "New single family residence",
+    "valuation": "250000"
+  }}
+]
+```
+
+IMPORTANT: The search results table only shows street NAMES. You MUST click into detail page to get full address with street NUMBER.
+"""
+
+THE_COLONY_BULK_TASK = EFFICIENCY_DIRECTIVE + """
+Go to The Colony eTRAKiT portal at https://tcol-trk.aspgov.com/etrakit/Search/permit.aspx
+
+NOTE: This portal does NOT support date range search. Only Permit Number and Address search are available.
+
+1. SEARCH SETUP:
+   - In "Search By" dropdown, select "Permit Number"
+   - In the search field, enter "B" (for Building permits) or leave blank for all
+   - Click "Search" button
+   - Wait for results to load
+
+2. FOR EACH PERMIT IN RESULTS (up to 100 total):
+   - Note the permit number from the table
+   - Click on the permit number link to open detail page
+
+3. ON DETAIL PAGE - Extract:
+   - permit_number
+   - full_address (MUST have street number + name, e.g., "123 BAKER DR")
+   - permit_type
+   - status
+   - issue_date (use this to filter for permits within {start_date} to {end_date})
+   - description
+   - valuation
+
+4. Navigate back and continue to next permit
+
+5. If pagination exists, click "Next" and repeat
+
+6. FILTER BY DATE: Only include permits where issue_date falls between {start_date} and {end_date}
+
+Return JSON array of all permits with full addresses that match the date range.
+"""
+
 BULK_ETRAKIT_TEMPLATE = EFFICIENCY_DIRECTIVE + """
 Go to the {city_name} eTRAKiT portal at {url}
 Select "Public Search" or "Search Permits".
@@ -386,7 +465,7 @@ CITY_TASKS = {
     "plano": ETRAKIT_TEMPLATE.format(city_name="Plano", url="https://ecop.plano.gov/eTRAKiT"),
     "frisco": ETRAKIT_TEMPLATE.format(city_name="Frisco", url="https://etrakit.friscotexas.gov/eTRAKiT"),
     "burleson": MYGOV_TEMPLATE.format(city_name="Burleson", url="https://public.mygov.us/burleson_tx"),
-    "the_colony": ETRAKIT_TEMPLATE.format(city_name="The Colony", url="https://tcol-trk.aspgov.com/eTrakit/"),
+    "the_colony": THE_COLONY_DETAIL_TASK.format(prefix="B"),
     "keller": ETRAKIT_TEMPLATE.format(city_name="Keller", url="https://etrakit.cityofkeller.com/eTRAKiT"),
     "flower_mound": ETRAKIT_TEMPLATE.format(city_name="Flower Mound", url="https://etrakit.flower-mound.com/etrakit"),
     
@@ -623,6 +702,10 @@ def get_task_for_city(city: str, address: str = "", permit_type: str = "Building
         # Special handling for Southlake (portal ignores date filters)
         if normalized_city == "southlake":
             return SOUTHLAKE_BULK_TASK.format(start_date=start_date, end_date=end_date)
+
+        # The Colony - uses detail extraction for full addresses
+        if normalized_city == "the_colony":
+            return THE_COLONY_BULK_TASK.format(start_date=start_date, end_date=end_date)
 
         # CityView (Carrollton) - special handling
         if normalized_city == "carrollton" or "cityview" in template.lower():

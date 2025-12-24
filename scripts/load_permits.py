@@ -100,6 +100,20 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
         if city:
             city = city.lower().strip()
 
+        # The Colony only provides street names (no numbers) - accept partial addresses
+        # and flag for enrichment later
+        needs_enrichment = False
+        if city and 'the_colony' in city.replace(' ', '_').lower():
+            # The Colony: accept partial address (street name only)
+            if not address:
+                # Try to get street name from raw_cells
+                raw_cells = permit.get('raw_cells', [])
+                if len(raw_cells) >= 2:
+                    street_name = raw_cells[1]
+                    if street_name and not street_name.startswith(('DKB', 'JJ_')):
+                        address = street_name
+                        needs_enrichment = True
+
         if not permit_id or not address:
             skipped += 1
             continue
