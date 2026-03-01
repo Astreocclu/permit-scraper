@@ -1,4 +1,4 @@
-# Core dependencies for permit-scraper
+# Core dependencies for Collections (permit scraping)
 # Install: pip install -r requirements.txt
 
 # HTTP clients

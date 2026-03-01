@@ -1,0 +1,418 @@
+[
+  {
+    "permit_number": "PLMB25-0300",
+    "issue_date": "12/19/2025",
+    "permit_type": "Plumbing Permit (Commercial)",
+    "status": "Issued",
+    "address": "1598 HART ST Unit: 120",
+    "description": "North Texas Bells, LLC CORP OFFICE. - Test gas line for leaks due to burn out."
+  },
+  {
+    "permit_number": "PLMB25-0299",
+    "issue_date": "12/19/2025",
+    "permit_type": "Plumbing Permit (Commercial)",
+    "status": "Issued",
+    "address": "1598 HART ST Unit: 100",
+    "description": "Archipelago - Test gas line for leaks due to burn out."
+  },
+  {
+    "permit_number": "NRES25-0049",
+    "issue_date": "12/19/2025",
+    "permit_type": "Residential New Building (Single Family Home)",
+    "status": "Issued",
+    "address": "1206 ASHMOORE CT",
+    "description": "New Single Family Home - FORM BOARD SURVEY REQUIRED"
+  },
+  {
+    "permit_number": "ROW25-0151",
+    "issue_date": "12/19/2025",
+    "permit_type": "Right of Way - Franchise Utility",
+    "status": "Issued",
+    "address": "3308 HIDDEN TRAIL CT",
+    "description": "Installing new gas service line located at the front of the property."
+  },
+  {
+    "status": "Issued",
+    "address": "1598 HART ST Unit: 100",
+    "description": "Archipelago - Burn repair. Make safe and get meter set",
+    "permit_number": "ELEC25-0274",
+    "issue_date": "12/19/2025",
+    "permit_type": "Electrical Permit (Commercial)"
+  },
+  {
+    "permit_number": "SIGN25-0327",
+    "issue_date": "12/12/2025",
+    "permit_type": "Sign - Attached",
+    "status": "Issued",
+    "address": "1710 N WHITE CHAPEL BLVD Southlake TX",
+    "description": "Lambert Home Headquarters - South - Upper Story Sign"
+  },
+  {
+    "permit_number": "SIGN25-0326",
+    "issue_date": "12/12/2025",
+    "permit_type": "Sign - Temp (Development/Construction)",
+    "status": "Issued",
+    "address": "500 E BOB JONES RD",
+    "description": "The Hideaway - Residential Development Sign"
+  },
+  {
+    "permit_number": "SIGN25-0324",
+    "issue_date": "11/24/2025",
+    "permit_type": "Sign - Attached",
+    "status": "Issued",
+    "address": "120 STATE ST",
+    "description": "Collars & Co - East - Channel Letters"
+  },
+  {
+    "permit_number": "SIGN25-0323",
+    "issue_date": "12/02/2025",
+    "permit_type": "Sign - Attached",
+    "status": "Issued",
+    "address": "151 N NOLEN DR Unit: 100",
+    "description": "India Today Bakery Cafe - East - Channel Letters & Monument Panel Reface"
+  },
+  {
+    "permit_number": "FE-2277",
+    "issue_date": "12/25/2025",
+    "permit_type": "Fence (Residential)",
+    "status": "Closed",
+    "address": "416 W CHAPEL DOWNS DR SOUTHLAKE TX 76092",
+    "description": "Description: IRON FENCE WITH WOOD SLATS"
+  },
+  {
+    "permit_number": "GEN25-0065",
+    "issue_date": "12/23/2025",
+    "permit_type": "Generator (Residential)",
+    "status": "Issued",
+    "address": "1129 SAVOY LN",
+    "description": "PERMANENT GENERATOR: Generac 26kW standby generator and dual 200a automatic transfer switches installation. Fuel type: NG. Both gas and electrical lines in trenches"
+  },
+  {
+    "permit_number": "COMR25-0134",
+    "issue_date": "12/23/2025",
+    "permit_type": "Commercial Remodel",
+    "status": "Issued",
+    "address": "321 STATE ST",
+    "description": "Crate and Barrel - Retail tenant fit out including full MEPFP."
+  },
+  {
+    "permit_number": "COMR25-0125",
+    "issue_date": "12/23/2025",
+    "permit_type": "Commercial Remodel",
+    "status": "Issued",
+    "address": "245 W SH 114 Unit: 260 Southlake TX",
+    "description": "Chapel Crossing Concierge Medicine, PLLC - SUITE 260- Interior renovation of an existing space (approx. 2,897 SF) within a medical office building to accommodate a medical clinic for Southlake Premier Health."
+  },
+  {
+    "permit_number": "SOLR25-0034",
+    "issue_date": "12/23/2025",
+    "permit_type": "Solar Panel - Residential",
+    "status": "Issued",
+    "address": "169 SUMMIT AVE",
+    "description": "Installing a 5.22 kW PV solar system and 1 Tesla PW3"
+  },
+  {
+    "permit_number": "LW25-0042",
+    "issue_date": "12/23/2025",
+    "permit_type": "Liquid Waste Hauler Registration",
+    "status": "Issued",
+    "address": "",
+    "description": "Woori Grease Trap needs your city permit to pump out the grease from any food stores in the city of Southlake."
+  },
+  {
+    "permit_number": "ELEC25-0267",
+    "issue_date": "12/23/2025",
+    "permit_type": "Electrical - Battery Energy Storage System",
+    "status": "Issued",
+    "address": "1211 TIMBER CT",
+    "description": "Adding 5 Ecoflow ESS batteries, 1 Ecoflow inverter, and 1 Ecoflow Smart panel to an existing system of 18.639 kW."
+  },
+  {
+    "permit_number": "SIGN25-0329",
+    "issue_date": "12/23/2025",
+    "permit_type": "Sign - Attached",
+    "status": "Issued",
+    "address": "530 E SOUTHLAKE BLVD Unit: 140",
+    "description": " Nexa Partners - North - Non Lit Channel Letters"
+  },
+  {
+    "permit_number": "PLMB25-0301",
+    "issue_date": "12/23/2025",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Issued",
+    "address": "908 BRAZOS DR",
+    "description": "water line repair under slab"
+  },
+  {
+    "permit_number": "DEMO25-0069",
+    "issue_date": "12/23/2025",
+    "permit_type": "Demolition (Commercial)",
+    "status": "Issued",
+    "address": "1161 E SOUTHLAKE BLVD Unit: 202",
+    "description": "Booth Creek Wagyu Demolition of interior buildout for new tenant."
+  },
+  {
+    "permit_number": "ROW25-0153",
+    "issue_date": "12/23/2025",
+    "permit_type": "Right of Way - Franchise Utility",
+    "status": "Issued",
+    "address": "2000 WHEELER DR",
+    "description": "New UG service to house"
+  },
+  {
+    "permit_number": "RACB25-0071",
+    "issue_date": "12/17/2025",
+    "permit_type": "Residential Accessory Shade Structure Detached",
+    "status": "Issued",
+    "address": "2713 YORK CT",
+    "description": "Renovate and rebuild the outdoor kitchen area"
+  },
+  {
+    "permit_number": "RESR25-0082",
+    "issue_date": "12/17/2025",
+    "permit_type": "Residential Remodel",
+    "status": "Issued",
+    "address": "408 BORDERS CT",
+    "description": "Remodel the property as shown in the attached plans and scope of work attached. (Remodel bathrooms.) NO ELECTRIC"
+  },
+  {
+    "permit_number": "TREP25-0081",
+    "issue_date": "12/17/2025",
+    "permit_type": "Tree Protection (Residential)",
+    "status": "Issued",
+    "address": "2100 E DOVE RD",
+    "description": "Trees to be protected on site"
+  },
+  {
+    "permit_number": "COMR25-0118",
+    "issue_date": "11/07/2025",
+    "permit_type": "Commercial Remodel",
+    "status": "Issued",
+    "address": "601 STATE ST Unit: 400",
+    "description": "Natural Gas Services- interior finish out for office space"
+  },
+  {
+    "permit_number": "MISC25-0173",
+    "issue_date": "11/07/2025",
+    "permit_type": "Multi-purpose Sport Court",
+    "status": "Issued",
+    "address": "1265 STANHOPE CT",
+    "description": "30\u2019 x 65\u2019 Concrete Flatwork -2 Regulation Basketball Hoops Max Height 13\u2019 6\u201d -5\u2019 soft net fencing 40\u2019 LF & 8\u2019 soft net fencing 125\u2019 LF No Lighting Clear of Easements"
+  },
+  {
+    "permit_number": "RPOOL25-0061",
+    "issue_date": "11/07/2025",
+    "permit_type": "Pool (Residential)",
+    "status": "Issued",
+    "address": "102 KILLDEER CT",
+    "description": "In Ground Swimming Pool"
+  },
+  {
+    "permit_number": "REOC25-0156",
+    "issue_date": "11/07/2025",
+    "permit_type": "Commercial Reoccupancy",
+    "status": "CO Issued",
+    "address": "601 STATE ST Unit: 260",
+    "description": "Merrill Lynch - Re-Occupancy"
+  },
+  {
+    "permit_number": "REOC25-0179",
+    "issue_date": "12/23/2025",
+    "permit_type": "Commercial Reoccupancy",
+    "status": "Issued",
+    "address": "1100 E SOUTHLAKE BLVD Unit: 300",
+    "description": "Christie's International Real Estate - Real Estate Brokerage Office"
+  },
+  {
+    "permit_number": "PLMB25-0292",
+    "issue_date": "12/17/2025",
+    "permit_type": "Plumbing Permit (Commercial)",
+    "status": "Issued",
+    "address": "301 BANK ST",
+    "description": "replacement of 2'' waterline from city meter to building"
+  },
+  {
+    "permit_number": "IRRG25-0068",
+    "issue_date": "11/07/2025",
+    "permit_type": "Irrigation (Commercial)",
+    "status": "Issued",
+    "address": "421 E SH 114",
+    "description": "Irrigation installment - Methodist Southlake Hospital"
+  },
+  {
+    "permit_number": "DEMO25-0055",
+    "issue_date": "11/07/2025",
+    "permit_type": "Demolition (Residential)",
+    "status": "Issued",
+    "address": "213 KING RANCH RD",
+    "description": "tearing out foundation and a swimming pool (To be Removed)"
+  },
+  {
+    "permit_number": "DEMO25-0068",
+    "issue_date": "11/07/2025",
+    "permit_type": "Demolition (Residential)",
+    "status": "Closed",
+    "address": "1205 CROSS TIMBER DR",
+    "description": "Demolition of all existing structures Septic"
+  },
+  {
+    "permit_number": "PLMB25-0257",
+    "issue_date": "11/07/2025",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Issued",
+    "address": "\u201c800 LODESTAR DR Southlake TX\u201d",
+    "description": "\u201cRe-route the water line and gas line- Add a 200 ft. water pipe line.\u201d"
+  },
+  {
+    "permit_number": "MISC25-0096",
+    "issue_date": "\u201c11/07/2025\u201d",
+    "permit_type": "\u201cMiscellaneous (Residential)\u201d",
+    "status": "\u201cClosed\u201d",
+    "address": "\u201c706 CHAUCER CT\u201d",
+    "description": "\u201cremove and replace  4 same size Windows - DOUBLE FEE for Work without a permit - EXPIRED permit ROOF24-0074\u201d"
+  },
+  {
+    "permit_number": "ELEC25-0273",
+    "issue_date": "12/19/2025",
+    "permit_type": "Electrical Permit (Commercial)",
+    "status": "Issued",
+    "address": "1598 HART ST Unit: 100",
+    "description": "Archipelago - Burn repair. Make safe and get meter set"
+  },
+  {
+    "permit_number": "REOC25-0155",
+    "issue_date": "11/07/2025",
+    "permit_type": "Commercial Reoccupancy",
+    "status": "CO Issued",
+    "address": "601 STATE ST Unit: 250",
+    "description": "Merrill Lynch Wealth Management - Commercial Re-occupancy"
+  },
+  {
+    "permit_number": "ROW25-0150",
+    "issue_date": "12/19/2025",
+    "permit_type": "Right of Way - Franchise Utility",
+    "status": "Issued",
+    "address": "2800 N KIMBALL AVE",
+    "description": "Installing gas service line located at the front of the property"
+  },
+  {
+    "permit_number": "ROW25-0123",
+    "issue_date": "11/07/2025",
+    "permit_type": "Right of Way - Franchise Utility",
+    "status": "Expired",
+    "address": "2111 E KIRKWOOD BLVD",
+    "description": "805 UG bore along E Kirkwood Blvd and Kimball Ave"
+  },
+  {
+    "permit_number": "COMR25-0052",
+    "issue_date": "11/07/2025",
+    "permit_type": "Commercial Remodel",
+    "status": "Issued",
+    "address": "950 E SH 114 Unit: 130",
+    "description": "Neighborhood Loans - office space reconfiguration"
+  },
+  {
+    "permit_number": "ELEC25-0247",
+    "issue_date": "11/07/2025",
+    "permit_type": "Electrical Permit (Commercial)",
+    "status": "Issued",
+    "address": "1422 MAIN ST Unit: 262 Southlake TX",
+    "description": "Cosmetic Dental Arts - Provide circuit for sign company"
+  },
+  {
+    "permit_number": "ELEC25-0245",
+    "issue_date": "11/07/2025",
+    "permit_type": "Electrical Permit (Commercial)",
+    "status": "Closed",
+    "address": "660 W SOUTHLAKE BLVD Unit: 100",
+    "description": "Feel Ideal 360 - Addition of lighting circuit for future sign"
+  },
+  {
+    "permit_number": "ROOF25-0259",
+    "issue_date": "11/07/2025",
+    "permit_type": "Residential Reroof",
+    "status": "Issued",
+    "address": "1314 PROVINCE LN",
+    "description": "Reroofing with same shingle style plus replacing all pipes and vents"
+  },
+  {
+    "permit_number": "ROOF25-0258",
+    "issue_date": "11/07/2025",
+    "permit_type": "Residential Reroof",
+    "status": "Closed",
+    "address": "1710 WILD ROSE WAY",
+    "description": "RE-ROOF"
+  },
+  {
+    "permit_number": "PLMB25-0255",
+    "issue_date": "11/06/2025",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Closed",
+    "address": "626 CASTLE ROCK DR",
+    "description": "Repair Cold Water Leak via Tunnel"
+  },
+  {
+    "permit_number": "REOC25-0153",
+    "issue_date": "11/06/2025",
+    "permit_type": "Commercial Reoccupancy",
+    "status": "Issued",
+    "address": "2777 E SOUTHLAKE BLVD Unit: 100",
+    "description": "KAJI SUSHI - REOCCUPANCY OF AN EXISTING RESTAURANT SPACE"
+  },
+  {
+    "permit_number": "RPOOL25-0058",
+    "issue_date": "11/06/2025",
+    "permit_type": "Pool & Spa (Residential)",
+    "status": "Issued",
+    "address": "1404 HAMPTON CT",
+    "description": "Install Pool and Spa"
+  },
+  {
+    "permit_number": "PLMB25-0251",
+    "issue_date": "11/06/2025",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Closed",
+    "address": "179 SUMMIT AVE",
+    "description": "gas test + repairs - locating leaks - locked gas meter REPAIRS"
+  },
+  {
+    "permit_number": "COMR25-0111",
+    "issue_date": "11/06/2025",
+    "permit_type": "Commercial Remodel",
+    "status": "Issued",
+    "address": "950 E SH 114 Unit: 140",
+    "description": "Mark Spain Real Estate - Tenant Finish Buildout"
+  },
+  {
+    "permit_number": "IRRG25-0094",
+    "issue_date": "12/17/2025",
+    "permit_type": "Irrigation (Residential)",
+    "status": "Issued",
+    "address": "",
+    "description": "Irrigation permit"
+  },
+  {
+    "permit_number": "HVAC25-0367",
+    "issue_date": "12/23/2025",
+    "permit_type": "Mechanical Permit (Residential)",
+    "status": "Issued",
+    "address": "",
+    "description": "HVAC permit"
+  },
+  {
+    "permit_number": "SIGN25-0322",
+    "issue_date": "12/01/2025",
+    "permit_type": "Sign - Attached",
+    "status": "Issued",
+    "address": "",
+    "description": "Commercial sign permit"
+  },
+  {
+    "permit_number": "SOLR25-0033",
+    "issue_date": "12/19/2025",
+    "permit_type": "Solar Panel - Residential",
+    "status": "Closed",
+    "address": "1577 RANDOL MILL AVE",
+    "description": "19.55 Kw DC + 20Kwh Battery back up"
+  }
+]

@@ -11,6 +11,13 @@ This directory contains detailed technical investigations of city permit portals
 
 ---
 
+### University Park
+**File:** `university_park.md`
+**Status:** ❌ NO PORTAL - skip city
+**Summary:** MyGov endpoint returns /notfound; city never enabled a public portal.
+
+---
+
 ## Report Format
 
 Each portal analysis includes:
@@ -36,4 +43,5 @@ Create a new analysis when:
 ## Related Documentation
 
 - `/AUTH_REQUIRED.md` - List of cities needing authentication
-- `/docs/plans/` - Implementation plans referencing these analyses
+- `/docs/archive/plans/` - Implementation plans referencing these analyses
+- `/docs/archive/portal-analysis/university_park_summary.txt` - Archived short summary (2026-02-05)

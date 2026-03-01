@@ -2,7 +2,7 @@
 """
 Lead Scoring - AI-Powered Sales Director Scoring (Standalone)
 
-Ported from contractor-auditor's scoring_v2.py.
+Ported from auditor's scoring_v2.py.
 
 Three-layer scoring system:
 1. Layer 1: Pre-filter (discard junk before AI sees it)

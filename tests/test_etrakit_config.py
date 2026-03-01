@@ -26,3 +26,14 @@ def test_the_colony_has_letter_prefixes():
     config = ETRAKIT_CITIES.get('the_colony')
     assert 'B' in config['prefixes'], "The Colony must have B prefix"
     assert 'B25' not in config['prefixes'], "The Colony should NOT have B25 prefix"
+
+
+def test_prosper_is_migrated_to_css_handoff():
+    """Prosper should route to Citizen Self Service, not eTRAKiT."""
+    from scrapers.etrakit import ETRAKIT_CITIES, MIGRATED_CITY_HANDOFFS
+
+    assert 'prosper' not in ETRAKIT_CITIES
+    handoff = MIGRATED_CITY_HANDOFFS.get('prosper')
+    assert handoff is not None
+    assert handoff['script'] == 'citizen_self_service.py'
+    assert handoff['city_arg'] == 'prosper'

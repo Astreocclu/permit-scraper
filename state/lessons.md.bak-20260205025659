@@ -1,0 +1,13 @@
+# Lessons Learned - Collections Agent
+
+This file grows over time. Read it EVERY session. NEVER repeat these mistakes.
+
+---
+
+*No lessons recorded yet. This file will grow as we learn.*
+
+## 2026-01-31: Provide full command blocks
+**What happened:** Gave users "go do X" instead of complete copy/paste commands.
+**Why it happened:** Assumed the user could translate steps into commands on their machine.
+**Prevention:** Always provide full command blocks for any user-executed steps (especially cross-host).
+**Status:** NEVER AGAIN

@@ -1,5 +1,7 @@
 # Permit Scraper TODO
 
+> [OBSERVED] This backlog has not been re-triaged since Dec 2024; keep entries as historical reference until a fresh planning session is scheduled. Day-to-day active priorities now live in `state/current.md`. [PROPOSED] When we kick off the next execution block, re-baseline these tasks against `SCRAPER_STATUS.md` and retire anything superseded by migration work.
+
 ## Priority Tasks
 
 - [ ] **Southlake Batch Scrape**: Complete execution of `southlake_residential_batch.py` to capture all 14 residential permit types

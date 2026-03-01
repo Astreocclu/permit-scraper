@@ -1,3 +1,15 @@
+<system_meta>
+  <id>collections-research-002</id>
+  <tags>
+    <agent>collections</agent>
+    <type>research</type>
+    <status>verified</status>
+    <project>docs</project>
+    <time>2026-02-27</time>
+  </tags>
+  <tldr>Researched Ellis County, TX CAD parcel data ArcGIS REST API endpoints. Found no working public API; all tested URLs timed out or returned errors, indicating server inaccessibility.</tldr>
+</system_meta>
+
 # Ellis County CAD ArcGIS REST API Research Results
 
 **Date:** 2025-12-12

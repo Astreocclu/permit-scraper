@@ -1,1 +1,1 @@
-"""Tests for permit-scraper."""
+"""Tests for Collections (permit scraping)."""

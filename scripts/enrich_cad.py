@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Standalone CAD Enrichment Script for permit-scraper.
-Ported from contractor-auditor/clients/management/commands/enrich_cad.py
+Standalone CAD Enrichment Script for Collections (permit scraping).
+Ported from auditor/clients/management/commands/enrich_cad.py
 
 Enriches permit data with property information from County Appraisal Districts:
 - Tarrant CAD (TAD)

@@ -104,8 +104,8 @@ If University Park becomes a priority for coverage:
 
 ## Related Files
 
-- `/home/reid/testhome/permit-scraper/scrapers/mygov_multi.py` - Remove university_park entry
-- `/home/reid/testhome/permit-scraper/docs/plans/2025-12-22-five-city-scrapers.md` - Task 4 (this investigation)
+- `/home/astre/command-center/src/greenlit/collections/scrapers/mygov_multi.py` - Remove university_park entry
+- `/home/astre/command-center/src/greenlit/collections/docs/archive/plans/2025-12-22-five-city-scrapers.md` - Task 4 (this investigation)
 
 ---
 

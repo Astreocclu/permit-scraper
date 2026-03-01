@@ -1,3 +1,26 @@
+<system_meta>
+  <id>collections-research-001</id>
+  <tags>
+    <agent>collections</agent>
+    <type>research</type>
+    <status>verified</status>
+    <project>docs</project>
+    <time>2026-02-27</time>
+  </tags>
+  <tldr>DFW permit scraper coverage: 24/106 municipalities (23%) working, covering ~70% of population.</tldr>
+</system_meta>
+<system_meta>
+  <id>collections-research-001</id>
+  <tags>
+    <agent>collections</agent>
+    <type>research</type>
+    <status>verified</status>
+    <project>docs</project>
+    <time>2026-02-27</time>
+  </tags>
+  <tldr>Investigated permit scraper coverage for 106 DFW municipalities. Key finding: current scrapers (24 cities) capture ~70% of metro population.</tldr>
+</system_meta>
+
 # DFW Municipalities Coverage Report
 
 Generated: 2024-12-13

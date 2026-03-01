@@ -118,30 +118,67 @@ Go to the Southlake EnerGov portal at https://energov.cityofsouthlake.com/EnerGo
 
 2. Click "Advanced" to open advanced search.
 
-3. Set date filters:
-   - Find "Issued Date" fields
-   - Set start date: {start_date}
-   - Set end date: {end_date}
+3. Set date filters using mm/dd/yyyy format:
+   - Issued Date From: 01/01/2023
+   - Issued Date To: 12/25/2024
 
-4. Click "Search" button.
+4. Click "Search" button and wait 5 seconds.
 
-5. CRITICAL: After results load, the portal may show old permits despite date filter.
-   - Find the "Issued Date" column header in the results table
-   - Click it TWICE to sort DESCENDING (newest first)
-   - Verify the top results show dates within your search range
+5. Sort by Issued Date descending:
+   - Select "Issued Date" from Sort dropdown
+   - Select "Descending" from order dropdown
 
-6. If "Export" button is available, click it to download Excel file.
-   Otherwise, scrape the first page of results.
+6. Set page size to 100 (via Paging Options).
 
-7. Extract up to 50 permits with these fields:
-   - permit_number (Case Number column)
-   - issue_date (Issued Date column)
-   - permit_type (Type column)
-   - status (Status column)
-   - address (Address column)
-   - description (Description column if available)
+7. EFFICIENT EXTRACTION - For each page:
+   a. Use extract tool with this SIMPLE query:
+      "Extract permit_number, issue_date, permit_type, status, address from all visible permit cards"
+   b. Extract in batches of 10
+   c. Scroll and extract more until page exhausted
+   d. Click Next to go to next page
+   e. Repeat until you have 200 permits or 10 pages
 
-Return the data as a valid JSON list of objects.
+8. Return all permits as JSON array.
+
+CRITICAL: Keep extraction queries SHORT. Just get: permit_number, issue_date, permit_type, status, address.
+Do NOT try complex nested queries.
+"""
+
+# New incremental saving template for DeepSeek compatibility
+INCREMENTAL_BULK_TEMPLATE = """GUIDELINES:
+1. Use browser actions only (navigate, click, input, scroll, extract) - avoid file operations
+2. CRITICAL: After EACH extract, use write_file to save the data to disk immediately
+3. Extract in small chunks (5-10 permits) to avoid JSON errors
+4. If extraction fails, simplify: just get permit_number and address first
+
+Go to the {city_name} EnerGov portal at {url}
+
+1. Select "Permit" from the Module dropdown.
+
+2. Click "Advanced" to open advanced search.
+
+3. Set date filters using mm/dd/yyyy format:
+   - Issued Date From: {start_date_formatted}
+   - Issued Date To: {end_date_formatted}
+
+4. Click "Search" button and wait for results.
+
+5. Sort by Issued Date descending (newest first) if sort option exists.
+
+6. EXTRACTION LOOP - For each page of results:
+   a. Use extract to get 5-10 permits: permit_number, issue_date, permit_type, status, address
+   b. IMMEDIATELY save using write_file:
+      - Filename: data/extracts/{city}_chunk_N.json (N = 1, 2, 3, etc.)
+      - Content: The JSON array from extraction
+   c. Scroll or click "Next" to load more permits
+   d. Repeat until you have 50 permits or no more pages
+
+7. When done, report:
+   - Total permits extracted
+   - Files saved (list the filenames)
+   - Any issues encountered
+
+DO NOT try to return all data in final response - just confirm files were saved.
 """
 
 THE_COLONY_DETAIL_TASK = EFFICIENCY_DIRECTIVE + """
@@ -743,3 +780,22 @@ def get_task_for_city(city: str, address: str = "", permit_type: str = "Building
         mgo_email=mgo_email,
         mgo_password=mgo_password
     )
+
+
+def update_city_task(city: str, new_task: str):
+    """Update the task template for a city (runtime only, not persisted)."""
+    CITY_TASKS[city.lower()] = new_task
+
+
+def get_task_with_hints(city: str, start_date: str, end_date: str, hints: list = None) -> str:
+    """Get task with additional hints from previous failure analysis."""
+    base_task = get_task_for_city(city, start_date=start_date, end_date=end_date)
+    if not base_task or not hints:
+        return base_task
+
+    hints_text = "\n".join(f"- {h}" for h in hints)
+    return f"""{base_task}
+
+IMPORTANT HINTS FROM PREVIOUS ATTEMPTS:
+{hints_text}
+"""

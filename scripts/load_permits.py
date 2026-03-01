@@ -154,11 +154,13 @@ def load_json_file(filepath: Path, conn) -> tuple[int, int]:
 
         # Parse property_value (convert to float)
         property_value = permit.get('property_value') or permit.get('value')
-        if property_value:
+        if property_value and str(property_value).strip():
             try:
                 property_value = float(str(property_value).replace(',', '').replace('$', ''))
             except (ValueError, TypeError):
                 property_value = None
+        else:
+            property_value = None  # Convert empty/blank strings to None
 
         pg_rows.append((
             permit_id,

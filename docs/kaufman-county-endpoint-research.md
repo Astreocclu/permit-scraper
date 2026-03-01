@@ -252,7 +252,7 @@ If year_built and square_feet are critical requirements, consider deprioritizing
 
 Full test script available at:
 ```
-/home/reid/testhome/permit-scraper/kaufman_endpoint_test.py
+/home/astre/command-center/src/greenlit/collections/kaufman_endpoint_test.py
 ```
 
 Run with:

@@ -11,6 +11,7 @@ Usage:
 import asyncio
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -33,11 +34,14 @@ ACCELA_CITIES = {
         'base_url': 'https://aca-prod.accela.com/DALLASTX',
         'search_path': '/Cap/CapHome.aspx?module=Building&TabName=Home',
     },
-    'grand_prairie': {
-        'name': 'Grand Prairie',
-        'base_url': 'https://aca-prod.accela.com/GPTX',
-        'search_path': '/Cap/CapHome.aspx?module=Building&TabName=Building',
-    },
+    # DEPRECATED: Grand Prairie migrated to EnerGov CSS (2025)
+    # Use citizen_self_service.py grand_prairie instead
+    # Old Accela portal (aca-prod.accela.com/GPTX) returns 404
+    # 'grand_prairie': {
+    #     'name': 'Grand Prairie',
+    #     'base_url': 'https://aca-prod.accela.com/GPTX',
+    #     'search_path': '/Cap/CapHome.aspx?module=Building&TabName=Building',
+    # },
     # BLOCKED: Duncanville Accela portal URL not publicly accessible
     # City has "Citizen Access Portal" mentioned on duncanvilletx.gov but no working Accela URL found
     # Tested patterns: aca-prod.accela.com/DVILLE, /DUNCANVILLE, /DUNCANVILLETX - all 404
@@ -49,6 +53,28 @@ ACCELA_CITIES = {
     #     'search_path': '/Cap/CapHome.aspx?module=Building&TabName=Building',
     # },
 }
+
+# Cities that used to run on Accela but moved to other portal types.
+# Keep this map so older runbooks/commands still work.
+MIGRATED_CITY_HANDOFFS = {
+    'grand_prairie': {
+        'name': 'Grand Prairie',
+        'script': 'citizen_self_service.py',
+        'city_arg': 'grand_prairie',
+        'reason': 'City migrated from Accela to EnerGov CSS',
+    },
+}
+
+
+def run_migrated_city_handoff(city_key: str, target_count: int) -> int:
+    """Delegate migrated-city runs to the owning scraper."""
+    handoff = MIGRATED_CITY_HANDOFFS[city_key]
+    script_path = Path(__file__).parent / handoff['script']
+    cmd = [sys.executable, str(script_path), handoff['city_arg'], str(target_count)]
+    print(f'INFO: {handoff["name"]} is no longer on Accela. {handoff["reason"]}.')
+    print(f'INFO: Delegating to: {" ".join(cmd)}')
+    result = subprocess.run(cmd, check=False)
+    return result.returncode
 
 async def extract_permits_from_page(page) -> list:
     """Extract permits directly from DOM tables - no LLM needed."""
@@ -118,8 +144,16 @@ async def extract_permits_from_page(page) -> list:
 async def scrape_fast(city_key: str, target_count: int = 1000):
     """Fast scrape using DOM extraction."""
     city_key = city_key.lower()
+    if city_key in MIGRATED_CITY_HANDOFFS:
+        rc = run_migrated_city_handoff(city_key, target_count)
+        if rc != 0:
+            print(f'ERROR: Delegated scraper exited with code {rc}')
+            sys.exit(rc)
+        return
+
     if city_key not in ACCELA_CITIES:
-        print(f'ERROR: Unknown city. Available: {list(ACCELA_CITIES.keys())}')
+        migrated = list(MIGRATED_CITY_HANDOFFS.keys())
+        print(f'ERROR: Unknown city. Accela cities: {list(ACCELA_CITIES.keys())}. Migrated cities: {migrated}')
         sys.exit(1)
 
     config = ACCELA_CITIES[city_key]

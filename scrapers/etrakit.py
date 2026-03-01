@@ -10,6 +10,7 @@ Usage:
 import asyncio
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -81,14 +82,16 @@ ETRAKIT_CITIES = {
     #     'prefixes': ['B25-', 'B24-'],
     #     'permit_regex': r'^[A-Z]\d{2}-\d{4,5}$',
     # },
-    'prosper': {
-        'name': 'Prosper',
-        'base_url': 'http://etrakit.prospertx.gov',
-        'search_path': '/eTRAKIT/Search/permit.aspx',
-        # Prosper uses type prefixes like Flower Mound - BP, EL, PL, ME, RO, RE, etc.
-        'prefixes': ['BP', 'RE', 'RO', 'EL', 'PL', 'ME', 'PO', 'FE', 'AC', 'HV', 'AD', 'SW'],
-        'permit_regex': r'^[A-Z]{2,4}[-\d]*\d{4,6}$',
-    },
+    # DEPRECATED: Prosper migrated to EnerGov CSS (Dec 2022)
+    # Use citizen_self_service.py prosper instead
+    # Old eTRAKiT portal (etrakit.prospertx.gov) is defunct
+    # 'prosper': {
+    #     'name': 'Prosper',
+    #     'base_url': 'http://etrakit.prospertx.gov',
+    #     'search_path': '/eTRAKIT/Search/permit.aspx',
+    #     'prefixes': ['BP', 'RE', 'RO', 'EL', 'PL', 'ME', 'PO', 'FE', 'AC', 'HV', 'AD', 'SW'],
+    #     'permit_regex': r'^[A-Z]{2,4}[-\d]*\d{4,6}$',
+    # },
     'the_colony': {
         'name': 'The Colony',
         'base_url': 'https://tcol-trk.aspgov.com',
@@ -103,10 +106,55 @@ ETRAKIT_CITIES = {
     },
 }
 
+# Cities that used to run on eTRAKiT but migrated to other portal types.
+# Keep this map so legacy commands can still complete.
+MIGRATED_CITY_HANDOFFS = {
+    'prosper': {
+        'name': 'Prosper',
+        'script': 'citizen_self_service.py',
+        'city_arg': 'prosper',
+        'reason': 'City migrated from eTRAKiT to EnerGov CSS (Dec 2022)',
+    },
+}
+
+
+def run_migrated_city_handoff(city_key: str, target_count: int) -> int:
+    """Delegate migrated-city runs to the owning scraper."""
+    handoff = MIGRATED_CITY_HANDOFFS[city_key]
+    script_path = Path(__file__).parent / handoff['script']
+    cmd = [sys.executable, str(script_path), handoff['city_arg'], str(target_count)]
+    print(f'INFO: {handoff["name"]} is no longer on eTRAKiT. {handoff["reason"]}.')
+    print(f'INFO: Delegating to: {" ".join(cmd)}')
+    result = subprocess.run(cmd, check=False)
+    return result.returncode
+
+
+async def goto_search_page(page, search_url: str, city_name: str, attempts: int = 3) -> None:
+    """
+    Navigate to eTRAKiT search page with timeout-safe waits.
+
+    `networkidle` is brittle on some portals due long-lived requests.
+    We use `domcontentloaded` plus an explicit search-input wait.
+    """
+    last_error = None
+    for attempt in range(1, attempts + 1):
+        try:
+            await page.goto(search_url, wait_until='domcontentloaded', timeout=60000)
+            await page.wait_for_selector('#cplMain_txtSearchString', timeout=25000)
+            return
+        except PlaywrightTimeout as exc:
+            last_error = exc
+            print(f'    WARN: {city_name} search page timeout (attempt {attempt}/{attempts})')
+            if attempt < attempts:
+                await asyncio.sleep(1.5 * attempt)
+    if last_error:
+        raise last_error
+    raise RuntimeError(f'{city_name} search page timed out')
+
 
 async def extract_permits_from_page(page, permit_regex: str = r'^[A-Z]{1,2}\d{2}-\d{5}$') -> list:
     """Extract permits directly from DOM - no LLM needed."""
-    return await page.evaluate('''(regex) => {
+    return await page.evaluate(r'''(regex) => {
         const permits = [];
         const rows = document.querySelectorAll('tr.rgRow, tr.rgAltRow');
         const permitPattern = new RegExp(regex);
@@ -279,8 +327,16 @@ async def extract_detail_address(page, permit_id: str) -> str:
 async def scrape_fast(city_key: str, target_count: int = 1000):
     """Fast scrape using DOM extraction, multiple year prefixes."""
     city_key = city_key.lower()
+    if city_key in MIGRATED_CITY_HANDOFFS:
+        rc = run_migrated_city_handoff(city_key, target_count)
+        if rc != 0:
+            print(f'ERROR: Delegated scraper exited with code {rc}')
+            sys.exit(rc)
+        return
+
     if city_key not in ETRAKIT_CITIES:
-        print(f'ERROR: Unknown city. Available: {list(ETRAKIT_CITIES.keys())}')
+        migrated = list(MIGRATED_CITY_HANDOFFS.keys())
+        print(f'ERROR: Unknown city. eTRAKiT cities: {list(ETRAKIT_CITIES.keys())}. Migrated cities: {migrated}')
         sys.exit(1)
 
     config = ETRAKIT_CITIES[city_key]
@@ -313,19 +369,38 @@ async def scrape_fast(city_key: str, target_count: int = 1000):
                 print(f'\n[{prefix}] Searching prefix "{prefix}"...')
 
                 # Load search page
-                await page.goto(f'{base_url}{search_path}', wait_until='networkidle', timeout=60000)
-                await asyncio.sleep(2)
+                search_url = f'{base_url}{search_path}'
+                await goto_search_page(page, search_url, config["name"])
+                await asyncio.sleep(1)
 
                 # Fill search
+                await page.wait_for_selector('#cplMain_txtSearchString', timeout=10000)
                 await page.fill('#cplMain_txtSearchString', prefix)
                 await asyncio.sleep(0.5)
 
                 # Click search
-                await page.click('input[id*="btnSearch"]')
-                await asyncio.sleep(4)
+                search_clicked = False
+                for selector in ['input[id*="btnSearch"]', 'button[id*="btnSearch"]', 'input[value="Search"]']:
+                    btn = await page.query_selector(selector)
+                    if btn:
+                        await btn.click()
+                        search_clicked = True
+                        break
+                if not search_clicked:
+                    raise RuntimeError(f'Could not find search button for {config["name"]}')
+
+                try:
+                    await page.wait_for_selector(
+                        'tr.rgRow, tr.rgAltRow, span.font12.italic, td.rgPagerCell, .rgNoRecords',
+                        timeout=20000
+                    )
+                except PlaywrightTimeout:
+                    # Continue; some prefixes legitimately return no rows.
+                    pass
+                await asyncio.sleep(1)
 
                 # Get page count
-                page_info = await page.evaluate('''() => {
+                page_info = await page.evaluate(r'''() => {
                     const span = document.querySelector('span.font12.italic');
                     if (span) {
                         const match = span.textContent.match(/page (\d+) of (\d+)/);
@@ -374,7 +449,11 @@ async def scrape_fast(city_key: str, target_count: int = 1000):
                     if not has_next:
                         break
 
-                    await asyncio.sleep(2)
+                    try:
+                        await page.wait_for_selector('tr.rgRow, tr.rgAltRow, .rgNoRecordsText', timeout=15000)
+                    except PlaywrightTimeout:
+                        pass
+                    await asyncio.sleep(1)
                     page_num += 1
 
                 print(f'    {prefix}: Got {len(prefix_permits)} permits')

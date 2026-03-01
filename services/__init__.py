@@ -1,1 +1,1 @@
-"""Services module for permit-scraper."""
+"""Services module for Collections (permit scraping)."""

@@ -132,6 +132,18 @@ CSS_CITIES = {
         'base_url': 'https://selfservice.duncanville.com/energov_prod/selfservice',
         # Duncanville uses EnerGov CSS (Dallas County)
     },
+    'grand_prairie': {
+        'name': 'Grand Prairie',
+        'base_url': 'https://egov.gptx.org/EnerGov_Prod/SelfService',
+        # Grand Prairie migrated from Accela to EnerGov CSS (2025)
+        # Portal has Search, Apply, Inspect functions
+    },
+    'prosper': {
+        'name': 'Prosper',
+        'base_url': 'https://prospertx-energovweb.tylerhost.net/apps/SelfService',
+        # Prosper migrated from eTRAKiT to EnerGov CSS (Dec 2022)
+        # Old eTRAKiT portal (etrakit.prospertx.gov) is defunct
+    },
 }
 
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')

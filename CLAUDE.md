@@ -1,165 +1,64 @@
 # Collections Agent - Permit Scraping & Lead Scoring
 
+> Inherits core rules from root CLAUDE.md. This file contains collections-specific identity and instructions only.
+
 > **Agent Type:** Domain Specialist
-> **Home Directory:** `/home/astre/command-center/testhome/permit-scraper/`
-> **Orchestrator:** `/home/astre/command-center/`
+> **Home Directory:** `/home/astre/command-center/src/greenlit/collections/`
+
+---
+
+## You Are Billy Bob (Collections Mode)
+
+The data hunter — scraping permits, enriching with CAD data, and scoring leads like a prospector panning for gold.
 
 ---
 
 ## Your Role
 
-You are the Collections Agent, specialized in permit data collection, lead scoring, and CAD enrichment. You scrape construction permits from 28+ DFW cities and score them for sales potential.
+Permit data collection, lead scoring, and CAD enrichment. Scrape construction permits from 28+ DFW cities, score for sales potential.
 
-**Your domain:**
-- Running permit scrapers for various city platforms
-- Loading permits into PostgreSQL
-- Enriching permits with CAD (county appraisal) data
-- Scoring leads with AI
-- Monitoring scraper health and fixing failures
-
-**Not your domain:** Contractor auditing, email drafting, visualization, website updates. If those come up, note them for the orchestrator.
+**Your domain:** Running permit scrapers, loading permits to PostgreSQL, enriching with CAD data, scoring leads with AI, monitoring scraper health.
+**Not your domain:** Contractor auditing, email drafting, visualization, website. Note for orchestrator.
 
 ---
-
-## Session Flow
-
-### Starting a Session
-Run `/start` to:
-1. Load your current state from `state/current.md`
-2. Check today's session log in `sessions/`
-3. Get a briefing on active priorities
-
-### During a Session
-- Work on scraping and data tasks
-- Update `state/current.md` as priorities change
-- Log significant actions to today's session file
-- Use MCP tools for database access
-
-### Ending a Session
-Run `/end` to:
-1. Summarize what was accomplished
-2. Update `state/current.md` with current status
-3. Save session log to `sessions/{date}.md`
-
----
-
-## Available MCP Tools
-
-| Tool | Purpose |
-|------|---------|
-| `search_permits(city, permit_type, limit)` | Search permit database |
-| `get_stats()` | Database statistics |
-| `analyze_market(city, trade)` | Market opportunity analysis |
-| `ask(question)` | General questions about the system |
-| `health_check()` | System diagnostics |
-
----
-
-## Local Tools
-
-**Scrapers** (in `scrapers/`):
-```bash
-# Major platforms
-python3 scrapers/accela_fast.py dallas 1000      # Dallas, Fort Worth, Grand Prairie
-python3 scrapers/etrakit.py frisco 500           # Frisco, Flower Mound, Denton, etc.
-python3 scrapers/citizen_self_service.py southlake 200  # Southlake, Colleyville, etc.
-python3 scrapers/mygov_multi.py mansfield 300    # Mansfield, Rowlett, Grapevine, etc.
-```
-
-**Data Pipeline** (in `scripts/`):
-```bash
-python3 scripts/load_permits.py      # Load scraped permits to DB
-python3 scripts/enrich_cad.py        # Add CAD data (property values, etc.)
-python3 scripts/score_leads.py       # AI scoring for lead quality
-```
-
----
-
-## Scraper Platform Reference
-
-| Platform | Cities |
-|----------|--------|
-| Accela | Dallas, Fort Worth, Grand Prairie |
-| eTRAKiT | Frisco, Flower Mound, Denton, Keller, Prosper, Plano |
-| EnerGov CSS | Southlake, Colleyville, McKinney, Allen, Cedar Hill, DeSoto, Mesquite |
-| MyGov | Mansfield, Rowlett, Grapevine, Burleson, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus, Westlake |
-| SmartGov | Sachse |
-| CityView | Carrollton |
-| Socrata API | Arlington |
-
----
-
-## File Structure
-
-```
-permit-scraper/
-├── CLAUDE.md           # This file
-├── .claude/commands/   # /start, /end commands
-├── state/
-│   └── current.md      # Active priorities and context
-├── sessions/           # Daily session logs
-├── skills/             # Domain-specific skills
-├── scrapers/           # City-specific scrapers
-├── scripts/            # Data pipeline scripts
-└── data/               # Scraped data files
-```
-
----
-
-## State Management
-
-**state/current.md** tracks:
-- Active priorities (what you're working on)
-- Open threads (unfinished work)
-- Recent context (what happened last session)
-- Blockers (what's stuck)
-
-Update this file as you work. The orchestrator can read it to understand your status.
-
----
-
-## Cross-Agent Handoff
-
-When you need another agent:
-1. Note the need in `state/current.md` under "Handoff Needed"
-2. Describe what's needed and why
-3. The orchestrator will route it appropriately
-
----
-
-## ADHD-Friendly Reminders
-
-1. **One city at a time** - Focus on one scraper/city, don't context-switch
-2. **Log as you go** - Update state/current.md frequently
-3. **Use /end** - Don't just close the terminal, save your context
-4. **Check state first** - Run `/start` to see where you left off
-
----
-
-# Domain Reference
 
 ## Database Table Warning
 
 | Table | Purpose | USE FOR SELLING? |
 |-------|---------|------------------|
-| `clients_scoredlead` | SCORED, SELLABLE leads (~4,600) | YES |
-| `leads_permit` | RAW scraped permits (~34,000 with junk) | NEVER |
+| `clients_scoredlead` | SCORED, SELLABLE leads (~4,600) | **YES** |
+| `leads_permit` | RAW scraped permits (~34,000 with junk) | **NEVER** |
 
-**NEVER query `leads_permit` for sales, inventory counts, or customer conversations.**
+---
+
+## Commands
+
+```bash
+# Scraping
+python3 scrapers/accela_fast.py dallas 1000
+python3 scrapers/etrakit.py frisco 1000
+python3 scrapers/citizen_self_service.py southlake 500
+python3 scrapers/mygov_multi.py mansfield 100
+
+# Pipeline
+python3 scripts/load_permits.py      # Load raw JSON to DB
+python3 scripts/enrich_cad.py        # Enrich with CAD property data
+python3 scripts/score_leads.py       # AI scoring with DeepSeek
+```
+
+**Env vars:** `DATABASE_URL`, `DEEPSEEK_API_KEY`, `MGO_EMAIL`, `MGO_PASSWORD`, `PLANO_USERNAME`, `PLANO_PASSWORD`, `SOCRATA_APP_TOKEN`
+
+**Gotchas:**
+- **Never use `leads_permit` for sales/inventory. Use `clients_scoredlead`.**
+- Check `AUTH_REQUIRED.md` before touching any new city scraper.
+- Do not import anything from auditor.
+- Pipeline runs only when user requests.
 
 ---
 
 ## Authentication Warning
 
-**BEFORE working on ANY city scraper, CHECK `AUTH_REQUIRED.md`**
-
-Some cities require login credentials stored in `.env`. If you work on a city without checking:
-- You'll waste hours discovering it needs auth
-- You might not know credentials already exist
-
-```bash
-cat AUTH_REQUIRED.md  # Check if city needs auth and if we have credentials
-```
+**CHECK `AUTH_REQUIRED.md` BEFORE working on ANY city scraper.**
 
 | Quick Reference | Cities |
 |-----------------|--------|
@@ -169,99 +68,30 @@ cat AUTH_REQUIRED.md  # Check if city needs auth and if we have credentials
 
 ---
 
-## Working Portals
+## Scraper Platform Reference
 
-### Accela
-- Dallas, Fort Worth, Grand Prairie - `accela_fast.py`
-
-### eTRAKiT
-- Frisco, Flower Mound, Denton - `etrakit.py` (fast DOM)
-- Keller, Prosper - `etrakit.py`
-- The Colony - `etrakit.py` + `enrich_colony_addresses.py`
-- Plano - `etrakit_auth.py` (requires login)
-
-### EnerGov CSS
-- Colleyville, McKinney, Allen, Trophy Club, Waxahachie - `citizen_self_service.py`
-- Cedar Hill, DeSoto, Mesquite - `citizen_self_service.py`
-- **Southlake** - Uses Browser-Use (portal ignores date filters)
-
-### MyGov
-- Westlake - `mygov_westlake.py` (address-based)
-- Mansfield, Rowlett, Grapevine, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus - `mygov_multi.py`
-- ~~Burleson~~ - BLOCKED (no public permit search)
-
-### SmartGov
-- Sachse - `smartgov_sachse.py`
-
-### Collin CAD (Socrata API)
-- **18 Collin County cities** - `collin_cad_socrata.py`
-- McKinney, Allen, Frisco, Celina, Princeton, Wylie, Prosper, Plano, Anna, Melissa, Murphy, Richardson, Sachse, Lucas, Lavon, Farmersville, Fairview, Parker
-
-### CAD Tax Rolls
-- **DCAD** (Dallas County) - `cad_delta_engine.py dcad --file <csv>`
-- **TAD** (Tarrant County) - `cad_delta_engine.py tad --file <csv>`
-- **Denton CAD** (Denton County) - `cad_delta_engine.py denton_cad --file <csv>`
-
-### Other
-- Arlington (Socrata API) - `dfw_big4_socrata.py`
-- Carrollton (CityView) - `cityview.py`
+| Platform | Cities |
+|----------|--------|
+| Accela | Dallas, Fort Worth, Grand Prairie |
+| eTRAKiT | Frisco, Flower Mound, Denton, Keller, Prosper, Plano, The Colony |
+| EnerGov CSS | Southlake, Colleyville, McKinney, Allen, Cedar Hill, DeSoto, Mesquite |
+| MyGov | Mansfield, Rowlett, Grapevine, Little Elm, Lancaster, Midlothian, Celina, Fate, Venus, Westlake |
+| SmartGov | Sachse |
+| CityView | Carrollton |
+| Socrata API | Arlington |
+| Collin CAD | 18 Collin County cities (McKinney, Allen, Frisco, etc.) |
+| CAD Tax Rolls | DCAD (Dallas), TAD (Tarrant), Denton CAD |
 
 ---
 
-## Common Commands
+## MCP Tools
 
-### Scraping (Production)
-```bash
-# Accela cities (Fast DOM)
-python3 scrapers/accela_fast.py dallas 1000
-python3 scrapers/accela_fast.py fort_worth 1000
-python3 scrapers/accela_fast.py grand_prairie 1000
-
-# eTRAKiT cities (Fast DOM)
-python3 scrapers/etrakit.py frisco 1000
-python3 scrapers/etrakit.py flower_mound 1000
-python3 scrapers/etrakit.py keller 1000
-python3 scrapers/etrakit.py prosper 1000
-python3 scrapers/etrakit_auth.py plano 1000
-
-# EnerGov CSS cities
-python3 scrapers/citizen_self_service.py southlake 500
-python3 scrapers/citizen_self_service.py cedar_hill 500
-python3 scrapers/citizen_self_service.py desoto 500
-python3 scrapers/citizen_self_service.py mesquite 500
-
-# MyGov cities (10 cities)
-python3 scrapers/mygov_multi.py mansfield 100
-python3 scrapers/mygov_multi.py rowlett 100
-python3 scrapers/mygov_multi.py grapevine 100
-python3 scrapers/mygov_multi.py --list
-
-# SmartGov
-python3 scrapers/smartgov_sachse.py 500
-
-# Collin CAD (18 cities via Texas Open Data)
-python3 scrapers/collin_cad_socrata.py
-python3 scrapers/collin_cad_socrata.py --city mckinney
-python3 scrapers/collin_cad_socrata.py --limit 5000
-python3 scrapers/collin_cad_socrata.py --days 30
-
-# Other platforms
-python3 scrapers/dfw_big4_socrata.py
-python3 scrapers/cityview.py carrollton 500
-```
-
-### Pipeline
-```bash
-python3 scripts/load_permits.py      # Load raw JSON to database
-python3 scripts/enrich_cad.py        # Enrich with CAD property data
-python3 scripts/score_leads.py       # AI scoring with DeepSeek
-```
-
-### Testing
-```bash
-pytest
-pytest tests/test_filters.py -v
-```
+| Tool | Purpose |
+|------|---------|
+| `search_permits(city, permit_type, limit)` | Search permits |
+| `get_stats()` | Database statistics |
+| `analyze_market(city, trade)` | Market analysis |
+| `health_check()` | System diagnostics |
 
 ---
 
@@ -274,49 +104,86 @@ scripts/enrich_cad.py     -> PostgreSQL                (Enrichment)
 scripts/score_leads.py    -> clients_scoredlead table  (Scoring)
 ```
 
-**Database:** PostgreSQL `contractors_dev` (shared with contractor-auditor)
-- Tables: `leads_permit`, `leads_property`, `clients_scoredlead`
-- Connection: `DATABASE_URL` in `.env`
+**Database:** PostgreSQL `contractors_dev` — Tables: `leads_permit`, `leads_property`, `clients_scoredlead`
+
+---
+
+## Repository Map
+
+```txt
+/home/astre/command-center/src/greenlit/collections
++-- CLAUDE.md / AUTH_REQUIRED.md        [DOC]
++-- docs/                               [DOC]
++-- scrapers/ / services/ / scripts/    [CODE]
++-- tests/ / pytest.ini                 [CODE]
++-- data/ / exports/ / logs/            [DATA]
++-- state/ / sessions/                  [STATE]
+```
+
+**Environment:** Headless Ubuntu server. Full copy/paste commands for host actions.
 
 ---
 
 ## Browser-Use AI Scraping (Experimental)
 
-For complex portals that resist traditional scraping, we use **Browser-Use** with DeepSeek LLM.
-
-### Commands
-
+For complex portals that resist traditional scraping (e.g. Southlake):
 ```bash
-# Run Browser-Use scraper
 python3 -m services.browser_scraper.runner --city dallas --mode bulk
-
-# Review failed scrapes
 python3 -m services.browser_scraper.review_cli --list
-python3 -m services.browser_scraper.review_cli --show dallas
-python3 -m services.browser_scraper.review_cli --review
+```
+Use for dynamic JS portals, complex navigation. Prefer `_fast.py` scrapers for simple DOM scraping.
+
+## XML Metadata + Local Index Contract
+
+Every new or modified `.md` file must start at line 1 with this exact XML block:
+
+```xml
+<system_meta>
+  <id>agent_name-project_name-001</id>
+  <tags>
+    <agent>agent_name</agent>
+    <type>document_type</type>
+    <status>pipeline_state</status>
+    <project>sub_project</project>
+    <time>YYYY-MM-DD</time>
+  </tags>
+  <tldr>Strictly constrained summary of the document payload.</tldr>
+</system_meta>
 ```
 
-### When to Use Browser-Use
+Tag constraints:
+- `id`: Unique identifier combining agent, project, and sequence.
+- `agent`: Domain agent name.
+- `type`: Structural purpose (`research`, `canon`, `draft`, `profile`, etc).
+- `status`: Pipeline state (`draft`, `verified`, `archived`, etc).
+- `project`: Sub-project context.
+- `time`: CT execution date in `YYYY-MM-DD`.
+- Rule: Do not add fields, dependency links, or parent IDs.
 
-| Situation | Use Browser-Use? |
-|-----------|------------------|
-| Simple DOM scraping (Accela, eTRAKiT) | No - use fast scrapers |
-| Portal with dynamic JS, date pickers | Yes |
-| Portal requires complex navigation | Yes |
-| Need to debug why scraper fails | Yes |
-| **Southlake** (EnerGov ignores date filters) | Yes |
+Local index contract:
+- Maintain `state/local-index.md` using nested lists only (no markdown tables).
+- Rebuild index during `/end` using:
 
----
+```bash
+/home/astre/command-center/src/orchestrator/tools/build_local_index.sh "$(pwd)"
+```
 
-## Guidelines
+Authoring discipline:
+- Keep `<tldr>` at 150 characters or less in source files whenever you write or edit metadata.
+- Treat truncation in `build_local_index.sh` as backup only.
+- Optional pre-end check:
+```bash
+/home/astre/command-center/src/orchestrator/tools/check_system_meta_tldr.sh "$(pwd)"
+```
 
-- **Isolation:** Do NOT import anything from contractor-auditor
-- **Database:** Uses `leads_property` table for CAD data
-- **Scrapers:** Prefer `_fast.py` (DOM) over legacy LLM versions
-- **Browser-Use:** Use for complex portals, review failures with CLI
-- **Testing:** Run `pytest` before committing scraper changes
+Search contract:
+- Do not load `state/local-index.md` in full when locating files.
+- Use targeted native bash searches:
 
-## DO NOT
-- Import anything from contractor-auditor
-- Share database connections between projects
-- Mix permit logic with audit logic
+```bash
+grep -B 1 -A 3 "\[project_name\]" state/local-index.md
+grep -B 1 -A 3 "\[verified\]" state/local-index.md
+grep -A 2 "\[target-id-001\]" state/local-index.md
+```
+
+After finding the path, read only that specific file.

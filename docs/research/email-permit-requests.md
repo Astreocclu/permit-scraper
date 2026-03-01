@@ -1,3 +1,26 @@
+<system_meta>
+  <id>collections-research-003</id>
+  <tags>
+    <agent>collections</agent>
+    <type>research</type>
+    <status>verified</status>
+    <project>docs</project>
+    <time>2026-02-27</time>
+  </tags>
+  <tldr>TPIA email request method for building permits in Highland Park, Anna, Fairview (cities lacking online portals).</tldr>
+</system_meta>
+<system_meta>
+  <id>collections-research-003</id>
+  <tags>
+    <agent>collections</agent>
+    <type>research</type>
+    <status>verified</status>
+    <project>docs</project>
+    <time>2026-02-27</time>
+  </tags>
+  <tldr>Research on using Texas Public Information Act (TPIA) email requests to obtain building permit data from cities lacking online portals. Targets: Highland Park, Anna, Fairview.</tldr>
+</system_meta>
+
 # Email-Based Permit Data Requests
 
 For cities without online search portals, Texas Public Information Act (TPIA) requests can be used to obtain permit data via email.

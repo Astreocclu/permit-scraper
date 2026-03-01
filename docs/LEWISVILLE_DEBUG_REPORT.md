@@ -200,7 +200,7 @@ if "Showing 0 to 0 of 0" in pagination_text:
 ---
 
 ## Files Involved
-- `/home/reid/testhome/permit-scraper/scrapers/mgo_connect.py` (Line 43: JID 325)
-- `/home/reid/testhome/permit-scraper/services/browser_scraper/permit_tasks.py` (MGO template)
+- `/home/astre/command-center/src/greenlit/collections/scrapers/mgo_connect.py` (Line 43: JID 325)
+- `/home/astre/command-center/src/greenlit/collections/services/browser_scraper/permit_tasks.py` (MGO template)
 - `/tmp/lewisville.log` (Dec 18 test)
 - `/tmp/claude/-home-reid-command-center/tasks/bff0bcb.output` (Dec 19 test)

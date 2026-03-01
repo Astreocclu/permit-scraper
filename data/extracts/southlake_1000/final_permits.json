@@ -1,0 +1,188 @@
+[
+  {
+    "permit_number": "CRET24-0047",
+    "issue_date": "12/23/2024",
+    "permit_type": "Concrete (Drive Approach)",
+    "status": "Closed",
+    "address": "4525 SODA RIDGE RD",
+    "description": "Concrete drive to garage"
+  },
+  {
+    "permit_number": "RADD24-0096",
+    "issue_date": "12/23/2024",
+    "permit_type": "Residential Addition Conditioned Space",
+    "status": "Closed",
+    "address": "1306 POWDER RIVER TRL",
+    "description": "Enclose Patio to provide additional living space. Remodel Kitchen moving sink 2' and replacing cabinets. NO FORM BOARD SURVEY REQUIRED"
+  },
+  {
+    "permit_number": "PLMB24-0300",
+    "issue_date": "12/23/2024",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Closed",
+    "address": "408 OAK RIDGE CT",
+    "description": "replacing copper pipes up to 5 foot tunnel to access. - Slab Leak Water Line Tunnel Repair up to 5 Ft."
+  },
+  {
+    "permit_number": "RPOOL24-0077",
+    "issue_date": "12/23/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "status": "Issued",
+    "address": "2050 SHADY OAKS DR",
+    "description": "Inground pool with fire feature appliance insert with fountain"
+  },
+  {
+    "permit_number": "HVAC24-0419",
+    "issue_date": "12/23/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "address": "2050 SHADY OAKS DR"
+  },
+  {
+    "permit_number": "WHTR24-0344",
+    "issue_date": "12/23/2024",
+    "permit_type": "Mechanical Permit (Residential)",
+    "address": "1036 SUMMERPLACE LN"
+  },
+  {
+    "permit_number": "ELEC24-0178",
+    "issue_date": "12/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "1209 OAKWOOD TRL"
+  },
+  {
+    "permit_number": "SIGN24-0257",
+    "issue_date": "12/20/2024",
+    "permit_type": "Sign - Temporary (Banner)",
+    "address": "2813 W SOUTHLAKE BLVD Unit: 110"
+  },
+  {
+    "permit_number": "NRES24-0051",
+    "issue_date": "12/20/2024",
+    "permit_type": "Sign - Temporary (Banner)",
+    "address": "2140 E SOUTHLAKE BLVD Unit: M"
+  },
+  {
+    "permit_number": "RFENC24-0081",
+    "permit_type": "Residential New Building (Single Family Home)",
+    "address": "1604 BURNEY LN"
+  },
+  {
+    "permit_number": "WHTR24-0334",
+    "issue_date": "12/06/2024",
+    "permit_type": "Plumbing Water Heater status:Closed address:1001 SOUTH HOLLOW DR description:Replace50gallon gas water heater",
+    "address": "1001 SOUTH HOLLOW DR description:Replace50gallon gas water heater"
+  },
+  {
+    "permit_number": "ROOF24-0239",
+    "issue_date": "12/06/2024",
+    "permit_type": "Residential Reroof status:Expired address:700 CIMARRON TRL description:Replace actual shingles with new shingles.",
+    "address": "1001 SOUTH HOLLOW DR description:Replace50gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0333",
+    "issue_date": "12/06/2024",
+    "permit_type": "Plumbing Water Heater status:Expired address:3301 GRAY LN description:INSTALL TWO ELECTRIC WATER HEATERS IN ATTIC AND OLD INTERIOR ROOM",
+    "address": "700 CIMARRON TRL description:Replace actual shingles with new shingles."
+  },
+  {
+    "permit_number": "ROOF24-0240",
+    "issue_date": "12/06/2024",
+    "permit_type": "Residential Reroof status:Expired address:1201 EARLSTON CT description:Roof Replacement",
+    "address": "1201 EARLSTON CT description:Roof Replacement"
+  },
+  {
+    "permit_number": "IRRG24-0071",
+    "issue_date": "12/05/2024",
+    "permit_type": "Irrigation (Commercial) status:Closed address:2530 E SH114 description:**Commercial Irrigation Installation**",
+    "address": "1201 EARLSTON CT description:Roof Replacement"
+  },
+  {
+    "permit_number": "WILD24-0001",
+    "issue_date": "02/28/2024",
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "307 PARKWOOD DR",
+    "description": "Establishment of a no-mow area to allow wildflowers to grow until approximately July."
+  },
+  {
+    "permit_number": "WHTR24-0343",
+    "issue_date": "12/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "309 TRAIL DUST DR",
+    "description": "TANK TO TANKLESS INSTALL"
+  },
+  {
+    "permit_number": "WHTR24-0342",
+    "issue_date": "12/18/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "204 CANYON LAKE DR",
+    "description": "replacing one water heater 5o gal"
+  },
+  {
+    "permit_number": "WHTR24-0340",
+    "issue_date": "12/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "2370 LONESOME DOVE AVE,"
+  },
+  {
+    "permit_number": "WHTR24-0339",
+    "issue_date": "12/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "1435 N PEYTONVILLE AVE,"
+  },
+  {
+    "permit_number": "WHTR24-0338",
+    "issue_date": "12/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "1795 KINGSWOOD DR,"
+  },
+  {
+    "permit_number": "TREP24-0085",
+    "issue_date": "12/20/2024",
+    "permit_type": "Fence - Pool Barrier (Residential)",
+    "address": "1331 PROVINCE LN"
+  },
+  {
+    "permit_number": "TREP24-0084",
+    "issue_date": "12/20/2024",
+    "permit_type": "Tree Protection (Residential) status:",
+    "address": "1214 WHISPERING LN"
+  },
+  {
+    "permit_number": "SIGN24-0254",
+    "issue_date": "12/20/2024",
+    "permit_type": "Tree Protection (Residential) status:",
+    "address": "2561 N WHITE CHAPEL BLVD"
+  },
+  {
+    "permit_number": "COMR24-0155",
+    "issue_date": "12/20/2024",
+    "permit_type": "Sign - Attached status:",
+    "address": "1450 MAIN ST"
+  },
+  {
+    "permit_number": "HVAC24-0418",
+    "issue_date": "12/20/2024",
+    "permit_type": "Commercial Remodel status:",
+    "address": "2104 E SH 114"
+  },
+  {
+    "permit_number": "NRES24-0056",
+    "issue_date": "12/19/2024",
+    "permit_type": "Mechanical Permit (Residential) status:",
+    "address": "1575 MAIN ST"
+  },
+  {
+    "permit_number": "PLMB24-0298",
+    "issue_date": "12/19/2024",
+    "permit_type": "Residential New Building (Single Family Home) status:",
+    "address": "2405 JOHNSON RD"
+  },
+  {
+    "permit_number": "SIGN24-0249",
+    "permit_type": "Plumbing Permit (Residential) status:",
+    "address": "708 ASHLEIGH LN"
+  }
+]

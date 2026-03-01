@@ -22,6 +22,8 @@ class ScrapeContext:
     screenshot_paths: list[str] = field(default_factory=list)  # Paths to saved PNG files
     task_description: str = ""  # Original task given to agent
     raw_history: Optional[str] = None  # Full history JSON for deep debugging
+    extracted_content: list[str] = field(default_factory=list)  # Content from extract actions (saved incrementally)
+    extracted_files: list[str] = field(default_factory=list)  # Paths to extracted_content_N.md files
 
     def needs_review(self) -> bool:
         """Return True if this scrape needs human/Claude review."""
@@ -39,3 +41,28 @@ class ScrapeContext:
     def from_dict(cls, data: dict) -> "ScrapeContext":
         """Create from dictionary (e.g., loaded from JSON)."""
         return cls(**data)
+
+
+@dataclass
+class AttemptRecord:
+    """Record of a single scraping attempt."""
+    attempt_num: int
+    timestamp: str
+    success: bool
+    error: Optional[str] = None
+    screenshot_paths: list[str] = field(default_factory=list)
+    actions_taken: list[str] = field(default_factory=list)
+    analysis: Optional[str] = None  # Claude's analysis of what went wrong
+    adjustment: Optional[str] = None  # What was changed for next attempt
+
+
+@dataclass
+class CityShepherdState:
+    """Track shepherding progress for a city."""
+    city: str
+    status: str  # "pending", "in_progress", "success", "failed", "blocked"
+    attempts: list[AttemptRecord] = field(default_factory=list)
+    current_task: Optional[str] = None  # The task template being used
+    task_adjustments: list[str] = field(default_factory=list)  # History of modifications
+    final_result: Optional[str] = None
+    permits_extracted: int = 0

@@ -2,8 +2,8 @@
 """
 One-time sync script to migrate SQLite data to PostgreSQL.
 
-This merges permit-scraper's SQLite data into the existing PostgreSQL
-tables managed by contractor-auditor Django models.
+This merges Collections' SQLite data into the existing PostgreSQL
+tables managed by auditor Django models.
 
 SQLite tables → PostgreSQL tables:
   permits      → leads_permit

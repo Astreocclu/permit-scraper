@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-12-24T15:06:10.379425",
+  "config": {
+    "runs_per_model": 1,
+    "models": [
+      "haiku"
+    ],
+    "test_cities": [
+      "southlake"
+    ]
+  },
+  "results": {
+    "haiku": [
+      {
+        "model": "haiku",
+        "city": "southlake",
+        "run": 1,
+        "success": false,
+        "done": false,
+        "errors": [
+          "Event handler browser_use.browser.watchdog_base.BrowserSession.on_BrowserStartEvent#0496(?\u25b6 BrowserStartEvent#84fa \ud83c\udfc3) timed out after 30.0s and interrupted any processing of 1 child events"
+        ],
+        "actions_count": 0,
+        "elapsed_seconds": 0,
+        "final_result": null
+      }
+    ]
+  },
+  "analysis": {
+    "haiku": {
+      "total_runs": 1,
+      "valid_runs": 1,
+      "successful": 0,
+      "success_rate": 0.0,
+      "avg_time_seconds": 0.0,
+      "total_time_seconds": 0,
+      "estimated_cost": 0.24,
+      "cost_per_success": Infinity
+    }
+  }
+}

@@ -1,0 +1,4183 @@
+[
+  {
+    "permit_number": "CRET24-0047",
+    "issue_date": "12/23/2024",
+    "permit_type": "Concrete (Drive Approach)",
+    "status": "Closed",
+    "address": "4525 SODA RIDGE RD",
+    "description": "Concrete drive to garage"
+  },
+  {
+    "permit_number": "RADD24-0096",
+    "issue_date": "12/23/2024",
+    "permit_type": "Residential Addition Conditioned Space",
+    "status": "Closed",
+    "address": "1306 POWDER RIVER TRL",
+    "description": "Enclose Patio to provide additional living space. Remodel Kitchen moving sink 2' and replacing cabinets. NO FORM BOARD SURVEY REQUIRED"
+  },
+  {
+    "permit_number": "PLMB24-0300",
+    "issue_date": "12/23/2024",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Closed",
+    "address": "408 OAK RIDGE CT",
+    "description": "replacing copper pipes up to 5 foot tunnel to access. - Slab Leak Water Line Tunnel Repair up to 5 Ft."
+  },
+  {
+    "permit_number": "RPOOL24-0077",
+    "issue_date": "12/23/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "status": "Issued",
+    "address": "2050 SHADY OAKS DR",
+    "description": "Inground pool with fire feature appliance insert with fountain"
+  },
+  {
+    "permit_number": "HVAC24-0419",
+    "issue_date": "12/23/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "address": "2050 SHADY OAKS DR"
+  },
+  {
+    "permit_number": "WHTR24-0344",
+    "issue_date": "12/23/2024",
+    "permit_type": "Mechanical Permit (Residential)",
+    "address": "1036 SUMMERPLACE LN"
+  },
+  {
+    "permit_number": "ELEC24-0178",
+    "issue_date": "12/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "1209 OAKWOOD TRL"
+  },
+  {
+    "permit_number": "SIGN24-0257",
+    "issue_date": "12/20/2024",
+    "permit_type": "Sign - Temporary (Banner)",
+    "address": "2813 W SOUTHLAKE BLVD Unit: 110"
+  },
+  {
+    "permit_number": "NRES24-0051",
+    "issue_date": "12/20/2024",
+    "permit_type": "Sign - Temporary (Banner)",
+    "address": "2140 E SOUTHLAKE BLVD Unit: M"
+  },
+  {
+    "permit_number": "RFENC24-0081",
+    "permit_type": "Residential New Building (Single Family Home)",
+    "address": "1604 BURNEY LN"
+  },
+  {
+    "permit_number": "WHTR24-0334",
+    "issue_date": "12/06/2024",
+    "permit_type": "Plumbing Water Heater status:Closed address:1001 SOUTH HOLLOW DR description:Replace50gallon gas water heater",
+    "address": "1001 SOUTH HOLLOW DR description:Replace50gallon gas water heater"
+  },
+  {
+    "permit_number": "ROOF24-0239",
+    "issue_date": "12/06/2024",
+    "permit_type": "Residential Reroof status:Expired address:700 CIMARRON TRL description:Replace actual shingles with new shingles.",
+    "address": "1001 SOUTH HOLLOW DR description:Replace50gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0333",
+    "issue_date": "12/06/2024",
+    "permit_type": "Plumbing Water Heater status:Expired address:3301 GRAY LN description:INSTALL TWO ELECTRIC WATER HEATERS IN ATTIC AND OLD INTERIOR ROOM",
+    "address": "700 CIMARRON TRL description:Replace actual shingles with new shingles."
+  },
+  {
+    "permit_number": "ROOF24-0240",
+    "issue_date": "12/06/2024",
+    "permit_type": "Residential Reroof status:Expired address:1201 EARLSTON CT description:Roof Replacement",
+    "address": "1201 EARLSTON CT description:Roof Replacement"
+  },
+  {
+    "permit_number": "IRRG24-0071",
+    "issue_date": "12/05/2024",
+    "permit_type": "Irrigation (Commercial) status:Closed address:2530 E SH114 description:**Commercial Irrigation Installation**",
+    "address": "1201 EARLSTON CT description:Roof Replacement"
+  },
+  {
+    "permit_number": "WILD24-0001",
+    "issue_date": "02/28/2024",
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "307 PARKWOOD DR",
+    "description": "Establishment of a no-mow area to allow wildflowers to grow until approximately July."
+  },
+  {
+    "permit_number": "WHTR24-0343",
+    "issue_date": "12/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "309 TRAIL DUST DR",
+    "description": "TANK TO TANKLESS INSTALL"
+  },
+  {
+    "permit_number": "WHTR24-0342",
+    "issue_date": "12/18/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "204 CANYON LAKE DR",
+    "description": "replacing one water heater 5o gal"
+  },
+  {
+    "permit_number": "WHTR24-0340",
+    "issue_date": "12/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "2370 LONESOME DOVE AVE,"
+  },
+  {
+    "permit_number": "WHTR24-0339",
+    "issue_date": "12/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "1435 N PEYTONVILLE AVE,"
+  },
+  {
+    "permit_number": "WHTR24-0338",
+    "issue_date": "12/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "address": "1795 KINGSWOOD DR,"
+  },
+  {
+    "permit_number": "TREP24-0085",
+    "issue_date": "12/20/2024",
+    "permit_type": "Fence - Pool Barrier (Residential)",
+    "address": "1331 PROVINCE LN"
+  },
+  {
+    "permit_number": "TREP24-0084",
+    "issue_date": "12/20/2024",
+    "permit_type": "Tree Protection (Residential) status:",
+    "address": "1214 WHISPERING LN"
+  },
+  {
+    "permit_number": "SIGN24-0254",
+    "issue_date": "12/20/2024",
+    "permit_type": "Tree Protection (Residential) status:",
+    "address": "2561 N WHITE CHAPEL BLVD"
+  },
+  {
+    "permit_number": "COMR24-0155",
+    "issue_date": "12/20/2024",
+    "permit_type": "Sign - Attached status:",
+    "address": "1450 MAIN ST"
+  },
+  {
+    "permit_number": "HVAC24-0418",
+    "issue_date": "12/20/2024",
+    "permit_type": "Commercial Remodel status:",
+    "address": "2104 E SH 114"
+  },
+  {
+    "permit_number": "NRES24-0056",
+    "issue_date": "12/19/2024",
+    "permit_type": "Mechanical Permit (Residential) status:",
+    "address": "1575 MAIN ST"
+  },
+  {
+    "permit_number": "PLMB24-0298",
+    "issue_date": "12/19/2024",
+    "permit_type": "Residential New Building (Single Family Home) status:",
+    "address": "2405 JOHNSON RD"
+  },
+  {
+    "permit_number": "SIGN24-0249",
+    "permit_type": "Plumbing Permit (Residential) status:",
+    "address": "708 ASHLEIGH LN"
+  },
+  {
+    "permit_number": "RPOOL24-0003",
+    "issue_date": "01/30/2024",
+    "permit_type": "Pool (Residential)",
+    "status": "Closed",
+    "address": "825 E DOVE RD",
+    "description": "In-Ground Swimming Pool/Spa ONLY (Fire Feature/Grill/Kitchen - REMOVED FROM SCOPE OF WORK 3/21/2024)"
+  },
+  {
+    "permit_number": "PLMB24-0035",
+    "issue_date": "01/29/2024",
+    "permit_type": "Plumbing Permit (Residential)",
+    "status": "Expired",
+    "address": "1355 BENT TRAIL CIR",
+    "description": "gas line installation- Heat Pump to swimming pool"
+  },
+  {
+    "permit_number": "DEMO24-0003",
+    "issue_date": "01/29/2024",
+    "permit_type": "Demolition (Residential)",
+    "status": "Closed",
+    "address": "300 FOXBOROUGH LN",
+    "description": "Remove current in ground swimming pool.-"
+  },
+  {
+    "permit_number": "RPOOL24-0004",
+    "issue_date": "01/26/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "status": "Issued",
+    "address": "2612 CANOPY CT",
+    "description": "Installation of gunite pool and spa"
+  },
+  {
+    "permit_number": "RADD23-0116",
+    "issue_date": "01/24/2024",
+    "permit_type": "Residential Addition Conditioned & Uncond",
+    "status": "Expired",
+    "address": "1584 RANDOL MILL AVE",
+    "description": "Adding: Master bed, bath, Pool bath, Laundry rm, expanding Kitchen. New mother-in-law's quarters, new 2 car Garage. Remodeling old garage to Family room, pantry, kitchen remodel. Extending the front Porch cover. Adding new 620 sf back attached Patio cover"
+  },
+  {
+    "permit_number": "RPOOL24-0002",
+    "issue_date": "01/24/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "status": "Closed",
+    "address": "2405 AMELIA ISLAND PATH",
+    "description": "Building a Pool and Outdoor Kitchen and Fire Pit"
+  },
+  {
+    "permit_number": "RPOOL24-0001",
+    "issue_date": "01/22/2024",
+    "permit_type": "Pool & Spa (Residential)",
+    "status": "Closed",
+    "address": "300 SANCTUARY CIR",
+    "description": "Installation of gunite pool/spa. With fire pit"
+  },
+  {
+    "permit_number": "COMR23-0157",
+    "issue_date": "01/17/2024",
+    "permit_type": "Commercial Remodel",
+    "status": "CO Issued",
+    "address": "2301 W SOUTHLAKE BLVD Unit:",
+    "description": ""
+  },
+  {
+    "permit_number": "TREP23-0090"
+  },
+  {
+    "permit_number": "WT-2019",
+    "issue_date": "04/22/2002",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "2701 E SH 114 SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE INSPSECTION"
+  },
+  {
+    "permit_number": "WT-2018",
+    "issue_date": "04/03/2002",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "613 FAIRWAY VIEW TER SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2017",
+    "issue_date": "02/18/2002",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1360 SHADY OAKS DR SOUTHLAKE TX 76092",
+    "description": "Description: SHEATHING INSPECTION SPECIAL INSPECTION"
+  },
+  {
+    "permit_number": "WT-2016",
+    "issue_date": "01/14/2002",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "111 S VILLAGE CENTER DR SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE IMSPECTION"
+  },
+  {
+    "permit_number": "WT-2015",
+    "issue_date": "11/02/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1230 W CONTINENTAL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL WALL TIE"
+  },
+  {
+    "permit_number": "WT-2014",
+    "issue_date": "09/28/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "425 E SOUTHLAKE BLVD SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL INSPECTION SHEATHING"
+  },
+  {
+    "permit_number": "WT-2013",
+    "issue_date": "08/08/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "611 S WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2012",
+    "issue_date": "07/30/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "2535 E SOUTHLAKE BLVD SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL INSPECTION BRICK TIE"
+  },
+  {
+    "permit_number": "WT-2011",
+    "issue_date": "07/27/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1312 OAKHURST DR SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL INSPECTION"
+  },
+  {
+    "permit_number": "WT-2010",
+    "issue_date": "06/20/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "2755 FLORENCE RD SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL INSPECTION BRICK TIES"
+  },
+  {
+    "permit_number": "WT-2009",
+    "issue_date": "06/11/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1333 EAGLE BEND SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE"
+  },
+  {
+    "permit_number": "WT-2008",
+    "issue_date": "06/08/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "615 BREWER RD SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL INSPECTION SHEATHING"
+  },
+  {
+    "permit_number": "WT-2007",
+    "issue_date": "06/05/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1636 BYRON NELSON PKWY SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2006",
+    "issue_date": "05/14/2001",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "2354 E SH 114 SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2005",
+    "issue_date": "11/02/2000",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "3100 E SOUTHLAKE BLVD SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2004",
+    "issue_date": "10/09/2000",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "101 N KIMBALL AVE SOUTHLAKE TX 76092",
+    "description": "Description: SHEATHING & PARTIAL ELECTRICAL INSPEC."
+  },
+  {
+    "permit_number": "WT-2003",
+    "issue_date": "08/11/2000",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1404 LAUREL LN SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2002",
+    "issue_date": "08/09/2000",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "1200 STANHOPE CT SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIES/SHEATHING INSPECTION"
+  },
+  {
+    "permit_number": "WT-2001",
+    "issue_date": "06/22/2000",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "712 KENT CT SOUTHLAKE TX 76092",
+    "description": "Description: SPECIAL WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WT-2000",
+    "issue_date": "03/17/2000",
+    "permit_type": "Historical - Historical",
+    "status": "Closed",
+    "address": "608 INDIAN PAINTBRUSH WAY SOUTHLAKE TX 76092",
+    "description": "Description: WALL TIE INSPECTION"
+  },
+  {
+    "permit_number": "WILD17-0043",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3360 HILLSIDE DR SOUTHLAKE TX 76092",
+    "description": "Application Name: Wildflower area\nAssigned To Staff: Cheryl Cooper\nDescription: Wildflowers have been sewn as described on the attached map and during the growing season we mow around the flowers but do not mow them while in bloom. We do maintain boundary around the wildflower area."
+  },
+  {
+    "permit_number": "WILD16-0070",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1591 RANDOL MILL AVE SOUTHLAKE TX 76092",
+    "description": "Application Name: Loma Vista Addition\n"
+  },
+  {
+    "permit_number": "WILD16-0036",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3360 HILLSIDE DR SOUTHLAKE TX 76092",
+    "description": "Application Name: Grace Estates Addition\n"
+  },
+  {
+    "permit_number": "WILD15-0013",
+    "issue_date": "03/20/2015",
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3360 HILLSIDE DR SOUTHLAKE TX 76092",
+    "description": "Application Name: Grace Estates\n"
+  },
+  {
+    "permit_number": "WILD14-0001",
+    "issue_date": "01/27/2014",
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3360 HILLSIDE DR SOUTHLAKE TX 76092",
+    "description": "Description: We sew Texas wildflowers as described on the attached map and during the growing season we mow around the flower but do not mow them down until after the blooming season."
+  },
+  {
+    "permit_number": "WILD13-0018",
+    "issue_date": "02/11/2013",
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3360 HILLSIDE DR SOUTHLAKE TX 76092",
+    "description": "Application Name: 3360 Hillside Dr.\nDescription: Wildflower permit for the establishment of wildflowers in a section of the applicants yard. South portion of the yard."
+  },
+  {
+    "permit_number": "WILD09-0112",
+    "issue_date": "05/01/2009",
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1201 CYPRESS CREEK CIR SOUTHLAKE TX 76092",
+    "description": "Description: area outside fence along peytonville rd primarily south of gate/driveway - the area  will be re done in the fall on the north end"
+  },
+  {
+    "permit_number": "WILD-7",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "400 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-6",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1201 VILLAGE GREEN DR SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-5",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3001 JOHNSON RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-4",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "400 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-3",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1225 MCCRAE TRL SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-2",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3901 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1031",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "823 S PEYTONVILLE AVE SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1030",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "801 S PEYTONVILLE AVE SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1029",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1201 CYPRESS CREEK CIR SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1028",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "823 S PEYTONVILLE AVE SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1027",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3001 JOHNSON RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1026",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "400 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEIHT MARTIN"
+  },
+  {
+    "permit_number": "WILD-1025",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1225 MCCRAE TRL SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1024",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3901 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1023",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "590 E DOVE RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1022",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1725 W CONTINENTAL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1021",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3901 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1020",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "400 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1019",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1225 MCCRAE TRL SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1018",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3001 JOHNSON RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1017",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "590 E DOVE RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1016",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1725 W CONTINENTAL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1014",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "2502 HILLSIDE CT SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1013",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1201 CYPRESS CREEK CIR SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1012",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1725 W CONTINENTAL BLVD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1011",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "590 E DOVE RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1010",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3001 JOHNSON RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1009",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "3901 N WHITE CHAPEL BLVD SOUTHLAKE TX 76092",
+    "description": "nan"
+  },
+  {
+    "permit_number": "WILD-1008",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "1225 MCCRAE TRL SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WILD-1",
+    "issue_date": NaN,
+    "permit_type": "Wildflower",
+    "status": "Closed",
+    "address": "590 E DOVE RD SOUTHLAKE TX 76092",
+    "description": "Description: KEITH MARTIN"
+  },
+  {
+    "permit_number": "WHTR25-0339",
+    "issue_date": "12/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "224 CANYON LAKE DR",
+    "description": "INSTALL (1) 50 GAL GAS WATER HEATER IN GARAGE CLOSET (CHANGE OUT)"
+  },
+  {
+    "permit_number": "WHTR25-0338",
+    "issue_date": "12/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1325 EAGLE BEND",
+    "description": "Replace 2 - 50 gal gas water heaters in the garage"
+  },
+  {
+    "permit_number": "WHTR25-0337",
+    "issue_date": "12/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "806 WENTWOOD DR",
+    "description": "water heater replacement 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0336",
+    "issue_date": "12/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1206 W CONTINENTAL BLVD",
+    "description": "replace 2- existing tankless water heaters- SWAP OUT"
+  },
+  {
+    "permit_number": "WHTR25-0335",
+    "issue_date": "12/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1213 WOOD CREEK LN",
+    "description": "install 1 50-gal gas water heater in garage closet"
+  },
+  {
+    "permit_number": "WHTR25-0334",
+    "issue_date": "12/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1108 TEALWOOD CT",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0333",
+    "issue_date": "12/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "307 SOUTHRIDGE LAKES PKWY",
+    "description": "INSTALL (1) 50 GAL GAS WATER HEATER IN ATTIC (CHANGE OUT)"
+  },
+  {
+    "permit_number": "WHTR25-0332",
+    "issue_date": "12/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "415 SOUTHVIEW TRL",
+    "description": "replacing one water heater 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0331",
+    "issue_date": "12/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "511 FOX GLENN",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0329",
+    "issue_date": "12/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "805 HUNTINGTON CT",
+    "description": "replacing one water heater 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0328",
+    "issue_date": "12/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "642 CASTLE ROCK DR",
+    "description": "water heater 50 gal replacement"
+  },
+  {
+    "permit_number": "WHTR25-0327",
+    "issue_date": "12/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "409 STOCKTON DR",
+    "description": "50 gal water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0326",
+    "issue_date": "12/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "4356 HOMESTEAD DR",
+    "description": "Install electric water heater"
+  },
+  {
+    "permit_number": "WHTR25-0325",
+    "issue_date": "12/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "902 CANTERBURY CT",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0324",
+    "issue_date": "12/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "806 HANOVER DR",
+    "description": "Replace two 50 gallon gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR25-0323",
+    "issue_date": "12/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "516 FOX GLENN",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0322",
+    "issue_date": "12/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "620 FAIRWAY VIEW TER",
+    "description": "replace a tankless water heater in attice"
+  },
+  {
+    "permit_number": "WHTR25-0321",
+    "issue_date": "12/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1204 PLANTATION DR",
+    "description": "Replaced tankless water heater in attic above Master bath"
+  },
+  {
+    "permit_number": "WHTR25-0320",
+    "issue_date": "12/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "803 PARKCREST CT",
+    "description": "Replace tankless with new tankless"
+  },
+  {
+    "permit_number": "WHTR25-0319",
+    "issue_date": "11/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "605 LOGANS LN",
+    "description": "water heater replacement 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0318",
+    "issue_date": "11/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "4101 SOUTH FORK RD",
+    "description": "replacing 3 water heaters 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0317",
+    "issue_date": "11/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1221 WYNDHAM HILL LN",
+    "description": "Special Instructions:2 water heater replacement 10  year and up grade the recirculation plumbing. 2 new Bradford, white 50 gallon gas water heaters and New supply lines new gas flexs we will be hauling off the existing water heaters. And Ensure that everything is working properly 10 year warranty. Also Install two new customer supplied toilets."
+  },
+  {
+    "permit_number": "WHTR25-0316",
+    "issue_date": "11/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "805 SHORECREST CT",
+    "description": "Replacing two (2) 50 gallon gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR25-0315",
+    "issue_date": "11/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1628 TUSCAN RIDGE CIR",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0314",
+    "issue_date": "11/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "225 BENT CREEK CT",
+    "description": "Replaced 2-50 gallon gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR25-0313",
+    "issue_date": "11/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3191 HILLTOP DR",
+    "description": "install (1) 50 gal gas in garage closet (change out)"
+  },
+  {
+    "permit_number": "WHTR25-0312",
+    "issue_date": "11/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "107 SAN JACINTO CT",
+    "description": "TANKLESS INSTALL W/ MEDIUM PRESSURE GAS UPGRADES"
+  },
+  {
+    "permit_number": "WHTR25-0311",
+    "issue_date": "11/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1205 SAN AUGUSTINE CT",
+    "description": "water heater repalcement 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0310",
+    "issue_date": "11/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1409 MAYFAIR PL",
+    "description": "INSTALL (1) 50 GAL GAS WATER HEATER IN ATTIC (CHANGE OUT)"
+  },
+  {
+    "permit_number": "WHTR25-0309",
+    "issue_date": "11/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1625 MOCKINGBIRD LN",
+    "description": "50 gallon gas water heater in laundry room closet"
+  },
+  {
+    "permit_number": "WHTR25-0308",
+    "issue_date": "11/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2009 VAIL RD",
+    "description": "removing 2 50 gal water heaters and installing a tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0307",
+    "issue_date": "11/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1014 BRAZOS DR",
+    "description": "INSTALL (1) 50 GAL GAS WATER HEATER IN CLOSET (CHANGE OUT)"
+  },
+  {
+    "permit_number": "WHTR25-0306",
+    "issue_date": "11/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "719 ABERDEEN WAY",
+    "description": "Replaced 1 tankless water heater in attic\nReplaced 1 50 gallon gas water heater in garage closet"
+  },
+  {
+    "permit_number": "WHTR25-0303",
+    "issue_date": "11/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1201 BRAZOS DR",
+    "description": "Install two (2) Navien tankless water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0302",
+    "issue_date": "11/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "506 GLENBROOK CT",
+    "description": "install (1) 40 gal gas water heater in attic (change out)"
+  },
+  {
+    "permit_number": "WHTR25-0301",
+    "issue_date": "11/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1804 LEEDS DR",
+    "description": "Install 50 gal gas water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0300",
+    "issue_date": "11/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2810 LINDEN LN",
+    "description": "Replacing 50 gallon electric water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0299",
+    "issue_date": NaN,
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "2810 LINDEN LN",
+    "description": "Replacing 50 gallon gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0298",
+    "issue_date": "11/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2408 TAYLOR ST",
+    "description": "install (1) 50 gal gas water heater in garage cubby (change out)"
+  },
+  {
+    "permit_number": "WHTR25-0297",
+    "issue_date": "11/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "724 SAXON TRL",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0296",
+    "issue_date": "11/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "511 REGENCY CROSSING",
+    "description": "water heater X2"
+  },
+  {
+    "permit_number": "WHTR25-0295",
+    "issue_date": "11/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "204 MARIE CIR",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0294",
+    "issue_date": "10/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1610 PECOS DR",
+    "description": "replacing one water heater 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0293",
+    "issue_date": "10/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1905 CRESSON DR",
+    "description": "Replace gas tankless water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0292",
+    "issue_date": "10/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "232 MARIE CIR",
+    "description": "Replacing gas tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0291",
+    "issue_date": "10/27/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1734 TUSCAN RIDGE CIR",
+    "description": "install (1) 50 gal gas water heater in attic (change out)"
+  },
+  {
+    "permit_number": "WHTR25-0290",
+    "issue_date": "10/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1415 PARK PL",
+    "description": "Install Rinnai tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0289",
+    "issue_date": "10/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "200 E CONTINENTAL BLVD",
+    "description": "Replace tankless water heater for master bath area."
+  },
+  {
+    "permit_number": "WHTR25-0288",
+    "issue_date": "10/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "800 RIDGEDALE CT",
+    "description": "Replace gas 40/59 gallon water heater."
+  },
+  {
+    "permit_number": "WHTR25-0287",
+    "issue_date": "10/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "112 KILLDEER CT",
+    "description": "Install 50 Gallon Gas Water Heater in Attic (Swap Out)"
+  },
+  {
+    "permit_number": "WHTR25-0286",
+    "issue_date": "10/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1310 PECOS DR",
+    "description": "Replace 50 Natgas water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0285",
+    "issue_date": "10/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "500 LORRAINE DR",
+    "description": "tankless water heater replacement/swapout"
+  },
+  {
+    "permit_number": "WHTR25-0284",
+    "issue_date": "10/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1362 WHITE WING CT",
+    "description": "install (1) 50 gal gas water heater in garage closet (change out)"
+  },
+  {
+    "permit_number": "WHTR25-0283",
+    "issue_date": "10/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1013 SOUTH HOLLOW DR",
+    "description": "Replace 50 gal gas w/h in interior closet"
+  },
+  {
+    "permit_number": "WHTR25-0282",
+    "issue_date": "10/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "436 CHAPEL DOWNS CT",
+    "description": "Install 2 tankless gas water heaters in attic."
+  },
+  {
+    "permit_number": "WHTR25-0281",
+    "issue_date": "10/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "905 SILVERTON ST",
+    "description": "Remove two tank water heaters and Install two tankless water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0280",
+    "issue_date": "10/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1202 NORMANDY DR",
+    "description": "Tankless water heater located in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0279",
+    "issue_date": "10/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "728 SAXON TRL",
+    "description": "We will be putting in two 50 gallon gas water heaters located in the attic."
+  },
+  {
+    "permit_number": "WHTR25-0278",
+    "issue_date": "09/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "101 YALE CT",
+    "description": "Install 50 gal gas water heater in attic above the garage with flood stop"
+  },
+  {
+    "permit_number": "WHTR25-0277",
+    "issue_date": "09/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "507 MORNINGSIDE DR",
+    "description": "Replacing 2 gas water heaters in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0276",
+    "issue_date": "09/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "921 EMERALD BLVD",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0275",
+    "issue_date": "09/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1130 TAYLOR ST",
+    "description": "Install 50 gallon gas water heater in the closet near the kitchen"
+  },
+  {
+    "permit_number": "WHTR25-0274",
+    "issue_date": "09/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1016 COOL RIVER DR",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0273",
+    "issue_date": "09/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "109 RIVER OAKS DR Unit: 100",
+    "description": "6 gal electric water heaterincloset"
+  },
+  {
+    "permit_number": "WHTR25-0272",
+    "issue_date": "09/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "604 CONCHO CT",
+    "description": "40 gallon gas mid-size water heater"
+  },
+  {
+    "permit_number": "WHTR25-0271",
+    "issue_date": "09/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "904 HILLCREST TRL",
+    "description": "Replacing one (1) 50 gallon gas water heater & one (1) 50 gallon electric water heater"
+  },
+  {
+    "permit_number": "WHTR25-0270",
+    "issue_date": "09/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2116 KIMBALL HILL CT",
+    "description": "Replace  two 50-gallon Gas water heaters in closet next to back yard"
+  },
+  {
+    "permit_number": "WHTR25-0269",
+    "issue_date": "09/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "2155 ESTES PARK DR",
+    "description": "2- 50 gallon gas water heater change out in attic"
+  },
+  {
+    "permit_number": "WHTR25-0268",
+    "issue_date": NaN,
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "604 CONCHO CT",
+    "description": "Install a high efficiency natural gas tankless water heater. Save space, enjoy continuous hot water, and start saving on energy from day one.\n\nNavien NPE-240A2\n2 YEAR WARRANTY parts and labor\nLess time waiting for hot water due to recirculation\nWill require permit and inspection"
+  },
+  {
+    "permit_number": "WHTR25-0267",
+    "issue_date": "09/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "105 SURREY CT",
+    "description": "install (1) 50 gal gas water heater in 2nd floor closet (change out)"
+  },
+  {
+    "permit_number": "WHTR25-0266",
+    "issue_date": "09/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "522 QUEENSBURY TURN",
+    "description": "Replacing two (2) 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0265",
+    "issue_date": "09/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1901 CRESSON DR",
+    "description": "Replace 50 gal Gas wtr heater"
+  },
+  {
+    "permit_number": "WHTR25-0264",
+    "issue_date": "09/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "900 SILVERTON ST",
+    "description": "install (1) rinnai 11.2 gas tankless water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0263",
+    "issue_date": "09/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1319 WESTMONT CT",
+    "description": "replacing 2 water heaters 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0262",
+    "issue_date": "09/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1028 SUMMERPLACE LN",
+    "description": "water heater 50 gallon electric"
+  },
+  {
+    "permit_number": "WHTR25-0258",
+    "issue_date": "09/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "910 AARON WAY",
+    "description": "tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0257",
+    "issue_date": "09/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3025 BRIAR LN",
+    "description": "replacing 2 water heaters 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0256",
+    "issue_date": "09/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "500 CLAYTON CT",
+    "description": "Replace one (1) 50 gal gas water heater in garage"
+  },
+  {
+    "permit_number": "WHTR25-0255",
+    "issue_date": "09/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1009 SOUTHLAKE HILLS DR",
+    "description": "Replace two (2) 50 gal gas water heaters in the garage"
+  },
+  {
+    "permit_number": "WHTR25-0254",
+    "issue_date": "09/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "105 HARVARD DR",
+    "description": "50 gal gas in attic"
+  },
+  {
+    "permit_number": "WHTR25-0253",
+    "issue_date": "09/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "707 SHADOW GLEN DR",
+    "description": "1-50 gallon gas heater in garage"
+  },
+  {
+    "permit_number": "WHTR25-0252",
+    "issue_date": "09/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1435 BENT TRAIL CIR",
+    "description": "Replace 2 tanked water heaters with Tankless, Walk in attic access"
+  },
+  {
+    "permit_number": "WHTR25-0251",
+    "issue_date": "09/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1403 CHIMNEY WORKS DR",
+    "description": "Replace 50 gal gas water heater in attic."
+  },
+  {
+    "permit_number": "WHTR25-0250",
+    "issue_date": "09/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1380 BENT TRAIL CIR",
+    "description": "replace 2- tankless water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0249",
+    "issue_date": "09/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2237 COTSWOLD VALLEY CT",
+    "description": "replace 1- 50 gallon gas water heater in garage"
+  },
+  {
+    "permit_number": "WHTR25-0248",
+    "issue_date": "08/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "110 SAN JACINTO CT",
+    "description": "Replacing 2 gas water heaters; one in the attic and one in the garage"
+  },
+  {
+    "permit_number": "WHTR25-0247",
+    "issue_date": "08/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1213 SABINE CT",
+    "description": "install (1) 50 gal gas water heater in hall closet (swap out)"
+  },
+  {
+    "permit_number": "WHTR25-0246",
+    "issue_date": "08/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1013 TENNYSON DR",
+    "description": "gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0245",
+    "issue_date": "08/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1400 BENTLEY CT",
+    "description": "replacing 2 water heaters 50 gal in attic"
+  },
+  {
+    "permit_number": "WHTR25-0244",
+    "issue_date": "08/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "915 TURNBERRY LN",
+    "description": "replacing one 50 gal  gas"
+  },
+  {
+    "permit_number": "WHTR25-0243",
+    "issue_date": "08/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1431 KENSINGTON CT",
+    "description": "tankless water heater swap in garage"
+  },
+  {
+    "permit_number": "WHTR25-0242",
+    "issue_date": "08/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2237 COTSWOLD VALLEY CT",
+    "description": "water heater X2"
+  },
+  {
+    "permit_number": "WHTR25-0241",
+    "issue_date": "08/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1904 PTARMIGAN ST",
+    "description": "gas water heater replacement in garage closet"
+  },
+  {
+    "permit_number": "WHTR25-0240",
+    "issue_date": "08/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1505 BURNEY LN",
+    "description": "tankless water heater replaement in attic"
+  },
+  {
+    "permit_number": "WHTR25-0239",
+    "issue_date": "08/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "360 SILVERWOOD CIR",
+    "description": "relocate existing water heater from attic to garage only"
+  },
+  {
+    "permit_number": "WHTR25-0238",
+    "issue_date": "08/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "104 CHURCHILL CIR",
+    "description": "gas water heater replacement in attic"
+  },
+  {
+    "permit_number": "WHTR25-0237",
+    "issue_date": "08/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1204 SCENIC DR",
+    "description": "We will be getting rid of the old water heater and will be putting in a 50 gallon gas water heater located in the garage closet."
+  },
+  {
+    "permit_number": "WHTR25-0236",
+    "issue_date": "08/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "706 NELSON CT",
+    "description": "replacing 3 water heaters 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0235",
+    "issue_date": "08/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "774 BLACK FOREST CT",
+    "description": "water heater X2 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0234",
+    "issue_date": "08/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1375 RANDOL MILL AVE",
+    "description": "installing Rheem Tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0233",
+    "issue_date": "08/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "510 STONEBURY DR",
+    "description": "replacing 2 50 gal water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0232",
+    "issue_date": "08/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "108 STARLING CT",
+    "description": "Replacing 40 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0231",
+    "issue_date": "08/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1211 NORMANDY DR",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0230",
+    "issue_date": "08/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "240 HIGHLAND OAKS CIR",
+    "description": "Revised scope of work: The homeowner has decided to go tankless"
+  },
+  {
+    "permit_number": "WHTR25-0229",
+    "issue_date": "08/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "506 VICKSBURG WAY",
+    "description": "water heater 50 gal replacement"
+  },
+  {
+    "permit_number": "WHTR25-0228",
+    "issue_date": "08/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2710 DERBY CT",
+    "description": "REplacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0227",
+    "issue_date": "08/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "906 NOTTINGHAM CIR",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0226",
+    "issue_date": "08/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "312 WATERMERE DR",
+    "description": "tankless water heater swapout"
+  },
+  {
+    "permit_number": "WHTR25-0225",
+    "issue_date": "08/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "455 SOUTHLAKE PARK RD E",
+    "description": "replace 2- 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0224",
+    "issue_date": "08/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "608 LORRAINE DR",
+    "description": "Replace 50 gallon gas wh"
+  },
+  {
+    "permit_number": "WHTR25-0223",
+    "issue_date": "08/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "4357 HOMESTEAD DR",
+    "description": "2 50 gallon gas install in garage"
+  },
+  {
+    "permit_number": "WHTR25-0222",
+    "issue_date": "08/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "435 MARSHALL RD",
+    "description": "Replacing the gas water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0221",
+    "issue_date": "08/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1217 FOREST HILLS DR",
+    "description": "Replacement of gas water heater in the attic."
+  },
+  {
+    "permit_number": "WHTR25-0220",
+    "issue_date": "08/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "504 STONEWALL CT",
+    "description": "Installation of a new 50 Gallon Natural Gas Water Heater"
+  },
+  {
+    "permit_number": "WHTR25-0219",
+    "issue_date": "08/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1712 WILD ROSE WAY",
+    "description": "Install tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0218",
+    "issue_date": "08/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "910 BRAZOS DR",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0217",
+    "issue_date": "07/31/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "609 BORDEAUX DR",
+    "description": "replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0216",
+    "issue_date": "07/31/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "204 STOCKTON DR",
+    "description": "replace gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0215",
+    "issue_date": "07/31/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3100 POWHATAN CT",
+    "description": "REPLACE WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR25-0214",
+    "issue_date": "07/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1410 PARK PL",
+    "description": "to replace x1 50 gal gas water heater in the walk in attic left unit"
+  },
+  {
+    "permit_number": "WHTR25-0213",
+    "issue_date": "07/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1485 BENT CREEK DR",
+    "description": "Replace three water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0212",
+    "issue_date": "07/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2004 ESTES PARK DR",
+    "description": "Install tankless heater"
+  },
+  {
+    "permit_number": "WHTR25-0211",
+    "issue_date": "07/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "420 W CHAPEL DOWNS DR",
+    "description": "convert 2 tank whs to a tankless"
+  },
+  {
+    "permit_number": "WHTR25-0210",
+    "issue_date": "07/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1124 LONGFORD CIR",
+    "description": "Tankless water heater installation"
+  },
+  {
+    "permit_number": "WHTR25-0209",
+    "issue_date": "07/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1425 BENT TRAIL CIR",
+    "description": "replacing (3) 50-gallon gas water heaters with (3) new tankless water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0208",
+    "issue_date": NaN,
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "2004 ESTES PARK DR",
+    "description": "Install Rinnai tankless hot water heater"
+  },
+  {
+    "permit_number": "WHTR25-0207",
+    "issue_date": "07/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1405 PARK PL",
+    "description": "install (1) 50 gal gas water heater in attic (swap out)"
+  },
+  {
+    "permit_number": "WHTR25-0206",
+    "issue_date": "07/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1014 HANOVER DR",
+    "description": "replace 2- 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0205",
+    "issue_date": "07/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "405 BORDERS CT",
+    "description": "Replace w/h in garage (right one)."
+  },
+  {
+    "permit_number": "WHTR25-0204",
+    "issue_date": "07/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1607 REGAL OAKS DR",
+    "description": "2- 50 GALLON (NATURAL) GAS WATER\nFLOOD PROVENTION DEVICE FLOOD STOP\nRECIRCULATING PUMP"
+  },
+  {
+    "permit_number": "WHTR25-0203",
+    "issue_date": "07/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2702 MONTFORT CT",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0202",
+    "issue_date": "07/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "510 VILLA CROSSING",
+    "description": "Install Navien NPE 240A2 tankless water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0201",
+    "issue_date": "07/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "720 ABERDEEN WAY",
+    "description": "Replace 75 gallon gas water heater at attic"
+  },
+  {
+    "permit_number": "WHTR25-0200",
+    "issue_date": "07/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2711 YORK CT",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0199",
+    "issue_date": "07/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1250 LAKEWAY DR",
+    "description": "standard 75 gallon water heater change out"
+  },
+  {
+    "permit_number": "WHTR25-0198",
+    "issue_date": "07/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2401 REMUDA CT",
+    "description": "Replaced 2 water heaters side by side in attic"
+  },
+  {
+    "permit_number": "WHTR25-0197",
+    "issue_date": "07/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "3105 POWHATAN CT",
+    "description": "We will be installing two 50 gallon gas water heaters, these water heaters are located in the closet."
+  },
+  {
+    "permit_number": "WHTR25-0196",
+    "issue_date": "07/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1021 E CONTINENTAL BLVD",
+    "description": "REPLACEMENT OF 3 TANKLESS GAS WATER HEATERS INSIDE OF THE ATTIC                  Commrcial pulled in error.  This is a residential project"
+  },
+  {
+    "permit_number": "WHTR25-0195",
+    "issue_date": "07/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1004 ASHLAWN DR",
+    "description": "3 50 gallon gas install in walk in attic"
+  },
+  {
+    "permit_number": "WHTR25-0194",
+    "issue_date": "07/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "804 TIMBER LAKE CIR",
+    "description": "INSTALL 50 GAL GAS WATER HEATER IN ATTIC"
+  },
+  {
+    "permit_number": "WHTR25-0193",
+    "issue_date": "07/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "112 VERMILION CT",
+    "description": "install two new 6 year 50 gallon gas water\nheaters in separate attics"
+  },
+  {
+    "permit_number": "WHTR25-0192",
+    "issue_date": "07/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "918 EMERALD BLVD",
+    "description": "install 50 gallon gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0191",
+    "issue_date": "07/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1201 KIRKCALDY CT",
+    "description": "water heater X2 replacement"
+  },
+  {
+    "permit_number": "WHTR25-0190",
+    "issue_date": "07/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1411 NORTHRIDGE DR",
+    "description": "Replace 50 gal gas w/h in attic"
+  },
+  {
+    "permit_number": "WHTR25-0189",
+    "issue_date": "07/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "512 CLARIDEN RANCH RD",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0188",
+    "issue_date": "07/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "701 LORRAINE DR",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0187",
+    "issue_date": "07/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "708 SUSSEX CT",
+    "description": "Replace three (3) 50 gal gas water heaters in atttic"
+  },
+  {
+    "permit_number": "WHTR25-0186",
+    "issue_date": "07/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "301 CLARIDEN RANCH RD",
+    "description": "Install 50 gallon electric hot water heater"
+  },
+  {
+    "permit_number": "WHTR25-0185",
+    "issue_date": "07/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1111 TRAVIS CT",
+    "description": "Replacing 2 gas water heaters in the attic"
+  },
+  {
+    "permit_number": "WHTR25-0184",
+    "issue_date": "07/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1109 DEL MAR DR",
+    "description": "Tankless Water heater install"
+  },
+  {
+    "permit_number": "WHTR25-0183",
+    "issue_date": "06/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1202 BRAZOS DR",
+    "description": "tank to tankless"
+  },
+  {
+    "permit_number": "WHTR25-0182",
+    "issue_date": "06/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2708 AURORA CT",
+    "description": "50 gallon gas water heater installation"
+  },
+  {
+    "permit_number": "WHTR25-0181",
+    "issue_date": "06/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1380 LAKEVIEW DR Southlake TX",
+    "description": "two gas water heaters - one in garage, one in hallway closet"
+  },
+  {
+    "permit_number": "WHTR25-0178",
+    "issue_date": "06/27/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "700 NELSON CT",
+    "description": "Relocating gas tankless water heater + gas line and gas test"
+  },
+  {
+    "permit_number": "WHTR25-0176",
+    "issue_date": NaN,
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "1400 MAIN ST Unit: 250",
+    "description": "TEST"
+  },
+  {
+    "permit_number": "WHTR25-0173",
+    "issue_date": "06/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2104 BEAVER CREEK LN",
+    "description": "replace the 2 existing water heaters with new water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0172",
+    "issue_date": "06/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "940 W DOVE RD",
+    "description": "Installation of 4-75 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0171",
+    "issue_date": "06/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1221 MERLOT DR",
+    "description": "1 GAS water heater installed"
+  },
+  {
+    "permit_number": "WHTR25-0170",
+    "issue_date": "06/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "502 STRATFORD DR",
+    "description": "50 gal water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0169",
+    "issue_date": "06/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "906 PARKVIEW LN",
+    "description": "replace two 50 gallon tank water heaters in the second floor walk in attic\n\nInstall 1 PRV in front yard past irrigation at water meter location."
+  },
+  {
+    "permit_number": "WHTR25-0168",
+    "issue_date": "06/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1208 BAY MEADOWS DR",
+    "description": "Replacing two (2) 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0167",
+    "issue_date": "06/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1403 DARTMOUTH DR",
+    "description": "2*50gl gas Water heater"
+  },
+  {
+    "permit_number": "WHTR25-0166",
+    "issue_date": "06/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1145 HAVEN CIR",
+    "description": "50 gal water heater gas"
+  },
+  {
+    "permit_number": "WHTR25-0165",
+    "issue_date": "06/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1305 POWDER RIVER TRL",
+    "description": "REPLACE 1- 50 GALLON GAS WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR25-0164",
+    "issue_date": "06/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1108 TEALWOOD CT",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0163",
+    "issue_date": "06/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1304 BURGUNDY CT",
+    "description": "Install 50 Gallon Gas Water Heater in Attic (Swap Out)"
+  },
+  {
+    "permit_number": "WHTR25-0162",
+    "issue_date": "06/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "812 PYRENEES DR",
+    "description": "replace 1- existing tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0161",
+    "issue_date": "06/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "304 LAKESIDE CT",
+    "description": "two 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0160",
+    "issue_date": "06/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "307 DONLEY CT",
+    "description": "Installed Gas Water Heater"
+  },
+  {
+    "permit_number": "WHTR25-0159",
+    "issue_date": "06/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1203 WESTMONT DR",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0158",
+    "issue_date": "06/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "309 FOXBOROUGH LN",
+    "description": "replace gas water heater in upstairs closet"
+  },
+  {
+    "permit_number": "WHTR25-0157",
+    "issue_date": "06/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "100 W SOUTHLAKE BLVD Unit: 430",
+    "description": "Claffey Pools - Replace 5 gallon electric water hater in ceiling"
+  },
+  {
+    "permit_number": "WHTR25-0156",
+    "issue_date": "06/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1027 DIAMOND BLVD",
+    "description": "replace water heater"
+  },
+  {
+    "permit_number": "WHTR25-0155",
+    "issue_date": "06/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "901 LA SALLE LN",
+    "description": "2-RINNAI TANKLESS HEATERS"
+  },
+  {
+    "permit_number": "WHTR25-0154",
+    "issue_date": "06/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1319 EAGLE BEND",
+    "description": "Install tankless with gas upgrade"
+  },
+  {
+    "permit_number": "WHTR25-0153",
+    "issue_date": "06/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "107 CLEAR BROOK CT",
+    "description": "install (1) 40 gal gas water heater in attic (swap out)"
+  },
+  {
+    "permit_number": "WHTR25-0152",
+    "issue_date": "06/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1409 KENSINGTON CT",
+    "description": "Two Gas Water Heaters Installed"
+  },
+  {
+    "permit_number": "WHTR25-0151",
+    "issue_date": "06/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1705 EGRET LN",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0150",
+    "issue_date": "06/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1609 ENCLAVE CT",
+    "description": "REPLACE 2-50 GAL GAS WATER HEATERS IN ATTIC"
+  },
+  {
+    "permit_number": "WHTR25-0149",
+    "issue_date": "06/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "140 GREEN OAKS LN",
+    "description": "replace gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0148",
+    "issue_date": "06/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "704 SILVER SPUR CT",
+    "description": "GAS TANKLESS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0147",
+    "issue_date": "06/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "106 CHURCHILL CIR",
+    "description": "Replace 50 gallon natural gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0146",
+    "issue_date": "05/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "950 SOUTH BEND TRL",
+    "description": "water heater replacement 50 gal gas"
+  },
+  {
+    "permit_number": "WHTR25-0145",
+    "issue_date": "05/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "312 WINDING RIDGE TRL",
+    "description": "replacing water heater 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0144",
+    "issue_date": "05/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "104 CLEAR LAKE CT",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0143",
+    "issue_date": "05/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "614 LORRAINE DR",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0142",
+    "issue_date": "05/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1300 CONCORD AVE",
+    "description": "50 gal water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0141",
+    "issue_date": "05/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "804 GATESHEAD CT",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0140",
+    "issue_date": "05/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "334 WATERMERE DR",
+    "description": "water heater replacement 50 gal X2"
+  },
+  {
+    "permit_number": "WHTR25-0139",
+    "issue_date": "05/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "519 INDIAN PAINTBRUSH WAY",
+    "description": "INSTALLING 50 GAL GAS WATER HEATER IN THE ATTIC"
+  },
+  {
+    "permit_number": "WHTR25-0138",
+    "issue_date": "05/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1200 POWDER RIVER TRL",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0137",
+    "issue_date": "05/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "716 STACY DR",
+    "description": "replacing one tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0136",
+    "issue_date": "05/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1904 CRESSON DR",
+    "description": "replacing one 75 gal and 50 gal water heaters both gas powered"
+  },
+  {
+    "permit_number": "WHTR25-0135",
+    "issue_date": "05/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "704 STACY DR",
+    "description": "replace 2 gwh - Garage"
+  },
+  {
+    "permit_number": "WHTR25-0134",
+    "issue_date": "05/08/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "302 CHESTNUT COVE CIR",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0133",
+    "issue_date": "05/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "801 COLUMBIA DR",
+    "description": "Replace 2 water heater.  Thanks"
+  },
+  {
+    "permit_number": "WHTR25-0132",
+    "issue_date": "05/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "606 MELROSE CT",
+    "description": "swap out gas tankless water heater in 2nd story attic"
+  },
+  {
+    "permit_number": "WHTR25-0131",
+    "issue_date": "05/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1309 MONTGOMERY LN",
+    "description": "install (1) 50 gal gas water heater in hall closet (Swap out)"
+  },
+  {
+    "permit_number": "WHTR25-0130",
+    "issue_date": "05/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1705 LIVE OAK LN",
+    "description": "2-50 gal water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0129",
+    "issue_date": "05/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "800 WENTWOOD DR",
+    "description": "Replacement of 1 natural gas tanked water heater"
+  },
+  {
+    "permit_number": "WHTR25-0128",
+    "issue_date": "04/29/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "713 SUSSEX CT",
+    "description": "Replace tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0127",
+    "issue_date": "04/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1106 CALAIS DR",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0126",
+    "issue_date": "04/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "721 WYNDSOR CREEK DR",
+    "description": "to replace x1 50 gal gas water heater in the 2nd story walk in attic"
+  },
+  {
+    "permit_number": "WHTR25-0125",
+    "issue_date": "04/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1230 STANHOPE CT",
+    "description": "install 1 50-gal electric  water heater in garage"
+  },
+  {
+    "permit_number": "WHTR25-0124",
+    "issue_date": "04/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2100 CUMBERLAND TRL",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0123",
+    "issue_date": "04/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "204 E CHAPEL DOWNS DR",
+    "description": "install 1 50-gal gas water heater in upstairs closet"
+  },
+  {
+    "permit_number": "WHTR25-0122",
+    "issue_date": "04/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "830 SIMMONS CT",
+    "description": "install 2 50-gal gas water heaters in upstairs walk in attic"
+  },
+  {
+    "permit_number": "WHTR25-0121",
+    "issue_date": "04/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "300 CANYON LAKE DR",
+    "description": "Tankless water heater in attic."
+  },
+  {
+    "permit_number": "WHTR25-0120",
+    "issue_date": "04/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1340 BENTLEY CT",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0119",
+    "issue_date": "04/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "915 TURNBERRY LN",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0118",
+    "issue_date": "04/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1801 KINGSWOOD DR",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0117",
+    "issue_date": "04/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "704 CHAUCER CT",
+    "description": "replacing the other 50 gal water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0116",
+    "issue_date": "04/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "704 CHAUCER CT",
+    "description": "replacing one water heater 50 gal gas"
+  },
+  {
+    "permit_number": "WHTR25-0115",
+    "issue_date": "04/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2159 ESTES PARK DR",
+    "description": "GAS TANKLESS WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR25-0114",
+    "issue_date": "04/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "402 ST CHARLES CT",
+    "description": "to replace x1 50 gal gas water heater in the attic above 1st floor"
+  },
+  {
+    "permit_number": "WHTR25-0113",
+    "issue_date": "04/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1704 WILD ROSE WAY",
+    "description": "install (1) 40 gal gas water heater in attic (swap out)"
+  },
+  {
+    "permit_number": "WHTR25-0112",
+    "issue_date": "04/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1328 REGENCY CT",
+    "description": "replacing 2 water heaters 50 gallon gas"
+  },
+  {
+    "permit_number": "WHTR25-0111",
+    "issue_date": "04/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1408 PARK PL",
+    "description": "replacing 2 water heaters 50 gal gas"
+  },
+  {
+    "permit_number": "WHTR25-0110",
+    "issue_date": "04/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1103 CROCKETT CT",
+    "description": "Replace a existing water heater"
+  },
+  {
+    "permit_number": "WHTR25-0109",
+    "issue_date": "04/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1160 E DOVE RD",
+    "description": "Install two - 40 gal gas w/h in attic"
+  },
+  {
+    "permit_number": "WHTR25-0108",
+    "issue_date": "04/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "703 SARATOGA DR",
+    "description": "replace 75 gal gas heater in garage"
+  },
+  {
+    "permit_number": "WHTR25-0107",
+    "issue_date": "04/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "501 TIMBER LAKE DR",
+    "description": "Replacing the gas water heater in the garage"
+  },
+  {
+    "permit_number": "WHTR25-0106",
+    "issue_date": "04/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1137 TEALWOOD CT",
+    "description": "Water heater change out"
+  },
+  {
+    "permit_number": "WHTR25-0105",
+    "issue_date": "03/31/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1501 NEW CASTLE RD",
+    "description": "Return to replace Two 50 gallon gas water heaters & One 50 gallon, gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0104",
+    "issue_date": "03/31/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1008 ASHLAWN DR",
+    "description": "50 Gallon Gas Water Heater"
+  },
+  {
+    "permit_number": "WHTR25-0103",
+    "issue_date": "03/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "314 WATERMERE DR",
+    "description": "Install 2-50 gallon gas hwh upstairs"
+  },
+  {
+    "permit_number": "WHTR25-0102",
+    "issue_date": "03/27/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "608 MELROSE CT",
+    "description": "swap out natural gas tankless in attic"
+  },
+  {
+    "permit_number": "WHTR25-0101",
+    "issue_date": "03/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1219 WESTMONT DR",
+    "description": "to replace x2 50 gal gas water heaters in attic above 2nd floor"
+  },
+  {
+    "permit_number": "WHTR25-0100",
+    "issue_date": "03/26/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1503 SPRUCE CT",
+    "description": "Install 50 Gallon Gas Water Heater in Garage Closet (Swap Out)"
+  },
+  {
+    "permit_number": "WHTR25-0099",
+    "issue_date": "03/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1317 REGENCY CT",
+    "description": "REPLACE 50 GAL GAS WATER HEATER IN ATTIC"
+  },
+  {
+    "permit_number": "WHTR25-0098",
+    "issue_date": "03/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1665 BYRON NELSON PKWY",
+    "description": "Replacing 2 gas water heaters in the garage with one tankless unit"
+  },
+  {
+    "permit_number": "WHTR25-0097",
+    "issue_date": "03/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2965 BURNEY LN",
+    "description": "Installed a new 40-gallon electric wh in the utility room area."
+  },
+  {
+    "permit_number": "WHTR25-0096",
+    "issue_date": "03/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1311 REGENCY CT",
+    "description": "replace 4 gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR25-0095",
+    "issue_date": "03/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "605 STONEBURY DR",
+    "description": "Water Heater"
+  },
+  {
+    "permit_number": "WHTR25-0094",
+    "issue_date": "03/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "801 CROSS LN",
+    "description": "Replace 50gallon gas in attic"
+  },
+  {
+    "permit_number": "WHTR25-0093",
+    "issue_date": "03/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1802 LANTANA CT",
+    "description": "Replace 2,  50 gallon gas in attic"
+  },
+  {
+    "permit_number": "WHTR25-0092",
+    "issue_date": "03/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1003 MEADOW CT",
+    "description": "replacing 2 50 gal gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0091",
+    "issue_date": "03/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3021 FLAMINGO CIR",
+    "description": "Replace electric water heater"
+  },
+  {
+    "permit_number": "WHTR25-0090",
+    "issue_date": "03/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "405 MARSHALL RD",
+    "description": "50 gallon water heater replacement"
+  },
+  {
+    "permit_number": "WHTR25-0089",
+    "issue_date": "03/19/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "345 N PEARSON LN",
+    "description": "50 gallon electric water heater"
+  },
+  {
+    "permit_number": "WHTR25-0088",
+    "issue_date": "03/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1403 PARK PL",
+    "description": "install tankless gas wh"
+  },
+  {
+    "permit_number": "WHTR25-0087",
+    "issue_date": "03/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "630 FAIRWAY VIEW TER",
+    "description": "install (1) 50 gal gas in attic (swap out)"
+  },
+  {
+    "permit_number": "WHTR25-0086",
+    "issue_date": "03/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1317 ST ALBANS PATH",
+    "description": "2-50 gallon gas water heaters in the attic change out"
+  },
+  {
+    "permit_number": "WHTR25-0085",
+    "issue_date": "03/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "217 EASTWOOD DR",
+    "description": "tankless water heater swapout"
+  },
+  {
+    "permit_number": "WHTR25-0084",
+    "issue_date": "03/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1705 W CONTINENTAL BLVD",
+    "description": "2 Water heater replacments"
+  },
+  {
+    "permit_number": "WHTR25-0083",
+    "issue_date": "03/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "804 HANOVER DR",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0082",
+    "issue_date": "03/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1413 STONE LAKES DR",
+    "description": "Water Heater Replacement"
+  },
+  {
+    "permit_number": "WHTR25-0081",
+    "issue_date": "03/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "1734 TUSCAN RIDGE CIR",
+    "description": "INSTALL 50 GAL GAS IN ATTIC"
+  },
+  {
+    "permit_number": "WHTR25-0080",
+    "issue_date": "03/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1104 CALAIS DR",
+    "description": "install 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0079",
+    "issue_date": "03/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1308 KINGS BROOK CT",
+    "description": "Replace 2 gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0078",
+    "issue_date": "03/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "602 LOGANS LN",
+    "description": "Replaced water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0077",
+    "issue_date": "03/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2406 TAYLOR ST",
+    "description": "Install 40 Gallon Natural Gas Water Heater"
+  },
+  {
+    "permit_number": "WHTR25-0076",
+    "issue_date": "03/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "1734 TUSCAN RIDGE CIR",
+    "description": "40 gal water heater"
+  },
+  {
+    "permit_number": "WHTR25-0075",
+    "issue_date": "03/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "810 GATESHEAD CT",
+    "description": "50 Gal Water Heater"
+  },
+  {
+    "permit_number": "WHTR25-0074",
+    "issue_date": "03/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2054 MIRACLE POINTE DR",
+    "description": "Replace 2 tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0073",
+    "issue_date": "03/07/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "902 PARKVIEW LN",
+    "description": "50 gallon gas WH replacement in attic above master closet"
+  },
+  {
+    "permit_number": "WHTR25-0072",
+    "issue_date": "03/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "800 CROSS LN",
+    "description": "Replace 3 water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0071",
+    "issue_date": NaN,
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "105 HARVARD DR",
+    "description": "REPLACE 1- 50 GALLON GAS WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR25-0070",
+    "issue_date": "03/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1725 WEEPING WILLOW WAY",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0069",
+    "issue_date": "03/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "500 ST LAURENT CT",
+    "description": "Replace two water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0068",
+    "issue_date": "03/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1369 LAKEVIEW DR",
+    "description": "50 gal water heater gas"
+  },
+  {
+    "permit_number": "WHTR25-0067",
+    "issue_date": "03/04/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "545 MICHENER CT",
+    "description": "repalce 50 gal gas wh in 2nd floor closet with automatic water shut off"
+  },
+  {
+    "permit_number": "WHTR25-0066",
+    "issue_date": "03/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1342 WOODBROOK CT",
+    "description": "50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0065",
+    "issue_date": "03/02/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "317 DOVE CREEK TRL",
+    "description": "water heater 50 gal"
+  },
+  {
+    "permit_number": "WHTR25-0064",
+    "issue_date": "03/01/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "410 BRYN MEADOWS",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0063",
+    "issue_date": "02/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "405 TIMBER LAKE WAY",
+    "description": "Replace 50 GAL NG water heater"
+  },
+  {
+    "permit_number": "WHTR25-0062",
+    "issue_date": "02/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1108 BRAZOS DR",
+    "description": "Install 50 gallon gas hot water heater"
+  },
+  {
+    "permit_number": "WHTR25-0061",
+    "issue_date": "02/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "807 DURHAM CT",
+    "description": "50 gal gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0060",
+    "issue_date": "02/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "703 WYNDSOR CREEK DR",
+    "description": "Replace 2 - 50 gal gas w/h in attic"
+  },
+  {
+    "permit_number": "WHTR25-0059",
+    "issue_date": "02/27/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "802 PARKDALE DR",
+    "description": "50 gal gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0058",
+    "issue_date": "02/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2460 GREENBOUGH LN",
+    "description": "replace 2 gas water heaters in garage"
+  },
+  {
+    "permit_number": "WHTR25-0057",
+    "issue_date": "02/25/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1625 BRUMLOW AVE",
+    "description": "Claffey Pools - Replace 6 gal water heater in ceiling over women's restroom"
+  },
+  {
+    "permit_number": "WHTR25-0056",
+    "issue_date": "02/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "808 ELMBROOK CT",
+    "description": "Replacing the 2 gas water heaters in the attic with 1 tankless unit"
+  },
+  {
+    "permit_number": "WHTR25-0055",
+    "issue_date": "02/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "900 JENNY TER",
+    "description": "Tankless Water Heater Installed"
+  },
+  {
+    "permit_number": "WHTR25-0054",
+    "issue_date": "02/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1490 BENT TRAIL CIR",
+    "description": "install 1- tankless water heater- with gas upgrade"
+  },
+  {
+    "permit_number": "WHTR25-0053",
+    "issue_date": "02/21/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "505 REGENCY CROSSING",
+    "description": "Replace gas tankless water heater with new gas tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0052",
+    "issue_date": "02/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "104 WILMINGTON CT",
+    "description": "Replace 50 gallon gas wh in attic"
+  },
+  {
+    "permit_number": "WHTR25-0051",
+    "issue_date": "02/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1202 FOREST HILLS DR",
+    "description": "Tankless water heater in the attic."
+  },
+  {
+    "permit_number": "WHTR25-0050",
+    "issue_date": "02/18/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "408 WOODSONG WAY",
+    "description": "Replacing two (2) 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0049",
+    "issue_date": "02/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "902 HILLCREST TRL",
+    "description": "Replacing 50 gal. gas water heater in attic."
+  },
+  {
+    "permit_number": "WHTR25-0048",
+    "issue_date": "02/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "505 COYOTE RD",
+    "description": "Replacing 2 gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0047",
+    "issue_date": "02/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2489 RAINTREE DR",
+    "description": "50 gal gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0043",
+    "issue_date": "02/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "704 SUTTON MILL CT",
+    "description": "replace 50 gallon gas water heater 1st floor closet"
+  },
+  {
+    "permit_number": "WHTR25-0042",
+    "issue_date": "02/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Withdrawn",
+    "address": "504 TIMBER LAKE WAY Southlake TX",
+    "description": "Electric tankless Water Heater Replacement"
+  },
+  {
+    "permit_number": "WHTR25-0041",
+    "issue_date": "02/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "925 SOUTH BEND TRL",
+    "description": "50 gal gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0040",
+    "issue_date": "02/12/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "315 E DOVE RD",
+    "description": "replaced water heater electric water heater and added flood stop"
+  },
+  {
+    "permit_number": "WHTR25-0039",
+    "issue_date": "02/11/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "726 BRYSON WAY",
+    "description": "Install Rinnai 11.1 Gas Tankless Water Heater in Garage"
+  },
+  {
+    "permit_number": "WHTR25-0038",
+    "issue_date": "02/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1016 TENNYSON DR",
+    "description": "tankless water heater swapout"
+  },
+  {
+    "permit_number": "WHTR25-0037",
+    "issue_date": "02/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "200 CREEKWAY BEND",
+    "description": "2 Tankless water heater install"
+  },
+  {
+    "permit_number": "WHTR25-0036",
+    "issue_date": "02/10/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "716 LONGFORD DR",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0035",
+    "issue_date": "02/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "108 KEYSTONE DR",
+    "description": "2-50 gal gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0034",
+    "issue_date": "02/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "206 DONLEY CT",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR25-0033",
+    "issue_date": "02/05/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "302 WATERMERE DR",
+    "description": "tank to tankless"
+  },
+  {
+    "permit_number": "WHTR25-0032",
+    "issue_date": "02/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "306 SHEFFIELD DR",
+    "description": "50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0031",
+    "issue_date": "02/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "721 SAXON TRL",
+    "description": "Install 50 Gallon Gas Water Heater in Garage"
+  },
+  {
+    "permit_number": "WHTR25-0030",
+    "issue_date": "01/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1306 LAKEWAY DR",
+    "description": "Replacing water heater in pull down attic"
+  },
+  {
+    "permit_number": "WHTR25-0029",
+    "issue_date": "01/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1315 BENT TRAIL CIR",
+    "description": "water heater 50 gallon gas"
+  },
+  {
+    "permit_number": "WHTR25-0028",
+    "issue_date": "01/30/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1516 BYRON NELSON PKWY",
+    "description": "replace 50 gal gas wh in 2nd story attic through walk in  closet"
+  },
+  {
+    "permit_number": "WHTR25-0026",
+    "issue_date": "01/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1216 COSTA AZUL CT",
+    "description": "replacing 50 gal water heater"
+  },
+  {
+    "permit_number": "WHTR25-0025",
+    "issue_date": "01/28/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1206 MEADOW RIDGE CT",
+    "description": "50 gal gas wh replacement"
+  },
+  {
+    "permit_number": "WHTR25-0024",
+    "issue_date": "01/27/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1656 ROYAL OAKS CT",
+    "description": "Replacing the electric water heater in the hall closet off of the kitchen"
+  },
+  {
+    "permit_number": "WHTR25-0023",
+    "issue_date": "01/27/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1205 LANSDOWNE CT",
+    "description": "two 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0022",
+    "issue_date": "01/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1760 SLEEPY HOLLOW TRL",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0021",
+    "issue_date": "01/24/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "611 HEATHERGLEN DR",
+    "description": "replace 1- tankless water heater"
+  },
+  {
+    "permit_number": "WHTR25-0020",
+    "issue_date": "01/23/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2151 ESTES PARK DR",
+    "description": "replace 2- 50 gallon gas wh"
+  },
+  {
+    "permit_number": "WHTR25-0019",
+    "issue_date": "01/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "605 CONCHO CT",
+    "description": "Install 50 Gallon Gas Water Heater in Upstairs Closet"
+  },
+  {
+    "permit_number": "WHTR25-0018",
+    "issue_date": "01/22/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "2120 SNOW MASS CT",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR25-0017",
+    "issue_date": "01/20/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "509 CLARIDEN RANCH RD",
+    "description": "tankless swapout"
+  },
+  {
+    "permit_number": "WHTR25-0016",
+    "issue_date": "01/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1407 MCCRAE TRL",
+    "description": "Install 50 Gallon Electric Water Heater in Attic"
+  },
+  {
+    "permit_number": "WHTR25-0015",
+    "issue_date": "01/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "914 INDEPENDENCE PKWY",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0014",
+    "issue_date": "01/17/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1404 KENSINGTON CT",
+    "description": "Install Navien tankless w/h"
+  },
+  {
+    "permit_number": "WHTR25-0013",
+    "issue_date": "01/16/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1203 LANSDOWNE CT",
+    "description": "replacing 2 water heaters"
+  },
+  {
+    "permit_number": "WHTR25-0012",
+    "issue_date": "01/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "600 GARDEN CT",
+    "description": "Replace 50 gallon gas wh in garage"
+  },
+  {
+    "permit_number": "WHTR25-0011",
+    "issue_date": "01/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1440 BENT TRAIL CIR",
+    "description": "Install 50 Gallon Gas Water Heater in Attic"
+  },
+  {
+    "permit_number": "WHTR25-0010",
+    "issue_date": "01/15/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3604 IRON MOUNTAIN RANCH CT",
+    "description": "REPLACE 50 GAL GAS WH IN GARAGE"
+  },
+  {
+    "permit_number": "WHTR25-0009",
+    "issue_date": "01/14/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "812 SAXON TRL",
+    "description": "Install 75 gal gas water heater in upstairs closet"
+  },
+  {
+    "permit_number": "WHTR25-0008",
+    "issue_date": "01/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "412 BRANDING IRON DR",
+    "description": "Install 2- 50 gal gas heaters in attic"
+  },
+  {
+    "permit_number": "WHTR25-0007",
+    "issue_date": "01/13/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1203 CROSS TIMBER DR",
+    "description": "Install 40 gallon gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR25-0006",
+    "issue_date": "01/09/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3504 SUNRISE RANCH RD",
+    "description": "Plumber will be replacing two gas 50 gallon water heaters located in the garage."
+  },
+  {
+    "permit_number": "WHTR25-0005",
+    "issue_date": "01/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "105 SURREY CT",
+    "description": "Install 50 Gallon Gas Water Heater in Garage Closet"
+  },
+  {
+    "permit_number": "WHTR25-0004",
+    "issue_date": "01/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "500 SHADY LN",
+    "description": "Replacing the gas water heater in the guest house"
+  },
+  {
+    "permit_number": "WHTR25-0003",
+    "issue_date": "01/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "225 E BOB JONES RD",
+    "description": "Replace two (2) 50 gal gas water heaters in the attic with expansion tank and new Taco pump"
+  },
+  {
+    "permit_number": "WHTR25-0002",
+    "issue_date": "01/06/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "504 TIMBER LAKE WAY",
+    "description": "Replace 75 gal ng wh"
+  },
+  {
+    "permit_number": "WHTR25-0001",
+    "issue_date": "01/03/2025",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1346 MEADOW GLEN",
+    "description": "Remove and replace Water Heater - 40 gal, Gas"
+  },
+  {
+    "permit_number": "WHTR24-0349",
+    "issue_date": "12/31/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1106 LA PALOMA CT",
+    "description": "Replace gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0348",
+    "issue_date": "12/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1565 BENT CREEK DR",
+    "description": "Install 50 gas water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR24-0347",
+    "issue_date": "12/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2609 SUMMIT RIDGE DR",
+    "description": "replacing 2 50 gal water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0346",
+    "issue_date": "12/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "209 WESTWOOD DR",
+    "description": "Replace customer supplied 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0345",
+    "issue_date": "12/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1106 CALAIS DR",
+    "description": "50 gal gas water heater replacement"
+  },
+  {
+    "permit_number": "WHTR24-0341",
+    "issue_date": "12/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2370 LONESOME DOVE AVE",
+    "description": "Replace water heater in garage"
+  },
+  {
+    "permit_number": "WHTR24-0337",
+    "issue_date": "12/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "110 WILMINGTON CT",
+    "description": "install 3 50-gas water heaters 2 attic 1 over master bathroom"
+  },
+  {
+    "permit_number": "WHTR24-0336",
+    "issue_date": "12/11/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "927 PARKVIEW LN",
+    "description": "Replacing gas tankless water heater \n(in attic)"
+  },
+  {
+    "permit_number": "WHTR24-0335",
+    "issue_date": "12/10/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1105 TEALWOOD CT",
+    "description": "Replacing two (2) 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0332",
+    "issue_date": "12/06/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "304 BLANCO CIR",
+    "description": "Replace gas tankless water heater"
+  },
+  {
+    "permit_number": "WHTR24-0331",
+    "issue_date": "12/04/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "904 SOUTH HOLLOW CT",
+    "description": "Gas tank water heater"
+  },
+  {
+    "permit_number": "WHTR24-0330",
+    "issue_date": "12/03/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "806 HUNTINGTON CT",
+    "description": "Replacing 50 gal water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR24-0329",
+    "issue_date": "12/03/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Issued",
+    "address": "925 PARKVIEW LN",
+    "description": "Install non-condensing tankless water heater."
+  },
+  {
+    "permit_number": "WHTR24-0328",
+    "issue_date": "12/02/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2407 TAYLOR ST",
+    "description": "Replacement of existing tank water heater with Bradford White water heater."
+  },
+  {
+    "permit_number": "WHTR24-0327",
+    "issue_date": "12/02/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "902 INDEPENDENCE PKWY",
+    "description": "Install two (2) 50 gal gas water heaters in the attic"
+  },
+  {
+    "permit_number": "WHTR24-0326",
+    "issue_date": "12/02/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1213 KINGS BROOK DR",
+    "description": "water heater 50 gallon replacing two total"
+  },
+  {
+    "permit_number": "WHTR24-0325",
+    "issue_date": "11/29/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "160 BENT TRAIL DR",
+    "description": "Replacing the gas water heater in the closet"
+  },
+  {
+    "permit_number": "WHTR24-0324",
+    "issue_date": "11/27/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2930 RIDGECREST DR",
+    "description": "Replace two electric water heaters.  One in the upper barn and one in the lower barn."
+  },
+  {
+    "permit_number": "WHTR24-0323",
+    "issue_date": "11/26/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1628 TUSCAN RIDGE CIR",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR24-0322",
+    "issue_date": "11/26/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "104 CLEAR LAKE CT",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0321",
+    "issue_date": "11/26/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "702 ASHLEIGH LN",
+    "description": "replace 75 gallon gas water heater in garage"
+  },
+  {
+    "permit_number": "WHTR24-0320",
+    "issue_date": "11/25/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1209 STRATHMORE DR",
+    "description": "Install Navien Tankless Water Heater"
+  },
+  {
+    "permit_number": "WHTR24-0319",
+    "issue_date": "11/22/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1007 SOUTH HOLLOW DR",
+    "description": "REPLACE (2) 50 GAL GAS WH GARAGE AND CLOSET"
+  },
+  {
+    "permit_number": "WHTR24-0318",
+    "issue_date": "11/22/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "675 SOUTHVIEW TRL",
+    "description": "replacing one 50 gal gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0317",
+    "issue_date": "11/21/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1512 MAIN ST",
+    "description": "75 gas tank water heater replacement on 3rd floor balcony closet"
+  },
+  {
+    "permit_number": "WHTR24-0316",
+    "issue_date": "11/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "501 PRESTON CT",
+    "description": "INSTALLING 50 GAL GAS WATER HEATER IN THE ATTIC"
+  },
+  {
+    "permit_number": "WHTR24-0315",
+    "issue_date": "11/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "109 BRENTWOOD CIR",
+    "description": "Replace (2) 50 gallon water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0314",
+    "issue_date": "11/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1218 SARAH PARK TRL",
+    "description": "change 50 gal gas water heater in attic."
+  },
+  {
+    "permit_number": "WHTR24-0313",
+    "issue_date": "11/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1311 HAT CREEK TRL",
+    "description": "Replace two (2) 50 gal gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR24-0312",
+    "issue_date": "11/18/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "904 WESTMINSTER WAY",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0311",
+    "issue_date": "11/18/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "101 REGENT CT",
+    "description": "REPLACE 50 GALLON GAS WATER HEATER 2ND FLOOR ATTIC"
+  },
+  {
+    "permit_number": "WHTR24-0310",
+    "issue_date": "11/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "203 TIMBER LAKE WAY",
+    "description": "replace gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0309",
+    "issue_date": "11/15/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "609 WINDING CREEK CT",
+    "description": "Replacing the gas water heater in the upstairs"
+  },
+  {
+    "permit_number": "WHTR24-0308",
+    "issue_date": "11/15/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "305 WINDING RIDGE TRL Southlake TX",
+    "description": "install 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0307",
+    "issue_date": "11/15/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1719 REDWING DR",
+    "description": "REPLACE TWO (2)  50 GAL GAS WH in attic"
+  },
+  {
+    "permit_number": "WHTR24-0306",
+    "issue_date": "11/13/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "303 CHESTNUT COVE CIR",
+    "description": "Replace 50-gal Gas WH in garage"
+  },
+  {
+    "permit_number": "WHTR24-0305",
+    "issue_date": "11/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "200 E CONTINENTAL BLVD",
+    "description": "Replace tankless water heater with new Navien tankless water heater"
+  },
+  {
+    "permit_number": "WHTR24-0304",
+    "issue_date": "11/09/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1311 SUNSHINE LN",
+    "description": "Install 50 gallon gas in garage"
+  },
+  {
+    "permit_number": "WHTR24-0303",
+    "issue_date": "11/08/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "407 WATERMERE DR",
+    "description": "Tankless water heater replacement with leak protector"
+  },
+  {
+    "permit_number": "WHTR24-0302",
+    "issue_date": "11/07/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "720 LOVE HENRY CT",
+    "description": "INSTALLING 50 GAL GAS WATER HEATER IN ATTIC"
+  },
+  {
+    "permit_number": "WHTR24-0301",
+    "issue_date": "11/06/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1725 SLEEPY HOLLOW TRL",
+    "description": "replacing a 40 and 50 gallon water heater"
+  },
+  {
+    "permit_number": "WHTR24-0300",
+    "issue_date": "11/06/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3120 MERRIMAC CT",
+    "description": "Replace 50 gallon gas water heater & repair gas line to pool heater."
+  },
+  {
+    "permit_number": "WHTR24-0299",
+    "issue_date": "11/04/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1401 PECOS DR",
+    "description": "Replacing 2 gas water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0298",
+    "issue_date": "11/03/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "722 SAXON TRL",
+    "description": "replacing one 50 gal water heater"
+  },
+  {
+    "permit_number": "WHTR24-0297",
+    "issue_date": "11/01/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "4383 SODA RIDGE RD",
+    "description": "Replace tankless with new Navien tankless water heater"
+  },
+  {
+    "permit_number": "WHTR24-0296",
+    "issue_date": "11/04/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "327 WATERMERE DR",
+    "description": "Replacing 50 gal gas WH in the attic"
+  },
+  {
+    "permit_number": "WHTR24-0295",
+    "issue_date": "10/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "300 DONLEY CT",
+    "description": "Replacing 50 gal gas WH in hallway closet"
+  },
+  {
+    "permit_number": "WHTR24-0294",
+    "issue_date": "10/29/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "717 MONTE CARLO DR",
+    "description": "replacing 2 elec 50 gal water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0293",
+    "issue_date": "10/29/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "410 SOUTHVIEW TRL",
+    "description": "Replace gas tankless water heater with new tankless"
+  },
+  {
+    "permit_number": "WHTR24-0292",
+    "issue_date": "10/28/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2000 ESTES PARK DR",
+    "description": "tankless water heater replacement"
+  },
+  {
+    "permit_number": "WHTR24-0291",
+    "issue_date": "10/25/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2602 MEDLIN CT",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0290",
+    "issue_date": "10/25/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "400 BRYN MEADOWS",
+    "description": "REPLACE TWO 50 GALLON GAS WATER HEATERS IN ATTIC"
+  },
+  {
+    "permit_number": "WHTR24-0289",
+    "issue_date": "10/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "606 MORNINGSIDE DR",
+    "description": "Main Water Tankless Heating System Installation"
+  },
+  {
+    "permit_number": "WHTR24-0288",
+    "issue_date": "10/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1633 TUSCAN RIDGE CIR",
+    "description": "Replace two 50 gallon electric water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0287",
+    "issue_date": "10/22/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1205 HAT CREEK TRL",
+    "description": "Replacing the gas water heater in the attic"
+  },
+  {
+    "permit_number": "WHTR24-0286",
+    "issue_date": "10/22/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1202 SAN AUGUSTINE CT",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0285",
+    "issue_date": "10/21/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1341 MEADOW GLEN",
+    "description": "install 1 40 gal gas water heater in garage closet"
+  },
+  {
+    "permit_number": "WHTR24-0284",
+    "issue_date": "10/18/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1009 BRAZOS DR",
+    "description": "Install 40 gallon electric lowboy water heater"
+  },
+  {
+    "permit_number": "WHTR24-0283",
+    "issue_date": "10/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1000 BERKSHIRE RD",
+    "description": "replace 2- 50 gallon water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0282",
+    "issue_date": "10/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "804 SHADOW GLEN DR",
+    "description": "Replacing 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0281",
+    "issue_date": "10/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "731 ASHLEIGH LN",
+    "description": "replace 2- 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0280",
+    "issue_date": "10/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1409 STONE LAKES DR",
+    "description": "REPLACE 50 GAL GAS WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR24-0279",
+    "issue_date": "10/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "708 CHAUCER CT",
+    "description": "Replace 50 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0278",
+    "issue_date": "10/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1305 REGENCY CT",
+    "description": "Replace 75 gal gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0277",
+    "issue_date": "10/14/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1307 EAGLE BEND",
+    "description": "Replaced 2 gas water heaters located in the attic."
+  },
+  {
+    "permit_number": "WHTR24-0276",
+    "issue_date": "10/09/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "813 INDEPENDENCE PKWY",
+    "description": "replace 2- 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0275",
+    "issue_date": "10/09/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1001 LAKE FOREST DR",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0274",
+    "issue_date": "10/08/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "803 BRAZOS DR",
+    "description": "Replace water heater on second floor atic"
+  },
+  {
+    "permit_number": "WHTR24-0273",
+    "issue_date": "10/08/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1720 REDWING DR",
+    "description": "Installation of two RXP199 Rinnai Tankless Water Heaters."
+  },
+  {
+    "permit_number": "WHTR24-0272",
+    "issue_date": "10/08/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2902 BRISTOL GLEN",
+    "description": "Replace 2 gas water heaters in garage"
+  },
+  {
+    "permit_number": "WHTR24-0271",
+    "issue_date": "10/07/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "387 WATERMERE DR",
+    "description": "Requesting tankless water heater install."
+  },
+  {
+    "permit_number": "WHTR24-0270",
+    "issue_date": "10/02/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "3024 LOCH MEADOW CT",
+    "description": "replacing one 50 gal water heater"
+  },
+  {
+    "permit_number": "WHTR24-0269",
+    "issue_date": "10/02/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "921 ASPEN RIDGE DR",
+    "description": "GAS WATER HEATER REPLACEMENT"
+  },
+  {
+    "permit_number": "WHTR24-0268",
+    "issue_date": "10/01/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "910 HIDDEN MEADOW CT",
+    "description": "Install (2) 50 gallon gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR24-0267",
+    "issue_date": "09/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "503 TIMBER LAKE WAY",
+    "description": "Gas water heater in attic off media room"
+  },
+  {
+    "permit_number": "WHTR24-0265",
+    "issue_date": "09/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "601 STRATFORD DR Southlake TX",
+    "description": "Gas water heater."
+  },
+  {
+    "permit_number": "WHTR24-0263",
+    "issue_date": "09/29/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "107 KILLDEER CT",
+    "description": "replace gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0242",
+    "issue_date": "09/24/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "219 TIMBER LAKE WAY",
+    "description": "Replace 50 gal gas w/h in attic"
+  },
+  {
+    "permit_number": "WHTR24-0241",
+    "issue_date": "09/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2016 MONTECITO TRL",
+    "description": "Install 2 50 gallon gas water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0240",
+    "issue_date": "09/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "731 BRYSON WAY",
+    "description": "replacing two gas water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0239",
+    "issue_date": "09/20/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "455 BROOKS CT",
+    "description": "install tankless and 50 gal water heater - Gas"
+  },
+  {
+    "permit_number": "WHTR24-0238",
+    "issue_date": "09/20/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "504 EVERWOOD CT",
+    "description": "replace 1- 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0237",
+    "issue_date": "09/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1628 BYRON NELSON PKWY",
+    "description": "INSTALLING 50 GAL GAS WATER HEATER IN ATTIC **Withdrawn Duplicate Permit**"
+  },
+  {
+    "permit_number": "WHTR24-0236",
+    "issue_date": "09/17/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2900 BURNEY LN",
+    "description": "40-gallon electric water heater"
+  },
+  {
+    "permit_number": "WHTR24-0235",
+    "issue_date": "09/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1628 BYRON NELSON PKWY",
+    "description": "Installing 50 gallon gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0234",
+    "issue_date": "09/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "634 REGENCY CROSSING",
+    "description": "replacing 2 water heaters"
+  },
+  {
+    "permit_number": "WHTR24-0233",
+    "issue_date": "09/16/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1507 CHIMNEY WORKS DR",
+    "description": "replacing one 50 gal water heater elec"
+  },
+  {
+    "permit_number": "WHTR24-0232",
+    "issue_date": "09/13/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1206 STRATHMORE DR",
+    "description": "Replacing 50 gal WH in the attic"
+  },
+  {
+    "permit_number": "WHTR24-0231",
+    "issue_date": "09/11/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "300 SOUTHRIDGE LAKES PKWY",
+    "description": "Installing 50 gallon gas water heater in closet"
+  },
+  {
+    "permit_number": "WHTR24-0230",
+    "issue_date": "09/11/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "141 HARRELL DR",
+    "description": "Replace 50-gallon electric water heater in the garage"
+  },
+  {
+    "permit_number": "WHTR24-0229",
+    "issue_date": "09/09/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1108 BAY MEADOWS DR",
+    "description": "Replacing the electric water heater; different unit from the one we replaced 8/2023"
+  },
+  {
+    "permit_number": "WHTR24-0228",
+    "issue_date": "09/06/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "575 BRIARWOOD DR",
+    "description": "INSTALL 50 GAL ELEC WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR24-0227",
+    "issue_date": "09/04/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "1206 NORMANDY DR",
+    "description": "INSTALL 40 GAL GAS WATER HEATER"
+  },
+  {
+    "permit_number": "WHTR24-0226",
+    "issue_date": "08/30/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "2105 BOULDER CT",
+    "description": "Installing 2 50 gallon gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR24-0225",
+    "issue_date": "08/28/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1623 MOCKINGBIRD LN",
+    "description": "replace 2 gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR24-0224",
+    "issue_date": "08/28/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1141 LA MIRADA",
+    "description": "Install new Navien tankless water heaters in attic over the master bath"
+  },
+  {
+    "permit_number": "WHTR24-0223",
+    "issue_date": "08/26/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1110 LA PALOMA CT",
+    "description": "Install Rinnai tankless heater"
+  },
+  {
+    "permit_number": "WHTR24-0222",
+    "issue_date": "08/23/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "533 S WHITE CHAPEL BLVD",
+    "description": "Installing 2 50 gallon gas water heaters in garage"
+  },
+  {
+    "permit_number": "WHTR24-0221",
+    "issue_date": "08/20/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "619 FAIRWAY VIEW TER",
+    "description": "replaced 2 water heaters in two separate attics"
+  },
+  {
+    "permit_number": "WHTR24-0220",
+    "issue_date": "08/20/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "206 MANOR PL",
+    "description": "Replace 50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0219",
+    "issue_date": "08/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "2900 BRISTOL GLEN",
+    "description": "50 gallon gas water heater"
+  },
+  {
+    "permit_number": "WHTR24-0218",
+    "issue_date": "08/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "808 HELMSLEY PL",
+    "description": "Replacing 50 gallon gas water heater (left side only)"
+  },
+  {
+    "permit_number": "WHTR24-0217",
+    "issue_date": "08/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "575 SOUTHVIEW TRL",
+    "description": "Install 75 Gallon Natural Gas Water Heater"
+  },
+  {
+    "permit_number": "WHTR24-0216",
+    "issue_date": "08/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "759 N KIMBALL AVE",
+    "description": "Replacing 40 gallon electric water heater"
+  },
+  {
+    "permit_number": "WHTR24-0215",
+    "issue_date": "08/19/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1304 GOLDEN GATE DR",
+    "description": "Installing 50 gallon electric water heater"
+  },
+  {
+    "permit_number": "WHTR24-0214",
+    "issue_date": "08/14/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "1101 LA PALOMA CT",
+    "description": "replace tankless water heater left side of house in attic"
+  },
+  {
+    "permit_number": "WHTR24-0213",
+    "issue_date": "08/13/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "638 REGENCY CROSSING",
+    "description": "Installing 50 gallon gas water heater in attic"
+  },
+  {
+    "permit_number": "WHTR24-0212",
+    "issue_date": "08/13/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Expired",
+    "address": "2900 HARBOR REFUGE",
+    "description": "2 50 gallon natural gas water heaters in attic"
+  },
+  {
+    "permit_number": "WHTR24-0211",
+    "issue_date": "08/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "625 SOUTHVIEW TRL",
+    "description": "REPLACE 50 GAL GAS WATER HEATER IN THE GARAGE"
+  },
+  {
+    "permit_number": "WHTR24-0210",
+    "issue_date": "08/12/2024",
+    "permit_type": "Plumbing Water Heater",
+    "status": "Closed",
+    "address": "700 DEER HOLLOW BLVD",
+    "description": "Installing 50 gallon gas water heater in  attic"
+  }
+]

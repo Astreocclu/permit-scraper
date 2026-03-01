@@ -3,37 +3,23 @@
 Automated lead generation for home service contractors. Scrapes building permits from DFW city portals, enriches with County Appraisal District (CAD) data, and scores leads to identify high-value homeowners.
 
 ## Status: Active
-**Last Updated:** December 14, 2025
+**Last Updated:** 2026-02-18
 
-## Data Summary
+## Live Status Sources
 
-### Scored Leads: 8,235 total
-| Tier | Count | Avg Score | Description |
-|------|-------|-----------|-------------|
-| **A** | 383 | 85.3 | Hot leads - high value, actionable |
-| **B** | 645 | 66.0 | Warm leads - moderate priority |
-| **C** | 3,481 | 23.8 | Cool leads - lower priority |
-| **D** | 2,021 | 0.0 | Garbage - auto-discard |
-| **U** | 1,705 | 40.9 | Unverified - needs review |
+Use these as source of truth instead of hard-coded counts in docs:
+- `state/current.md` for active priorities, blockers, and latest context
+- `SCRAPER_STATUS.md` for current scraper health by city/platform
+- `docs/DATA_ARCHITECTURE.md` for data flow and table usage
+- `docs/tag-system-requirements.md` for required claim tags in docs/state/session notes
 
-### Score Distribution
-| Category | Count | % |
-|----------|-------|---|
-| Hot (80+) | 455 | 5% |
-| Warm (60-79) | 1,127 | 13% |
-| Cool (40-59) | 434 | 5% |
-| Cold (20-39) | 2,010 | 24% |
-| Junk (0-19) | 4,209 | 51% |
+## Locked Tag Policy [DECIDED]
 
-### Properties Enriched: 25,641 total
-| Status | Count |
-|--------|-------|
-| Success (CAD data found) | 19,918 |
-| Failed (no CAD match) | 5,720 |
-| Pending | 3 |
-
-### Permits in Database: 39,075
-Loaded from 32 cities across DFW metroplex
+- Claim-status tags are frozen to: `[VERIFIED]`, `[UNVERIFIED]`, `[DECIDED]`, `[OBSERVED]`, `[PROPOSED]`, `[INTERPRETIVE]`.
+- Canonical naming is `[PREMISE-6]`; `[PREMISE6]` is non-canonical.
+- Claim-status tags do not go in file names.
+- Taxonomy tags in file names use this exact slot format:
+  - `YYYY-MM-DD__[ARTIFACT]__[DOMAIN]__[ENTITY-OR-NO-SOURCE]__[WORKFLOW]__short-title.md`
 
 ## Quick Start
 
@@ -51,13 +37,20 @@ cp .env.example .env  # Add DEEPSEEK_API_KEY and credentials
 python3 scrapers/accela_fast.py dallas 1000
 python3 scrapers/accela_fast.py fort_worth 1000
 
-# eTRAKiT Cities (Frisco, Plano, Denton, Prosper, Flower Mound, Keller)
+# eTRAKiT Cities (Frisco, Flower Mound, Denton, The Colony partial)
 python3 scrapers/etrakit.py frisco 1000
+python3 scrapers/etrakit.py flower_mound 1000
 python3 scrapers/etrakit.py denton 500
+python3 scrapers/etrakit.py the_colony 500   # run enrich_colony_addresses.py for addresses
+# Plano requires login: python3 scrapers/etrakit_auth.py plano 1000
 
-# EnerGov CSS Cities (Mesquite, Southlake, Princeton, etc.)
-python3 scrapers/citizen_self_service.py mesquite 500
-python3 scrapers/citizen_self_service.py princeton 500
+# EnerGov CSS Cities (Mesquite, Prosper, Grand Prairie, Allen, McKinney, etc.)
+python3 scrapers/citizen_self_service.py prosper 500
+python3 scrapers/citizen_self_service.py grand_prairie 500
+python3 scrapers/citizen_self_service.py mesquite 500    # pagination flaky
+python3 scrapers/citizen_self_service.py southlake 500   # may require Browser-Use for filters
+python3 scrapers/citizen_self_service.py mckinney 500    # watch for pagination stall
+python3 scrapers/citizen_self_service.py allen 500
 
 # MyGov Multi-City (Mansfield, Celina, Fate, Royse City, etc.)
 python3 scrapers/mygov_multi.py mansfield 100
@@ -93,63 +86,9 @@ python3 scripts/enrich_cad.py
 python3 scripts/score_leads.py
 ```
 
-## Scraper Status Summary
+## Scraper Status
 
-| City | Pop | Scraper | Status | Notes |
-|------|-----|---------|--------|-------|
-| **Dallas** | 1.3M | `accela_fast.py` | Working | Fast DOM extraction |
-| **Fort Worth** | 960K | `accela_fast.py` | Working | Fast DOM extraction |
-| **Arlington** | 400K | `dfw_big4_socrata.py` | Working | API-based, bulk CSV |
-| **Plano** | 290K | `etrakit.py` | Working | Public Login required |
-| **Frisco** | 220K | `etrakit.py` | Working | Fast DOM extraction |
-| **McKinney** | 210K | `citizen_self_service.py` | Blocked | Angular timeouts |
-| **Grand Prairie** | 200K | `accela_fast.py` | Working | Fast DOM extraction |
-| **Mesquite** | 150K | `citizen_self_service.py` | Working | EnerGov CSS |
-| **Denton** | 150K | `etrakit.py` | Working | Fast DOM extraction |
-| **Carrollton** | 133K | `cityview.py` | Working | CityView (20-result limit) |
-| **Flower Mound** | 80K | `etrakit.py` | Working | Fast DOM extraction |
-| **Mansfield** | 75K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Rowlett** | 65K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Grapevine** | 50K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Little Elm** | 50K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Bedford** | 48K | `opengov.py` | Working | **NEW** OpenGov with valuations |
-| **Cedar Hill** | 48K | `citizen_self_service.py` | Working | EnerGov CSS |
-| **DeSoto** | 55K | `citizen_self_service.py` | Working | EnerGov CSS |
-| **Burleson** | 48K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Keller** | 45K | `etrakit.py` | Working | eTRAKiT |
-| **Waxahachie** | 40K | `citizen_self_service.py` | Working | EnerGov CSS |
-| **Lancaster** | 40K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Prosper** | 35K | `etrakit.py` | Working | High growth (8%) |
-| **Midlothian** | 35K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Southlake** | 32K | `citizen_self_service.py` | Working | Wealthy suburb |
-| **Celina** | 30K | `mygov_multi.py` | Working | Ultra high growth (15%) |
-| **Sachse** | 27K | `smartgov_sachse.py` | Working | SmartGov |
-| **Colleyville** | 26K | `citizen_self_service.py` | Working | Wealthy suburb |
-| **Fate** | 18K | `mygov_multi.py` | Working | High growth (10%) |
-| **Princeton** | 15K | `citizen_self_service.py` | Working | High growth (8%) |
-| **Royse City** | 13K | `mygov_multi.py` | Working | MyGov multi-city |
-| **Trophy Club** | 13K | `citizen_self_service.py` | Working | Wealthy suburb |
-| **Westlake** | 1.6K | `mygov_westlake.py` | Working | Ultra-wealthy |
-| **Highland Park** | 9K | Email Only | No Portal | TPIA request required |
-| **Irving** | 250K | `mgo_connect.py` | Blocked | Anti-bot detection |
-| **Allen** | 110K | `citizen_self_service.py` | Blocked | Angular timeouts |
-
-**Total: 32 working / 3 blocked**
-
-## Platform Summary
-
-| Platform | Cities | Scraper | Notes |
-|----------|--------|---------|-------|
-| **Accela** | Dallas, Fort Worth, Grand Prairie | `accela_fast.py` | Fast DOM extraction |
-| **eTRAKiT** | Frisco, Plano, Denton, Flower Mound, Prosper, Keller | `etrakit.py` | Fast DOM extraction |
-| **EnerGov CSS** | Mesquite, DeSoto, Cedar Hill, Southlake, Colleyville, Waxahachie, Trophy Club, Princeton | `citizen_self_service.py` | Excel export available |
-| **MyGov** | Mansfield, Rowlett, Grapevine, Little Elm, Burleson, Lancaster, Midlothian, Celina, Fate, Royse City, Venus | `mygov_multi.py` | Street name search |
-| **OpenGov** | Bedford | `opengov.py` | **NEW** - Record search with valuations |
-| **SmartGov** | Sachse | `smartgov_sachse.py` | Custom portal |
-| **Socrata API** | Arlington | `dfw_big4_socrata.py` | Bulk CSV download |
-| **CityView** | Carrollton | `cityview.py` | Limited to 20 results |
-| **MyGov (Custom)** | Westlake | `mygov_westlake.py` | Ultra-wealthy, address harvesting |
-| **MGO Connect** | Irving (blocked) | `mgo_connect.py` | Anti-bot detection |
+Current city/platform status is maintained in `SCRAPER_STATUS.md`.
 
 ## Output Files
 

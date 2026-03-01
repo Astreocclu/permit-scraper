@@ -1,4 +1,4 @@
-"""Pytest configuration for permit-scraper tests."""
+"""Pytest configuration for Collections (permit scraping) tests."""
 import sys
 from pathlib import Path
 
